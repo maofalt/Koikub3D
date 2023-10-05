@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: motero <motero@student.42.fr>              +#+  +:+       +#+         #
+#    By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/03/13 18:52:17 by motero           ###   ########.fr        #
+#    Updated: 2023/10/05 23:21:50 by olimarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,28 +16,33 @@ NAME = cub3D
 #                                 HEADERS                                     #
 #=============================================================================#
 
-HDR_NAME = cub3D.h parsing.h structures.h mlx.h mlx_int.h mlx_engine.h colors.h my_maths.h
+LIBS_DIR = libs/
+
+HDR_NAME = cub3D.h parsing.h structures.h colors.h mlx_engine.h
 HDR_DIR = includes/
 HDRS = $(addprefix $(HDR_DIR), $(HDR_NAME))
-HDR_INC = -I includes -I libft/includes -I minilibx-linux/
+HDR_INC = -I includes
 
 #================================================================flx=============#
 #                                 LIBRARIES                                     #
 #=============================================================================#
 
-LIBFT_HDIR = libft/includes
-LIBFT_HDIR_INC = -I./libft/includes/
-LIB_BINARY = -Llibft -lft -lreadline
-LIBFT = libft/libft.a
+LIBFT_DIR = $(LIBS_DIR)libft/
+LIBFT_HDIR = $(LIBFT_DIR)includes/
+LIBFT_HDIR_INC = -I $(LIBFT_HDIR)
+LIB_BINARY = -L$(LIBFT_DIR) -lft
+LIBFT = $(LIBFT_HDIR)/libft.a
+HDR_INC += $(LIBFT_HDIR_INC)
 
 #=============================================================================#
 #                                 MiniLIBX                                    #
 #=============================================================================#
 
-MINILIBX_HDIR = includes/minilibx-linux/
-MINILIBX_HDIR_INC = -I ./minilibx-linux/
+MINILIBX_HDIR = $(LIBS_DIR)minilibx-linux/
+MINILIBX_HDIR_INC = -I $(MINILIBX_HDIR)
 MINILIBX_BINARY = -Lmlx_linux -lmlx_Linux -L$(MINILIBX_HDIR) -Imlx_linux -lXext -lX11 -lm -lz
 MINILIBX = $(MINILIBX_HDIR)libmlx.a
+HDR_INC += $(MINILIBX_HDIR_INC)
 
 
 #=============================================================================#
@@ -51,38 +56,9 @@ SRCS_NAME_DIRECTORIES = $(patsubst sources/%,%,$(SRCS_RAW_NAME_DIRECTORIES))
 
 SRCS_ALL = $(wildcard $(SRCS_RAW_NAME_DIRECTORIES)/)
 SRCS_RAW_ALL = $(shell find $(SRCS_DIR_project) -type f -name "*.c")
-#SRCS_ALL = $(patsubst sources/%,%,$(SRCS_RAW_ALL))
-#SRCS_NAME_project = $(SRCS_ALL)
-SRCS_NAME_project = \
-[2]raycasting/[0]main_raycasting.c \
-[2]raycasting/[2]texture_mapping.c \
-[2]raycasting/[1]dda_calculation.c \
-[1]mlx_hooks/moving_actions.c \
-[1]mlx_hooks/mlx_hooks.c \
-[1]mlx_hooks/general_events.c \
-[1]mlx_hooks/keypress_events.c \
-[1]mlx_hooks/rotate_actions.c \
-[0]main.c \
-[0]parsing/[9-bis]transform_map_for_flood_utils.c \
-[0]parsing/[0]main_parsing.c \
-[0]parsing/[10]verif_wall_player.c \
-[0]parsing/[2-bis]free_parsing_text.c \
-[0]parsing/[5]parsing_colors.c \
-[0]parsing/[6]parsing_textures.c \
-[0]parsing/[5-bis]check_color_range.c \
-[0]parsing/[8]parse_map.c \
-[0]parsing/[1]check_valid_file.c \
-[0]parsing/[6-bis]validate_textures.c \
-[0]parsing/[10]initialize_player.c \
-[0]parsing/[7]store_into_data_struct.c \
-[0]parsing/[5-bis]valid_colors.c \
-[0]parsing/[9]transform_map_for_flood.c \
-[0]parsing/[2]parsing_text.c \
-[0]parsing/[4]check_map.c \
-[5]colors/[0]colors_main.c \
-[4]mlx_engine/mlx_main.c \
-[4]mlx_engine/[1]draw_things.c \
-[6]maths/[0]maths.c \
+SRCS_ALL = $(patsubst sources/%,%,$(SRCS_RAW_ALL))
+SRCS_NAME_project = $(SRCS_ALL)
+#SRCS_NAME_project = \
 
 SRCS_PROJECT = $(addprefix $(SRCS_DIR_project), $(SRCS_NAME_project))
 
@@ -90,13 +66,14 @@ SRCS_PROJECT = $(addprefix $(SRCS_DIR_project), $(SRCS_NAME_project))
 #                             		GNL                                       #
 #=============================================================================#
 
-GNL_DIR = gnl/
+GNL_DIR = $(LIBS_DIR)gnl/
+GNL_HDIR = $(GNL_DIR)
+GNL_HDIR_INC = -I $(GNL_HDIR)
 GNL_NAME = get_next_line.c \
-			get_next_line_utils.c 
-			
+			get_next_line_utils.c
 GNL = $(addprefix $(GNL_DIR), $(GNL_NAME))
-
 GNL_OBJ = $(GNL:.c=.o)
+HDR_INC += $(GNL_HDIR_INC)
 
 
 
@@ -195,12 +172,12 @@ all: check_libft check_mlx project ${NAME} ${HDRS}
 check_libft:
 		@echo "\n[ $(BLUE)$(bold)CHECKING LIBFT$(NONE)]"
 		@echo "============================================="
-		@make -C libft
+		@make -sC $(LIBFT_DIR)
 
 check_mlx:
 		@echo "\n[ $(BLUE)$(bold)CHECKING MINILIBX$(NONE)]"
 		@echo "============================================="
-		@make -C includes/minilibx-linux/ mlx
+		@make -sC $(MINILIBX_HDIR)
 
 project:
 		@echo "\n == $(bold)$(YELLOW)CHECKING PROJECT$(normal)=="
@@ -209,14 +186,14 @@ project:
 run:
 	make
 	clear
-	valgrind --suppressions=rl.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -s ./$(NAME)
 
 $(OBJS_PATH):
 		@mkdir -p $(addprefix $(OBJS_PATH), $(SRCS_NAME_DIRECTORIES))
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directories"
 
 $(OBJS_PATH)%.o: $(SRCS_DIR_project)%.c $(HDRS)
-		@$(CC) $(CFLAGS) $(HDR_INC) $(LIBFT_HDIR_INC) $(MINILIBX_HDIR_INC) -o $@ -c $<
+		@$(CC) $(CFLAGS) $(HDR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project"
 
 $(NAME): $(GNL_OBJ) $(OBJS_PATH) $(OBJS) $(HDRS)
@@ -293,7 +270,7 @@ $(OBJS_PATH_VALGND):
 $(OBJS_PATH_VALGND)%.o: $(SRCS_DIR_project)%.c $(HDRS) $(LIBFT)
 		@$(CC) $(CFLAGS) $(VALGND_FLAG) $(HDR_INC) $(LIBFT_HDIR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project_valgrind"
-ns a passer et  10 projets a rendre avant :(
+
 $(VALGND) : $(OBJS_PATH_VALGND) $(OBJS_VALGND) $(LIBFT) $(HDRS)
 		@echo "\n[$(GREEN)$(bold)VALGND COMPILATION"
 		@$(CC) $(CFLAGS) $(VALGND_FLAG) $(OBJS_VALGND) $(LIB_BINARY) -o $@
@@ -359,12 +336,12 @@ clean:
 		@${RM} $(OBJS_PATH) $(OBJS_PATH_PROFILER) $(OBJS_PATH_SANITIZE) $(OBJS_PATH_VALGND) $(OBJS_CALLGND) $(OBJS_PATH_GDB) $(GNL_OBJ)
 		@rm -rf analysis.txt gmon.out callgrind.out.* ${PROFILE}
 		@echo "\t[ $(RED)✗$(NONE) ] $(OBJ_DIR) directory"
-		@make -C ./libft/ clean
+		@make -sC $(LIBFT_DIR) clean
 
 fclean: clean
 		@rm -f ${NAME} ${PROFILE} ${SANITIZE} ${VALGND} ${CALLGND} ${BDG}
 		@echo "\t[ $(RED)✗$(NONE) ] $(NAME) executable"
-		@make -C ./libft/ fclean
+		@make -sC $(LIBFT_DIR) fclean
 
 re: fclean all
 

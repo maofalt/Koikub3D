@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yanthoma <yanthoma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:31:11 by motero            #+#    #+#             */
-/*   Updated: 2023/03/01 23:46:24 by yanthoma         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:05:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,12 @@
 # include <stdint.h>
 # include <stdio.h>
 # include "libft.h"
-# include "../gnl/get_next_line.h"
+# include "get_next_line.h"
 # include "structures.h"
 # include "colors.h"
-# include "mlx_int.h"
-# include "mlx_engine.h"
-# include "my_maths.h"
-# include "raycasting.h"
-# include <mlx.h>
 # include <math.h>
+
+# include <mlx.h>
 
 # include <wchar.h>
 # include <uchar.h>

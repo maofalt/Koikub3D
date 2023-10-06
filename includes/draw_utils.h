@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   draw_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 17:16:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/06 16:57:09 by olimarti         ###   ########.fr       */
+/*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
+/*   Updated: 2023/10/06 17:42:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef DRAW_UTILS_H
+# define DRAW_UTILS_H
 
-# include <stdint.h>
-# include "libft.h"
-# include "get_next_line.h"
+# include "mlx.h"
 # include "structures.h"
-# include "parsing.h"
-# include "mlx_engine.h"
-# include "draw_utils.h"
-# include "bsp_visualizer.h"
-# include "colors.h"
-# include <math.h>
-# include <mlx.h>
-
-# ifndef FOV
-#  define FOV 60
-# endif
 
 /*############################################################################*/
-/*                              GENERAL FUNCTIONS                             */
+/*                              DRAW FUNCTIONS                                */
 /*############################################################################*/
-void	free_everything(t_cub data);
+
+void	rectangle(t_img_data *img, t_vector_i pos, t_vector_i size, int color);
+void	img_pix_put(t_img_data *img, int x, int y, int color);
+void	draw_segment(t_img_data *img, t_segment_d segment, int color);
 
 #endif

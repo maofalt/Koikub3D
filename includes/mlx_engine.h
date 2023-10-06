@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/05 22:53:54 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:09:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@
 #  define FOV 90
 # endif
 
-/*############################################################################*/
-/*                              DRAW FUNCTIONS                                */
-/*############################################################################*/
-
-void	img_pix_put(t_img_data *img, int x, int y, int color);
-void	draw_celling_floor(t_cub *data);
 
 /*############################################################################*/
 /*                              MLX_ENGINE FUNCTIONS                          */
@@ -65,5 +59,10 @@ void	draw_celling_floor(t_cub *data);
 int		ft_mlx_initialize_pointers(t_cub *data);
 int		ft_mlx_create_window_and_image(t_cub *data);
 
+/*############################################################################*/
+/*                              MLX_ENGINE HOOKS                          */
+/*############################################################################*/
+
+void	ft_mlx_engine(t_cub *data);
 
 #endif

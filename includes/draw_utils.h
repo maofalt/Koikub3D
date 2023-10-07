@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/07 12:47:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:22:53 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 
 void	rectangle(t_img_data *img, t_vector_i pos, t_vector_i size, int color);
 void	img_pix_put(t_img_data *img, int x, int y, int color);
-void	draw_segment(t_img_data *img, t_segment_i segment, int color);
+void	draw_segment(t_img_data *img, t_segment_d segment, int color);
 
 #endif

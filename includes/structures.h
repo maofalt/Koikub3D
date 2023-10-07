@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/06 18:13:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:55:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 typedef float			t_vector_f __attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u __attribute__((vector_size (8)));
 typedef int				t_vector_i __attribute__((vector_size (8)));
+
+typedef int				t_v2i __attribute__((vector_size (2 * sizeof(int))));
+typedef double			t_v2d __attribute__((vector_size (2 * sizeof(double))));
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -109,34 +112,36 @@ typedef struct s_data
 	char		***map;
 }				t_data;
 
-typedef union u_v2i
+
+
+typedef union u_point2i
 {
-	int vec	__attribute__((vector_size (2 * sizeof(int))));
+	t_v2i	vec;
 	struct {
 		int	x;
 		int	y;
 	};
-}	t_v2i;
+}	t_point2i;
 
-typedef union u_v2d
+typedef union u_point2d
 {
-	double vec	__attribute__((vector_size (2 * sizeof(double))));
+	t_v2d	vec;
 	struct {
 		double	x;
 		double	y;
 	};
-}	t_v2d;
+}	t_point2d;
 
 typedef struct s_segment_i
 {
-	t_v2i	point_a;
-	t_v2i	point_b;
+	t_point2i	point_a;
+	t_point2i	point_b;
 }	t_segment_i;
 
 typedef struct s_segment_d
 {
-	t_v2d	point_a;
-	t_v2d	point_b;
+	t_point2d	point_a;
+	t_point2d	point_b;
 }	t_segment_d;
 
 #endif

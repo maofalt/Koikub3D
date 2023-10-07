@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/07 12:55:26 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:26:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ typedef struct s_data
 	char		**colors;
 	char		***map;
 }				t_data;
-
-
 
 typedef union u_point2i
 {

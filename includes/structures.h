@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/07 12:55:26 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:37:08 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,15 @@ typedef struct s_segment_d
 	t_point2d	point_a;
 	t_point2d	point_b;
 }	t_segment_d;
+
+typedef struct s_edge_exploration_context{
+    t_point2d	coord;
+    t_point2d	delta;
+    t_segment_d segment;
+    char** 		map;
+    int** 		visited;
+} t_edge_exploration_context;
+
+
 
 #endif

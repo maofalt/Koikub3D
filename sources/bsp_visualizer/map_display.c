@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_display.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/07 23:37:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/08 21:41:50 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "structures.h"
+#include "map_to_edges.h"
 
 int	draw_map_segments(t_cub *data, t_list *segments_lst)
 {
@@ -31,16 +32,30 @@ int	draw_map_segments(t_cub *data, t_list *segments_lst)
 	return (0);
 }
 
+// int	map_visualizer_render(t_cub *data)
+// {
+// 	t_list	*segments_lst;
+
+// 	segments_lst = NULL;
+// 	convert_map_to_segments(data, &segments_lst);
+// 	draw_map_segments(data, segments_lst);
+// 	ft_lstclear(&segments_lst, free);
+// 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+// 		data->screen.mlx_img, 0, 0);
+// 	usleep(100000);
+// 	return (0);
+// }
+
 int	map_visualizer_render(t_cub *data)
 {
 	t_list	*segments_lst;
 
-	segments_lst = NULL;
-	convert_map_to_segments(data, &segments_lst);
+	if (extractEdgesRecursively(data->map, &segments_lst))
+		return (1);	
 	draw_map_segments(data, segments_lst);
 	ft_lstclear(&segments_lst, free);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
-	usleep(100000);
+	usleep(10000);
 	return (0);
 }

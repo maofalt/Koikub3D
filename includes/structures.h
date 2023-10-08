@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 19:05:27 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/08 20:22:27 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,14 +142,21 @@ typedef struct s_segment_d
 	t_point2d	point_b;
 }	t_segment_d;
 
+typedef enum e_direction{
+	NONE = 0,
+	RIGHT = 1,
+	DOWN = 2,
+	DIAGONAL_RIGHT = 4,
+	DIAGONAL_LEFT = 8
+}	t_direction;
+
 typedef struct s_edge_exploration_context{
-    t_point2d	coord;
-    t_point2d	delta;
-    t_segment_d segment;
-    char** 		map;
-    int** 		visited;
-} t_edge_exploration_context;
-
-
+	t_point2d		coord;
+	t_point2d		delta;
+	t_segment_d		segment;
+	char			**map;
+	t_direction		direction;
+	t_direction		**visited;
+}	t_edge_exploration_context;
 
 #endif

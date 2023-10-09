@@ -30,69 +30,82 @@ void	explore_edge(t_edge_exploration_context *context)
 		return ;
 
 	if ((context->current_coord.x == coord->x && context->current_coord.y == coord->y) &&
-        context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] != '1')
-    {
+		context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] != '1')
+	{
 		return ;
-    }
+	}
 
 
 	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
 	segment->point_b.x = coord->x;
 	segment->point_b.y = coord->y;
-// Preventing diagonal exploration from intersections:
+
 	if (context->direction == DIAGONAL_LEFT)
 	{
-	    t_point2d intersection;
-	    t_point2d point_adjacent_to_intersection;
-	    t_point2d next_point = {.vec = {coord->x - 1, coord->y + 1}};
+		t_point2d next_point = (t_point2d) {{coord->x - 1, coord->y + 1}};
+		t_point2d below_next = (t_point2d) {{next_point.x, next_point.y + 1}};
+		t_point2d below_current = (t_point2d) {{coord->x, coord->y + 1}};
+	    t_point2d right_of_current = (t_point2d){{coord->x + 1, coord->y}};
+	    t_point2d left_of_current = (t_point2d){{coord->x - 1, coord->y}};
+		t_point2d above_current = (t_point2d) {{coord->x, coord->y - 1}};
+		t_point2d left_of_next = (t_point2d) {{next_point.x - 1, next_point.y}};
 	
-	    // Check for intersection to the left
-	    intersection = (t_point2d){coord->x - 1.0, coord->y};
-	    point_adjacent_to_intersection = (t_point2d){intersection.x, intersection.y + 1};
-	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
-	    {
-	        return;
-	    }
-	
-	    // Check for intersection below
-	    intersection = (t_point2d){coord->x, coord->y + 1};
-	    point_adjacent_to_intersection = (t_point2d){intersection.x - 1, intersection.y};
-	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
-	    {
-	        printf("intersection Left below\n");
-			printf("\tStarting coord (%f, %f) = [%c]\n", context->current_coord.x, context->current_coord.y, context->map[(int)context->current_coord.y][(int)context->current_coord.x]);
-			printf("\tCurrent coord (%f, %f) = [%c]\n", coord->x, coord->y, context->map[(int)coord->y][(int)coord->x]);
-			printf("\tNext coord (%f, %f)= [%c]\n", next_point.x, next_point.y, context->map[(int)next_point.y][(int)next_point.x]);
-			printf("\tIntersection coord (%f, %f) = [%c]\n", intersection.x, intersection.y, context->map[(int)intersection.y][(int)intersection.x]);
+		// Check for "cutting through" a vertical wall
+		if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+			(context->visited[(int)above_current.y][(int)above_current.x] & DOWN) &&
+			(context->visited[(int)coord->y][(int)coord->x] & DOWN))
+		{
 			return;
-	    }
+		}
+
+		if ((context->visited[(int)left_of_current.y][(int)left_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+			(context->visited[(int)next_point.y][(int)next_point.x] & DOWN) &&
+			(context->visited[(int)below_next.y][(int)below_next.x] & DOWN))
+		{
+			return;
+		}
+	
+		// Check for "cutting through" a horizontal wall
+		if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+			(context->visited[(int)left_of_next.y][(int)left_of_next.x] & RIGHT) &&
+			(context->visited[(int)next_point.y][(int)next_point.x] & RIGHT))
+		{
+			return;
+		}
+
+		if ((context->visited[(int)left_of_current.y][(int)left_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+			(context->visited[(int)coord->y][(int)coord->x] & RIGHT) &&
+			(context->visited[(int)right_of_current.y][(int)right_of_current.x] & RIGHT))
+		{
+			return;
+		}
 	}
 	else if (context->direction == DIAGONAL_RIGHT)
 	{
-	    t_point2d intersection;
-	    t_point2d point_adjacent_to_intersection;
-	    t_point2d next_point = {.vec = {coord->x + 1, coord->y + 1}};
-	
-	    // Check for intersection to the right
-	    intersection = (t_point2d){coord->x + 1, coord->y};
-	    point_adjacent_to_intersection = (t_point2d){intersection.x, intersection.y + 1};
-	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+
+	    t_point2d next_point = (t_point2d){{coord->x + 1, coord->y + 1}};
+	    t_point2d below_current = (t_point2d){{coord->x, coord->y + 1}};
+	    t_point2d right_of_current = (t_point2d){{coord->x + 1, coord->y}};
+	    t_point2d above_next = (t_point2d){{next_point.x, next_point.y - 1}};
+	    t_point2d right_of_next = (t_point2d){{next_point.x + 1, next_point.y}};
+
+	    // Check for "cutting through" a vertical wall
+	    if ((context->visited[(int)right_of_current.y][(int)right_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        (context->visited[(int)above_next.y][(int)above_next.x] & DOWN) &&
+	        (context->visited[(int)next_point.y][(int)next_point.x] & DOWN))
 	    {
 	        return;
 	    }
-	
-	    // Check for intersection below
-	    intersection = (t_point2d){coord->x, coord->y + 1};
-	    point_adjacent_to_intersection = (t_point2d){intersection.x + 1, intersection.y};
-	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+
+	    // Check for "cutting through" a horizontal wall
+	    if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        (context->visited[(int)right_of_next.y][(int)right_of_next.x] & RIGHT) &&
+	        (context->visited[(int)next_point.y][(int)next_point.x] & RIGHT))
 	    {
 	        return;
 	    }
 	}
+
 
 
 	coord->x += delta->x;

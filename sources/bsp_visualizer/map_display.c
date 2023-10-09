@@ -30,20 +30,6 @@ int	draw_map_segments(t_cub *data, t_list *segments_lst)
 	return (0);
 }
 
-// int	map_visualizer_render(t_cub *data)
-// {
-// 	t_list	*segments_lst;
-
-// 	segments_lst = NULL;
-// 	convert_map_to_segments(data, &segments_lst);
-// 	draw_map_segments(data, segments_lst);
-// 	ft_lstclear(&segments_lst, free);
-// 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-// 		data->screen.mlx_img, 0, 0);
-// 	usleep(100000);
-// 	return (0);
-// }
-
 int	map_visualizer_render(t_cub *data)
 {
 	t_list	*segments_lst;

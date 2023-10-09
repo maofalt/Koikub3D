@@ -153,6 +153,7 @@ typedef enum e_direction{
 typedef struct s_edge_exploration_context{
 	t_point2d		coord;
 	t_point2d		delta;
+	t_point2d		current_coord;
 	t_segment_d		segment;
 	char			**map;
 	t_direction		direction;

@@ -29,20 +29,31 @@ void	explore_edge(t_edge_exploration_context *context)
 	if (context->visited[(int)coord->y][(int)coord->x] & context->direction)
 		return ;
 
+// Preventing diagonal exploration from intersections:
 	if (context->direction == DIAGONAL_RIGHT)
 	{
-		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) ||
-			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)))
+		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
+			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
+			{
+			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_RIGHT; // Marking as visited
 			return;
+		}
 	}
 	else if (context->direction == DIAGONAL_LEFT)
 	{
-		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) ||
-			(context->visited[(int)coord->y][(int)coord->x - 1] & (RIGHT | DOWN)))
+		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
+			(context->visited[(int)coord->y][(int)coord->x - 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
+			{
+			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_LEFT; // Marking as visited
 			return;
+		}
 	}
 
-	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
+    if ((context->current_coord.x != coord->x || context->current_coord.y != coord->y) ||
+        context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] == '1')
+    {
+        context->visited[(int)coord->y][(int)coord->x] |= context->direction;
+    }
 	segment->point_b.x = coord->x;
 	segment->point_b.y = coord->y;
 	coord->x += delta->x;
@@ -75,14 +86,21 @@ int	process_map(t_edge_exploration_context *context, t_list **edges,
 	y = 0;
 	while (y < height_map)
 	{
-		if (process_row(context, edges, y, width_map))
+		if (process_row_vertical_horizontal(context, edges, y, width_map))
+			return (1);
+		y++;
+	}
+	y = 0;
+	while (y < height_map)
+	{
+		if (process_row_diagonal(context, edges, y, width_map))
 			return (1);
 		y++;
 	}
 	return (0);
 }
 
-int	process_row(t_edge_exploration_context *context, t_list **edges,
+int	process_row_vertical_horizontal(t_edge_exploration_context *context, t_list **edges,
 		int y, int width_map)
 {
 	int	x;
@@ -97,6 +115,23 @@ int	process_row(t_edge_exploration_context *context, t_list **edges,
 				return (1);
 			if (process_direction(context, edges, (t_point2d){{0, 1}}, DOWN))
 				return (1);
+		}
+		x++;
+	}
+	return (0);
+}
+
+int	process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
+		int y, int width_map)
+{
+	int	x;
+
+	x = 0;
+	while (x < width_map)
+	{
+		context->current_coord = (t_point2d){{x, y}};
+		if (context->map[y][x] == '1')
+		{
 			if (process_direction(context, edges, (t_point2d){{1, 1}},
 				DIAGONAL_RIGHT))
 				return (1);
@@ -108,7 +143,6 @@ int	process_row(t_edge_exploration_context *context, t_list **edges,
 	}
 	return (0);
 }
-
 
 void	update_context(t_edge_exploration_context *context, t_point2d coord,
 			t_point2d delta, t_direction dir)

@@ -23,8 +23,10 @@ void		explore_edge(t_edge_exploration_context *context);
 int			extract_edge_recursively(char **map, t_list **edges);
 int			process_map(t_edge_exploration_context *context, t_list **edges,
 				int height_map, int width_map);
-int			process_row(t_edge_exploration_context *context, t_list **edges,
-				int y, int width_map);				
+int			process_row_vertical_horizontal(t_edge_exploration_context *context, t_list **edges,
+				int y, int width_map);
+int			process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
+				int y, int width_map);		
 void		update_context(t_edge_exploration_context *context, t_point2d coord,
 				t_point2d delta, t_direction dir);
 int			process_direction(t_edge_exploration_context *context,

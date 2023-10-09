@@ -29,31 +29,37 @@ void	explore_edge(t_edge_exploration_context *context)
 	if (context->visited[(int)coord->y][(int)coord->x] & context->direction)
 		return ;
 
+	if ((context->current_coord.x == coord->x && context->current_coord.y == coord->y) &&
+        context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] != '1')
+    {
+		return ;
+    }
+
 // Preventing diagonal exploration from intersections:
 	if (context->direction == DIAGONAL_RIGHT)
 	{
 		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
 			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
-			{
+		{
 			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_RIGHT; // Marking as visited
 			return;
 		}
 	}
 	else if (context->direction == DIAGONAL_LEFT)
 	{
-		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
-			(context->visited[(int)coord->y][(int)coord->x - 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
-			{
+		if ((context->visited[(int)coord->y - 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
+			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
+		{
+			printf("starting coord %d %d\n", (int)context->current_coord.y, (int)context->current_coord.x);
+			printf("DIAGONAL_LEFT: %d %d\n", (int)coord->y, (int)coord->x);
+			printf("RIGHT: %d %d = [%c]\n", (int)coord->y , (int)coord->x+1, context->map[(int)coord->y][(int)coord->x+1]);
+			printf("UP: %d %d = [%c]\n", (int)coord->y-1, (int)coord->x, context->map[(int)coord->y-1][(int)coord->x]);
 			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_LEFT; // Marking as visited
 			return;
 		}
 	}
 
-    if ((context->current_coord.x != coord->x || context->current_coord.y != coord->y) ||
-        context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] == '1')
-    {
-        context->visited[(int)coord->y][(int)coord->x] |= context->direction;
-    }
+    context->visited[(int)coord->y][(int)coord->x] |= context->direction;
 	segment->point_b.x = coord->x;
 	segment->point_b.y = coord->y;
 	coord->x += delta->x;

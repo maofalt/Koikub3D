@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/08 21:41:50 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/09 18:30:21 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	draw_map_segments(t_cub *data, t_list *segments_lst)
 	while (segments_lst != NULL)
 	{
 		scaled_segment = *(t_segment_d *)segments_lst->content;
-		scaled_segment.point_a.vec *= 30;
-		scaled_segment.point_b.vec *= 30;
+		scaled_segment.point_a.vec *= 10;
+		scaled_segment.point_b.vec *= 10;
 		draw_segment(&data->screen, &scaled_segment,
 			(size_t)(void *)segments_lst);
 		segments_lst = segments_lst->next;

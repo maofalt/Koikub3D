@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_to_edges.c                                     :+:      :+:    :+:   */
+/*   extract_edges.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 21:48:10 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/09 18:29:53 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,66 @@ void	explore_edge(t_edge_exploration_context *context)
 		return ;
     }
 
-// Preventing diagonal exploration from intersections:
-	if (context->direction == DIAGONAL_RIGHT)
-	{
-		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
-			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
-		{
-			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_RIGHT; // Marking as visited
-			return;
-		}
-	}
-	else if (context->direction == DIAGONAL_LEFT)
-	{
-		if ((context->visited[(int)coord->y - 1][(int)coord->x] & (RIGHT | DOWN)) == (RIGHT | DOWN) ||
-			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)) == (RIGHT | DOWN))
-		{
-			printf("starting coord %d %d\n", (int)context->current_coord.y, (int)context->current_coord.x);
-			printf("DIAGONAL_LEFT: %d %d\n", (int)coord->y, (int)coord->x);
-			printf("RIGHT: %d %d = [%c]\n", (int)coord->y , (int)coord->x+1, context->map[(int)coord->y][(int)coord->x+1]);
-			printf("UP: %d %d = [%c]\n", (int)coord->y-1, (int)coord->x, context->map[(int)coord->y-1][(int)coord->x]);
-			//context->visited[(int)coord->y][(int)coord->x] |= DIAGONAL_LEFT; // Marking as visited
-			return;
-		}
-	}
 
-    context->visited[(int)coord->y][(int)coord->x] |= context->direction;
+	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
 	segment->point_b.x = coord->x;
 	segment->point_b.y = coord->y;
+// Preventing diagonal exploration from intersections:
+	if (context->direction == DIAGONAL_LEFT)
+	{
+	    t_point2d intersection;
+	    t_point2d point_adjacent_to_intersection;
+	    t_point2d next_point = {.vec = {coord->x - 1, coord->y + 1}};
+	
+	    // Check for intersection to the left
+	    intersection = (t_point2d){coord->x - 1.0, coord->y};
+	    point_adjacent_to_intersection = (t_point2d){intersection.x, intersection.y + 1};
+	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+	    {
+	        return;
+	    }
+	
+	    // Check for intersection below
+	    intersection = (t_point2d){coord->x, coord->y + 1};
+	    point_adjacent_to_intersection = (t_point2d){intersection.x - 1, intersection.y};
+	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+	    {
+	        printf("intersection Left below\n");
+			printf("\tStarting coord (%f, %f) = [%c]\n", context->current_coord.x, context->current_coord.y, context->map[(int)context->current_coord.y][(int)context->current_coord.x]);
+			printf("\tCurrent coord (%f, %f) = [%c]\n", coord->x, coord->y, context->map[(int)coord->y][(int)coord->x]);
+			printf("\tNext coord (%f, %f)= [%c]\n", next_point.x, next_point.y, context->map[(int)next_point.y][(int)next_point.x]);
+			printf("\tIntersection coord (%f, %f) = [%c]\n", intersection.x, intersection.y, context->map[(int)intersection.y][(int)intersection.x]);
+			return;
+	    }
+	}
+	else if (context->direction == DIAGONAL_RIGHT)
+	{
+	    t_point2d intersection;
+	    t_point2d point_adjacent_to_intersection;
+	    t_point2d next_point = {.vec = {coord->x + 1, coord->y + 1}};
+	
+	    // Check for intersection to the right
+	    intersection = (t_point2d){coord->x + 1, coord->y};
+	    point_adjacent_to_intersection = (t_point2d){intersection.x, intersection.y + 1};
+	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+	    {
+	        return;
+	    }
+	
+	    // Check for intersection below
+	    intersection = (t_point2d){coord->x, coord->y + 1};
+	    point_adjacent_to_intersection = (t_point2d){intersection.x + 1, intersection.y};
+	    if ((context->visited[(int)intersection.y][(int)intersection.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
+	        context->map[(int)point_adjacent_to_intersection.y][(int)point_adjacent_to_intersection.x] == context->map[(int)next_point.y][(int)next_point.x])
+	    {
+	        return;
+	    }
+	}
+
+
 	coord->x += delta->x;
 	coord->y += delta->y;
 	explore_edge(context);
@@ -76,6 +109,7 @@ int	extract_edge_recursively(char **map, t_list **edges)
 	context.map = map;
 	*edges = NULL;
 	context.visited = malloc2DArray(map);
+	print_map(context.map);
 	if (context.visited == NULL)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))

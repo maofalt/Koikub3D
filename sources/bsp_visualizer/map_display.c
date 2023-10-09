@@ -16,10 +16,8 @@
 
 int	draw_map_segments(t_cub *data, t_list *segments_lst)
 {
-	int			i;
 	t_segment_d	scaled_segment;
 
-	i = 0;
 	while (segments_lst != NULL)
 	{
 		scaled_segment = *(t_segment_d *)segments_lst->content;
@@ -50,7 +48,7 @@ int	map_visualizer_render(t_cub *data)
 {
 	t_list	*segments_lst;
 
-	if (extractEdgesRecursively(data->map, &segments_lst))
+	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);	
 	draw_map_segments(data, segments_lst);
 	ft_lstclear(&segments_lst, free);

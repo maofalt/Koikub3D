@@ -28,56 +28,58 @@ int	process_direction(t_edge_exploration_context *context, t_list **edges,
 	return (0);
 }
 
-
-//Add new segment to the list of edges by creating a new node and pushing it front
-int add_edge(t_segment_d new_segment, t_list **edges) {
-
-	t_list *new_node;
+//Add new segment to the list of edges by creating a new node and pushing
+int add_edge(t_segment_d new_segment, t_list **edges)
+{
+	t_list	*new_node;
 
 	new_node = malloc(sizeof(t_list));
-	if (new_node == NULL) {
+	if (new_node == NULL)
+	{
 		printf("Error: malloc failed\n");
-		return 1; 
+		return (1); 
 	}
 	new_node->content = malloc(sizeof(t_segment_d));
-	if (new_node->content == NULL) {
+	if (new_node->content == NULL)
+	{
 		printf("Error: malloc failed\n");
-		return 1;
+		return (1);
 	}
 	ft_memset(new_node->content, 0, sizeof(t_segment_d));
-	if (ft_memcpy(new_node->content, &new_segment, sizeof(t_segment_d)) == NULL) {
+	if (ft_memcpy(new_node->content, &new_segment, sizeof(t_segment_d)) == NULL)
+	{
 		printf("Error: memcpy failed\n");
-		return 1;
+		return (1);
 	}
 	ft_lstadd_front(edges, new_node);
-   return 0; 
+	return (0);
 }
 
-//create a t_direction  table on 2d of same size of char map that is also passed as parameter
+//create a t_direction  table on 2d of same size of char map tha
+// is also passed as parameter
 //and fill it with 0
-t_direction **malloc2DArray(char **map)
+t_direction	**malloc2DArray(char **map)
 {
 	int			i;
 	t_direction	**array;
 	const int	size = get_map_height(map);
 
 	array = ft_calloc(size, sizeof(t_direction *));
-	if (array == NULL) {
-		printf("Error: malloc failed\n");
-		return NULL;
-	}
-
+	if (array == NULL)
+		return (printf("Error: malloc failed\n"), NULL);
 	i = 0;
-	while (i < size) {
+	while (i < size)
+	{
 		array[i] = ft_calloc(ft_strlen(map[i]), sizeof(t_direction));
-		if (array[i] == NULL) {
+		if (array[i] == NULL)
+		{
 			printf("Error: malloc failed\n");
-			while (i > 0) {
+			while (i > 0)
+			{
 				free(array[i]);
 				i--;
 			}
-			free(array);
-			return (NULL);
+			return (free(array), NULL);
 		}
 		i++;
 	}

@@ -29,6 +29,19 @@ void	explore_edge(t_edge_exploration_context *context)
 	if (context->visited[(int)coord->y][(int)coord->x] & context->direction)
 		return ;
 
+	if (context->direction == DIAGONAL_RIGHT)
+	{
+		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) ||
+			(context->visited[(int)coord->y][(int)coord->x + 1] & (RIGHT | DOWN)))
+			return;
+	}
+	else if (context->direction == DIAGONAL_LEFT)
+	{
+		if ((context->visited[(int)coord->y + 1][(int)coord->x] & (RIGHT | DOWN)) ||
+			(context->visited[(int)coord->y][(int)coord->x - 1] & (RIGHT | DOWN)))
+			return;
+	}
+
 	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
 	segment->point_b.x = coord->x;
 	segment->point_b.y = coord->y;

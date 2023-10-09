@@ -27,29 +27,15 @@ void	explore_edge(t_edge_exploration_context *context)
 		return ;
 	if (context->visited[(int)coord->y][(int)coord->x] & context->direction)
 		return ;
-
 	if ((context->current_coord.x == coord->x && context->current_coord.y == coord->y) &&
 		context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] != '1')
-	{
 		return ;
-	}
-
-
 	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
-	segment->point_b.x = coord->x;
-	segment->point_b.y = coord->y;
-
-	if (context->direction == DIAGONAL_LEFT)
-	{
-		if (check_diagonal_left(context, &(context->coord)))
-			return ;
-	}
-	else if (context->direction == DIAGONAL_RIGHT)
-	{
-		if (check_diagonal_right(context, &(context->coord)))
-			return ;
-	}
-
+	segment->point_b = *coord;
+	if (context->direction == DIAGONAL_LEFT && check_diagonal_left(context, &(context->coord)))
+		return ;
+	else if (context->direction == DIAGONAL_RIGHT && check_diagonal_right(context, &(context->coord)))
+		return ;
 	coord->x += delta->x;
 	coord->y += delta->y;
 	explore_edge(context);

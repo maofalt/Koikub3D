@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "map_to_edges.h"
 
 void	explore_edge(t_edge_exploration_context *context)
@@ -42,71 +41,14 @@ void	explore_edge(t_edge_exploration_context *context)
 
 	if (context->direction == DIAGONAL_LEFT)
 	{
-		t_point2d next_point = (t_point2d) {{coord->x - 1, coord->y + 1}};
-		t_point2d below_next = (t_point2d) {{next_point.x, next_point.y + 1}};
-		t_point2d below_current = (t_point2d) {{coord->x, coord->y + 1}};
-	    t_point2d right_of_current = (t_point2d){{coord->x + 1, coord->y}};
-	    t_point2d left_of_current = (t_point2d){{coord->x - 1, coord->y}};
-		t_point2d above_current = (t_point2d) {{coord->x, coord->y - 1}};
-		t_point2d left_of_next = (t_point2d) {{next_point.x - 1, next_point.y}};
-	
-		// Check for "cutting through" a vertical wall
-		if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-			(context->visited[(int)above_current.y][(int)above_current.x] & DOWN) &&
-			(context->visited[(int)coord->y][(int)coord->x] & DOWN))
-		{
-			return;
-		}
-
-		if ((context->visited[(int)left_of_current.y][(int)left_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-			(context->visited[(int)next_point.y][(int)next_point.x] & DOWN) &&
-			(context->visited[(int)below_next.y][(int)below_next.x] & DOWN))
-		{
-			return;
-		}
-	
-		// Check for "cutting through" a horizontal wall
-		if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-			(context->visited[(int)left_of_next.y][(int)left_of_next.x] & RIGHT) &&
-			(context->visited[(int)next_point.y][(int)next_point.x] & RIGHT))
-		{
-			return;
-		}
-
-		if ((context->visited[(int)left_of_current.y][(int)left_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-			(context->visited[(int)coord->y][(int)coord->x] & RIGHT) &&
-			(context->visited[(int)right_of_current.y][(int)right_of_current.x] & RIGHT))
-		{
-			return;
-		}
+		if (check_diagonal_left(context, &(context->coord)))
+			return ;
 	}
 	else if (context->direction == DIAGONAL_RIGHT)
 	{
-
-	    t_point2d next_point = (t_point2d){{coord->x + 1, coord->y + 1}};
-	    t_point2d below_current = (t_point2d){{coord->x, coord->y + 1}};
-	    t_point2d right_of_current = (t_point2d){{coord->x + 1, coord->y}};
-	    t_point2d above_next = (t_point2d){{next_point.x, next_point.y - 1}};
-	    t_point2d right_of_next = (t_point2d){{next_point.x + 1, next_point.y}};
-
-	    // Check for "cutting through" a vertical wall
-	    if ((context->visited[(int)right_of_current.y][(int)right_of_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        (context->visited[(int)above_next.y][(int)above_next.x] & DOWN) &&
-	        (context->visited[(int)next_point.y][(int)next_point.x] & DOWN))
-	    {
-	        return;
-	    }
-
-	    // Check for "cutting through" a horizontal wall
-	    if ((context->visited[(int)below_current.y][(int)below_current.x] & (RIGHT | DOWN)) == (RIGHT | DOWN) &&
-	        (context->visited[(int)right_of_next.y][(int)right_of_next.x] & RIGHT) &&
-	        (context->visited[(int)next_point.y][(int)next_point.x] & RIGHT))
-	    {
-	        return;
-	    }
+		if (check_diagonal_right(context, &(context->coord)))
+			return ;
 	}
-
-
 
 	coord->x += delta->x;
 	coord->y += delta->y;

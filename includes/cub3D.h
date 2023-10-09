@@ -24,6 +24,7 @@
 # include "colors.h"
 # include <math.h>
 # include <mlx.h>
+# include <stdbool.h>
 
 # ifndef FOV
 #  define FOV 60

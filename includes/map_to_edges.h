@@ -34,4 +34,10 @@ int			process_direction(t_edge_exploration_context *context,
 int			add_edge(t_segment_d new_segment, t_list **edges);
 t_direction	**malloc2DArray(char **map);
 
+/*############################################################################*/
+/*                       IDENTIFY DIAGONALS ITS HARD                          */
+/*############################################################################*/
+
+bool		check_diagonal_left(t_edge_exploration_context *context, t_point2d *coord);
+bool		check_diagonal_right(t_edge_exploration_context *context, t_point2d *coord);
 #endif

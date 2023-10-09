@@ -12,7 +12,8 @@
 
 #include "map_to_edges.h"
 
-bool	check_diagonal_left(t_edge_exploration_context *context, t_point2d *coord)
+bool	check_diagonal_left(t_edge_exploration_context *context,
+		t_point2d *coord)
 {
 	t_point2d next_point = (t_point2d) {{coord->x - 1, coord->y + 1}};
 	t_point2d below_next = (t_point2d) {{next_point.x, next_point.y + 1}};

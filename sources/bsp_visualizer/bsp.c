@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 00:15:03 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/10 04:51:25 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:57:34 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,115 +48,121 @@ t_point2d	find_intersection(t_segment_d line, t_segment_d seg)
 
 int	cut_space(t_list **segments, t_segment_d *separator, t_list **left, t_list **right)
 {
-	t_list tmp;
-	tmp.next = *segments; // TODO remove this hack
-	t_list	*current = &tmp;
-	t_list	*next_tmp;
+	t_list		*current;
+	t_point2d	intersection;
+	int			point_a_side;
+	int			point_b_side;
+	t_segment_d	segment_tmp;
+	t_list		*next_tmp;
+
+
 	*left = NULL;
 	*right = NULL;
-	int		point_a_side;
-	int		point_b_side;
-	t_point2d intersection;
-	t_segment_d	segment_tmp;
-	while (current->next != NULL)
+	current = *segments;
+	*segments = NULL;
+	while (current != NULL)
 	{
-		segment_tmp = *(t_segment_d *)current->next->content;
+		segment_tmp = *(t_segment_d *)current->content;
 		point_a_side = point_space_partitioning(separator,
 				&segment_tmp.point_a);
 		point_b_side = point_space_partitioning(separator,
 				&segment_tmp.point_b);
-		if (point_a_side * point_b_side < 0)
+		if ((point_a_side | point_b_side) == 0)
 		{
-			//intersection should cut segment
-
+			next_tmp = current->next;
+			ft_lstadd_front(segments, current);
+			current = next_tmp;
+			continue ;
+		}
+		else if (point_a_side * point_b_side <= 0)
+		{
 			intersection = find_intersection(*separator, segment_tmp);
 			if (point_a_side < 0)
 			{
-					// ((t_segment_d*)current->next->content)->point_a = ((t_segment_d*)current->next->content)->point_a;
-					((t_segment_d*)current->next->content)->point_b = intersection;
-					next_tmp = current->next->next;
-					ft_lstadd_front(left, current->next);
-					current->next = next_tmp;
-				// add_segment_to_lst(left, (t_segment_d){((t_segment_d *)current->next->content)->point_a, intersection});
-			} else if (point_a_side > 0)
+					((t_segment_d*)current->content)->point_b = intersection;
+					next_tmp = current->next;
+					ft_lstadd_front(left, current);
+					current = next_tmp;
+			}
+			else if (point_a_side > 0)
 			{
-				((t_segment_d*)current->next->content)->point_a = intersection;
-				((t_segment_d*)current->next->content)->point_b = segment_tmp.point_a;
-				next_tmp = current->next->next;
-				ft_lstadd_front(right, current->next);
-					current->next = next_tmp;
-				// add_segment_to_lst(right, (t_segment_d){intersection, ((t_segment_d *)current->next->content)->point_a});
+				((t_segment_d*)current->content)->point_a = intersection;
+				((t_segment_d*)current->content)->point_b = segment_tmp.point_a;
+				next_tmp = current->next;
+				ft_lstadd_front(right, current);
+				current = next_tmp;
 			}
 			if (point_a_side == 0)
 			{
 				if (point_b_side < 0)
 				{
-					((t_segment_d*)current->next->content)->point_a = segment_tmp.point_b;
-					((t_segment_d*)current->next->content)->point_b = intersection;
-					next_tmp = current->next->next;
-					ft_lstadd_front(left, current->next);
-					current->next = next_tmp;
-					//add_segment_to_lst(left, (t_segment_d){((t_segment_d *)current->next->content)->point_b, intersection});
+					((t_segment_d*)current->content)->point_a = segment_tmp.point_b;
+					((t_segment_d*)current->content)->point_b = intersection;
+					next_tmp = current->next;
+					ft_lstadd_front(left, current);
+					current = next_tmp;
 				}
 				else if (point_b_side > 0)
 				{
-					((t_segment_d*)current->next->content)->point_a = intersection;
-					next_tmp = current->next->next;
-					ft_lstadd_front(right, current->next);
-					current->next = next_tmp;
-					// add_segment_to_lst(right, (t_segment_d){intersection, ((t_segment_d *)current->next->content)->point_b});
+					((t_segment_d*)current->content)->point_a = intersection;
+					next_tmp = current->next;
+					ft_lstadd_front(right, current);
+					current = next_tmp;
 				}
 			}
 			else
 			{
 				if (point_b_side < 0)
 				{
-					add_segment_to_lst(left, (t_segment_d){segment_tmp.point_b, intersection});
+					if (add_segment_to_lst(left, (t_segment_d){segment_tmp.point_b, intersection}))
+						return (1);
 				}
 				else if (point_b_side > 0)
 				{
-					add_segment_to_lst(right, (t_segment_d){intersection, segment_tmp.point_b});
+					if (add_segment_to_lst(right, (t_segment_d){intersection, segment_tmp.point_b}))
+						return (1);
 				}
 			}
-			// else
-			// {
-			// 	current = current->next; //maybe free
-			// }
-			printf("%d, %d, (%f, %f, (%f, %f\n", point_a_side, point_b_side, segment_tmp.point_a.x, segment_tmp.point_a.y, segment_tmp.point_b.x, segment_tmp.point_b.y);
 		}
 		else
 		{
-			next_tmp = current->next->next;
+			next_tmp = current->next;
 			if (point_a_side < 0 || point_b_side < 0)
-				ft_lstadd_front(left, current->next);
-			else if (point_a_side > 0 || point_b_side > 0)
-				ft_lstadd_front(right, current->next);
+				ft_lstadd_front(left, current);
 			else
-				printf("------\n");
-			current->next = next_tmp;
+				ft_lstadd_front(right, current);
+			current = next_tmp;
 		}
 	}
 	return (0);
 }
 
-void construct_bsp(t_list **segments, t_list **left, t_list **right)
+
+
+void	construct_bsp(t_list **segments, t_list **left, t_list **right)
 {
 	// t_list *left = NULL;
 	// t_list *right = NULL;
 	// t_segment_d *segment = ((t_segment_d*)(*segments)->content);
-	t_segment_d separator = {{{20,0}}, {{40,3}}};
+	t_list *ptr1;
+	t_list *ptr2;
+
+	ptr1 = *segments;
+	ptr2 = *segments;
+
+	while (ptr1->next != NULL && ptr1->next->next != NULL)
+	{
+		ptr2 = ptr2->next;
+		ptr1 = ptr1->next->next;
+	}
+
+	t_segment_d separator =  *(t_segment_d*)ptr2->content; //{{{20,0}}, {{40,3}}};
+	// printf("***%p\n", (t_segment_d*)ptr2->next->content);
+	// printf("{%f, %f}{%f, %f}\n", separator.point_a.x,separator.point_a.y,separator.point_b.x,separator.point_b.y);
 	cut_space(segments, &separator, left, right);
+	// separator = *(t_segment_d*)(ptr2->next->content); //{{{20,0}}, {{40,3}}};
+	// printf(";;;%p\n", (t_segment_d*)ptr2->content);
+	// printf("-----{%f, %f}{%f, %f}\n", separator.point_a.x,separator.point_a.y,separator.point_b.x,separator.point_b.y);
+
 	// *result = right;
 }
-
-// int main() {
-// 	t_point2d p1 = {.vec={0, 0}};
-// 	t_point2d p2 = {.vec={3, 5}};
-// 	t_segment_d seg = {{.vec={-4, -2}}, {.vec={2, 0.5}}};
-// 	t_point2d intersection;
-
-// 	intersection = findIntersection(p1, p2, seg);
-// 	printf("Intersection at (%lf, %lf)\n", intersection.x, intersection.y);
-
-// 	return 0;
-// }

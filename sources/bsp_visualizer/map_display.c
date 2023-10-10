@@ -6,12 +6,13 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/10 04:52:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:24:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "structures.h"
+#include "map_to_edges.h"
 
 int	draw_map_segments(t_cub *data, t_list *segments_lst)
 {
@@ -36,7 +37,8 @@ int	map_visualizer_render(t_cub *data)
 	t_list *right = NULL;
 
 	segments_lst = NULL;
-	convert_map_to_segments(data, &segments_lst);
+	if (extract_edge_recursively(data->map, &segments_lst))
+		return (1);
 	construct_bsp(&segments_lst, &left, &right);
 	// draw_map_segments(data, segments_lst);
 	draw_map_segments(data, left);

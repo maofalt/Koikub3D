@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:16:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/06 16:57:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/08 20:23:50 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "colors.h"
 # include <math.h>
 # include <mlx.h>
+# include <stdbool.h>
 
 # ifndef FOV
 #  define FOV 60

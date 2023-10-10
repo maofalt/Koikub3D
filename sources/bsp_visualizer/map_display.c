@@ -6,13 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/10 19:05:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/11 01:39:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "structures.h"
 #include "map_to_edges.h"
+#include "bsp_builder.h"
 
 int	draw_map_segments(t_cub *data, t_list *segments_lst)
 {

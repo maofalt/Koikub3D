@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/10 18:59:36 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 19:44:35 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	draw_map_segments(t_cub *data, t_list *segments_lst)
 int	map_visualizer_render(t_cub *data)
 {
 	t_list	*segments_lst;
-		t_list *left = NULL;
+	t_list *left = NULL;
 	t_list *right = NULL;
 
+	if (data->win_ptr == NULL)
+		return (1);
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);	
 	draw_map_segments(data, segments_lst);

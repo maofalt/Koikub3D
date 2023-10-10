@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/09 18:30:21 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 18:59:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	map_visualizer_render(t_cub *data)
 	draw_map_segments(data, segments_lst);
 	construct_bsp(&segments_lst, &left, &right);
 	// draw_map_segments(data, segments_lst);
-	draw_map_segments(data, left);
-	draw_map_segments(data, right);
+	//draw_map_segments(data, left);
+	//draw_map_segments(data, right);
 	ft_lstclear(&segments_lst, free);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);

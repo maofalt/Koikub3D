@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_engine.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/07 23:36:36 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/10 19:27:41 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MLX_ENGINE_H
 # define MLX_ENGINE_H
 
+# include "cub3D.h"
 # include "mlx.h"
 # include "structures.h"
 
@@ -63,5 +64,16 @@ int		ft_mlx_create_window_and_image(t_cub *data);
 /*############################################################################*/
 
 void	ft_mlx_engine(t_cub *data);
+int     ft_destroy_window(t_cub *data);
+int	    ft_handle_keyrelease(int keysym, t_cub *data);
+int     ft_handle_keypress(int keysym, t_cub *data);
+int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
+
+
+/*############################################################################*/
+/*                              KEYPRESS EVENTS                               */
+/*############################################################################*/
+void	ft_destroy_window_button(int keysym, t_cub *data);
+void	ft_movements_keys(int keysym, t_cub *data);
 
 #endif

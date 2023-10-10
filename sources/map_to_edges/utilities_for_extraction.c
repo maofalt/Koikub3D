@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_to_edges.c                                     :+:      :+:    :+:   */
+/*   utilities_for_extraction.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 21:48:10 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 19:59:12 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,16 @@ t_direction	**malloc2DArray(char **map)
 	return (array);
 }
 
+//Free the 2d array of t_direction
+void	free2DArray(t_direction **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}

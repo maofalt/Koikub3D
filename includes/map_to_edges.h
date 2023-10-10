@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 16:50:50 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 20:00:03 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ int			process_direction(t_edge_exploration_context *context,
 				t_list **edges, t_point2d delta, t_direction dir);
 int			add_edge(t_segment_d new_segment, t_list **edges);
 t_direction	**malloc2DArray(char **map);
+
+/*############################################################################*/
+/*                                UTILITY FONCTIONS                           */
+/*############################################################################*/
+
+void		free2DArray(t_direction **array);
 
 /*############################################################################*/
 /*                       IDENTIFY DIAGONALS ITS HARD                          */

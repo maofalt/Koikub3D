@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/09 18:29:53 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 20:00:21 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	extract_edge_recursively(char **map, t_list **edges)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))
 		return (1);
-	//free2DArray(visited);
+	free2DArray(context.visited);
 	return (0);
 }
 

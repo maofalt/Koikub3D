@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 21:01:48 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/10 16:50:50 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,9 @@ t_direction	**malloc2DArray(char **map);
 /*############################################################################*/
 
 bool		check_diagonal_left(t_edge_exploration_context *context, t_point2d *coord);
+bool		check_if_diagonal_left_splits_vertical_wall(t_edge_exploration_context *context,
+				t_point2d *coord);
+bool		check_if_diagonal_left_splits_horizontal_wall(t_edge_exploration_context *context,
+				t_point2d *coord);
 bool		check_diagonal_right(t_edge_exploration_context *context, t_point2d *coord);
 #endif

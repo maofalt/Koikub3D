@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:04:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 02:53:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/11 03:15:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ static t_space_cut_context	_context_init(
 	return (context);
 }
 
+// Divide a 2D space using a line.
+// Return 0 if successful, or 1 if unsuccessful (due to a malloc error).
+// Distribute segments to the Left and Right lists,
+// and split segments that are intersected by the separator line.
+// Segments lying exactly on the separator are retained in the Separator list.
 int	cut_space(
 	t_list **segments,
 	t_segment_d *separator,

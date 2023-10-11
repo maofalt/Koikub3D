@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:55:23 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/10 04:51:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/11 01:37:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int		convert_map_to_segments(t_cub *data, t_list **segment_lst);
 int		add_segment_to_lst(t_list **lst, t_segment_d segment);
 t_list	*create_initialized_segment_node(t_segment_d segment);
 t_list	*create_segment_node(void);
-
-void construct_bsp(t_list **segments, t_list **left, t_list **right);
 
 
 

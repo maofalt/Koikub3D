@@ -6,7 +6,7 @@
 #    By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/10/05 23:21:50 by olimarti         ###   ########.fr        #
+#    Updated: 2023/10/11 02:10:03 by olimarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -193,6 +193,7 @@ $(OBJS_PATH):
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directories"
 
 $(OBJS_PATH)%.o: $(SRCS_DIR_project)%.c $(HDRS)
+		@mkdir -p $(@D)
 		@$(CC) $(CFLAGS) $(HDR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project"
 
@@ -224,10 +225,11 @@ run_prof: project_prof
 	./project_prof $(var)
 
 $(OBJS_PATH_PROFILER):
-		@mkdir $@
+		@mkdir -p $@
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directory"
 
 $(OBJS_PATH_PROFILER)%.o: $(SRCS_DIR_project)%.c $(HDRS) $(LIBFT)
+		@mkdir -p $(@D)
 		@$(CC) $(CFLAGS) $(PROFILER_FLAG) $(HDR_INC) $(LIBFT_HDIR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project_prof"
 
@@ -264,10 +266,11 @@ run_valgnd: project_valgrind
 	@valgrind ./project_valgrind $(var)
 
 $(OBJS_PATH_VALGND):
-		@mkdir $@
+		@mkdir -p $@
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directory"
 
 $(OBJS_PATH_VALGND)%.o: $(SRCS_DIR_project)%.c $(HDRS) $(LIBFT)
+		@mkdir -p $(@D)
 		@$(CC) $(CFLAGS) $(VALGND_FLAG) $(HDR_INC) $(LIBFT_HDIR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project_valgrind"
 
@@ -290,10 +293,11 @@ run_callgnd: project_callgrind
 	@kcachegrind callgrind.out.*
 
 $(OBJS_PATH_CALLGND):
-		@mkdir $@
+		@mkdir -p $@
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directory"
 
 $(OBJS_PATH_CALLGND)%.o: $(SRCS_DIR_project)%.c $(HDRS) $(LIBFT)
+		@mkdir -p $(@D)
 		@$(CC) $(CFLAGS) $(CALLGND_FLAG) $(HDR_INC) $(LIBFT_HDIR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project_callgrind"
 
@@ -314,10 +318,11 @@ run_bdg: project_gdb
 	gdb project_gdb $(var)
 
 $(OBJS_PATH_GDB):
-		@mkdir $@
+		@mkdir -p $@
 		@echo "\t [ $(GREEN)✔$(NONE)] $@directory"
 
 $(OBJS_PATH_GDB)%.o: $(SRCS_DIR_project)%.c $(HDRS) $(LIBFT)
+		@mkdir -p $(@D)
 		@$(CC) $(CFLAGS) $(GDB_FLAG) $(HDR_INC) $(LIBFT_HDIR_INC) -o $@ -c $<
 		@echo "\t[ $(GREEN)✔$(NONE) ] $@ objet project_gdb"
 

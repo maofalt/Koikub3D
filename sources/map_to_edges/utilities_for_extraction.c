@@ -6,13 +6,11 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:59:12 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:20:43 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "map_to_edges.h"
-
 
 int	process_direction(t_edge_exploration_context *context, t_list **edges,
 		t_point2d delta, t_direction dir)
@@ -64,7 +62,7 @@ t_direction	**malloc2DArray(char **map)
 	t_direction	**array;
 	const int	size = get_map_height(map);
 
-	array = ft_calloc(size, sizeof(t_direction *));
+	array = ft_calloc(size + 1, sizeof(t_direction *));
 	if (array == NULL)
 		return (printf("Error: malloc failed\n"), NULL);
 	i = 0;
@@ -83,6 +81,7 @@ t_direction	**malloc2DArray(char **map)
 		}
 		i++;
 	}
+	array[i] = NULL;
 	return (array);
 }
 

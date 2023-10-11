@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 01:39:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/11 02:15:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	map_visualizer_render(t_cub *data)
 	draw_map_segments(data, left);
 	draw_map_segments(data, right);
 	ft_lstclear(&segments_lst, free);
+	ft_lstclear(&left, free);
+	ft_lstclear(&right, free);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	printf("--------------------------------\n");

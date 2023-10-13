@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/13 22:50:12 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 23:45:19 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_triangle_params {
 
 typedef union u_shape
 {
+	t_line_params		line;
 	t_rectangle_params	rect;
 	t_circle_params		circle;
 	t_triangle_params	triangle;	
@@ -78,17 +79,27 @@ typedef struct s_shape_params {
 /*                              DRAW FUNCTIONS                                */
 /*############################################################################*/
 
-void	draw_rectangle(t_img_data *img, t_vector_i pos, t_vector_i size, int color);
 void	img_pix_put(t_img_data *img, int x, int y, int color);
 void	draw_segment(
 			t_img_data *img,
 			t_segment_d const *const segment,
 			int color
 			);
+void	draw_one_line(
+			t_img_data *img,
+			t_line_params const *const segment,
+			t_color color
+			);
 
 /*############################################################################*/
 /*                              DRAW SHAPES                                */
 /*############################################################################*/
-
+int		draw_line(t_shape_params *params);
+int		draw_rectangle(t_shape_params *params);
+void	draw_circle_points(t_img_data *img,
+			t_point2i center,
+			t_point2i point,
+			t_color color);
+int		draw_circle(t_shape_params *params);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 22:13:53 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 23:08:11 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@
 typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
 typedef int				t_vector_i		__attribute__((vector_size (8)));
-typedef u_int8_t		t_vector_color	__attribute__((vector_size (32)));
 
-typedef int				t_v2i __attribute__((vector_size (2 * sizeof(int))));
-typedef double			t_v2d __attribute__((vector_size (2 * sizeof(double))));
+typedef int				t_v2i			__attribute__((vector_size (2 * sizeof(int))));
+typedef double			t_v2d			__attribute__((vector_size (2 * sizeof(double))));
+typedef u_int8_t		t_vector_color	__attribute__((vector_size (4 * sizeof(u_int8_t))));
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -60,6 +60,18 @@ typedef struct s_img_data
 ** a uint_32_t for the color of the floor
 ** a uint_32_t for the color of the ceiling
 */
+
+typedef union u_color
+{
+	t_vector_color	rgb_color;
+	struct
+	{
+		u_int8_t	a;
+		u_int8_t	r;
+		u_int8_t	g;
+		u_int8_t	b;
+	};
+}	t_color;
 
 typedef struct s_player
 {

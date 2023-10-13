@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:16:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 20:23:50 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/11 23:38:27 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdint.h>
 # include "libft.h"
+# include "list_fonctions.h"
 # include "get_next_line.h"
 # include "structures.h"
 # include "parsing.h"

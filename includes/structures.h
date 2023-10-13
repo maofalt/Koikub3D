@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/08 20:22:27 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 19:24:19 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,51 @@ typedef union u_point2d
 	};
 }	t_point2d;
 
+typedef enum e_segment_type
+{
+	WALL,
+	PORTAL
+}	t_segment_type;
+
+typedef struct s_wall_data
+{
+	int		size;
+	double	height;
+	double	floor_height;	
+}	t_wall_data;
+
+typedef struct s_portal_data
+{
+	int		size;
+	int		id;
+	int		*destinations_id;
+	void	*destination;
+}	t_portal_data;
+
+typedef union u_wall_portal_data
+{
+	t_wall_data		wall;
+	t_portal_data	portal;	
+}	t_wall_portal_data;
+
+typedef union s_segment_data
+{
+	t_segment_type		type;
+	t_wall_portal_data	data;
+}	t_segment_data;
+
 typedef struct s_segment_i
 {
-	t_point2i	point_a;
-	t_point2i	point_b;
+	t_point2i		point_a;
+	t_point2i		point_b;
+	t_segment_data	data;
 }	t_segment_i;
 
 typedef struct s_segment_d
 {
-	t_point2d	point_a;
-	t_point2d	point_b;
+	t_point2d		point_a;
+	t_point2d		point_b;
+	t_segment_data	data;
 }	t_segment_d;
 
 typedef enum e_direction{
@@ -159,5 +194,12 @@ typedef struct s_edge_exploration_context{
 	t_direction		direction;
 	t_direction		**visited;
 }	t_edge_exploration_context;
+
+typedef struct s_tree_node
+{
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+	void				*data;
+}	t_tree_node;
 
 #endif

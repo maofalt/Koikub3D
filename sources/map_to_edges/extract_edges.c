@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 20:00:21 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 21:16:51 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,11 @@ int	process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
 void	update_context(t_edge_exploration_context *context, t_point2d coord,
 			t_point2d delta, t_direction dir)
 {
+	t_segment_data	data;
+
+	ft_memset(&data, 0, sizeof(t_segment_data));
 	context->coord = coord;
 	context->delta = delta;
-	context->segment = (t_segment_d){context->coord, context->coord};
+	context->segment = (t_segment_d){context->coord, context->coord, data};
 	context->direction = dir;
 }

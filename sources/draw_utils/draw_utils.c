@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/05 22:51:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/13 21:54:53 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@ void	img_pix_put(t_img_data *img, int x, int y, int color)
 
 	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(int *)pixel = color;
-}
-
-void	rectangle(t_img_data *img, t_vector_i pos, t_vector_i size, int color)
-{
-	int	x;
-	int	y;
-
-	y = pos[1];
-	while (y < pos[1] + size[1])
-	{
-		x = pos[0];
-		while (x < pos[0] + size[0])
-		{
-			img_pix_put(img, x, y, color);
-			x++;
-		}
-		y++;
-	}
 }
 
 /*
@@ -56,10 +38,10 @@ void	draw_celling_floor(t_cub *data)
 	pos[1] = 0;
 	size[0] = WINDOW_WIDTH;
 	size[1] = WINDOW_HEIGHT / 2;
-	rectangle(&img, pos, size, data->celling);
+	draw_rectangle(&img, pos, size, data->celling);
 	pos[0] = 0;
 	pos[1] = WINDOW_HEIGHT / 2;
 	size[0] = WINDOW_WIDTH;
 	size[1] = WINDOW_HEIGHT / 2;
-	rectangle(&img, pos, size, data->floor);
+	draw_rectangle(&img, pos, size, data->floor);
 }

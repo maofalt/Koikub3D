@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 19:24:19 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 22:13:53 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@
 **
 */
 
-typedef float			t_vector_f __attribute__((vector_size (8)));
-typedef unsigned int	t_vector_u __attribute__((vector_size (8)));
-typedef int				t_vector_i __attribute__((vector_size (8)));
+typedef float			t_vector_f		__attribute__((vector_size (8)));
+typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
+typedef int				t_vector_i		__attribute__((vector_size (8)));
+typedef u_int8_t		t_vector_color	__attribute__((vector_size (32)));
 
 typedef int				t_v2i __attribute__((vector_size (2 * sizeof(int))));
 typedef double			t_v2d __attribute__((vector_size (2 * sizeof(double))));

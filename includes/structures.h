@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/03/04 16:58:23 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 19:24:19 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,19 @@
 /* Vector structure for 2D float vector
 ** Vector structure for 2D unsigned int vector
 ** Vector structure for 2D int vectors
-** causes the compiler to set the mode for foo, 
+** causes the compiler to set the mode for foo,
 ** to be 16 bytes, divided into int sized units.
-** SIMD vectorrization 
+** SIMD vectorrization
 ** https://users.ece.cmu.edu/~franzf/teaching/slides-18-645-simd.pdf
-** 
+**
 */
 
 typedef float			t_vector_f __attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u __attribute__((vector_size (8)));
 typedef int				t_vector_i __attribute__((vector_size (8)));
+
+typedef int				t_v2i __attribute__((vector_size (2 * sizeof(int))));
+typedef double			t_v2d __attribute__((vector_size (2 * sizeof(double))));
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -108,5 +111,95 @@ typedef struct s_data
 	char		**colors;
 	char		***map;
 }				t_data;
+
+typedef union u_point2i
+{
+	t_v2i	vec;
+	struct {
+		int	x;
+		int	y;
+	};
+}	t_point2i;
+
+typedef union u_point2d
+{
+	t_v2d	vec;
+	struct {
+		double	x;
+		double	y;
+	};
+}	t_point2d;
+
+typedef enum e_segment_type
+{
+	WALL,
+	PORTAL
+}	t_segment_type;
+
+typedef struct s_wall_data
+{
+	int		size;
+	double	height;
+	double	floor_height;	
+}	t_wall_data;
+
+typedef struct s_portal_data
+{
+	int		size;
+	int		id;
+	int		*destinations_id;
+	void	*destination;
+}	t_portal_data;
+
+typedef union u_wall_portal_data
+{
+	t_wall_data		wall;
+	t_portal_data	portal;	
+}	t_wall_portal_data;
+
+typedef union s_segment_data
+{
+	t_segment_type		type;
+	t_wall_portal_data	data;
+}	t_segment_data;
+
+typedef struct s_segment_i
+{
+	t_point2i		point_a;
+	t_point2i		point_b;
+	t_segment_data	data;
+}	t_segment_i;
+
+typedef struct s_segment_d
+{
+	t_point2d		point_a;
+	t_point2d		point_b;
+	t_segment_data	data;
+}	t_segment_d;
+
+typedef enum e_direction{
+	NONE = 0,
+	RIGHT = 1,
+	DOWN = 2,
+	DIAGONAL_RIGHT = 4,
+	DIAGONAL_LEFT = 8
+}	t_direction;
+
+typedef struct s_edge_exploration_context{
+	t_point2d		coord;
+	t_point2d		delta;
+	t_point2d		current_coord;
+	t_segment_d		segment;
+	char			**map;
+	t_direction		direction;
+	t_direction		**visited;
+}	t_edge_exploration_context;
+
+typedef struct s_tree_node
+{
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+	void				*data;
+}	t_tree_node;
 
 #endif

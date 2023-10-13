@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   list_fonctions.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 17:16:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/11 23:38:27 by motero           ###   ########.fr       */
+/*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
+/*   Updated: 2023/10/11 23:41:58 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef LIST_FONCTIONS_H
+# define LIST_FONCTIONS_H
 
-# include <stdint.h>
-# include "libft.h"
-# include "list_fonctions.h"
-# include "get_next_line.h"
-# include "structures.h"
-# include "parsing.h"
-# include "mlx_engine.h"
-# include "draw_utils.h"
-# include "bsp_visualizer.h"
-# include "colors.h"
-# include <math.h>
-# include <mlx.h>
-# include <stdbool.h>
-
-# ifndef FOV
-#  define FOV 60
-# endif
+# include	"libft.h"
+# include	"structures.h"
 
 /*############################################################################*/
-/*                              GENERAL FUNCTIONS                             */
+/*                           ADDITION LIST FONCTIONS                          */
 /*############################################################################*/
-void	free_everything(t_cub data);
+
+t_list	*create_segment_node(void);
+t_list	*create_initialized_segment_node(t_segment_d segment);
+int		add_segment_to_lst(t_list **lst, t_segment_d segment);
 
 #endif

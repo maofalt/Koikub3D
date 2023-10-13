@@ -1,24 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bsp_visualizer.h                                   :+:      :+:    :+:   */
+/*   tree_visualizer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 16:55:23 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 23:46:45 by motero           ###   ########.fr       */
+/*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
+/*   Updated: 2023/10/11 17:36:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BSP_VISUALIZER_H
-# define BSP_VISUALIZER_H
-
-# include "structures.h"
-# include "draw_utils.h"
-
-/*############################################################################*/
-/*                                MAP DISPLAY                                 */
-/*############################################################################*/
-int		map_visualizer_render(t_cub *data);
-
-#endif
+#include "cub3D.h"
+#include "structures.h"
+#include "map_to_edges.h"
+#include "bsp_builder.h"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_cut.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:04:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 03:15:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/13 21:11:28 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_space_cut_context{
 	int				err;
 }	t_space_cut_context;
 
-
 static int	_cut_segment(t_space_cut_context *context)
 {
 	int	err;
@@ -43,15 +42,15 @@ static int	_cut_segment(t_space_cut_context *context)
 	else if (context->point_a_side > 0)
 	{
 		*((t_segment_d *)context->segment_node->content) = (t_segment_d)
-		{context->intersection, context->segment_cpy.point_a};
+		{context->intersection, context->segment_cpy.point_a, context->segment_cpy.data};
 		lst_move_node(context->right, &context->segment_node);
 	}
 	if (context->point_b_side < 0)
 		err = add_segment_to_lst(context->left, (t_segment_d)
-			{context->segment_cpy.point_b, context->intersection});
+			{context->segment_cpy.point_b, context->intersection, context->segment_cpy.data});
 	else
 		err = add_segment_to_lst(context->right, (t_segment_d)
-			{context->intersection, context->segment_cpy.point_b});
+			{context->intersection, context->segment_cpy.point_b, context->segment_cpy.data});
 	return (err);
 }
 

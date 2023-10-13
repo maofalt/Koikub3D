@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/11 17:20:43 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/11 23:47:19 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,15 @@ int	process_direction(t_edge_exploration_context *context, t_list **edges,
 }
 
 //Add new segment to the list of edges by creating a new node and pushing
-int add_edge(t_segment_d new_segment, t_list **edges)
+int	add_edge(t_segment_d new_segment, t_list **edges)
 {
-	t_list	*new_node;
+	t_list		*new_node;
+	static int	i = 0;
 
-	new_node = malloc(sizeof(t_list));
-	if (new_node == NULL)
-	{
-		printf("Error: malloc failed\n");
-		return (1); 
-	}
-	new_node->content = malloc(sizeof(t_segment_d));
-	if (new_node->content == NULL)
-	{
-		printf("Error: malloc failed\n");
+	(void) i;
+	(void) new_node;
+	if (add_segment_to_lst(edges, new_segment))
 		return (1);
-	}
-	ft_memset(new_node->content, 0, sizeof(t_segment_d));
-	if (ft_memcpy(new_node->content, &new_segment, sizeof(t_segment_d)) == NULL)
-	{
-		printf("Error: memcpy failed\n");
-		return (1);
-	}
-	ft_lstadd_front(edges, new_node);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 18:37:32 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/15 00:26:14 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	canvas = (t_canvas *)malloc(sizeof(t_canvas));
 	if (!canvas)
 		return (NULL);
-	canvas->size = size;
-	total_pixels = size.x * size.y;
+	canvas->pixel_scale = 10.0;
+	canvas->size = size * pixel_scale;
+	total_pixels = canvas->size.x * canvas->size.y;
 	canvas->pixels = (t_color *)malloc(total_pixels * sizeof(t_color));
 	if (!canvas->pixels)
 		return (free(canvas), NULL);

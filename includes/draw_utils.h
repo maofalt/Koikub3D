@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 23:26:18 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/15 01:13:12 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_canvas {
 	int				dirty_rect_count;
 	t_list			*segments;
 	t_canvas_type	type;
+	double			pixel_scale;
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {
@@ -134,13 +135,25 @@ void		free_canvas_list(t_list *canvas_list);
 
 int			add_dirty_rect(t_canvas *canvas, t_point2d coord, t_point2d size);
 int			add_segment_to_map(t_canvas *canvas, t_segment_d segment);
+int			erase_line_from_map(t_canvas *canvas, t_segment_d segment);
+int			apply_transformation_to_map(t_canvas *canvas,
+				t_matrix3x3 transform);
+
+/*############################################################################*/
+/*                              DRAWING CANVAS OPERATIONS                     */
+/*############################################################################*/
+
+void		put_pixel_on_canvas(t_canvas *canvas, int x, int y, t_color color);
+void		put_pixel_on_virtual_canvas(t_canvas *canvas,
+				t_point2d coord,
+				t_color color);
 int			draw_line_on_map(t_canvas *canvas,
 				t_point2d start,
 				t_point2d end,
 				t_color color);
-int			erase_line_from_map(t_canvas *canvas, t_segment_d segment);
-int			apply_transformation_to_map(t_canvas *canvas,
-				t_matrix3x3 transform);
+void		start_drawing(t_canvas *canvas, t_point2d start_point);
+void		update_drawing(t_canvas *canvas, t_point2d current_point);
+void		end_drawing(t_canvas *canvas, t_point2d end_point);
 
 /*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */

@@ -26,6 +26,7 @@
 # include <math.h>
 # include <mlx.h>
 # include <stdbool.h>
+# include "matrix.h"
 
 # ifndef FOV
 #  define FOV 60

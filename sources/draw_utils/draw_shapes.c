@@ -85,27 +85,27 @@ int	draw_circle(t_shape_params *params)
 {
 	const t_circle_params	circle = params->shape.circle;
 	const t_point2i			center
-		= (t_point2i){circle.center.x, circle.center.y};
+		= (t_point2i){{circle.center.x, circle.center.y}};
 	t_point2i				coord;
 	t_point2i				current_point;
 
-	curent_point = coord;
-	int x = 0, y = circle.radius;
+	coord = (t_point2i){{0, circle.radius}};
+	current_point = coord;
 	int d = 3 - 2 * circle.radius;
 
 	draw_circle_points(params->img, center, current_point, params->color);
-	while (y >= x)
+	while (coord.y >= coord.x)
 	{
-		x++;
+		coord.x++;
 		if (d > 0)
 		{
-			y--;
-			d = d + 4 * (x - y) + 10;
+			coord.y--;
+			d = d + 4 * (coord.x - coord.y) + 10;
 		}
 		else
-			d = d + 4 * x + 6;
-		current_point.x = x;
-		current_point.y = y;
+			d = d + 4 * coord.x + 6;
+		current_point.x = coord.x;
+		current_point.y = coord.y;
 		draw_circle_points(params->img, center, current_point, params->color);
 	}
 	return (0);

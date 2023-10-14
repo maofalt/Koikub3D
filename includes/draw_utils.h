@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 19:50:01 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 23:26:18 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,17 @@ typedef enum e_canvas_type
 
 typedef struct s_dirty_rect
 {
-	t_point2i	pos;
-	t_point2i	size;
+	t_point2d	pos;
+	t_point2d	size;
 }	t_dirty_rect;
 
 typedef struct s_canvas {
 	t_color			*pixels;
 	t_point2i		size;
 	t_matrix3x3		transformation_matrix;
-	t_dirty_rect	*dirty_rects;
+	t_list			*dirty_rects;
 	int				dirty_rect_count;
-	t_segment_d		*segments;
+	t_list			*segments;
 	t_canvas_type	type;
 }	t_canvas;
 

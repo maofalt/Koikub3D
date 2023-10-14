@@ -41,6 +41,7 @@ typedef int				t_vector_i		__attribute__((vector_size (8)));
 typedef int				t_v2i			__attribute__((vector_size (2 * sizeof(int))));
 typedef double			t_v2d			__attribute__((vector_size (2 * sizeof(double))));
 typedef u_int8_t		t_vector_color	__attribute__((vector_size (4 * sizeof(u_int8_t))));
+typedef double			t_v4d 			__attribute__((vector_size(4 * sizeof(double))));
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -143,6 +144,17 @@ typedef union u_point2d
 	};
 }	t_point2d;
 
+typedef union u_vector4d
+{
+	t_v4d	vec;
+	struct {
+		double	x;
+		double	y;
+		double	z;
+		double	w;
+	};
+}	t_vector3d;
+
 typedef enum e_segment_type
 {
 	WALL,
@@ -185,8 +197,8 @@ typedef struct s_segment_i
 
 typedef struct s_segment_d
 {
-	t_point2d		point_a;
-	t_point2d		point_b;
+	t_vector3d		point_a;
+	t_vector3d		point_b;
 	t_segment_data	data;
 }	t_segment_d;
 
@@ -199,9 +211,9 @@ typedef enum e_direction{
 }	t_direction;
 
 typedef struct s_edge_exploration_context{
-	t_point2d		coord;
-	t_point2d		delta;
-	t_point2d		current_coord;
+	t_vector3d		coord;
+	t_vector3d		delta;
+	t_vector3d		current_coord;
 	t_segment_d		segment;
 	char			**map;
 	t_direction		direction;

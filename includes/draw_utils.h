@@ -76,6 +76,58 @@ typedef struct s_shape_params {
 }	t_shape_params;
 
 /*############################################################################*/
+/*                              CANVAS STRUCTURES                             */
+/*############################################################################*/
+
+typedef struct s_dirty_rect {
+    int x, y, width, height;
+} t_dirty_rect;
+
+typedef struct s_canvas {
+    t_color *pixels;
+    int width, height;
+    t_matrix3x3 transformation_matrix;
+    t_dirty_rect *dirty_rects;
+    int dirty_rect_count;
+    t_segment_d *segments; // This will be specific to the map_canvas.
+} t_canvas;
+
+/*############################################################################*/
+/*                              CANVAS INITIALIZATION                         */
+/*############################################################################*/
+
+t_canvas *initialize_canvas(int width, int height);
+void free_canvas(t_canvas *canvas);
+
+/*############################################################################*/
+/*                              MAP CANVAS OPERATIONS                         */
+/*############################################################################*/
+
+void add_dirty_rect(t_canvas *canvas, int x, int y, int width, int height);
+void add_segment_to_map(t_canvas *canvas, t_segment_d segment);
+void draw_line_on_map(t_canvas *canvas, t_point2d start, t_point2d end, t_color color);
+void erase_line_from_map(t_canvas *canvas, t_segment_d segment);
+void apply_transformation_to_map(t_canvas *canvas, t_matrix3x3 transform);
+
+/*############################################################################*/
+/*                              UI CANVAS OPERATIONS                          */
+/*############################################################################*/
+
+void draw_UI_elements(t_canvas *ui_canvas);
+
+/*############################################################################*/
+/*                              FUSING CANVASES                               */
+/*############################################################################*/
+
+void fuse_canvases(t_canvas *final_canvas, t_canvas *map_canvas, t_canvas *ui_canvas);
+
+/*############################################################################*/
+/*                              MLX CONVERSION                                */
+/*############################################################################*/
+
+void *canvas_to_mlx_image(t_canvas *final_canvas);  // Returns the type MLX uses for images
+
+/*############################################################################*/
 /*                              DRAW FUNCTIONS                                */
 /*############################################################################*/
 

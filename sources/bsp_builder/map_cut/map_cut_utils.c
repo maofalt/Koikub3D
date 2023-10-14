@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map_cut_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:33:10 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 01:36:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/14 19:04:37 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bsp_builder.h"
-
-int	point_space_partitioning(t_segment_d *separator, t_point2d *point)
-{
-	t_v2d	ab;
-	t_v2d	ap;
-
-	ab = separator->point_b.vec - separator->point_a.vec;
-	ap = point->vec - separator->point_a.vec;
-	return (ab[0] * ap[1] - ab[1] * ap[0]);
-}
 
 t_point2d	find_intersection(t_segment_d line, t_segment_d seg)
 {

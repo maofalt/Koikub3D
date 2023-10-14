@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 20:00:03 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 20:02:41 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int			process_row_vertical_horizontal(t_edge_exploration_context *context, t_lis
 				int y, int width_map);
 int			process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
 				int y, int width_map);		
-void		update_context(t_edge_exploration_context *context, t_point2d coord,
-				t_point2d delta, t_direction dir);
+void		update_context(t_edge_exploration_context *context, t_vector4d coord,
+				t_vector4d delta, t_direction dir);
 int			process_direction(t_edge_exploration_context *context,
-				t_list **edges, t_point2d delta, t_direction dir);
+				t_list **edges, t_vector4d delta, t_direction dir);
 int			add_edge(t_segment_d new_segment, t_list **edges);
 t_direction	**malloc2DArray(char **map);
 
@@ -44,10 +44,14 @@ void		free2DArray(t_direction **array);
 /*                       IDENTIFY DIAGONALS ITS HARD                          */
 /*############################################################################*/
 
-bool		check_diagonal_left(t_edge_exploration_context *context, t_point2d *coord);
-bool		check_if_diagonal_left_splits_vertical_wall(t_edge_exploration_context *context,
-				t_point2d *coord);
-bool		check_if_diagonal_left_splits_horizontal_wall(t_edge_exploration_context *context,
-				t_point2d *coord);
-bool		check_diagonal_right(t_edge_exploration_context *context, t_point2d *coord);
+bool		check_diagonal_left(t_edge_exploration_context *context,
+				t_vector4d *coord);
+bool		check_if_diagonal_left_splits_vertical_wall(
+				t_edge_exploration_context *context,
+				t_vector4d *coord);
+bool		check_if_diagonal_left_splits_horizontal_wall(
+				t_edge_exploration_context *context,
+				t_vector4d *coord);
+bool		check_diagonal_right(t_edge_exploration_context *context,
+				t_vector4d *coord);
 #endif

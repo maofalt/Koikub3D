@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/13 23:45:19 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 19:50:01 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include "structures.h"
 # include "colors.h"
 # include "matrix.h"
+
+# define MAP_CANVAS_SIZE_X 1000
+# define MAP_CANVAS_SIZE_Y 1000
+# define UI_CANVAS_SIZE_X 1000
+# define UI_CANVAS_SIZE_Y 1000
+# define FINAL_CANVAS_SIZE_X 1000
+# define FINAL_CANVAS_SIZE_Y 1000
 
 /*############################################################################*/
 /*                              GEOMETRY STRUTURE                             */
@@ -89,13 +96,13 @@ typedef enum e_canvas_type
 
 typedef struct s_dirty_rect
 {
-	t_v2i	pos;
-	t_v2i	size;
+	t_point2i	pos;
+	t_point2i	size;
 }	t_dirty_rect;
 
 typedef struct s_canvas {
 	t_color			*pixels;
-	t_v2i			size;
+	t_point2i		size;
 	t_matrix3x3		transformation_matrix;
 	t_dirty_rect	*dirty_rects;
 	int				dirty_rect_count;
@@ -103,18 +110,29 @@ typedef struct s_canvas {
 	t_canvas_type	type;
 }	t_canvas;
 
+typedef struct s_canvas_init_entry {
+	t_point2i		size;
+	t_canvas_type	type;
+}	t_canvas_init_entry;
+
 /*############################################################################*/
 /*                              CANVAS INITIALIZATION                         */
 /*############################################################################*/
 
-t_canvas	*initialize_canvas(t_v2i size);
+t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type);
+t_list		*initialize_canvas_and_add_to_list(t_point2i size,
+				t_canvas_type type,
+				t_list **canvas_list);
+t_list		*initialize_canvas_list(t_point2i size_map, t_point2i size_ui,
+				t_point2i size_final);
 void		free_canvas(t_canvas *canvas);
+void		free_canvas_list(t_list *canvas_list);
 
 /*############################################################################*/
 /*                              MAP CANVAS OPERATIONS                         */
 /*############################################################################*/
 
-int			add_dirty_rect(t_canvas *canvas, t_v2i coord, t_v2i size);
+int			add_dirty_rect(t_canvas *canvas, t_point2d coord, t_point2d size);
 int			add_segment_to_map(t_canvas *canvas, t_segment_d segment);
 int			draw_line_on_map(t_canvas *canvas,
 				t_point2d start,
@@ -157,6 +175,8 @@ void		draw_one_line(
 				t_line_params const *const segment,
 				t_color color
 				);
+t_vector4d	point2d_to_vector4d(t_point2d *point);
+t_point2d	vector4d_to_point2d(t_vector4d *vec4d);
 
 /*############################################################################*/
 /*                              DRAW SHAPES                                */

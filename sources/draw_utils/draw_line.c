@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/13 23:22:56 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 19:49:46 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	draw_segment(
 			int color
 			)
 {
-	t_point2d	delta;
-	t_point2d	cursor;
+	t_vector4d	delta;
+	t_vector4d	cursor;
 	double		step;
 
 	delta.vec = segment->point_b.vec - segment->point_a.vec;
@@ -62,4 +62,24 @@ void	draw_one_line(
 		cursor.y = cursor.y + delta.y;
 		step--;
 	}
+}
+
+t_vector4d	point2d_to_vector4d(t_point2d *point)
+{
+	t_vector4d	result;
+
+	result.x = point->x;
+	result.y = point->y;
+	result.z = 0;
+	result.w = 0;
+	return (result);
+}
+
+t_point2d	vector4d_to_point2d(t_vector4d *vec4d)
+{
+	t_point2d	point2d;
+
+	point2d.x = vec4d->x;
+	point2d.y = vec4d->y;
+	return (point2d);
 }

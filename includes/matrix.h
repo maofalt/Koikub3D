@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_engine.h                                       :+:      :+:    :+:   */
+/*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 22:56:25 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 19:21:52 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,9 @@
 /*                              MATRIX STRUCTURES                             */
 /*############################################################################*/
 
-typedef double	t_v4d __attribute__((vector_size(4 * sizeof(double))));
-
-typedef union u_vector4d
-{
-	t_v4d	vec;
-	struct {
-		double	x;
-		double	y;
-		double	z;
-		double	w;
-	};
-}	t_vector3d;
-
 typedef struct s_matrix4x4_vectorized
 {
-	t_vector3d	row[3];
+	t_vector4d	row[3];
 }	t_matrix3x3;
 
 /*############################################################################*/

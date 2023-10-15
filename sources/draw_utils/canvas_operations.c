@@ -49,18 +49,19 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	if (!new_segment)
 		return (0);
 	*new_segment = segment;
-	new_node = ft_lstnew(new_segment);
+	new_node = ft_lstnew((void *)new_segment);
 	if (!new_node)
-		return (ft_lstclear(new_segment), 1);
+		return (free(new_segment), 
+			ft_lstclear(&canvas->segments, free), 1);
 	ft_lstadd_back(&(canvas->segments), new_node);
-	top_left = (t_point2d){
+	top_left = (t_point2d){{
 		fmin(segment.point_a.x, segment.point_b.x),
-		fmin(segment.point_a.y, segment.point_b.y)};
-	bottom_right = (t_point2d){
-		.x = fmax(segment.point_a.x, segment.point_b.x),
-		.y = fmax(segment.point_a.y, segment.point_b.y)};
-	size = (t_point2d){
-		.x = bottom_right.x - top_left.x,
-		.y = bottom_right.y - top_left.y};
+		fmin(segment.point_a.y, segment.point_b.y)}};
+	bottom_right = (t_point2d){{
+		fmax(segment.point_a.x, segment.point_b.x),
+		fmax(segment.point_a.y, segment.point_b.y)}};
+	size = (t_point2d){{
+		bottom_right.x - top_left.x,
+		 bottom_right.y - top_left.y}};
 	return (add_dirty_rect(canvas, top_left, size));
 }

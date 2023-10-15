@@ -30,8 +30,8 @@ void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 	t_point2d	end;
 	t_point2d	virt;
 
-	start = coord * canvas->pixel_scale;
-	end = coord + canvas->pixel_scale;
+	start = (t_point2d)(coord.vec * canvas->pixel_scale);
+	end = (t_point2d)(coord.vec + canvas->pixel_scale);
 	virt.y = start.y;
 	while (virt.y < end.y)
 	{
@@ -57,8 +57,8 @@ int	draw_line_on_map(t_canvas *canvas,
 	t_color color)
 {
 	const t_point2d	delta
-		= (t_point2d){fabs((end.x - start.x) * canvas->pixel_scale),
-		-fabs((end.y - start.y) * canvas->pixel_scale)};
+		= (t_point2d){{fabs((end.x - start.x) * canvas->pixel_scale),
+		-fabs((end.y - start.y) * canvas->pixel_scale)}};
 	t_point2d		sign;
 	double			err;
 	double			e2;
@@ -90,20 +90,18 @@ int	draw_line_on_map(t_canvas *canvas,
 	return (0);
 }
 
-static t_point2d	g_last_point;
-
 void	start_drawing(t_canvas *canvas, t_point2d start_point)
 {
-	g_last_point = start_point;
+	canvas->last_point = start_point;
 }
 
 void	update_drawing(t_canvas *canvas, t_point2d current_point, t_color color)
 {
-	draw_line_on_map(canvas, g_last_point, current_point, color);
-	g_last_point = current_point;
+	draw_line_on_map(canvas, canvas->last_point, current_point, color);
+	canvas->last_point = current_point;
 }
 
 void end_drawing(t_canvas *canvas, t_point2d end_point, t_color color)
 {
-	draw_line_on_map(canvas, g_last_point, end_point, color);
+	draw_line_on_map(canvas, canvas->last_point, end_point, color);
 }

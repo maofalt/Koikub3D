@@ -44,13 +44,13 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	if (buttonsym == 1)
 	{
 		printf("Left button pressed\n");
-		start_drawing(data->map_canvas, current_point);
+		//start_drawing(data->map_canvas, current_point);
 		data->update = 1;
 	}
 	if (buttonsym == 3)
 	{
 		printf("Right button pressed\n");
-		end_drawing(data->map_canvas, current_point, SOME_COLOR);
+		//end_drawing(data->map_canvas, current_point, SOME_COLOR);
 	}
 	return (0);
 }

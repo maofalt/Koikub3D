@@ -101,14 +101,15 @@ typedef struct s_dirty_rect
 }	t_dirty_rect;
 
 typedef struct s_canvas {
-	t_color			*pixels;
-	t_point2i		size;
-	t_matrix3x3		transformation_matrix;
-	t_list			*dirty_rects;
-	int				dirty_rect_count;
-	t_list			*segments;
 	t_canvas_type	type;
+	t_matrix3x3		transformation_matrix;
+	t_point2i		size;
+	t_point2d		last_point;
+	t_color			*pixels;
+	t_list			*dirty_rects;
+	t_list			*segments;
 	double			pixel_scale;
+	int				dirty_rect_count;
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {
@@ -143,7 +144,9 @@ int			apply_transformation_to_map(t_canvas *canvas,
 /*                              DRAWING CANVAS OPERATIONS                     */
 /*############################################################################*/
 
-void		put_pixel_on_canvas(t_canvas *canvas, t_point2i coord, t_color color);
+void		put_pixel_on_canvas(t_canvas *canvas,
+				t_point2i coord,
+				t_color color);
 void		put_pixel_on_virtual_canvas(t_canvas *canvas,
 				t_point2d coord,
 				t_color color);
@@ -152,8 +155,12 @@ int			draw_line_on_map(t_canvas *canvas,
 				t_point2d end,
 				t_color color);
 void		start_drawing(t_canvas *canvas, t_point2d start_point);
-void		update_drawing(t_canvas *canvas, t_point2d current_point);
-void		end_drawing(t_canvas *canvas, t_point2d end_point);
+void		update_drawing(t_canvas *canvas,
+				t_point2d current_point,
+				t_color color);
+void		end_drawing(t_canvas *canvas,
+				t_point2d end_point,
+				t_color color);
 
 /*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */

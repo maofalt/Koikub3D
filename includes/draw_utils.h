@@ -143,7 +143,7 @@ int			apply_transformation_to_map(t_canvas *canvas,
 /*                              DRAWING CANVAS OPERATIONS                     */
 /*############################################################################*/
 
-void		put_pixel_on_canvas(t_canvas *canvas, int x, int y, t_color color);
+void		put_pixel_on_canvas(t_canvas *canvas, t_point2i coord, t_color color);
 void		put_pixel_on_virtual_canvas(t_canvas *canvas,
 				t_point2d coord,
 				t_color color);

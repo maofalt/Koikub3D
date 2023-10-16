@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:25:15 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 04:00:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "engine.h"
 
 void	free_everything(t_cub data)
 {
@@ -48,7 +49,8 @@ int	main(int argc, char **argv)
 	{
 		return (free_everything(data), 1);
 	}
-	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
+	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
+	if (mlx_loop_hook(data.mlx_ptr, &render, &data))
 		ft_mlx_engine(&data);
 	free_everything(data);
 }

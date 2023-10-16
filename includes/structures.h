@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 19:21:52 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 06:30:51 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdint.h>
 # include <stdio.h>
 # include "libft.h"
-# include "../gnl/get_next_line.h"
+# include "get_next_line.h"
 # include "colors.h"
 # include "mlx_int.h"
 
@@ -34,6 +34,8 @@
 **
 */
 
+enum e_action { a_move_up, a_move_down, a_move_left, a_move_right, a_total_actions };
+
 typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
 typedef int				t_vector_i		__attribute__((vector_size (8)));
@@ -42,6 +44,18 @@ typedef int				t_v2i			__attribute__((vector_size (2 * sizeof(int))));
 typedef double			t_v2d			__attribute__((vector_size (2 * sizeof(double))));
 typedef u_int8_t		t_vector_color	__attribute__((vector_size (4 * sizeof(u_int8_t))));
 typedef double			t_v4d 			__attribute__((vector_size(4 * sizeof(double))));
+
+typedef union u_vector4d
+{
+	t_v4d	vec;
+	struct {
+		double	x;
+		double	y;
+		double	z;
+		double	w;
+	};
+}	t_vector4d;
+
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -76,8 +90,8 @@ typedef union u_color
 
 typedef struct s_player
 {
-	t_vector_f	pos;
-	t_vector_f	dir;
+	t_vector4d	pos;
+	t_vector4d	dir;
 	t_vector_f	plane;
 }				t_player;
 
@@ -102,21 +116,27 @@ typedef struct s_dda
 	t_vector_i	mouse;
 }				t_dda;
 
+typedef struct s_inputs
+{
+	int		action_states[a_total_actions];
+}			t_inputs;
+
 typedef struct s_cub
 {
-	t_img_data	texture[4];
-	t_img_data	screen;
-	uint32_t	floor;
-	uint32_t	celling;
-	t_player	player;
-	t_dda		dda;
-	size_t		mapwidth;
-	size_t		mapheight;
-	t_img		img;
-	void		*mlx_ptr;
-	void		*win_ptr;
-	char		**map;
-	int			update;
+	t_img_data			texture[4];
+	t_img_data			screen;
+	uint32_t			floor;
+	uint32_t			celling;
+	t_player			player;
+	t_dda				dda;
+	size_t				mapwidth;
+	size_t				mapheight;
+	t_img				img;
+	void				*mlx_ptr;
+	void				*win_ptr;
+	char				**map;
+	int					update;
+	t_inputs			inputs;
 }				t_cub;
 
 typedef struct s_data
@@ -144,16 +164,6 @@ typedef union u_point2d
 	};
 }	t_point2d;
 
-typedef union u_vector4d
-{
-	t_v4d	vec;
-	struct {
-		double	x;
-		double	y;
-		double	z;
-		double	w;
-	};
-}	t_vector4d;
 
 typedef enum e_segment_type
 {
@@ -165,7 +175,7 @@ typedef struct s_wall_data
 {
 	int		size;
 	double	height;
-	double	floor_height;	
+	double	floor_height;
 }	t_wall_data;
 
 typedef struct s_portal_data
@@ -179,7 +189,7 @@ typedef struct s_portal_data
 typedef union u_wall_portal_data
 {
 	t_wall_data		wall;
-	t_portal_data	portal;	
+	t_portal_data	portal;
 }	t_wall_portal_data;
 
 typedef union s_segment_data

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_engine.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 22:56:25 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 17:46:11 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,27 @@
 # define PLUS_KEY 61
 # define BRACE_L_KEY 91
 # define BRACE_R_KEY 93
-# define D_KEY 100
-# define C_KEY 99
-# define Z_KEY 122
-# define Q_KEY 113
-# define S_KEY 115
-# define A_KEY 97
-# define W_KEY 119
+// # define D_KEY 100
+// # define C_KEY 99
+// # define Z_KEY 122
+// # define Q_KEY 113
+// # define S_KEY 115
+// # define A_KEY 97
+// # define W_KEY 119
+
+typedef struct s_key_action_map
+{
+	int				key_id;
+	enum e_action	action;
+}	t_key_action_map;
+
+static const t_key_action_map	g_key_to_action[] = {
+{XK_w, a_move_up},
+{XK_s, a_move_down},
+{XK_a, a_move_left},
+{XK_d, a_move_right},
+{-1, -1},
+};
 
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1080
@@ -74,6 +88,6 @@ int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
 /*                              KEYPRESS EVENTS                               */
 /*############################################################################*/
 void	ft_destroy_window_button(int keysym, t_cub *data);
-void	ft_movements_keys(int keysym, t_cub *data);
+void	ft_movements_keys(int keysym, t_cub *data, int state);
 
 #endif

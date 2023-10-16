@@ -73,11 +73,8 @@ int	draw_line_on_map(t_canvas *canvas,
 	while (1)
 	{
 		put_pixel_on_virtual_canvas(canvas, start, color);
-		printf("In loop: start(%f, %f), end(%f, %f)\n", start.x, start.y, end.x, end.y);
-		if (start.x == end.x && start.y == end.y) {
-			printf("Breaking out of loop.\n");
+		if (start.x == end.x && start.y == end.y)
 			break ;
-		}
 		e2 = 2 * err;
 		if (e2 >= delta.y)
 		{

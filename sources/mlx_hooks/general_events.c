@@ -48,6 +48,7 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	if (buttonsym == 1)
 	{
 		printf("Left button pressed\n");
+		data->is_drawing = 1;
 		start_drawing(map_canvas, (t_point2d){{x, y}});
 		data->update = 1;
 	}
@@ -55,7 +56,23 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	{
 		printf("Right button pressed\n");
 		end_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		data->is_drawing = 0;
 		data->update = 1;
 	}
 	return (0);
 }
+
+int	ft_handle_mousemotion(int x, int y, t_cub *data)
+{
+	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+
+	if (data->is_drawing)
+	{
+		update_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		data->update = 1;
+	}
+
+	return (0);
+}
+

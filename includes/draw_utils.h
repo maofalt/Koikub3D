@@ -91,7 +91,7 @@ typedef enum e_canvas_type
 {
 	MAP,
 	UI,
-	FINAL
+	FINAL,
 }	t_canvas_type;
 
 typedef struct s_dirty_rect

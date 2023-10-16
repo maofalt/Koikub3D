@@ -117,6 +117,7 @@ typedef struct s_cub
 	void		*win_ptr;
 	char		**map;
 	int			update;
+	int			is_drawing;
 	t_list		*canvas_list;
 }				t_cub;
 

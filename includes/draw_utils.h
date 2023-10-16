@@ -130,6 +130,9 @@ t_list		*initialize_canvas_list(t_point2i size_map, t_point2i size_ui,
 void		free_canvas(t_canvas *canvas);
 void		free_canvas_list(t_list *canvas_list);
 
+t_canvas	*get_canvas_from_list(t_list *canvas_list,
+				t_canvas_type type);
+
 /*############################################################################*/
 /*                              MAP CANVAS OPERATIONS                         */
 /*############################################################################*/
@@ -178,7 +181,7 @@ int			fuse_canvases(t_canvas **array_of_canvases);
 /*                              MLX CONVERSION                                */
 /*############################################################################*/
 
-void		*canvas_to_mlx_image(t_canvas *final_canvas);
+void		canvas_to_mlx_image(t_cub *data);
 
 /*############################################################################*/
 /*                              DRAW FUNCTIONS                                */

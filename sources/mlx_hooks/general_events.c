@@ -39,18 +39,23 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 {
+	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list,
+			MAP);
+	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+
 	(void)x;
 	(void)y;
 	if (buttonsym == 1)
 	{
 		printf("Left button pressed\n");
-		//start_drawing(data->map_canvas, current_point);
+		start_drawing(map_canvas, (t_point2d){{x, y}});
 		data->update = 1;
 	}
 	if (buttonsym == 3)
 	{
 		printf("Right button pressed\n");
-		//end_drawing(data->map_canvas, current_point, SOME_COLOR);
+		end_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		data->update = 1;
 	}
 	return (0);
 }

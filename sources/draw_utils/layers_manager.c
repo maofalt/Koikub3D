@@ -19,10 +19,10 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	t_color		default_color;
 	int			total_pixels;
 
-	canvas = (t_canvas *)ft_calloc(sizeof(t_canvas), 0);
+	canvas = (t_canvas *)ft_calloc(1, sizeof(t_canvas));
 	if (!canvas)
 		return (NULL);
-	canvas->pixel_scale = 10.0;
+	canvas->pixel_scale = 1.0;
 	canvas->size = (t_point2i)(size.vec * (int)canvas->pixel_scale);
 	total_pixels = canvas->size.x * canvas->size.y;
 	canvas->pixels = (t_color *)malloc(total_pixels * sizeof(t_color));
@@ -112,4 +112,22 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 		i++;
 	}
 	return (canvas_list);
+}
+
+t_canvas	*get_canvas_from_list(t_list *canvas_list,
+	t_canvas_type type)
+{
+	t_list		*current_node;
+	t_canvas	*current_canvas;
+
+	current_node = canvas_list;
+	while (current_node)
+	{
+		current_canvas = (t_canvas *)current_node->content;
+		if (current_canvas && current_canvas->type == type)
+			return (current_canvas);
+		current_node = current_node->next;
+	}
+
+	return (NULL);
 }

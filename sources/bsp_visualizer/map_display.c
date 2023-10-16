@@ -60,3 +60,21 @@ int	map_visualizer_render(t_cub *data)
 	usleep(100000);
 	return (0);
 }
+
+int	map_visualizer_draw(t_cub *data)
+{
+	t_list			*current;
+
+	(void)current;
+	if (data->win_ptr == NULL)
+		return (1);
+	if (data->update)
+	{
+		canvas_to_mlx_image(data);
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->win_ptr,
+			data->screen.mlx_img, 0, 0);
+		data->update = 0;
+	}
+	return (0);
+}

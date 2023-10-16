@@ -1,0 +1,770 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 57.23      0.91     0.91       40    22.75    22.75  ft_memcpy
+ 26.42      1.33     0.42 87091200     0.00     0.00  img_pix_put
+ 11.95      1.52     0.19       42     4.52    14.52  canvas_to_mlx_image
+  3.77      1.58     0.06        9     6.67     6.67  ft_memset
+  0.63      1.59     0.01   106045     0.00     0.01  map_visualizer_draw
+  0.00      1.59     0.00    12606     0.00     0.00  put_pixel_on_virtual_canvas
+  0.00      1.59     0.00     7585     0.00     0.00  check_player
+  0.00      1.59     0.00     7058     0.00     0.00  ft_strlen
+  0.00      1.59     0.00     2155     0.00     0.00  ft_free_nxtbuf
+  0.00      1.59     0.00     2155     0.00     0.00  ft_strchr_a
+  0.00      1.59     0.00     2155     0.00     0.00  ft_strjoin
+  0.00      1.59     0.00     1989     0.00     0.00  valid_characters_map
+  0.00      1.59     0.00      486     0.00     0.00  get_canvas_from_list
+  0.00      1.59     0.00      362     0.00     2.45  ft_handle_mousemotion
+  0.00      1.59     0.00       82     0.00     0.00  ft_bzero
+  0.00      1.59     0.00       82     0.00     0.00  ft_calloc
+  0.00      1.59     0.00       40     0.00     0.00  draw_line_on_map
+  0.00      1.59     0.00       40     0.00     0.00  ft_cal_len
+  0.00      1.59     0.00       40     0.00     0.00  ft_substr
+  0.00      1.59     0.00       40     0.00     0.00  ft_wlen
+  0.00      1.59     0.00       39     0.00    22.75  copy_temp_to_canvas
+  0.00      1.59     0.00       39     0.00     0.00  update_drawing
+  0.00      1.59     0.00       37     0.00     0.00  get_next_line
+  0.00      1.59     0.00       35     0.00     0.00  ft_extract_line
+  0.00      1.59     0.00       35     0.00     0.00  ft_free_line
+  0.00      1.59     0.00       35     0.00     0.00  ft_read_file
+  0.00      1.59     0.00       26     0.00     0.00  ft_strncmp
+  0.00      1.59     0.00       25     0.00     0.00  ft_lstadd_back
+  0.00      1.59     0.00       25     0.00     0.00  ft_lstnew
+  0.00      1.59     0.00       25     0.00     0.00  line_is_empty
+  0.00      1.59     0.00       24     0.00     0.00  free_double_char
+  0.00      1.59     0.00       24     0.00     0.00  ft_isdigit
+  0.00      1.59     0.00       24     0.00     0.00  ft_lstlast
+  0.00      1.59     0.00       20     0.00     0.00  ft_nbr_words
+  0.00      1.59     0.00       20     0.00     0.00  ft_split
+  0.00      1.59     0.00        8     0.00     0.00  read_line
+  0.00      1.59     0.00        6     0.00     0.00  check_digits
+  0.00      1.59     0.00        6     0.00     0.00  check_texture_element
+  0.00      1.59     0.00        6     0.00     0.00  check_texture_elements
+  0.00      1.59     0.00        6     0.00     0.00  ft_atoi
+  0.00      1.59     0.00        6     0.00     0.00  ft_isspace
+  0.00      1.59     0.00        6     0.00     0.00  ft_memmove
+  0.00      1.59     0.00        6     0.00     0.00  ft_strdup
+  0.00      1.59     0.00        5     0.00     0.00  check_extension
+  0.00      1.59     0.00        4     0.00     0.00  add_last_texture
+  0.00      1.59     0.00        4     0.00     0.00  identity_matrix
+  0.00      1.59     0.00        4     0.00    13.33  initialize_canvas_and_add_to_list
+  0.00      1.59     0.00        4     0.00    13.33  initialize_single_canvas
+  0.00      1.59     0.00        2     0.00     0.00  add_last_color
+  0.00      1.59     0.00        2     0.00     0.00  check_color_elements
+  0.00      1.59     0.00        2     0.00     0.00  check_color_range
+  0.00      1.59     0.00        2     0.00     0.00  check_commas
+  0.00      1.59     0.00        2     0.00     0.00  check_nbrs
+  0.00      1.59     0.00        2     0.00     0.00  encode_rgb
+  0.00      1.59     0.00        2     0.00    11.38  ft_handle_boutonpress
+  0.00      1.59     0.00        2     0.00     0.00  initialize_double_char
+  0.00      1.59     0.00        1     0.00     0.00  check_map
+  0.00      1.59     0.00        1     0.00     0.00  check_textures_extension
+  0.00      1.59     0.00        1     0.00     0.00  check_textures_validity
+  0.00      1.59     0.00        1     0.00     0.00  check_valid_map_characters
+  0.00      1.59     0.00        1     0.00     0.00  check_valid_map_no_split
+  0.00      1.59     0.00        1     0.00     0.00  check_wall
+  0.00      1.59     0.00        1     0.00     0.00  colors_to_data
+  0.00      1.59     0.00        1     0.00    22.75  copy_canvas_to_temp
+  0.00      1.59     0.00        1     0.00     0.00  copy_map
+  0.00      1.59     0.00        1     0.00     0.00  end_drawing
+  0.00      1.59     0.00        1     0.00     0.00  file_empty
+  0.00      1.59     0.00        1     0.00     0.00  fill_map
+  0.00      1.59     0.00        1     0.00     0.00  finish_file_read
+  0.00      1.59     0.00        1     0.00     0.00  free_all
+  0.00      1.59     0.00        1     0.00     0.00  free_everything
+  0.00      1.59     0.00        1     0.00     0.00  free_uneeded_lines
+  0.00      1.59     0.00        1     0.00     0.00  ft_destroy_window_button
+  0.00      1.59     0.00        1     0.00     0.00  ft_handle_keypress
+  0.00      1.59     0.00        1     0.00     0.00  ft_handle_keyrelease
+  0.00      1.59     0.00        1     0.00     0.00  ft_lstsize
+  0.00      1.59     0.00        1     0.00     0.00  ft_mlx_create_window_and_image
+  0.00      1.59     0.00        1     0.00     0.00  ft_mlx_engine
+  0.00      1.59     0.00        1     0.00     0.00  ft_mlx_initialize_pointers
+  0.00      1.59     0.00        1     0.00     0.00  get_map_height
+  0.00      1.59     0.00        1     0.00     0.00  get_map_width
+  0.00      1.59     0.00        1     0.00     0.00  get_player_pos
+  0.00      1.59     0.00        1     0.00     0.00  init_textures_colors
+  0.00      1.59     0.00        1     0.00    53.33  initialize_canvas_list
+  0.00      1.59     0.00        1     0.00     0.00  initialize_parsing_lines
+  0.00      1.59     0.00        1     0.00     0.00  initialize_player
+  0.00      1.59     0.00        1     0.00     0.00  initialize_player_dir
+  0.00      1.59     0.00        1     0.00     0.00  initialize_player_plane
+  0.00      1.59     0.00        1     0.00     0.00  initialize_player_pos
+  0.00      1.59     0.00        1     0.00     0.00  main_parsing
+  0.00      1.59     0.00        1     0.00     0.00  map_trim
+  0.00      1.59     0.00        1     0.00     0.00  parse_map
+  0.00      1.59     0.00        1     0.00     0.00  parsing_lines
+  0.00      1.59     0.00        1     0.00     0.00  parsing_text
+  0.00      1.59     0.00        1     0.00     0.00  range_colors
+  0.00      1.59     0.00        1     0.00     0.00  start_drawing
+  0.00      1.59     0.00        1     0.00     0.00  textures_to_data
+  0.00      1.59     0.00        1     0.00     0.00  transform_map
+  0.00      1.59     0.00        1     0.00     0.00  valid_characters
+  0.00      1.59     0.00        1     0.00     0.00  valid_file
+  0.00      1.59     0.00        1     0.00     0.00  valide_colors
+  0.00      1.59     0.00        1     0.00     0.00  valide_textures
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.63% of 1.59 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     96.2    0.00    1.53                 mlx_loop [1]
+                0.00    0.89     362/362         ft_handle_mousemotion [3]
+                0.01    0.61  106045/106045      map_visualizer_draw [5]
+                0.00    0.02       2/2           ft_handle_boutonpress [13]
+                0.00    0.00       1/1           ft_handle_keypress [77]
+                0.00    0.00       1/1           ft_handle_keyrelease [78]
+-----------------------------------------------
+                0.02    0.00       1/40          copy_canvas_to_temp [14]
+                0.89    0.00      39/40          copy_temp_to_canvas [4]
+[2]     57.2    0.91    0.00      40         ft_memcpy [2]
+-----------------------------------------------
+                0.00    0.89     362/362         mlx_loop [1]
+[3]     55.8    0.00    0.89     362         ft_handle_mousemotion [3]
+                0.00    0.89      39/39          copy_temp_to_canvas [4]
+                0.00    0.00     362/486         get_canvas_from_list [22]
+                0.00    0.00      39/39          update_drawing [29]
+-----------------------------------------------
+                0.00    0.89      39/39          ft_handle_mousemotion [3]
+[4]     55.8    0.00    0.89      39         copy_temp_to_canvas [4]
+                0.89    0.00      39/40          ft_memcpy [2]
+                0.00    0.00      78/486         get_canvas_from_list [22]
+-----------------------------------------------
+                0.01    0.61  106045/106045      mlx_loop [1]
+[5]     39.0    0.01    0.61  106045         map_visualizer_draw [5]
+                0.19    0.42      42/42          canvas_to_mlx_image [6]
+-----------------------------------------------
+                0.19    0.42      42/42          map_visualizer_draw [5]
+[6]     38.4    0.19    0.42      42         canvas_to_mlx_image [6]
+                0.42    0.00 87091200/87091200     img_pix_put [7]
+                0.00    0.00      42/486         get_canvas_from_list [22]
+-----------------------------------------------
+                0.42    0.00 87091200/87091200     canvas_to_mlx_image [6]
+[7]     26.4    0.42    0.00 87091200         img_pix_put [7]
+-----------------------------------------------
+                0.01    0.00       1/9           main [9]
+                0.05    0.00       8/9           initialize_single_canvas [11]
+[8]      3.8    0.06    0.00       9         ft_memset [8]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]      3.8    0.00    0.06                 main [9]
+                0.00    0.05       1/1           initialize_canvas_list [12]
+                0.01    0.00       1/9           ft_memset [8]
+                0.00    0.00       1/1           ft_mlx_initialize_pointers [82]
+                0.00    0.00       1/1           main_parsing [92]
+                0.00    0.00       1/1           ft_mlx_engine [81]
+                0.00    0.00       1/1           free_everything [74]
+-----------------------------------------------
+                0.00    0.05       4/4           initialize_canvas_list [12]
+[10]     3.4    0.00    0.05       4         initialize_canvas_and_add_to_list [10]
+                0.00    0.05       4/4           initialize_single_canvas [11]
+-----------------------------------------------
+                0.00    0.05       4/4           initialize_canvas_and_add_to_list [10]
+[11]     3.4    0.00    0.05       4         initialize_single_canvas [11]
+                0.05    0.00       8/9           ft_memset [8]
+                0.00    0.00       4/82          ft_calloc [24]
+                0.00    0.00       4/4           identity_matrix [53]
+-----------------------------------------------
+                0.00    0.05       1/1           main [9]
+[12]     3.4    0.00    0.05       1         initialize_canvas_list [12]
+                0.00    0.05       4/4           initialize_canvas_and_add_to_list [10]
+-----------------------------------------------
+                0.00    0.02       2/2           mlx_loop [1]
+[13]     1.4    0.00    0.02       2         ft_handle_boutonpress [13]
+                0.00    0.02       1/1           copy_canvas_to_temp [14]
+                0.00    0.00       2/486         get_canvas_from_list [22]
+                0.00    0.00       1/1           start_drawing [98]
+                0.00    0.00       1/1           end_drawing [69]
+-----------------------------------------------
+                0.00    0.02       1/1           ft_handle_boutonpress [13]
+[14]     1.4    0.00    0.02       1         copy_canvas_to_temp [14]
+                0.02    0.00       1/40          ft_memcpy [2]
+                0.00    0.00       2/486         get_canvas_from_list [22]
+-----------------------------------------------
+                0.00    0.00   12606/12606       draw_line_on_map [25]
+[15]     0.0    0.00    0.00   12606         put_pixel_on_virtual_canvas [15]
+-----------------------------------------------
+                0.00    0.00    2511/7585        get_player_pos [85]
+                0.00    0.00    5074/7585        check_wall [66]
+[16]     0.0    0.00    0.00    7585         check_player [16]
+-----------------------------------------------
+                0.00    0.00      10/7058        check_extension [51]
+                0.00    0.00      12/7058        ft_strdup [50]
+                0.00    0.00      25/7058        map_trim [93]
+                0.00    0.00      34/7058        ft_free_line [32]
+                0.00    0.00     392/7058        ft_substr [27]
+                0.00    0.00    2275/7058        copy_map [68]
+                0.00    0.00    4310/7058        ft_strjoin [20]
+[17]     0.0    0.00    0.00    7058         ft_strlen [17]
+-----------------------------------------------
+                0.00    0.00    2155/2155        ft_read_file [33]
+[18]     0.0    0.00    0.00    2155         ft_free_nxtbuf [18]
+                0.00    0.00    2155/2155        ft_strjoin [20]
+-----------------------------------------------
+                0.00    0.00    2155/2155        ft_read_file [33]
+[19]     0.0    0.00    0.00    2155         ft_strchr_a [19]
+-----------------------------------------------
+                0.00    0.00    2155/2155        ft_free_nxtbuf [18]
+[20]     0.0    0.00    0.00    2155         ft_strjoin [20]
+                0.00    0.00    4310/7058        ft_strlen [17]
+-----------------------------------------------
+                0.00    0.00    1989/1989        check_valid_map_characters [64]
+[21]     0.0    0.00    0.00    1989         valid_characters_map [21]
+-----------------------------------------------
+                0.00    0.00       2/486         copy_canvas_to_temp [14]
+                0.00    0.00       2/486         ft_handle_boutonpress [13]
+                0.00    0.00      42/486         canvas_to_mlx_image [6]
+                0.00    0.00      78/486         copy_temp_to_canvas [4]
+                0.00    0.00     362/486         ft_handle_mousemotion [3]
+[22]     0.0    0.00    0.00     486         get_canvas_from_list [22]
+-----------------------------------------------
+                0.00    0.00      82/82          ft_calloc [24]
+[23]     0.0    0.00    0.00      82         ft_bzero [23]
+-----------------------------------------------
+                0.00    0.00       2/82          ft_read_file [33]
+                0.00    0.00       2/82          init_textures_colors [86]
+                0.00    0.00       4/82          initialize_single_canvas [11]
+                0.00    0.00       6/82          initialize_double_char [60]
+                0.00    0.00      34/82          ft_free_line [32]
+                0.00    0.00      34/82          ft_extract_line [31]
+[24]     0.0    0.00    0.00      82         ft_calloc [24]
+                0.00    0.00      82/82          ft_bzero [23]
+-----------------------------------------------
+                0.00    0.00       1/40          end_drawing [69]
+                0.00    0.00      39/40          update_drawing [29]
+[25]     0.0    0.00    0.00      40         draw_line_on_map [25]
+                0.00    0.00   12606/12606       put_pixel_on_virtual_canvas [15]
+-----------------------------------------------
+                0.00    0.00      40/40          ft_substr [27]
+[26]     0.0    0.00    0.00      40         ft_cal_len [26]
+-----------------------------------------------
+                0.00    0.00      40/40          ft_split [42]
+[27]     0.0    0.00    0.00      40         ft_substr [27]
+                0.00    0.00     392/7058        ft_strlen [17]
+                0.00    0.00      40/40          ft_cal_len [26]
+-----------------------------------------------
+                0.00    0.00      40/40          ft_split [42]
+[28]     0.0    0.00    0.00      40         ft_wlen [28]
+-----------------------------------------------
+                0.00    0.00      39/39          ft_handle_mousemotion [3]
+[29]     0.0    0.00    0.00      39         update_drawing [29]
+                0.00    0.00      39/40          draw_line_on_map [25]
+-----------------------------------------------
+                0.00    0.00       1/37          initialize_parsing_lines [87]
+                0.00    0.00       1/37          finish_file_read [72]
+                0.00    0.00       2/37          file_empty [70]
+                0.00    0.00       8/37          read_line [43]
+                0.00    0.00      25/37          parse_map [94]
+[30]     0.0    0.00    0.00      37         get_next_line [30]
+                0.00    0.00      35/35          ft_read_file [33]
+                0.00    0.00      35/35          ft_extract_line [31]
+                0.00    0.00      35/35          ft_free_line [32]
+-----------------------------------------------
+                0.00    0.00      35/35          get_next_line [30]
+[31]     0.0    0.00    0.00      35         ft_extract_line [31]
+                0.00    0.00      34/82          ft_calloc [24]
+-----------------------------------------------
+                0.00    0.00      35/35          get_next_line [30]
+[32]     0.0    0.00    0.00      35         ft_free_line [32]
+                0.00    0.00      34/7058        ft_strlen [17]
+                0.00    0.00      34/82          ft_calloc [24]
+-----------------------------------------------
+                0.00    0.00      35/35          get_next_line [30]
+[33]     0.0    0.00    0.00      35         ft_read_file [33]
+                0.00    0.00    2155/2155        ft_free_nxtbuf [18]
+                0.00    0.00    2155/2155        ft_strchr_a [19]
+                0.00    0.00       2/82          ft_calloc [24]
+-----------------------------------------------
+                0.00    0.00       3/26          check_color_elements [55]
+                0.00    0.00       5/26          check_extension [51]
+                0.00    0.00      18/26          check_texture_element [45]
+[34]     0.0    0.00    0.00      26         ft_strncmp [34]
+-----------------------------------------------
+                0.00    0.00      25/25          parse_map [94]
+[35]     0.0    0.00    0.00      25         ft_lstadd_back [35]
+                0.00    0.00      24/24          ft_lstlast [40]
+-----------------------------------------------
+                0.00    0.00      25/25          parse_map [94]
+[36]     0.0    0.00    0.00      25         ft_lstnew [36]
+-----------------------------------------------
+                0.00    0.00      25/25          check_valid_map_no_split [65]
+[37]     0.0    0.00    0.00      25         line_is_empty [37]
+-----------------------------------------------
+                0.00    0.00       1/24          free_everything [74]
+                0.00    0.00       1/24          transform_map [100]
+                0.00    0.00       2/24          colors_to_data [67]
+                0.00    0.00       2/24          free_all [73]
+                0.00    0.00       2/24          check_color_range [56]
+                0.00    0.00       2/24          valid_characters [101]
+                0.00    0.00       2/24          check_texture_element [45]
+                0.00    0.00       4/24          add_last_color [54]
+                0.00    0.00       8/24          add_last_texture [52]
+[38]     0.0    0.00    0.00      24         free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       9/24          check_digits [44]
+                0.00    0.00      15/24          ft_atoi [47]
+[39]     0.0    0.00    0.00      24         ft_isdigit [39]
+-----------------------------------------------
+                0.00    0.00      24/24          ft_lstadd_back [35]
+[40]     0.0    0.00    0.00      24         ft_lstlast [40]
+-----------------------------------------------
+                0.00    0.00      20/20          ft_split [42]
+[41]     0.0    0.00    0.00      20         ft_nbr_words [41]
+-----------------------------------------------
+                0.00    0.00       2/20          colors_to_data [67]
+                0.00    0.00       2/20          check_color_range [56]
+                0.00    0.00       2/20          valid_characters [101]
+                0.00    0.00       2/20          check_color_elements [55]
+                0.00    0.00       2/20          add_last_color [54]
+                0.00    0.00       4/20          add_last_texture [52]
+                0.00    0.00       6/20          check_texture_elements [46]
+[42]     0.0    0.00    0.00      20         ft_split [42]
+                0.00    0.00      40/40          ft_wlen [28]
+                0.00    0.00      40/40          ft_substr [27]
+                0.00    0.00      20/20          ft_nbr_words [41]
+-----------------------------------------------
+                0.00    0.00       8/8           parsing_lines [95]
+[43]     0.0    0.00    0.00       8         read_line [43]
+                0.00    0.00       8/37          get_next_line [30]
+-----------------------------------------------
+                0.00    0.00       6/6           check_nbrs [58]
+[44]     0.0    0.00    0.00       6         check_digits [44]
+                0.00    0.00       9/24          ft_isdigit [39]
+-----------------------------------------------
+                0.00    0.00       6/6           check_texture_elements [46]
+[45]     0.0    0.00    0.00       6         check_texture_element [45]
+                0.00    0.00      18/26          ft_strncmp [34]
+                0.00    0.00       4/4           add_last_texture [52]
+                0.00    0.00       2/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       6/6           parsing_lines [95]
+[46]     0.0    0.00    0.00       6         check_texture_elements [46]
+                0.00    0.00       6/20          ft_split [42]
+                0.00    0.00       6/6           check_texture_element [45]
+-----------------------------------------------
+                0.00    0.00       6/6           colors_to_data [67]
+[47]     0.0    0.00    0.00       6         ft_atoi [47]
+                0.00    0.00      15/24          ft_isdigit [39]
+                0.00    0.00       6/6           ft_isspace [48]
+-----------------------------------------------
+                0.00    0.00       6/6           ft_atoi [47]
+[48]     0.0    0.00    0.00       6         ft_isspace [48]
+-----------------------------------------------
+                0.00    0.00       6/6           ft_strdup [50]
+[49]     0.0    0.00    0.00       6         ft_memmove [49]
+-----------------------------------------------
+                0.00    0.00       2/6           add_last_color [54]
+                0.00    0.00       4/6           add_last_texture [52]
+[50]     0.0    0.00    0.00       6         ft_strdup [50]
+                0.00    0.00      12/7058        ft_strlen [17]
+                0.00    0.00       6/6           ft_memmove [49]
+-----------------------------------------------
+                0.00    0.00       1/5           valid_file [102]
+                0.00    0.00       4/5           check_textures_extension [62]
+[51]     0.0    0.00    0.00       5         check_extension [51]
+                0.00    0.00      10/7058        ft_strlen [17]
+                0.00    0.00       5/26          ft_strncmp [34]
+-----------------------------------------------
+                0.00    0.00       4/4           check_texture_element [45]
+[52]     0.0    0.00    0.00       4         add_last_texture [52]
+                0.00    0.00       8/24          free_double_char [38]
+                0.00    0.00       4/20          ft_split [42]
+                0.00    0.00       4/6           ft_strdup [50]
+-----------------------------------------------
+                0.00    0.00       4/4           initialize_single_canvas [11]
+[53]     0.0    0.00    0.00       4         identity_matrix [53]
+-----------------------------------------------
+                0.00    0.00       2/2           check_color_elements [55]
+[54]     0.0    0.00    0.00       2         add_last_color [54]
+                0.00    0.00       4/24          free_double_char [38]
+                0.00    0.00       2/20          ft_split [42]
+                0.00    0.00       2/6           ft_strdup [50]
+-----------------------------------------------
+                0.00    0.00       2/2           parsing_lines [95]
+[55]     0.0    0.00    0.00       2         check_color_elements [55]
+                0.00    0.00       3/26          ft_strncmp [34]
+                0.00    0.00       2/20          ft_split [42]
+                0.00    0.00       2/2           add_last_color [54]
+-----------------------------------------------
+                0.00    0.00       2/2           range_colors [97]
+[56]     0.0    0.00    0.00       2         check_color_range [56]
+                0.00    0.00       2/20          ft_split [42]
+                0.00    0.00       2/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       2/2           valid_characters [101]
+[57]     0.0    0.00    0.00       2         check_commas [57]
+-----------------------------------------------
+                0.00    0.00       2/2           valid_characters [101]
+[58]     0.0    0.00    0.00       2         check_nbrs [58]
+                0.00    0.00       6/6           check_digits [44]
+-----------------------------------------------
+                0.00    0.00       2/2           colors_to_data [67]
+[59]     0.0    0.00    0.00       2         encode_rgb [59]
+-----------------------------------------------
+                0.00    0.00       2/2           init_textures_colors [86]
+[60]     0.0    0.00    0.00       2         initialize_double_char [60]
+                0.00    0.00       6/82          ft_calloc [24]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[61]     0.0    0.00    0.00       1         check_map [61]
+                0.00    0.00       1/1           check_valid_map_characters [64]
+                0.00    0.00       1/1           check_valid_map_no_split [65]
+                0.00    0.00       1/1           map_trim [93]
+                0.00    0.00       1/1           transform_map [100]
+-----------------------------------------------
+                0.00    0.00       1/1           valide_textures [104]
+[62]     0.0    0.00    0.00       1         check_textures_extension [62]
+                0.00    0.00       4/5           check_extension [51]
+-----------------------------------------------
+                0.00    0.00       1/1           valide_textures [104]
+[63]     0.0    0.00    0.00       1         check_textures_validity [63]
+-----------------------------------------------
+                0.00    0.00       1/1           check_map [61]
+[64]     0.0    0.00    0.00       1         check_valid_map_characters [64]
+                0.00    0.00    1989/1989        valid_characters_map [21]
+-----------------------------------------------
+                0.00    0.00       1/1           check_map [61]
+[65]     0.0    0.00    0.00       1         check_valid_map_no_split [65]
+                0.00    0.00      25/25          line_is_empty [37]
+-----------------------------------------------
+                0.00    0.00       1/1           main_parsing [92]
+[66]     0.0    0.00    0.00       1         check_wall [66]
+                0.00    0.00    5074/7585        check_player [16]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[67]     0.0    0.00    0.00       1         colors_to_data [67]
+                0.00    0.00       6/6           ft_atoi [47]
+                0.00    0.00       2/20          ft_split [42]
+                0.00    0.00       2/2           encode_rgb [59]
+                0.00    0.00       2/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       1/1           transform_map [100]
+[68]     0.0    0.00    0.00       1         copy_map [68]
+                0.00    0.00    2275/7058        ft_strlen [17]
+-----------------------------------------------
+                0.00    0.00       1/1           ft_handle_boutonpress [13]
+[69]     0.0    0.00    0.00       1         end_drawing [69]
+                0.00    0.00       1/40          draw_line_on_map [25]
+-----------------------------------------------
+                0.00    0.00       1/1           valid_file [102]
+[70]     0.0    0.00    0.00       1         file_empty [70]
+                0.00    0.00       2/37          get_next_line [30]
+-----------------------------------------------
+                0.00    0.00       1/1           transform_map [100]
+[71]     0.0    0.00    0.00       1         fill_map [71]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_lines [95]
+[72]     0.0    0.00    0.00       1         finish_file_read [72]
+                0.00    0.00       1/37          get_next_line [30]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[73]     0.0    0.00    0.00       1         free_all [73]
+                0.00    0.00       2/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       1/1           main [9]
+[74]     0.0    0.00    0.00       1         free_everything [74]
+                0.00    0.00       1/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       1/1           map_trim [93]
+[75]     0.0    0.00    0.00       1         free_uneeded_lines [75]
+-----------------------------------------------
+                0.00    0.00       1/1           ft_handle_keypress [77]
+[76]     0.0    0.00    0.00       1         ft_destroy_window_button [76]
+-----------------------------------------------
+                0.00    0.00       1/1           mlx_loop [1]
+[77]     0.0    0.00    0.00       1         ft_handle_keypress [77]
+                0.00    0.00       1/1           ft_destroy_window_button [76]
+-----------------------------------------------
+                0.00    0.00       1/1           mlx_loop [1]
+[78]     0.0    0.00    0.00       1         ft_handle_keyrelease [78]
+-----------------------------------------------
+                0.00    0.00       1/1           parse_map [94]
+[79]     0.0    0.00    0.00       1         ft_lstsize [79]
+-----------------------------------------------
+                0.00    0.00       1/1           ft_mlx_initialize_pointers [82]
+[80]     0.0    0.00    0.00       1         ft_mlx_create_window_and_image [80]
+-----------------------------------------------
+                0.00    0.00       1/1           main [9]
+[81]     0.0    0.00    0.00       1         ft_mlx_engine [81]
+-----------------------------------------------
+                0.00    0.00       1/1           main [9]
+[82]     0.0    0.00    0.00       1         ft_mlx_initialize_pointers [82]
+                0.00    0.00       1/1           ft_mlx_create_window_and_image [80]
+-----------------------------------------------
+                0.00    0.00       1/1           transform_map [100]
+[83]     0.0    0.00    0.00       1         get_map_height [83]
+-----------------------------------------------
+                0.00    0.00       1/1           transform_map [100]
+[84]     0.0    0.00    0.00       1         get_map_width [84]
+-----------------------------------------------
+                0.00    0.00       1/1           main_parsing [92]
+[85]     0.0    0.00    0.00       1         get_player_pos [85]
+                0.00    0.00    2511/7585        check_player [16]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[86]     0.0    0.00    0.00       1         init_textures_colors [86]
+                0.00    0.00       2/82          ft_calloc [24]
+                0.00    0.00       2/2           initialize_double_char [60]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_lines [95]
+[87]     0.0    0.00    0.00       1         initialize_parsing_lines [87]
+                0.00    0.00       1/37          get_next_line [30]
+-----------------------------------------------
+                0.00    0.00       1/1           main_parsing [92]
+[88]     0.0    0.00    0.00       1         initialize_player [88]
+                0.00    0.00       1/1           initialize_player_dir [89]
+                0.00    0.00       1/1           initialize_player_pos [91]
+                0.00    0.00       1/1           initialize_player_plane [90]
+-----------------------------------------------
+                0.00    0.00       1/1           initialize_player [88]
+[89]     0.0    0.00    0.00       1         initialize_player_dir [89]
+-----------------------------------------------
+                0.00    0.00       1/1           initialize_player [88]
+[90]     0.0    0.00    0.00       1         initialize_player_plane [90]
+-----------------------------------------------
+                0.00    0.00       1/1           initialize_player [88]
+[91]     0.0    0.00    0.00       1         initialize_player_pos [91]
+-----------------------------------------------
+                0.00    0.00       1/1           main [9]
+[92]     0.0    0.00    0.00       1         main_parsing [92]
+                0.00    0.00       1/1           valid_file [102]
+                0.00    0.00       1/1           parsing_text [96]
+                0.00    0.00       1/1           check_wall [66]
+                0.00    0.00       1/1           get_player_pos [85]
+                0.00    0.00       1/1           initialize_player [88]
+-----------------------------------------------
+                0.00    0.00       1/1           check_map [61]
+[93]     0.0    0.00    0.00       1         map_trim [93]
+                0.00    0.00      25/7058        ft_strlen [17]
+                0.00    0.00       1/1           free_uneeded_lines [75]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_lines [95]
+[94]     0.0    0.00    0.00       1         parse_map [94]
+                0.00    0.00      25/25          ft_lstadd_back [35]
+                0.00    0.00      25/25          ft_lstnew [36]
+                0.00    0.00      25/37          get_next_line [30]
+                0.00    0.00       1/1           ft_lstsize [79]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[95]     0.0    0.00    0.00       1         parsing_lines [95]
+                0.00    0.00       8/8           read_line [43]
+                0.00    0.00       6/6           check_texture_elements [46]
+                0.00    0.00       2/2           check_color_elements [55]
+                0.00    0.00       1/1           initialize_parsing_lines [87]
+                0.00    0.00       1/1           parse_map [94]
+                0.00    0.00       1/1           finish_file_read [72]
+-----------------------------------------------
+                0.00    0.00       1/1           main_parsing [92]
+[96]     0.0    0.00    0.00       1         parsing_text [96]
+                0.00    0.00       1/1           init_textures_colors [86]
+                0.00    0.00       1/1           parsing_lines [95]
+                0.00    0.00       1/1           valide_textures [104]
+                0.00    0.00       1/1           valide_colors [103]
+                0.00    0.00       1/1           textures_to_data [99]
+                0.00    0.00       1/1           colors_to_data [67]
+                0.00    0.00       1/1           check_map [61]
+                0.00    0.00       1/1           free_all [73]
+-----------------------------------------------
+                0.00    0.00       1/1           valide_colors [103]
+[97]     0.0    0.00    0.00       1         range_colors [97]
+                0.00    0.00       2/2           check_color_range [56]
+-----------------------------------------------
+                0.00    0.00       1/1           ft_handle_boutonpress [13]
+[98]     0.0    0.00    0.00       1         start_drawing [98]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[99]     0.0    0.00    0.00       1         textures_to_data [99]
+-----------------------------------------------
+                0.00    0.00       1/1           check_map [61]
+[100]    0.0    0.00    0.00       1         transform_map [100]
+                0.00    0.00       1/1           get_map_height [83]
+                0.00    0.00       1/1           get_map_width [84]
+                0.00    0.00       1/1           fill_map [71]
+                0.00    0.00       1/1           copy_map [68]
+                0.00    0.00       1/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       1/1           valide_colors [103]
+[101]    0.0    0.00    0.00       1         valid_characters [101]
+                0.00    0.00       2/2           check_commas [57]
+                0.00    0.00       2/20          ft_split [42]
+                0.00    0.00       2/2           check_nbrs [58]
+                0.00    0.00       2/24          free_double_char [38]
+-----------------------------------------------
+                0.00    0.00       1/1           main_parsing [92]
+[102]    0.0    0.00    0.00       1         valid_file [102]
+                0.00    0.00       1/5           check_extension [51]
+                0.00    0.00       1/1           file_empty [70]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[103]    0.0    0.00    0.00       1         valide_colors [103]
+                0.00    0.00       1/1           valid_characters [101]
+                0.00    0.00       1/1           range_colors [97]
+-----------------------------------------------
+                0.00    0.00       1/1           parsing_text [96]
+[104]    0.0    0.00    0.00       1         valide_textures [104]
+                0.00    0.00       1/1           check_textures_extension [62]
+                0.00    0.00       1/1           check_textures_validity [63]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [54] add_last_color         [26] ft_cal_len             [84] get_map_width
+  [52] add_last_texture       [24] ft_calloc              [30] get_next_line
+   [6] canvas_to_mlx_image    [76] ft_destroy_window_button [85] get_player_pos
+  [55] check_color_elements   [31] ft_extract_line        [53] identity_matrix
+  [56] check_color_range      [32] ft_free_line            [7] img_pix_put
+  [57] check_commas           [18] ft_free_nxtbuf         [86] init_textures_colors
+  [44] check_digits           [13] ft_handle_boutonpress  [10] initialize_canvas_and_add_to_list
+  [51] check_extension        [77] ft_handle_keypress     [12] initialize_canvas_list
+  [61] check_map              [78] ft_handle_keyrelease   [60] initialize_double_char
+  [58] check_nbrs              [3] ft_handle_mousemotion  [87] initialize_parsing_lines
+  [16] check_player           [39] ft_isdigit             [88] initialize_player
+  [45] check_texture_element  [48] ft_isspace             [89] initialize_player_dir
+  [46] check_texture_elements [35] ft_lstadd_back         [90] initialize_player_plane
+  [62] check_textures_extension [40] ft_lstlast           [91] initialize_player_pos
+  [63] check_textures_validity [36] ft_lstnew             [11] initialize_single_canvas
+  [64] check_valid_map_characters [79] ft_lstsize         [37] line_is_empty
+  [65] check_valid_map_no_split [2] ft_memcpy             [92] main_parsing
+  [66] check_wall             [49] ft_memmove             [93] map_trim
+  [67] colors_to_data          [8] ft_memset               [5] map_visualizer_draw
+  [14] copy_canvas_to_temp    [80] ft_mlx_create_window_and_image [94] parse_map
+  [68] copy_map               [81] ft_mlx_engine          [95] parsing_lines
+   [4] copy_temp_to_canvas    [82] ft_mlx_initialize_pointers [96] parsing_text
+  [25] draw_line_on_map       [41] ft_nbr_words           [15] put_pixel_on_virtual_canvas
+  [59] encode_rgb             [33] ft_read_file           [97] range_colors
+  [69] end_drawing            [42] ft_split               [43] read_line
+  [70] file_empty             [19] ft_strchr_a            [98] start_drawing
+  [71] fill_map               [50] ft_strdup              [99] textures_to_data
+  [72] finish_file_read       [20] ft_strjoin            [100] transform_map
+  [73] free_all               [17] ft_strlen              [29] update_drawing
+  [38] free_double_char       [34] ft_strncmp            [101] valid_characters
+  [74] free_everything        [27] ft_substr              [21] valid_characters_map
+  [75] free_uneeded_lines     [28] ft_wlen               [102] valid_file
+  [47] ft_atoi                [22] get_canvas_from_list  [103] valide_colors
+  [23] ft_bzero               [83] get_map_height        [104] valide_textures

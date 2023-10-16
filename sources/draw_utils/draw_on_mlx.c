@@ -1,42 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_canvas_operation.c                            :+:      :+:    :+:   */
+/*   draw_on_mlx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/15 01:26:03 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 23:10:52 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw_utils.h"
 
-
-void	canvas_to_mlx_image(t_cub *data)
+void		canvas_to_mlx_image(t_img_data screen, t_canvas *final_canvas)
 {
-	const t_canvas	*final_canvas
-		= get_canvas_from_list(data->canvas_list, MAP);
-	int				x;
-	int				y;
-	int				canvas_index;
-	int				color;
+	int					color;
+	char				*pixel;
+	t_color				*canvas_pixel;
+	const t_point2i		size = (t_point2i){{final_canvas->size.x,
+		final_canvas->size.y}};
+	const int			total_pixels = size.y * size.x;
+	const int			pixel_offset = screen.bpp >> 3;
 
-	if (!data->screen.mlx_img || !data->screen.addr)
+	if (!screen.mlx_img || !screen.addr)
 		return ;
-
-	y = 0;
-	while (y < final_canvas->size.y)
+	canvas_pixel = final_canvas->pixels;
+	for (int i = 0; i < total_pixels; i++, canvas_pixel++)
 	{
-		x = 0;
-		while (x < final_canvas->size.x)
-		{
-			canvas_index = y * final_canvas->size.x + x;
-			color = (int)final_canvas->pixels[canvas_index].rgb_color;
-			img_pix_put(&(data->screen), x, y, color);
-			x++;
-		}
-		y++;
+		pixel = screen.addr + (i / size.x) * screen.line_len
+			+ (i % size.x) * pixel_offset;
+		color = (int)canvas_pixel->rgb_color;
+		*(int *)pixel = color;
 	}
 }
-

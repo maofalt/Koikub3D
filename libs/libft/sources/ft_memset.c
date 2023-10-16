@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 19:09:38 by motero            #+#    #+#             */
-/*   Updated: 2022/05/10 19:28:35 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 23:08:37 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 #include <string.h>
 
 /*the function returns a void pointer, an address to a location in memory */
-void	*ft_memset(void *s, int c, size_t n)
+inline void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned char	*ptr;
+	return memset(s, c, n);
+	// unsigned char	*ptr;
 
-	ptr = (unsigned char *) s;
-	while (n-- > 0)
-	{
-		*ptr++ = c;
-	}
-	return (s);
+	// ptr = (unsigned char *) s;
+	// while (n-- > 0)
+	// {
+	// 	*ptr++ = c;
+	// }
+	// return (s);
 }
+
 /*
 [>void printArray(int arr[], int n)<]
 [>{<]

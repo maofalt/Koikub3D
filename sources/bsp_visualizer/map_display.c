@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 20:24:17 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 23:09:24 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	map_visualizer_render(t_cub *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	printf("--------------------------------\n");
-	usleep(100000);
+	usleep(10);
 	return (0);
 }
 
@@ -70,11 +70,13 @@ int	map_visualizer_draw(t_cub *data)
 		return (1);
 	if (data->update)
 	{
-		canvas_to_mlx_image(data);
+		canvas_to_mlx_image(data->screen,
+			get_canvas_from_list(data->canvas_list, MAP));
 		mlx_put_image_to_window(data->mlx_ptr,
 			data->win_ptr,
 			data->screen.mlx_img, 0, 0);
 		data->update = 0;
+		usleep(10);
 	}
 	return (0);
 }

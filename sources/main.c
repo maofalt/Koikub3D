@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:25:15 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 19:54:07 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	main(int argc, char **argv)
 	// 	ft_mlx_engine(&data);
 	data.canvas_list = NULL;
 	data.canvas_list = initialize_canvas_list(
-		(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
-		(t_point2i){{WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 3}},
-		(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
+			(t_point2i){{WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 3}},
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);
 	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_draw, &data))

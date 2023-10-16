@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 23:34:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 19:53:30 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	*new_segment = segment;
 	new_node = ft_lstnew((void *)new_segment);
 	if (!new_node)
-		return (free(new_segment), 
+		return (free(new_segment),
 			ft_lstclear(&canvas->segments, free), 1);
 	ft_lstadd_back(&(canvas->segments), new_node);
 	top_left = (t_point2d){{
@@ -62,6 +62,6 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 		fmax(segment.point_a.y, segment.point_b.y)}};
 	size = (t_point2d){{
 		bottom_right.x - top_left.x,
-		 bottom_right.y - top_left.y}};
+		bottom_right.y - top_left.y}};
 	return (add_dirty_rect(canvas, top_left, size));
 }

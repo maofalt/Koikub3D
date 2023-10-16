@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"mlx_engine.h": "c",
+			"list_fonctions.h": "c",
+			"get_next_line.h": "c",
+			"bsp_builder.h": "c"
+		}
+	}
+}

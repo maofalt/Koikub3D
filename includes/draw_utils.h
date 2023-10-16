@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/15 01:13:12 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 23:10:14 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,19 @@ void		end_drawing(t_canvas *canvas,
 				t_color color);
 
 /*############################################################################*/
+/*                              MULTI-BUFFER CANVAS                           */
+/*############################################################################*/
+
+t_canvas	*get_canvas(t_list *canvas_list, t_canvas_type type);
+
+/*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */
 /*############################################################################*/
 
 int			draw_UI_elements(t_canvas *ui_canvas);
+void		copy_canvas_to_temp(t_list *canvas_list);
+void		copy_temp_to_screen(t_list *canvas_list, t_img_data *img);
+void		copy_temp_to_canvas(t_list *canvas_list);
 
 /*############################################################################*/
 /*                              FUSING CANVASES                               */
@@ -182,7 +191,8 @@ int			fuse_canvases(t_canvas **array_of_canvases);
 /*                              MLX CONVERSION                                */
 /*############################################################################*/
 
-void		canvas_to_mlx_image(t_cub *data);
+// void		canvas_to_mlx_image(t_cub *data);
+void		canvas_to_mlx_image(t_img_data screen, t_canvas *final_canvas);
 
 /*############################################################################*/
 /*                              DRAW FUNCTIONS                                */

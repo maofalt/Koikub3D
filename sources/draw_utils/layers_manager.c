@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/15 00:26:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	static t_canvas_init_entry	canvas_init_table[]
 		= {{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, MAP},
 	{{{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, UI},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL}
+	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL},
 	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL_TEMP}};
 	t_list						*canvas_list;
 	t_list						*new_node;
@@ -130,6 +130,5 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 			return (current_canvas);
 		current_node = current_node->next;
 	}
-
 	return (NULL);
 }

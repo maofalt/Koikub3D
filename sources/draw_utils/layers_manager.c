@@ -92,7 +92,8 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	static t_canvas_init_entry	canvas_init_table[]
 		= {{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, MAP},
 	{{{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, UI},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL}};
+	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL}
+	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL_TEMP}};
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;
@@ -101,6 +102,7 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	canvas_init_table[0].size = size_map;
 	canvas_init_table[1].size = size_ui;
 	canvas_init_table[2].size = size_final;
+	canvas_init_table[3].size = size_final;
 	i = 0;
 	while (i < sizeof(canvas_init_table) / sizeof(canvas_init_table[0]))
 	{

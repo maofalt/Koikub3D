@@ -92,6 +92,7 @@ typedef enum e_canvas_type
 	MAP,
 	UI,
 	FINAL,
+	FINAL_TEMP
 }	t_canvas_type;
 
 typedef struct s_dirty_rect

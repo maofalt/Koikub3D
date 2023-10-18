@@ -46,7 +46,7 @@
 # define W_KEY 119
 
 # define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WINDOW_HEIGHT 1072
 
 # ifndef FOV
 #  define FOV 90

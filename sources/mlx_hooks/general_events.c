@@ -6,11 +6,12 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 06:34:40 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:33:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx_engine.h"
+#include "draw_utils.h"
 
 int	ft_destroy_window(t_cub *data)
 {
@@ -38,18 +39,40 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 {
+	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list,
+			MAP);
+	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+
 	(void)x;
 	(void)y;
 	if (buttonsym == 1)
 	{
 		printf("Left button pressed\n");
-		//start_drawing(data->map_canvas, current_point);
+		data->is_drawing = 1;
+		start_drawing(map_canvas, (t_point2d){{x, y}});
+		copy_canvas_to_temp(data->canvas_list);
 		data->update = 1;
 	}
 	if (buttonsym == 3)
 	{
 		printf("Right button pressed\n");
-		//end_drawing(data->map_canvas, current_point, SOME_COLOR);
+		data->is_drawing = 0;
+		end_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		data->update = 1;
+	}
+	return (0);
+}
+
+int	ft_handle_mousemotion(int x, int y, t_cub *data)
+{
+	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+
+	if (data->is_drawing && !data->update)
+	{
+		copy_temp_to_canvas(data->canvas_list);
+		update_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		data->update = 1;
 	}
 	return (0);
 }

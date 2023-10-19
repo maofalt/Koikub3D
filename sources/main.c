@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 04:00:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:37:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ int	main(int argc, char **argv)
 		return (free_everything(data), 1);
 	}
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
+	// 	ft_mlx_engine(&data);
+	data.canvas_list = NULL;
+	data.canvas_list = initialize_canvas_list(
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
+			(t_point2i){{WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 3}},
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
+	if (data.canvas_list == NULL)
+		return (free_everything(data), 1);
 	if (mlx_loop_hook(data.mlx_ptr, &render, &data))
 		ft_mlx_engine(&data);
 	free_everything(data);

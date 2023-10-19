@@ -84,6 +84,7 @@ int     ft_destroy_window(t_cub *data);
 int	    ft_handle_keyrelease(int keysym, t_cub *data);
 int     ft_handle_keypress(int keysym, t_cub *data);
 int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
+int     ft_handle_mousemotion(int x, int y, t_cub *data);
 
 
 /*############################################################################*/

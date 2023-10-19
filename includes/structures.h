@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/19 03:47:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:36:21 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ typedef struct s_cub
 	char				**map;
 	int					update;
 	t_inputs			inputs;
+	int					is_drawing;
+	t_list				*canvas_list;
 }				t_cub;
 
 typedef struct s_data

@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/15 00:26:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	t_color		default_color;
 	int			total_pixels;
 
-	canvas = (t_canvas *)ft_calloc(sizeof(t_canvas), 0);
+	canvas = (t_canvas *)ft_calloc(1, sizeof(t_canvas));
 	if (!canvas)
 		return (NULL);
-	canvas->pixel_scale = 10.0;
+	canvas->pixel_scale = 1.0;
 	canvas->size = (t_point2i)(size.vec * (int)canvas->pixel_scale);
 	total_pixels = canvas->size.x * canvas->size.y;
 	canvas->pixels = (t_color *)malloc(total_pixels * sizeof(t_color));
@@ -92,7 +92,8 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	static t_canvas_init_entry	canvas_init_table[]
 		= {{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, MAP},
 	{{{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, UI},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL}};
+	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL},
+	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL_TEMP}};
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;
@@ -101,6 +102,7 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	canvas_init_table[0].size = size_map;
 	canvas_init_table[1].size = size_ui;
 	canvas_init_table[2].size = size_final;
+	canvas_init_table[3].size = size_final;
 	i = 0;
 	while (i < sizeof(canvas_init_table) / sizeof(canvas_init_table[0]))
 	{
@@ -112,4 +114,21 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 		i++;
 	}
 	return (canvas_list);
+}
+
+t_canvas	*get_canvas_from_list(t_list *canvas_list,
+	t_canvas_type type)
+{
+	t_list		*current_node;
+	t_canvas	*current_canvas;
+
+	current_node = canvas_list;
+	while (current_node)
+	{
+		current_canvas = (t_canvas *)current_node->content;
+		if (current_canvas && current_canvas->type == type)
+			return (current_canvas);
+		current_node = current_node->next;
+	}
+	return (NULL);
 }

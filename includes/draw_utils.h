@@ -22,8 +22,8 @@
 # define MAP_CANVAS_SIZE_Y 1072
 # define UI_CANVAS_SIZE_X 1000
 # define UI_CANVAS_SIZE_Y 1000
-# define FINAL_CANVAS_SIZE_X 1000
-# define FINAL_CANVAS_SIZE_Y 1000
+# define FINAL_CANVAS_SIZE_X 1920
+# define FINAL_CANVAS_SIZE_Y 1072
 
 /*############################################################################*/
 /*                              GEOMETRY STRUTURE                             */

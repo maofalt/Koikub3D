@@ -13,7 +13,7 @@
 #include "libft.h"
 #include <emmintrin.h>
 #include <immintrin.h>
-
+#define TWODOTS = :
 #if defined(__x86_64__) && defined(__SSE2__) && defined(__AVX__)
 
 // static void	*memcpy_x86(void *dest __attribute__((unused)),
@@ -32,14 +32,28 @@ static void *memcpy_x86(void *dest __attribute__((unused)),
 	const void *src __attribute__((unused)),
 	size_t n __attribute__((unused)))
 {
-	// const size_t	qwords = n / 8;
-	// size_t	bytes = n % 8;
-	asm volatile (
-		"cld;"
-		"mov %rdx, %rcx;"       // n is in rdx, move it to rcx for count
-		"shr $3, %rcx;"         // divide count by 8 since movsq moves 8 bytes at a time
-		"rep movsq;"            // repeat movsq rcx times
-	);
+	size_t iterations = n / 8;
+	size_t remainder = n % 8;
+
+	asm volatile ("cld;"); // Clear direction flag
+
+	if (iterations) {
+		asm volatile (
+			"rep movsq;"            // Use movsq for the bulk transfer
+			: "+D"(dest), "+S"(src), "+c"(iterations)
+			:
+			: "memory"
+		);
+	}
+
+	if (remainder) {
+		asm volatile (
+			"rep movsb;"            // Use movsb for the remainder
+			: "+D"(dest), "+S"(src), "+c"(remainder)
+			:
+			: "memory"
+		);
+	}
 	return dest;
 }
 

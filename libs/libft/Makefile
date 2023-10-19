@@ -6,7 +6,7 @@
 #    By: motero <motero@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/10/18 20:15:17 by motero           ###   ########.fr        #
+#    Updated: 2023/10/20 00:55:14 by motero           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ ft_strlen.c \
 ft_memset.c \
 ft_bzero.c \
 ft_memcpy.c \
+ft_memcpy_x86.c \
 ft_memmove.c \
 ft_strlcpy.c \
 ft_strlcat.c \
@@ -123,7 +124,7 @@ OBJS_PRINT = $(addprefix $(OBJS_PATH), $(OBJS_NAME_PRINT))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -msse2 -mavx -pg
+CFLAGS = -Wall -Wextra -Werror -msse2 -mavx
 
 LIBA = ar rc
 LIBS = ranlib

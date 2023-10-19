@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 06:30:51 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 03:47:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 **
 */
 
-enum e_action { a_move_up, a_move_down, a_move_left, a_move_right, a_total_actions };
+enum e_action { a_move_up, a_move_down, a_move_left, a_move_right, a_turn_left, a_turn_right, a_total_actions };
 
 typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));

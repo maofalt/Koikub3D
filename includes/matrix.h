@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 19:21:52 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/19 00:57:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ typedef struct s_matrix4x4_vectorized
 /*############################################################################*/
 /*                              MATRIX OPERATIONS                             */
 /*############################################################################*/
-t_matrix3x3	matrix_multiply(t_matrix3x3 A, t_matrix3x3 B);	
+t_matrix3x3	matrix_multiply(t_matrix3x3 A, t_matrix3x3 B);
 t_matrix3x3	identity_matrix(void);
+t_point2d	matrix_vector_multiply(t_matrix3x3 matrix, t_point2d point);
+
 
 /*############################################################################*/
 /*                              MATRIX TRANSFORMATIONS                        */

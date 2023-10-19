@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_edges.c                                    :+:      :+:    :+:   */
+/*   matrix_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 21:16:51 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/19 00:57:39 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,17 @@ t_matrix3x3	identity_matrix(void)
 		i++;
 	}
 	return (identity);
+}
+
+
+t_point2d	matrix_vector_multiply(t_matrix3x3 matrix, t_point2d point)
+{
+	t_point2d	result;
+
+	result.x = matrix.row[0].x * point.x
+		+ matrix.row[0].y * point.y + matrix.row[0].z;
+	result.y = matrix.row[1].x * point.x
+		+ matrix.row[1].y * point.y + matrix.row[1].z;
+
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 06:37:40 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:22:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	fill_image(t_img_data *image, int color)
 	while (image_size > 0)
 	{
 		*(unsigned int *)px = color;
-		px += image->bpp / 8;
+		px += image->bpp >> 3;
 		image_size --;
 	}
 }

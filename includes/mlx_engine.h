@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 17:46:11 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 03:49:51 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static const t_key_action_map	g_key_to_action[] = {
 {XK_s, a_move_down},
 {XK_a, a_move_left},
 {XK_d, a_move_right},
+{XK_Left, a_turn_left},
+{XK_Right, a_turn_right},
 {-1, -1},
 };
 

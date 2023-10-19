@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/19 04:36:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 05:27:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ typedef union u_vector4d
 	};
 }	t_vector4d;
 
+typedef union u_point2d
+{
+	t_v2d	vec;
+	struct {
+		double	x;
+		double	y;
+	};
+}	t_point2d;
 
 /* bpp = bits per pixel */
 typedef struct s_img_data
@@ -79,6 +87,7 @@ typedef struct s_img_data
 typedef union u_color
 {
 	t_vector_color	rgb_color;
+	u_int32_t		d;
 	struct
 	{
 		u_int8_t	a;
@@ -156,15 +165,6 @@ typedef union u_point2i
 		int	y;
 	};
 }	t_point2i;
-
-typedef union u_point2d
-{
-	t_v2d	vec;
-	struct {
-		double	x;
-		double	y;
-	};
-}	t_point2d;
 
 
 typedef enum e_segment_type

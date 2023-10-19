@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 23:10:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/19 05:46:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef union u_shape
 	t_line_params		line;
 	t_rectangle_params	rect;
 	t_circle_params		circle;
-	t_triangle_params	triangle;	
+	t_triangle_params	triangle;
 }	t_shape;
 
 typedef struct s_shape_params {
@@ -222,5 +222,14 @@ void		draw_circle_points(t_img_data *img,
 				t_point2i point,
 				t_color color);
 int			draw_circle(t_shape_params *params);
+void		draw_segment_canvas(
+				t_canvas *canvas,
+				t_segment_d const *const segment,
+				t_color color
+				);
+void		fill_canvas(
+				t_canvas *canvas,
+				t_color color
+				);
 
 #endif

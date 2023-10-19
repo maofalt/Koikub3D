@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/19 03:49:51 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/19 05:12:25 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	ft_mlx_engine(t_cub *data);
 int     ft_destroy_window(t_cub *data);
 int	    ft_handle_keyrelease(int keysym, t_cub *data);
 int     ft_handle_keypress(int keysym, t_cub *data);
-int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
-int     ft_handle_mousemotion(int x, int y, t_cub *data);
+// int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
+// int     ft_handle_mousemotion(int x, int y, t_cub *data);
 
 
 /*############################################################################*/

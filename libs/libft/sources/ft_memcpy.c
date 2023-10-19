@@ -13,7 +13,10 @@
 #include "libft.h"
 #include <emmintrin.h>
 #include <immintrin.h>
-#define TWODOTS = :
+
+extern void memcpy_x86_bulk(void* dest, const void* src, size_t iterations);
+extern void memcpy_x86_remainder(void* dest, const void* src, size_t remainder);
+
 #if defined(__x86_64__) && defined(__SSE2__) && defined(__AVX__)
 
 // static void	*memcpy_x86(void *dest __attribute__((unused)),
@@ -35,25 +38,14 @@ static void *memcpy_x86(void *dest __attribute__((unused)),
 	size_t iterations = n / 8;
 	size_t remainder = n % 8;
 
-	asm volatile ("cld;"); // Clear direction flag
+    if (iterations) {
+        memcpy_x86_bulk(dest, src, iterations);
+    }
 
-	if (iterations) {
-		asm volatile (
-			"rep movsq;"            // Use movsq for the bulk transfer
-			: "+D"(dest), "+S"(src), "+c"(iterations)
-			:
-			: "memory"
-		);
-	}
-
-	if (remainder) {
-		asm volatile (
-			"rep movsb;"            // Use movsb for the remainder
-			: "+D"(dest), "+S"(src), "+c"(remainder)
-			:
-			: "memory"
-		);
-	}
+    if (remainder) {
+        memcpy_x86_remainder(dest, src, remainder);
+    }
+	printf("ending x86\n");
 	return dest;
 }
 
@@ -69,7 +61,8 @@ static void *memcpy_sse2(void *dest, const void *src, size_t n) {
 	}
 	size_t num_chunks = n / 16;
 
-	asm volatile (
+	asm volatile
+	(
 		"1:                             \n\t"
 		"movdqa   (%1), %%xmm0          \n\t"
 		"movdqa   %%xmm0, (%0)         \n\t"
@@ -78,7 +71,7 @@ static void *memcpy_sse2(void *dest, const void *src, size_t n) {
 		"dec      %2                   \n\t"
 		"jnz      1b                   \n\t"
 		: "+r"(d), "+r"(s), "+r"(num_chunks) // outputs
-		:  // no separate inputs
+		:
 		: "memory", "xmm0" // clobbers
 	);
 	n -= num_chunks * 16;

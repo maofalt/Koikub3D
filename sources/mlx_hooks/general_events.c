@@ -40,15 +40,12 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 {
-	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list,
-			MAP);
+	t_canvas		*map_canvas;
 	const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
-	(void)x;
-	(void)y;
+	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	if (buttonsym == 1)
 	{
-		printf("Left button pressed\n");
 		data->is_drawing = 1;
 		start_drawing(map_canvas, (t_point2d){{x, y}});
 		copy_canvas_to_temp(data->canvas_list);
@@ -56,7 +53,6 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	}
 	if (buttonsym == 3)
 	{
-		printf("Right button pressed\n");
 		data->is_drawing = 0;
 		end_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
 		data->update = 1;
@@ -66,9 +62,10 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 
 int	ft_handle_mousemotion(int x, int y, t_cub *data)
 {
-	t_canvas	*map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	t_canvas		*map_canvas;
 	const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
+	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	if (data->is_drawing && !data->update)
 	{
 		copy_temp_to_canvas(data->canvas_list);

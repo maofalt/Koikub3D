@@ -36,7 +36,6 @@
 // 	}
 // }
 
-
 void	canvas_to_mlx_image(t_img_data screen, t_canvas *final_canvas)
 {
 	if (!screen.mlx_img || !screen.addr || screen.bpp != 32)

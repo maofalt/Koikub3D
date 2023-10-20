@@ -50,7 +50,6 @@ void	*aligned_calloc(size_t nmemb, size_t size, size_t alignment)
 		ft_bzero(ptr, 1);
 		return (ptr);
 	}
-
 	ptr = aligned_malloc(nmemb * size, alignment);
 	if (!ptr)
 		return (NULL);

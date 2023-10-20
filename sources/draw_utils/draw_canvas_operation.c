@@ -91,7 +91,7 @@ void	update_drawing(t_canvas *canvas, t_point2d current_point, t_color color)
 	//canvas->last_point = current_point;
 }
 
-void end_drawing(t_canvas *canvas, t_point2d end_point, t_color color)
+void	end_drawing(t_canvas *canvas, t_point2d end_point, t_color color)
 {
 	draw_line_on_map(canvas, canvas->last_point, end_point, color);
 }

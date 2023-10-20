@@ -22,7 +22,6 @@ void	copy_canvas_to_temp(t_list *canvas_list)
 	if (final_canvas && temp_canvas
 		&& final_canvas->pixels && temp_canvas->pixels)
 	{
-		//printf("copy_canvas_to_temp\n");
 		size = final_canvas->size.x * final_canvas->size.y * sizeof(t_color);
 		ft_memcpy(temp_canvas->pixels, final_canvas->pixels, size);
 	}
@@ -60,7 +59,6 @@ void	copy_temp_to_canvas(t_list *canvas_list)
 	if (final_canvas && temp_canvas
 		&& final_canvas->pixels && temp_canvas->pixels)
 	{
-		//printf("copy_temp_to_canvas\n");
 		size = final_canvas->size.x * final_canvas->size.y * sizeof(t_color);
 		ft_memcpy(final_canvas->pixels, temp_canvas->pixels, size);
 	}

@@ -19,14 +19,14 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	t_color		default_color;
 	int			total_pixels;
 
-	//canvas = (t_canvas *)ft_calloc(1, sizeof(t_canvas));
-	canvas = (t_canvas *)aligned_calloc(1, sizeof(t_canvas),32);
+	canvas = (t_canvas *)aligned_calloc(1, sizeof(t_canvas), 32);
 	if (!canvas)
 		return (NULL);
 	canvas->pixel_scale = 1.0;
 	canvas->size = (t_point2i)(size.vec * (int)canvas->pixel_scale);
 	total_pixels = canvas->size.x * canvas->size.y;
-	canvas->pixels = (t_color *)aligned_malloc(total_pixels * sizeof(t_color), 32);
+	canvas->pixels = (t_color *)aligned_malloc(total_pixels
+			* sizeof(t_color), 32);
 	if (!canvas->pixels)
 		return (free(canvas), NULL);
 	ft_memset(&default_color, 0, sizeof(t_color));

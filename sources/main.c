@@ -36,7 +36,6 @@ int	main(int argc, char **argv)
 {
 	t_cub	data;
 
-	(void)argv;
 	if (argc != 2)
 		return (printf("Error\nToo many Arguments"), 1);
 	ft_memset(&data, 0, sizeof(t_cub));
@@ -45,9 +44,7 @@ int	main(int argc, char **argv)
 		return (1);
 	data.update = 1;
 	if (!main_parsing(&data, argv[1]))
-	{
 		return (free_everything(data), 1);
-	}
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
 	// 	ft_mlx_engine(&data);
 	data.canvas_list = NULL;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 00:15:03 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 18:05:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/20 07:13:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,7 @@ t_list	*choose_separator(t_list *segments)
 	return (ptr2);
 }
 
-typedef struct s_sector_data
-{
-	// t_list	*segments;
-	double	floor_height;
-}	t_sector_data;
 
-typedef struct s_bsp_tree_node_data
-{
-	t_segment_d		*separator;
-	t_sector_data	sector_data;
-}	t_bsp_tree_node_data;
 
 
 
@@ -102,16 +92,21 @@ int construct_bsp(t_list **segments, t_tree_node **tree, t_cub *data)
 	node_data->sector_data.floor_height = 0;
 	node->left = NULL;
 	node->right = NULL;
+	node->parent = NULL;
 	node->data = node_data;
 	*tree = node;
-	draw_map_segments(data, *segments);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-		data->screen.mlx_img, 0, 0);
-	usleep(100000);
-	mlx_do_sync(data->mlx_ptr);
+	// draw_map_segments(data, *segments);
+	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		// data->screen.mlx_img, 0, 0);
+	// usleep(100000);
+	// mlx_do_sync(data->mlx_ptr);
 	if (construct_bsp(&left, &node->left, data))
 		return (1); //todo free
+	if (node->left)
+		node->left->parent = node;
 	if (construct_bsp(&right, &node->right, data))
 		return (1);
+	if (node->right)
+		node->right->parent = node;
 	return (0);
 }

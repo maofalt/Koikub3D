@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/20 01:56:40 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/20 06:48:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,9 +234,22 @@ typedef struct s_edge_exploration_context{
 
 typedef struct s_tree_node
 {
+	struct s_tree_node	*parent;
 	struct s_tree_node	*left;
 	struct s_tree_node	*right;
 	void				*data;
 }	t_tree_node;
+
+typedef struct s_sector_data
+{
+	// t_list	*segments;
+	double	floor_height;
+}	t_sector_data;
+
+typedef struct s_bsp_tree_node_data
+{
+	t_segment_d		*separator;
+	t_sector_data	sector_data;
+}	t_bsp_tree_node_data;
 
 #endif

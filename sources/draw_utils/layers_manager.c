@@ -19,13 +19,14 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	t_color		default_color;
 	int			total_pixels;
 
-	canvas = (t_canvas *)ft_calloc(1, sizeof(t_canvas));
+	//canvas = (t_canvas *)ft_calloc(1, sizeof(t_canvas));
+	canvas = (t_canvas *)aligned_calloc(1, sizeof(t_canvas),32);
 	if (!canvas)
 		return (NULL);
 	canvas->pixel_scale = 1.0;
 	canvas->size = (t_point2i)(size.vec * (int)canvas->pixel_scale);
 	total_pixels = canvas->size.x * canvas->size.y;
-	canvas->pixels = (t_color *)malloc(total_pixels * sizeof(t_color));
+	canvas->pixels = (t_color *)aligned_malloc(total_pixels * sizeof(t_color), 32);
 	if (!canvas->pixels)
 		return (free(canvas), NULL);
 	ft_memset(&default_color, 0, sizeof(t_color));
@@ -92,8 +93,8 @@ t_list	*initialize_canvas_list(t_point2i size_map,
 	static t_canvas_init_entry	canvas_init_table[]
 		= {{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, MAP},
 	{{{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, UI},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL_TEMP}};
+	{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, FINAL},
+	{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, FINAL_TEMP}};
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;

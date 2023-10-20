@@ -18,12 +18,12 @@
 # include "colors.h"
 # include "matrix.h"
 
-# define MAP_CANVAS_SIZE_X 1000
-# define MAP_CANVAS_SIZE_Y 1000
+# define MAP_CANVAS_SIZE_X 1920
+# define MAP_CANVAS_SIZE_Y 1072
 # define UI_CANVAS_SIZE_X 1000
 # define UI_CANVAS_SIZE_Y 1000
-# define FINAL_CANVAS_SIZE_X 1000
-# define FINAL_CANVAS_SIZE_Y 1000
+# define FINAL_CANVAS_SIZE_X 1920
+# define FINAL_CANVAS_SIZE_Y 1072
 
 /*############################################################################*/
 /*                              GEOMETRY STRUTURE                             */
@@ -223,4 +223,10 @@ void		draw_circle_points(t_img_data *img,
 				t_color color);
 int			draw_circle(t_shape_params *params);
 
+/*############################################################################*/
+/*                              ALIGNMENT METHODS                             */
+/*############################################################################*/
+void		*aligned_malloc(size_t size, size_t alignment);
+void		 aligned_free(void *ptr);
+void		*aligned_calloc(size_t nmemb, size_t size, size_t alignment);
 #endif

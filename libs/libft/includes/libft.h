@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:07 by motero            #+#    #+#             */
-/*   Updated: 2023/01/23 22:34:11 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/20 01:14:16 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdint.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include <emmintrin.h>
+# include <immintrin.h>
 # include <math.h>
 
 int				ft_atoi(const char *nptr);
@@ -31,7 +33,13 @@ int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
 void			*ft_memset(void *s, int c, size_t n);
-void			*ft_memcpy(void *dest, const void *src, size_t n);
+void			*memcpy_x86(void *dest __attribute__((unused)),
+					const void *src __attribute__((unused)),
+					size_t n __attribute__((unused)));
+void			*ft_memcpy(void *dst,
+					const void *src,
+					const size_t size);
+void			*memcpy_avx(void *dest, const void *src, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			*ft_memmove(void *dest, const void *src, size_t n);

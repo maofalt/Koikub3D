@@ -38,10 +38,14 @@ typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
 typedef int				t_vector_i		__attribute__((vector_size (8)));
 
-typedef int				t_v2i			__attribute__((vector_size (2 * sizeof(int))));
-typedef double			t_v2d			__attribute__((vector_size (2 * sizeof(double))));
-typedef u_int8_t		t_vector_color	__attribute__((vector_size (4 * sizeof(u_int8_t))));
-typedef double			t_v4d 			__attribute__((vector_size(4 * sizeof(double))));
+typedef int				t_v2i			__attribute__((vector_size (2
+	* sizeof(int))));
+typedef double			t_v2d			__attribute__((vector_size (2
+	* sizeof(double))));
+typedef u_int8_t		t_vector_color	__attribute__((vector_size (4
+	* sizeof(u_int8_t))));
+typedef double			t_v4d			__attribute__((vector_size (4
+	* sizeof(double))));
 
 /* bpp = bits per pixel */
 typedef struct s_img_data

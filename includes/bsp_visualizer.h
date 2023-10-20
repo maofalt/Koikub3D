@@ -22,8 +22,8 @@
 int		map_visualizer_render(t_cub *data);
 
 /*############################################################################*/
-/*                                DRAW DISPLAY                                 */
+/*                                DRAW DISPLAY                                */
 /*############################################################################*/
-int     map_visualizer_draw(t_cub *data);
+int		map_visualizer_draw(t_cub *data);
 
 #endif

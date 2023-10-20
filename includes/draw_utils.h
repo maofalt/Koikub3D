@@ -227,6 +227,6 @@ int			draw_circle(t_shape_params *params);
 /*                              ALIGNMENT METHODS                             */
 /*############################################################################*/
 void		*aligned_malloc(size_t size, size_t alignment);
-void		 aligned_free(void *ptr);
+void		aligned_free(void *ptr);
 void		*aligned_calloc(size_t nmemb, size_t size, size_t alignment);
 #endif

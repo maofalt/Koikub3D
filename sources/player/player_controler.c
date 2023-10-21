@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/19 04:26:37 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/21 22:36:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,8 @@ void player_handle_event(t_cub *data)
 	transformation = rotation_matrix(angle_movement);
 	t_point2d rotated_dir = matrix_vector_multiply(transformation, vector4d_to_point2d(&data->player.dir));
 	data->player.dir = point2d_to_vector4d(&rotated_dir);
+	data->player.right = data->player.dir;
+	data->player.right.x = -data->player.dir.y;
+	data->player.right.y = data->player.dir.x;
 }
 

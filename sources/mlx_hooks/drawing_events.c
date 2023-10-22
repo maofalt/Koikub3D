@@ -63,7 +63,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	if (keysym == LEFT_KEY)
 	{
-		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
+		matrix_transformation = translation_matrix((t_point2d){{5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
 		if (push_matrix_op(map_canvas->matrix_operations,
@@ -72,7 +72,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 	}
 	if (keysym == RIGHT_KEY)
 	{
-		matrix_transformation = translation_matrix((t_point2d){{5, 0}});
+		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
 		if (push_matrix_op(map_canvas->matrix_operations,

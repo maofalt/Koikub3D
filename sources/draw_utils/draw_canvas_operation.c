@@ -12,52 +12,6 @@
 
 #include "draw_utils.h"
 
-void	put_pixel_on_virtual_canvas(t_canvas *canvas,
-	t_point2i coord,
-	t_color color)
-{
-	int	offset;
-
-	if (coord.x >= 0 && coord.x < canvas->size.x && coord.y >= 0
-		&& coord.y < canvas->size.y)
-	{
-		offset = coord.y * canvas->size.x + coord.x;
-		canvas->pixels[offset] = color;
-	}
-}
-
-int	draw_line_on_map(t_canvas *canvas,
-	t_point2i start,
-	t_point2i end,
-	t_color color)
-{
-	const int	dx = abs(end.x - start.x);
-	const int	dy = abs(end.y - start.y);
-	int			err = dx - dy;
-	int			sx = start.x < end.x ? 1 : -1;
-	int			sy = start.y < end.y ? 1 : -1;
-
-	printf("draw_line_on_map\n");
-	while (1)
-	{
-		put_pixel_on_virtual_canvas(canvas, start, color);
-		if (start.x == end.x && start.y == end.y)
-			break ;
-		int e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			start.x += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			start.y += sy;
-		}
-	}	
-	return (0);
-}
-
 void	start_drawing(t_canvas *canvas, t_point2i start_point)
 {
 	canvas->last_point = screen_to_canvas(start_point, canvas);
@@ -69,7 +23,6 @@ void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 
 	current_point_canvas = screen_to_canvas(current_point, canvas);
 	draw_line_on_map(canvas, canvas->last_point, current_point_canvas, color);
-	//canvas->last_point = current_point;
 }
 
 void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)

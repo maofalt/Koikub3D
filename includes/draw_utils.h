@@ -140,7 +140,6 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 /*                              MAP CANVAS OPERATIONS                         */
 /*############################################################################*/
 
-//int			add_dirty_rect(t_canvas *canvas, t_point2d coord, t_point2d size);
 int			add_segment_to_map(t_canvas *canvas, t_segment_d segment);
 int			erase_line_from_map(t_canvas *canvas, t_segment_d segment);
 int			apply_transformation_to_map(t_canvas *canvas,

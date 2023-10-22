@@ -56,6 +56,7 @@ t_vector4d	transform_homogenous_point_by_matrix(t_vector4d point,
 t_point2d	apply_transformations_to_point(t_point2i point,
 				t_list *matrix_list);
 t_matrix3x3	get_inverse_transformation_matrix(t_matrix3x3 matrix);
-t_point2i	back_transform_point_by_matrix(t_vector4d point, t_matrix3x3 matrix);
+t_point2i	back_transform_point_by_matrix(t_vector4d point,
+				t_matrix3x3 matrix);
 
 #endif /* MATRIX_H */

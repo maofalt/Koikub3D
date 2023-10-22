@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/21 22:35:20 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:42:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,20 @@ typedef struct s_inputs
 	int		action_states[a_total_actions];
 }			t_inputs;
 
+typedef struct s_tree_node
+{
+	struct s_tree_node	*parent;
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+	void				*data;
+}	t_tree_node;
+
+typedef struct s_map_data
+{
+	t_tree_node	*bsp;
+	t_list		*segments;
+}	t_map_data;
+
 typedef struct s_cub
 {
 	t_img_data			texture[4];
@@ -149,6 +163,7 @@ typedef struct s_cub
 	t_inputs			inputs;
 	int					is_drawing;
 	t_list				*canvas_list;
+	t_map_data			map_data;
 }				t_cub;
 
 typedef struct s_data
@@ -233,13 +248,7 @@ typedef struct s_edge_exploration_context{
 	t_direction		**visited;
 }	t_edge_exploration_context;
 
-typedef struct s_tree_node
-{
-	struct s_tree_node	*parent;
-	struct s_tree_node	*left;
-	struct s_tree_node	*right;
-	void				*data;
-}	t_tree_node;
+
 
 typedef struct s_sector_data
 {

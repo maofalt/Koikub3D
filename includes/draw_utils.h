@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/19 05:46:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:51:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,8 @@ void		draw_one_line(
 				);
 t_vector4d	point2d_to_vector4d(t_point2d *point);
 t_point2d	vector4d_to_point2d(t_vector4d *vec4d);
+t_vector4d	point2d_to_vector4d_cpy(t_point2d point);
+t_point2d	vector4d_to_point2d_cpy(t_vector4d vec4d);
 
 /*############################################################################*/
 /*                              DRAW SHAPES                                */

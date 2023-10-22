@@ -6,12 +6,15 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/19 04:39:54 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:44:28 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-#include "engine.h"
+#include "game_loop.h"
+#include "map_to_edges.h"
+#include "bsp_builder.h"
+
 
 void	free_everything(t_cub data)
 {
@@ -31,6 +34,35 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
+	//TODO: destroy bsp
+}
+
+//TODO: move it
+int	map_convert(t_cub *data)
+{
+	t_list		*segments_lst;
+	t_tree_node	*tree;
+
+	tree = NULL;
+	segments_lst = NULL;
+	if (extract_edge_recursively(data->map, &segments_lst))
+		return (1);
+	if (construct_bsp(&segments_lst, &tree, data))
+	{
+		//TODO: free segments
+		return (1);
+	}
+	data->map_data.segments = NULL;
+	data->map_data.bsp = tree;
+	if (extract_edge_recursively(data->map, &data->map_data.segments))
+		return (1); //TODO free and bsp
+	return (0);
+}
+
+void	map_destroy(t_cub *data)
+{
+	//TODO destruct_bsp
+	(void)data;
 }
 
 int	main(int argc, char **argv)
@@ -58,7 +90,9 @@ int	main(int argc, char **argv)
 			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);
-	if (mlx_loop_hook(data.mlx_ptr, &render, &data))
+	if (map_convert(&data))
+		return (free_everything(data), 1);
+	if (!mlx_loop_hook(data.mlx_ptr, &game_loop, &data))
 		ft_mlx_engine(&data);
 	free_everything(data);
 }

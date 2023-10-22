@@ -44,3 +44,18 @@ t_matrix3x3	translation_matrix(t_point2d translation)
 	trans.row[2].vec = (t_v4d){0, 0, 1, 0};
 	return (trans);
 }
+
+t_point2d	transform_point_by_matrix(t_point2d point, t_matrix3x3 matrix)
+{
+	t_vector4d	homogenous_point;
+	t_point2d	result;
+
+	homogenous_point = point2d_to_vector4d(&point);
+	result.x = matrix.row[0].x * homogenous_point.x
+		+ matrix.row[0].y * homogenous_point.y
+		+ matrix.row[0].z * homogenous_point.z;
+	result.y = matrix.row[1].x * homogenous_point.x
+		+ matrix.row[1].y * homogenous_point.y
+		+ matrix.row[1].z * homogenous_point.z;
+	return (result);
+}

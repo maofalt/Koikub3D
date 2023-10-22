@@ -16,28 +16,9 @@ void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 		t_point2d coord,
 		t_color color)
 {
-	t_point2d	start;
-	t_point2d	end;
-	t_point2d	virt;
-
-	start = (t_point2d)(coord.vec * canvas->pixel_scale);
-	end = (t_point2d)(coord.vec + canvas->pixel_scale);
-	virt.y = start.y;
-	while (virt.y < end.y)
-	{
-		virt.x = start.x;
-		while (virt.x < end.x)
-		{
-			if (virt.x >= 0 && virt.x < canvas->size.x
-				&& virt.y >= 0 && virt.y < canvas->size.y)
-			{
-				canvas->pixels[(int)virt.y * canvas->size.x
-					+ (int)virt.x] = color;
-			}
-			virt.x++;
-		}
-		virt.y++;
-	}
+	(void)canvas;
+	(void)coord;
+	(void)color;
 }
 
 // Bresenham's line drawing algorithm
@@ -46,52 +27,27 @@ int	draw_line_on_map(t_canvas *canvas,
 	t_point2d end,
 	t_color color)
 {
-	const t_point2d	delta
-		= (t_point2d){{fabs((end.x - start.x) * canvas->pixel_scale),
-		-fabs((end.y - start.y) * canvas->pixel_scale)}};
-	t_point2d		sign;
-	double			err;
-	double			e2;
-
-	sign.x = 1.0 / canvas->pixel_scale;
-	if (start.x > end.x)
-		sign.x *= -1.0;
-	sign.y = 1.0 / canvas->pixel_scale;
-	if (start.y > end.y)
-		sign.y *= -1.0;
-	err = delta.x + delta.y;
-	while (1)
-	{
-		put_pixel_on_virtual_canvas(canvas, start, color);
-		if (start.x == end.x && start.y == end.y)
-			break ;
-		e2 = 2 * err;
-		if (e2 >= delta.y)
-		{
-			err += delta.y;
-			start.x += sign.x;
-		}
-		if (e2 <= delta.x)
-		{
-			err += delta.x;
-			start.y += sign.y;
-		}
-	}
+	(void)canvas;
+	(void)start;
+	(void)end;
+	(void)color;
 	return (0);
 }
 
-void	start_drawing(t_canvas *canvas, t_point2d start_point)
+void	start_drawing(t_canvas *canvas, t_point2i start_point)
 {
-	canvas->last_point = start_point;
+	canvas->last_point = screen_to_canvas(start_point, canvas);
 }
 
-void	update_drawing(t_canvas *canvas, t_point2d current_point, t_color color)
+void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 {
+	
+	
 	draw_line_on_map(canvas, canvas->last_point, current_point, color);
 	//canvas->last_point = current_point;
 }
 
-void	end_drawing(t_canvas *canvas, t_point2d end_point, t_color color)
+void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 {
 	draw_line_on_map(canvas, canvas->last_point, end_point, color);
 }

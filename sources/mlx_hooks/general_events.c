@@ -47,14 +47,14 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	if (buttonsym == 1)
 	{
 		data->is_drawing = 1;
-		start_drawing(map_canvas, (t_point2d){{x, y}});
+		start_drawing(map_canvas, (t_point2i){{x, y}});
 		copy_canvas_to_temp(data->canvas_list);
 		data->update = 1;
 	}
 	if (buttonsym == 3)
 	{
 		data->is_drawing = 0;
-		end_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		end_drawing(map_canvas, (t_point2i){{x, y}}, white_color);
 		data->update = 1;
 	}
 	return (0);
@@ -69,7 +69,7 @@ int	ft_handle_mousemotion(int x, int y, t_cub *data)
 	if (data->is_drawing && !data->update)
 	{
 		copy_temp_to_canvas(data->canvas_list);
-		update_drawing(map_canvas, (t_point2d){{x, y}}, white_color);
+		update_drawing(map_canvas, (t_point2i){{x, y}}, white_color);
 		data->update = 1;
 	}
 	return (0);

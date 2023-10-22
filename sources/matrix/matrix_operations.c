@@ -61,3 +61,42 @@ t_matrix3x3	identity_matrix(void)
 	}
 	return (identity);
 }
+
+double	determinant(t_matrix3x3 matrix)
+{
+	return (matrix.row[0].x
+		* (matrix.row[1].y * matrix.row[2].z
+			- matrix.row[1].z * matrix.row[2].y)
+		- matrix.row[0].y * (matrix.row[1].x * matrix.row[2].z
+			- matrix.row[1].z * matrix.row[2].x)
+		+ matrix.row[0].z * (matrix.row[1].x * matrix.row[2].y
+			- matrix.row[1].y * matrix.row[2].x));
+}
+
+int	invert_matrix(t_matrix3x3 matrix, t_matrix3x3 *inverse)
+{
+	const double	det = determinant(matrix);
+
+	if (fabs(det) < 1e-6)
+		return (printf("Matrix is singular, can't find its inverse.\n"),
+			1);
+	inverse->row[0].x = (matrix.row[1].y * matrix.row[2].z
+			- matrix.row[2].y * matrix.row[1].z) / det;
+	inverse->row[0].y = -(matrix.row[0].y * matrix.row[2].z
+			- matrix.row[2].y * matrix.row[0].z) / det;
+	inverse->row[0].z = (matrix.row[0].y * matrix.row[1].z
+			- matrix.row[1].y * matrix.row[0].z) / det;
+	inverse->row[1].x = -(matrix.row[1].x * matrix.row[2].z
+			- matrix.row[2].x * matrix.row[1].z) / det;
+	inverse->row[1].y = (matrix.row[0].x * matrix.row[2].z
+			- matrix.row[2].x * matrix.row[0].z) / det;
+	inverse->row[1].z = -(matrix.row[0].x * matrix.row[1].z
+			- matrix.row[1].x * matrix.row[0].z) / det;
+	inverse->row[2].x = (matrix.row[1].x * matrix.row[2].y
+			- matrix.row[2].x * matrix.row[1].y) / det;
+	inverse->row[2].y = -(matrix.row[0].x * matrix.row[2].y
+			- matrix.row[2].x * matrix.row[0].y) / det;
+	inverse->row[2].z = (matrix.row[0].x * matrix.row[1].y
+			- matrix.row[1].x * matrix.row[0].y) / det;
+	return (0);
+}

@@ -63,3 +63,12 @@ void	copy_temp_to_canvas(t_list *canvas_list)
 		ft_memcpy(final_canvas->pixels, temp_canvas->pixels, size);
 	}
 }
+
+t_point2i	screen_to_canvas(t_point2i screen_point, t_canvas *canvas)
+{
+	t_point2i	canvas_point;
+
+	canvas_point.x = round(screen_point.x * canvas->inv_scale.x);
+	canvas_point.y = round(screen_point.y * canvas->inv_scale.y);
+	return (canvas_point);
+}

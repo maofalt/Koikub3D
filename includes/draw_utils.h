@@ -106,10 +106,11 @@ typedef struct s_canvas {
 	t_matrix3x3		transformation_matrix;
 	t_point2i		size;
 	t_point2d		last_point;
+	t_point2d		scale;
+	t_point2d		inv_scale;
 	t_color			*pixels;
 	t_list			*dirty_rects;
 	t_list			*segments;
-	double			pixel_scale;
 	int				dirty_rect_count;
 }	t_canvas;
 
@@ -158,12 +159,12 @@ int			draw_line_on_map(t_canvas *canvas,
 				t_point2d start,
 				t_point2d end,
 				t_color color);
-void		start_drawing(t_canvas *canvas, t_point2d start_point);
+void		start_drawing(t_canvas *canvas, t_point2i start_point);
 void		update_drawing(t_canvas *canvas,
-				t_point2d current_point,
+				t_point2i current_point,
 				t_color color);
 void		end_drawing(t_canvas *canvas,
-				t_point2d end_point,
+				t_point2i end_point,
 				t_color color);
 
 /*############################################################################*/
@@ -180,6 +181,7 @@ int			draw_UI_elements(t_canvas *ui_canvas);
 void		copy_canvas_to_temp(t_list *canvas_list);
 void		copy_temp_to_screen(t_list *canvas_list, t_img_data *img);
 void		copy_temp_to_canvas(t_list *canvas_list);
+t_point2i	screen_to_canvas(t_point2i screen_point, t_canvas *canvas);
 
 /*############################################################################*/
 /*                              FUSING CANVASES                               */
@@ -209,8 +211,6 @@ void		draw_one_line(
 				t_line_params const *const segment,
 				t_color color
 				);
-t_vector4d	point2d_to_vector4d(t_point2d *point);
-t_point2d	vector4d_to_point2d(t_vector4d *vec4d);
 
 /*############################################################################*/
 /*                              DRAW SHAPES                                */

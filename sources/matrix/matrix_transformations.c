@@ -52,6 +52,6 @@ int	push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix)
 	new_matrix_op = ft_lstnew(&matrix);
 	if (!new_matrix_op)
 		return (1);
-	ft_lstadd_front(matrix_op, new_matrix_op);
+	ft_lstadd_front(&matrix_op, new_matrix_op);
 	return (0);
 }

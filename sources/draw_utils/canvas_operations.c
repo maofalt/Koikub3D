@@ -12,25 +12,24 @@
 
 #include "draw_utils.h"
 
-int	add_dirty_rect(t_canvas *canvas, t_point2d coord, t_point2d size)
-{
-	t_dirty_rect	*new_dirty_rect;
-	t_list			*new_node;
+// int	add_dirty_rect(t_canvas *canvas, t_point2d coord, t_point2d size)
+// {
+// 	t_dirty_rect	*new_dirty_rect;
+// 	t_list			*new_node;
 
-	new_dirty_rect = (t_dirty_rect *)malloc(sizeof(t_dirty_rect));
-	if (!new_dirty_rect)
-		return (1);
-	new_dirty_rect->pos = coord;
-	new_dirty_rect->size = size;
-	new_node = ft_lstnew(new_dirty_rect);
-	if (!new_node)
-	{
-		free(new_dirty_rect);
-		return (1);
-	}
-	ft_lstadd_back(&(canvas->dirty_rects), new_node);
-	return (0);
-}
+// 	new_dirty_rect = (t_dirty_rect *)malloc(sizeof(t_dirty_rect));
+// 	if (!new_dirty_rect)
+// 		return (1);
+// 	new_dirty_rect->pos = coord;
+// 	new_dirty_rect->size = size;
+// 	new_node = ft_lstnew(new_dirty_rect);
+// 	if (!new_node)
+// 	{
+// 		free(new_dirty_rect);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 /*
 	Add a drawn segment tto the segments list 
@@ -45,6 +44,7 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	t_point2d	bottom_right;
 	t_point2d	size;
 
+	(void)size;
 	new_segment = (t_segment_d *)malloc(sizeof(t_segment_d));
 	if (!new_segment)
 		return (0);
@@ -63,5 +63,5 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	size = (t_point2d){{
 		bottom_right.x - top_left.x,
 		bottom_right.y - top_left.y}};
-	return (add_dirty_rect(canvas, top_left, size));
+	return (0);
 }

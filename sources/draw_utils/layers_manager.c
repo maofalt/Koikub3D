@@ -66,8 +66,8 @@ void	free_canvas(t_canvas *canvas)
 		return ;
 	if (canvas->pixels)
 		free(canvas->pixels);
-	if (canvas->dirty_rects)
-		free(canvas->dirty_rects);
+	if (canvas->matrix_operations)
+		ft_lstclear(&canvas->matrix_operations, free);
 	if (canvas->segments)
 		free(canvas->segments);
 	free(canvas);

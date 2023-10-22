@@ -50,7 +50,7 @@ int			push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix);
 /*############################################################################*/
 /*                              POINTS TRANSFORMATIONS                        */
 /*############################################################################*/
-t_point2i	transform_point_by_matrix(t_point2d point, t_matrix3x3 matrix);
+t_point2d	transform_point_by_matrix(t_point2i point, t_matrix3x3 matrix);
 t_vector4d	transform_homogenous_point_by_matrix(t_vector4d point,
 				t_matrix3x3 matrix);
 t_point2d	apply_transformations_to_point(t_point2i point,

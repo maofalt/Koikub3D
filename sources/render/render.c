@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/21 23:33:42 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:37:42 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,12 +317,13 @@ t_segment_d	transform_player_relative(t_segment_d segment, t_player player, doub
 {
 	t_segment_d	relative_segment;
 
+	(void) angle;
 	segment.point_a.vec = segment.point_a.vec - player.pos.vec;
 	segment.point_b.vec = segment.point_b.vec - player.pos.vec;
-	relative_segment.point_a.x = segment.point_a.x * sin(angle) - segment.point_a.y * cos(angle);
-	relative_segment.point_a.y = segment.point_a.x * cos(angle) + segment.point_a.y * sin(angle);
-	relative_segment.point_b.x = segment.point_b.x * sin(angle) - segment.point_b.y * cos(angle);
-	relative_segment.point_b.y = segment.point_b.x * cos(angle) + segment.point_b.y * sin(angle);
+	relative_segment.point_a.x = segment.point_a.x * player.dir.y - segment.point_a.y * player.dir.x;
+	relative_segment.point_a.y = segment.point_a.x * player.dir.x + segment.point_a.y * player.dir.y;
+	relative_segment.point_b.x = segment.point_b.x * player.dir.y - segment.point_b.y * player.dir.x;
+	relative_segment.point_b.y = segment.point_b.x * player.dir.x + segment.point_b.y * player.dir.y;
 
 	return (relative_segment);
 }

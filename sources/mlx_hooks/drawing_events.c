@@ -13,7 +13,7 @@
 #include "mlx_engine.h"
 #include "draw_utils.h"
 
-int ft_handle_zoom(int zoom_direction, t_cub *data)
+int	ft_handle_zoom(int zoom_direction, t_cub *data)
 {
 	t_canvas		*map_canvas;
 	t_matrix3x3		scale;
@@ -32,6 +32,7 @@ int ft_handle_zoom(int zoom_direction, t_cub *data)
 		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, scale);
+	data->update |= FULL_REDRAW;
 	return (0);
 }
 
@@ -61,9 +62,6 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 	ft_destroy_window_button(keysym, data);
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
-	// if (keysym == W_KEY || keysym == S_KEY || keysym == D_KEY
-	// 	|| keysym == A_KEY || keysym == LEFT_KEY || keysym == RIGHT_KEY)
-	// 	ft_movements_keys(keysym, data);
 	if (keysym == LEFT_KEY)
 	{
 		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
@@ -102,7 +100,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 	}
 	if (keysym == A_KEY || keysym == D_KEY)
 		ft_handle_rotation(keysym, data);
-	data->update = 1;
+	data->update = FULL_REDRAW;
 	return (0);
 }
 
@@ -114,20 +112,21 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	if (buttonsym == 1)
 	{
-		data->is_drawing = 1;
+		data->drawing = DRAWING;
 		start_drawing(map_canvas, (t_point2i){{x, y}});
 		copy_canvas_to_temp(data->canvas_list);
+		data->update |= LINE_REDRAW;
 	}
 	if (buttonsym == 3)
 	{
-		data->is_drawing = 0;
+		data->drawing = END_DRAWING;
 		end_drawing(map_canvas, (t_point2i){{x, y}}, white_color);
+		data->update |= LINE_REDRAW;
 	}
 	if (buttonsym == 4)
 		ft_handle_zoom(1, data);
 	if (buttonsym == 5)
 		ft_handle_zoom(-1, data);
-	data->update = 1;
 	return (0);
 }
 
@@ -137,11 +136,11 @@ int	ft_handle_mousemotion(int x, int y, t_cub *data)
 	const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
-	if (data->is_drawing && !data->update)
+	if (data->drawing == DRAWING && data->update == NO_UPDATE)
 	{
 		copy_temp_to_canvas(data->canvas_list);
 		update_drawing(map_canvas, (t_point2i){{x, y}}, white_color);
-		data->update = 1;
+		data->update |= LINE_REDRAW;
 	}
 	return (0);
 }

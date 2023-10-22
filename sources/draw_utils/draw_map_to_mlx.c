@@ -19,18 +19,19 @@ int	map_visualizer_draw(t_cub *data)
 	(void)current;
 	if (data->win_ptr == NULL)
 		return (1);
-	if (data->update)
+	if (data->update != NO_UPDATE)
 	{
 		canvas_to_mlx_image(data->screen,
 			get_canvas_from_list(data->canvas_list, MAP));
 		mlx_put_image_to_window(data->mlx_ptr,
 			data->win_ptr,
 			data->screen.mlx_img, 0, 0);
-		data->update = 0;
+		data->update = NO_UPDATE;
 		usleep(10);
 	}
 	return (0);
 }
+
 void	redraw_scene(t_cub *data, t_canvas *canvas)
 {
 	t_list		*current_segment;

@@ -36,6 +36,7 @@
 	and mark the area as dirty rectangle
 	Codede porrly we have to free all the memory
 */
+
 int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 {
 	t_segment_d	*new_segment;
@@ -44,7 +45,6 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	t_point2d	bottom_right;
 	t_point2d	size;
 
-	(void)size;
 	new_segment = (t_segment_d *)malloc(sizeof(t_segment_d));
 	if (!new_segment)
 		return (0);

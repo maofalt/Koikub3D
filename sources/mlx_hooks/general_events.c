@@ -72,13 +72,12 @@ static int ft_handle_zoom(int zoom_direction, t_cub *data)
 		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, scale);
-	redraw_scene(data, map_canvas);
 	return (0);
 }
 
 static int	ft_handle_rotation(int keysim, t_cub *data)
 {
-	const double	angle = 3.14159265 / 8.0;
+	const double	angle = 3.14159265 / 128.0;
 	t_matrix3x3		rotation;
 	t_canvas		*map_canvas;	
 
@@ -91,6 +90,7 @@ static int	ft_handle_rotation(int keysim, t_cub *data)
 		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, rotation);
+	redraw_scene(data, map_canvas);
 	return (0);
 }
 
@@ -164,15 +164,9 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 		end_drawing(map_canvas, (t_point2i){{x, y}}, white_color);
 	}
 	if (buttonsym == 4)
-	{
-		printf("zoom in\n");
 		ft_handle_zoom(1, data);
-	}
 	if (buttonsym == 5)
-	{
-		printf("zoom out\n");
 		ft_handle_zoom(-1, data);
-	}
 	data->update = 1;
 	return (0);
 }

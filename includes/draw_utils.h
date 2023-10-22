@@ -105,7 +105,7 @@ typedef struct s_canvas {
 	t_canvas_type	type;
 	t_matrix3x3		transformation_matrix;
 	t_point2i		size;
-	t_point2d		last_point;
+	t_point2i		last_point;
 	t_point2d		scale;
 	t_point2d		inv_scale;
 	t_color			*pixels;
@@ -153,11 +153,11 @@ void		put_pixel_on_canvas(t_canvas *canvas,
 				t_point2i coord,
 				t_color color);
 void		put_pixel_on_virtual_canvas(t_canvas *canvas,
-				t_point2d coord,
+				t_point2i coord,
 				t_color color);
 int			draw_line_on_map(t_canvas *canvas,
-				t_point2d start,
-				t_point2d end,
+				t_point2i start,
+				t_point2i end,
 				t_color color);
 void		start_drawing(t_canvas *canvas, t_point2i start_point);
 void		update_drawing(t_canvas *canvas,

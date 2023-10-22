@@ -106,7 +106,7 @@ typedef struct s_canvas {
 	t_canvas_type	type;
 	t_matrix3x3		transformation_matrix;
 	t_point2i		size;
-	t_point2i		last_point;
+	t_point2d		last_point;
 	t_point2d		scale;
 	t_point2d		inv_scale;
 	t_color			*pixels;

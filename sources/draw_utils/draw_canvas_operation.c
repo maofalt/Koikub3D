@@ -14,29 +14,40 @@
 
 void	start_drawing(t_canvas *canvas, t_point2i start_point)
 {
-	canvas->last_point = screen_to_canvas(start_point, canvas);
+	t_point2i	start_point_canvas;
+
+	start_point_canvas = screen_to_canvas(start_point, canvas);
+	canvas->last_point = apply_transformations_to_point(start_point_canvas,
+			canvas->matrix_operations);
 }
 
 void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 {
 	t_point2i	current_point_canvas;
+	t_point2i	last_point_canvas;
 
 	current_point_canvas = screen_to_canvas(current_point, canvas);
-	draw_line_on_map(canvas, canvas->last_point, current_point_canvas, color);
+	last_point_canvas = back_transform_point_by_matrix(
+			point2d_to_vector4d(&(canvas->last_point)),
+			get_inverse_transformation_matrix(canvas->transformation_matrix));
+	draw_line_on_map(canvas, last_point_canvas, current_point_canvas, color);
 }
 
 //check for erros here at the end after new _segment
 void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 {
 	t_point2i	current_point_canvas;
+	t_point2i	last_point_canvas;
 	t_segment_d	segment;
 	t_point2d	start;
 	t_point2d	end;
 
 	current_point_canvas = screen_to_canvas(end_point, canvas);
-	draw_line_on_map(canvas, canvas->last_point, end_point, color);
-	start = apply_transformations_to_point(canvas->last_point,
-			canvas->matrix_operations);
+	last_point_canvas = back_transform_point_by_matrix(
+			point2d_to_vector4d(&(canvas->last_point)),
+			get_inverse_transformation_matrix(canvas->transformation_matrix));
+	draw_line_on_map(canvas, last_point_canvas, end_point, color);
+	start = canvas->last_point;
 	end = apply_transformations_to_point(current_point_canvas,
 			canvas->matrix_operations);
 	ft_memset(&segment, 0, sizeof(t_segment_d));

@@ -56,4 +56,5 @@ void	redraw_scene(t_cub *data, t_canvas *canvas)
 			color);
 		current_segment = current_segment->next;
 	}
+	data->update &= ~FULL_REDRAW;
 }

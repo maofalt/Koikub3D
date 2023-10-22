@@ -35,7 +35,7 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
 	canvas->transformation_matrix = identity_matrix();
 	canvas->dirty_rect_count = 0;
-	canvas->dirty_rects = NULL;
+	canvas->matrix_operations = NULL;
 	canvas->segments = NULL;
 	canvas->type = type;
 	return (canvas);

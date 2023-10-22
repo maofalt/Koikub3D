@@ -42,6 +42,9 @@ static int ft_handle_zoom(int zoom_direction, t_cub *data)
 	{
 		scale = scaling_matrix((t_point2d){{0.9, 0.9}});
 	}
+	if (push_matrix_op(map_canvas->matrix_operations,
+				scale))
+			return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, scale);
 	return (0);
@@ -49,7 +52,7 @@ static int ft_handle_zoom(int zoom_direction, t_cub *data)
 
 static int	ft_handle_rotation(int keysim, t_cub *data)
 {
-	const double	angle = 3.14159265 / 16.0;
+	const double	angle = 3.14159265 / 8.0;
 	t_matrix3x3		rotation;
 	t_canvas		*map_canvas;	
 
@@ -58,6 +61,8 @@ static int	ft_handle_rotation(int keysim, t_cub *data)
 		rotation = rotation_matrix(-angle);
 	else
 		rotation = rotation_matrix(angle);
+	if (push_matrix_op(map_canvas->matrix_operations, rotation))
+		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, rotation);
 	return (0);
@@ -78,24 +83,36 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
+		if (push_matrix_op(map_canvas->matrix_operations,
+				matrix_transformation))
+			return (1);
 	}
 	if (keysym == RIGHT_KEY)
 	{
 		matrix_transformation = translation_matrix((t_point2d){{5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
+		if (push_matrix_op(map_canvas->matrix_operations,
+				matrix_transformation))
+			return (1);
 	}
 	if (keysym == UP_KEY)
 	{
 		matrix_transformation = translation_matrix((t_point2d){{0, 5}});
 		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix, matrix_transformation);		
+				map_canvas->transformation_matrix, matrix_transformation);
+		if (push_matrix_op(map_canvas->matrix_operations,
+				matrix_transformation))
+			return (1);	
 	}
 	if (keysym == DOWN_KEY)
 	{
 		matrix_transformation = translation_matrix((t_point2d){{0, -5}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
+		if (push_matrix_op(map_canvas->matrix_operations,
+				matrix_transformation))
+			return (1);
 	}
 	if (keysym == A_KEY || keysym == D_KEY)
 		ft_handle_rotation(keysym, data);

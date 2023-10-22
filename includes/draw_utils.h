@@ -109,7 +109,7 @@ typedef struct s_canvas {
 	t_point2d		scale;
 	t_point2d		inv_scale;
 	t_color			*pixels;
-	t_list			*dirty_rects;
+	t_list			*matrix_operations;
 	t_list			*segments;
 	int				dirty_rect_count;
 }	t_canvas;

@@ -59,3 +59,14 @@ t_point2d	transform_point_by_matrix(t_point2d point, t_matrix3x3 matrix)
 		+ matrix.row[1].z * homogenous_point.z;
 	return (result);
 }
+
+int	push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix)
+{
+	t_list	*new_matrix_op;
+
+	new_matrix_op = ft_lstnew(&matrix);
+	if (!new_matrix_op)
+		return (1);
+	ft_lstadd_front(matrix_op, new_matrix_op);
+	return (0);
+}

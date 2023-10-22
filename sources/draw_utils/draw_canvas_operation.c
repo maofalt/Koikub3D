@@ -36,13 +36,11 @@ int	draw_line_on_map(t_canvas *canvas,
 
 void	start_drawing(t_canvas *canvas, t_point2i start_point)
 {
-	canvas->last_point = screen_to_canvas(start_point, canvas);
+	canvas->last_point = start_point;
 }
 
 void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 {
-	
-	
 	draw_line_on_map(canvas, canvas->last_point, current_point, color);
 	//canvas->last_point = current_point;
 }

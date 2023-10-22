@@ -45,4 +45,5 @@ t_matrix3x3	rotation_matrix(double theta);
 t_matrix3x3	scaling_matrix(t_point2d scale);
 t_matrix3x3	translation_matrix(t_point2d translation);
 t_point2d	transform_point_by_matrix(t_point2d point, t_matrix3x3 matrix);
+int			push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix);
 #endif /* MATRIX_H */

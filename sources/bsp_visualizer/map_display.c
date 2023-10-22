@@ -70,6 +70,7 @@ int	map_visualizer_draw(t_cub *data)
 		return (1);
 	if (data->update)
 	{
+		printf("update render\n");
 		canvas_to_mlx_image(data->screen,
 			get_canvas_from_list(data->canvas_list, MAP));
 		mlx_put_image_to_window(data->mlx_ptr,

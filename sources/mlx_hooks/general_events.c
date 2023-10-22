@@ -13,6 +13,31 @@
 #include "mlx_engine.h"
 #include "draw_utils.h"
 
+void	redraw_scene(t_cub *data, t_canvas *canvas)
+{
+	t_list		*current_segment;
+	t_matrix3x3	invert_matrix;
+	t_segment_d	segment;	
+	t_color		color;
+
+	(void)data;
+	ft_memset(canvas->pixels, 0,
+		canvas->size.x * canvas->size.y * sizeof(t_color));
+	current_segment = canvas->segments;
+	color = (t_color){{255, 255, 255, 255}};
+	invert_matrix
+		= get_inverse_transformation_matrix(canvas->transformation_matrix);
+	while (current_segment)
+	{
+		segment = *(t_segment_d *)current_segment->content;
+		draw_line_on_map(canvas,
+			back_transform_point_by_matrix(segment.point_a, invert_matrix),
+			back_transform_point_by_matrix(segment.point_b, invert_matrix),
+			color);
+		current_segment = current_segment->next;
+	}
+}
+
 int	ft_destroy_window(t_cub *data)
 {	
 	free_everything(*data);
@@ -36,17 +61,18 @@ static int ft_handle_zoom(int zoom_direction, t_cub *data)
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	if (zoom_direction == 1)
 	{
-		scale = scaling_matrix((t_point2d){{1.1, 1.1}});
+		scale = scaling_matrix((t_point2d){{1.05, 1.05}});
 	}
 	else
 	{
-		scale = scaling_matrix((t_point2d){{0.9, 0.9}});
+		scale = scaling_matrix((t_point2d){{0.95, 0.95}});
 	}
 	if (push_matrix_op(map_canvas->matrix_operations,
-				scale))
-			return (1);
+			scale))
+		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, scale);
+	redraw_scene(data, map_canvas);
 	return (0);
 }
 
@@ -139,10 +165,12 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	}
 	if (buttonsym == 4)
 	{
+		printf("zoom in\n");
 		ft_handle_zoom(1, data);
 	}
 	if (buttonsym == 5)
 	{
+		printf("zoom out\n");
 		ft_handle_zoom(-1, data);
 	}
 	data->update = 1;

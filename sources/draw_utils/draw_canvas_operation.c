@@ -37,6 +37,7 @@ int	draw_line_on_map(t_canvas *canvas,
 	int			sx = start.x < end.x ? 1 : -1;
 	int			sy = start.y < end.y ? 1 : -1;
 
+	printf("draw_line_on_map\n");
 	while (1)
 	{
 		put_pixel_on_virtual_canvas(canvas, start, color);
@@ -84,7 +85,7 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 			canvas->matrix_operations);
 	end = apply_transformations_to_point(current_point_canvas,
 			canvas->matrix_operations);
-	canvas->transformation_matrix = identity_matrix();
+	//canvas->transformation_matrix = identity_matrix();
 	ft_memset(&segment, 0, sizeof(t_segment_d));
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);

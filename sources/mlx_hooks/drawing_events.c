@@ -51,7 +51,6 @@ int	ft_handle_rotation(int keysim, t_cub *data)
 		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, rotation);
-	redraw_scene(data, map_canvas);
 	return (0);
 }
 

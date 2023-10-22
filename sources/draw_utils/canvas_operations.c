@@ -41,9 +41,6 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 {
 	t_segment_d	*new_segment;
 	t_list		*new_node;
-	t_point2d	top_left;
-	t_point2d	bottom_right;
-	t_point2d	size;
 
 	new_segment = (t_segment_d *)malloc(sizeof(t_segment_d));
 	if (!new_segment)
@@ -54,14 +51,5 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 		return (free(new_segment),
 			ft_lstclear(&canvas->segments, free), 1);
 	ft_lstadd_back(&(canvas->segments), new_node);
-	top_left = (t_point2d){{
-		fmin(segment.point_a.x, segment.point_b.x),
-		fmin(segment.point_a.y, segment.point_b.y)}};
-	bottom_right = (t_point2d){{
-		fmax(segment.point_a.x, segment.point_b.x),
-		fmax(segment.point_a.y, segment.point_b.y)}};
-	size = (t_point2d){{
-		bottom_right.x - top_left.x,
-		bottom_right.y - top_left.y}};
 	return (0);
 }

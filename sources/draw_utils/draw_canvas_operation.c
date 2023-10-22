@@ -18,10 +18,10 @@ void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 {
 	int	offset;
 
-	if (coord.x >= 0 && coord.x < canvas->size.y && coord.y >= 0
-		&& coord.y < canvas->size.x)
+	if (coord.x >= 0 && coord.x < canvas->size.x && coord.y >= 0
+		&& coord.y < canvas->size.y)
 	{
-		offset = coord.y * canvas->size.y + coord.x;
+		offset = coord.y * canvas->size.x + coord.x;
 		canvas->pixels[offset] = color;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/22 20:56:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 01:44:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,8 +377,8 @@ int	draw_map_perspective_test(t_cub *data, t_canvas *canvas)
 
 			player_right.point_a.x = 0;
 			player_right.point_a.y = 0;
-			player_right.point_a.x = 10;
-			player_right.point_a.y = 0.01;
+			player_right.point_b.x = 10;
+			player_right.point_b.y = 0.01;
 			intersect = find_intersection(player_right, projection);
 			printf("intersect :%f ; %f\n", intersect.x, intersect.y);
 			intersect.y = 0.01;

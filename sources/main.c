@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/22 21:44:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:37:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv)
 		return (free_everything(data), 1);
 	if (map_convert(&data))
 		return (free_everything(data), 1);
-	if (!mlx_loop_hook(data.mlx_ptr, &game_loop, &data))
-		ft_mlx_engine(&data);
+	mlx_loop_hook(data.mlx_ptr, &game_loop, &data);
+	ft_mlx_engine(&data);
 	free_everything(data);
 }

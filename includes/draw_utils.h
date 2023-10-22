@@ -193,7 +193,6 @@ int			fuse_canvases(t_canvas **array_of_canvases);
 /*                              MLX CONVERSION                                */
 /*############################################################################*/
 
-// void		canvas_to_mlx_image(t_cub *data);
 void		canvas_to_mlx_image(t_img_data screen, t_canvas *final_canvas);
 
 /*############################################################################*/
@@ -229,4 +228,11 @@ int			draw_circle(t_shape_params *params);
 void		*aligned_malloc(size_t size, size_t alignment);
 void		aligned_free(void *ptr);
 void		*aligned_calloc(size_t nmemb, size_t size, size_t alignment);
+
+/*############################################################################*/
+/*                              ALIGNMENT METHODS                             */
+/*############################################################################*/
+int			map_visualizer_draw(t_cub *data);
+void		redraw_scene(t_cub *data, t_canvas *canvas);
+
 #endif

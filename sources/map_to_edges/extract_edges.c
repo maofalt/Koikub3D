@@ -50,7 +50,6 @@ int	extract_edge_recursively(char **map, t_list **edges)
 	context.map = map;
 	*edges = NULL;
 	context.visited = malloc2DArray(map);
-	//print_map(context.map);
 	if (context.visited == NULL)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))
@@ -81,8 +80,10 @@ int	process_map(t_edge_exploration_context *context, t_list **edges,
 	return (0);
 }
 
-int	process_row_vertical_horizontal(t_edge_exploration_context *context, t_list **edges,
-		int y, int width_map)
+int	process_row_vertical_horizontal(t_edge_exploration_context *context,
+	t_list **edges,
+	int y,
+	int width_map)
 {
 	int	x;
 
@@ -92,9 +93,11 @@ int	process_row_vertical_horizontal(t_edge_exploration_context *context, t_list 
 		context->current_coord = (t_vector4d){{x, y, 0, 0}};
 		if (context->map[y][x] == '1')
 		{
-			if (process_direction(context, edges, (t_vector4d){{1, 0, 0, 0}}, RIGHT))
+			if (process_direction(context, edges,
+				(t_vector4d){{1, 0, 0, 0}}, RIGHT))
 				return (1);
-			if (process_direction(context, edges, (t_vector4d){{0, 1, 0, 0}}, DOWN))
+			if (process_direction(context, edges,
+				(t_vector4d){{0, 1, 0, 0}}, DOWN))
 				return (1);
 		}
 		x++;

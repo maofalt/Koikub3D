@@ -21,8 +21,27 @@ int	map_visualizer_draw(t_cub *data)
 	if (data->update & FULL_REDRAW)
 	{
 		redraw_scene(data,
+			get_canvas_from_list(data->canvas_list, FINAL_TEMP));
+		redraw_scene(data,
 			get_canvas_from_list(data->canvas_list, MAP));
 	}
+	if (data->update & LINE_REDRAW && data->drawing & DRAWING)
+	{
+		start_drawing(get_canvas_from_list(data->canvas_list, MAP),
+			(t_point2i){{x, y}});
+		copy_canvas_to_temp(data->canvas_list);
+	} else if (data->update & LINE_REDRAW && data->drawing & END_DRAWING)
+	{
+		end_drawing(get_canvas_from_list(data->canvas_list, MAP),
+			(t_point2i){{x, y}}, (t_color){{255, 255, 255, 255}});
+		copy_canvas_to_temp(data->canvas_list);
+	} else if (data->drawing == LINE_REDRAW && data->update == NO_UPDATE)
+	{
+		copy_temp_to_canvas(data->canvas_list);
+		update_drawing(get_canvas_from_list(data->canvas_list, MAP),
+			(t_point2i){{x, y}}, (t_color){{255, 255, 255, 255}});
+	}
+
 	canvas_to_mlx_image(data->screen,
 		get_canvas_from_list(data->canvas_list, MAP));
 	mlx_put_image_to_window(data->mlx_ptr,

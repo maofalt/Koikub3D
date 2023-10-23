@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 03:55:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:06:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 	draw_segment_canvas(canvas, &projection_bottom,
 		(t_color){.d = 0xFFFFFFFF});
 	draw_segment_canvas(canvas, &wall,
-		(t_color) {.d = 0xFFFFFFFF});
+		(t_color) {.d = 0xFF00AA00});
 }
 
 

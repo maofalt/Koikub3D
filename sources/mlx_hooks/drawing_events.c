@@ -86,7 +86,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 				map_canvas->transformation_matrix, matrix_transformation);
 		if (push_matrix_op(map_canvas->matrix_operations,
 				matrix_transformation))
-			return (1);	
+			return (1);
 	}
 	if (keysym == DOWN_KEY)
 	{
@@ -106,9 +106,10 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 {
 	t_canvas		*map_canvas;
-	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+	//const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	data->mouse_pos = (t_point2i){{x, y}};
 	if (buttonsym == 1)
 	{
 		data->drawing = DRAWING;
@@ -132,9 +133,10 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 int	ft_handle_mousemotion(int x, int y, t_cub *data)
 {
 	t_canvas		*map_canvas;
-	const t_color	white_color = (t_color){{255, 255, 255, 255}};
+	//const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	data->mouse_pos = (t_point2i){{x, y}};
 	if (data->drawing == DRAWING && data->update == NO_UPDATE)
 	{
 		// copy_temp_to_canvas(data->canvas_list);

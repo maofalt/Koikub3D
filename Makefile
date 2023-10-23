@@ -90,7 +90,7 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pg #-g3 -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 #-g3 -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
 LIBA = ar rc
 LIBS = ranlib
 

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 01:44:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:39:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int	draw_map(t_cub *data, t_canvas *canvas)
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
 	draw_map_seg(segments_lst, canvas);
-	construct_bsp(&segments_lst, &tree, data);
+	construct_bsp(&segments_lst, (int **)&(int* ){NULL} ,&tree);
 	draw_map_with_tree(data, canvas, tree, 1);
 	// while (segments_lst != NULL)
 	// {

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 01:48:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:55:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,56 @@ int	draw_player(t_cub *data, t_canvas *canvas)
 	return (0);
 }
 
-int	draw_map_with_tree(
-		t_cub *data,
-		t_canvas *canvas,
-		t_tree_node	*tree,
-		int depth)
+t_tree_node	*find_player_node(t_tree_node	*tree, t_cub *data)
 {
+	t_tree_node	*child;
 	t_segment_d	separator;
 	t_point2d	player_pos;
 	int			player_side;
-	t_color		color;
 
 	if (!tree)
-		return (0);
+		return (NULL);
+	if (!tree->left || !tree->right)
+		return (tree);
 	player_pos = vector4d_to_point2d(&data->player.pos);
-	separator = *((t_bsp_tree_node_data *)tree->data)->separator;
+	separator = ((t_bsp_tree_node_data *)tree->data)->separator;
 	player_side = point_space_partitioning(&separator, &player_pos);
 	if (player_side > 0)
-		draw_map_with_tree(data, canvas, tree->right, depth + 1);
+		child = find_player_node(tree->right, data);
 	else
-		draw_map_with_tree(data, canvas, tree->left, depth + 1);
-	color.d = 0xFF0000FF;
-	color.rgb_color /= (uint8_t)depth;
-	separator.point_a.vec *= 10;
-	separator.point_b.vec *= 10;
-	draw_segment_canvas(canvas, &separator, color);
-	return (0);
+		child = find_player_node(tree->left, data);
+	if (child != NULL)
+		return (child);
+	else
+		return (NULL);
+	// return (NULL);
 }
+
+
+
+void	draw_map_with_tree(t_cub *data, t_canvas *canvas)
+{
+	t_tree_node	*node;
+	t_color		color;
+	t_list		*segments_lst;
+	t_segment_d	segment;
+
+	node = find_player_node(data->map_data.bsp, data);
+
+	if (!node)
+		return ;
+	segments_lst = ((t_bsp_tree_node_data*)node->data)->sector_segments;
+	while (segments_lst)
+	{
+		segment = *(t_segment_d*)(segments_lst->content);
+		color.d = 0xFF0000FF;
+		segment.point_a.vec *= 10;
+		segment.point_b.vec *= 10;
+		draw_segment_canvas(canvas, &segment, color);
+		segments_lst = segments_lst->next;
+	}
+}
+
 
 void	draw_player_fixed(t_canvas *canvas)
 {
@@ -183,46 +206,47 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 // }
 
 
-t_tree_node	*find_player_node(t_tree_node	*tree, t_cub *data)
-{
-	t_tree_node	*child;
-	t_segment_d	separator;
-	t_point2d	player_pos;
-	int			player_side;
-
-	if (!tree)
-		return (NULL);
-	player_pos = vector4d_to_point2d(&data->player.pos);
-	separator = *((t_bsp_tree_node_data *)tree->data)->separator;
-	player_side = point_space_partitioning(&separator, &player_pos);
-	if (player_side > 0)
-		child = find_player_node(tree->right, data);
-	else
-		child = find_player_node(tree->left, data);
-	if (child != NULL)
-		return (child);
-	else
-		return (tree);
-}
 
 
 
 void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 {
 	t_tree_node	*node;
+	t_list		*segments;
 
 	node = find_player_node(data->map_data.bsp, data);
 
-	while (node)
+	if (!node)
+		return ;
+	segments = ((t_bsp_tree_node_data*)node->data)->sector_segments;
+	while (segments)
 	{
 		draw_wall(data, canvas,
-			*((t_bsp_tree_node_data *)node->data)->separator);
-		node = node->parent;
+			*(t_segment_d*)segments->content);
+		segments = segments->next;
 	}
 }
 
 
 //----------------------------------
+
+int	draw_map_seg(t_list *segments_lst, t_canvas *canvas)
+{
+	t_segment_d	scaled_segment;
+
+	while (segments_lst != NULL)
+	{
+		scaled_segment = *(t_segment_d *)segments_lst->content;
+		scaled_segment.point_a.vec *= 10;
+		scaled_segment.point_b.vec *= 10;
+		draw_segment_canvas(canvas, &scaled_segment,
+			(t_color) {.d = 0xFF555555});
+		segments_lst = segments_lst->next;
+	}
+	return (0);
+}
+
+
 void	game_render(t_cub *data)
 {
 	t_canvas	*canvas;
@@ -234,7 +258,8 @@ void	game_render(t_cub *data)
 	// draw_map(data, canvas);
 	draw_player(data, canvas);
 	draw_map_perspective(data, canvas);
-	draw_map_with_tree(data, canvas, data->map_data.bsp, 1);
+	draw_map_seg(data->map_data.segments, canvas);
+	draw_map_with_tree(data, canvas);
 	// draw_player_fixed(canvas);
 	canvas_to_mlx_image(data->screen,
 		canvas);

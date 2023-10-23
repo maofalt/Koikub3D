@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_cut.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:04:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 20:31:09 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/23 02:45:31 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ int	cut_space(
 		if ((context.point_a_side | context.point_b_side) == 0)
 		{
 			lst_move_node(segments, &context.segment_node);
-			continue ;
+			// if (add_segment_to_lst(left, context.segment_cpy))
+			// 	return (1);
+			// lst_move_node(right, &context.segment_node);
 		}
 		else if (context.point_a_side * context.point_b_side < 0)
 		{

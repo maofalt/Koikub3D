@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/23 00:37:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:43:37 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	map_convert(t_cub *data)
 	segments_lst = NULL;
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
-	if (construct_bsp(&segments_lst, &tree, data))
+	if (construct_bsp(&segments_lst,(t_list **)&(t_list* ){NULL},  &tree))
 	{
 		//TODO: free segments
 		return (1);

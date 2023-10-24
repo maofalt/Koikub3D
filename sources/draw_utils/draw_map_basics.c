@@ -51,7 +51,6 @@ int	draw_line_on_map(t_canvas *canvas,
 	int				e2;
 	t_point2i		step;
 
-	printf("drawling line\n");
 	initialize_bresenham(&step, &delta, &start, &end);
 	err = delta.x - delta.y;
 	while (1)

@@ -20,17 +20,13 @@ int	map_visualizer_draw(t_cub *data)
 		return (0);
 	if (data->update & LINE_REDRAW && data->drawing == NOT_DRAWING)
 	{
-		printf("start drawing\n");
 		start_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos);
 		copy_canvas_to_temp(data->canvas_list);
 		data->drawing = DRAWING;
 	}
 	else if (data->update & LINE_REDRAW && data->drawing & END_DRAWING)
-	{
-		printf("end drawing\n");
-		// end_drawing(get_canvas_from_list(data->canvas_list, MAP),
-		// 	data->mouse_pos, (t_color){{255, 255, 255, 255}});
+	{;
 		redraw_scene(data,
 			get_canvas_from_list(data->canvas_list, FINAL_TEMP));
 		data->drawing = NOT_DRAWING;
@@ -39,14 +35,12 @@ int	map_visualizer_draw(t_cub *data)
 	}
 	else if (data->update & LINE_REDRAW && data->drawing == DRAWING)
 	{
-		printf("update drawing\n");
 		copy_temp_to_canvas(data->canvas_list);
 		update_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos, (t_color){{255, 255, 255, 255}});
 	}
 	if (data->update & FULL_REDRAW)
 	{
-		printf("full redraw\n");
 		redraw_scene(data,
 			get_canvas_from_list(data->canvas_list, FINAL_TEMP));
 		redraw_scene(data,

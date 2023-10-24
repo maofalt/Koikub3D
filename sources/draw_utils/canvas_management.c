@@ -50,6 +50,6 @@ void	free_canvas(t_canvas *canvas)
 	if (canvas->matrix_operations)
 		ft_lstclear(&canvas->matrix_operations, free);
 	if (canvas->segments)
-		free(canvas->segments);
+		ft_lstclear(&canvas->segments, free);
 	aligned_free(canvas);
 }

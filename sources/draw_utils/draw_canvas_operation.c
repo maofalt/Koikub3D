@@ -59,6 +59,25 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 
 	ft_memset(&segment, 0, sizeof(t_segment_d));
 	segment.point_a = point2d_to_vector4d(&start);
-	segment.point_b = point2d_to_vector4d(&end);
+	segment.point_b = point2d_to_vector4d(&end);	
 	add_segment_to_lst(&canvas->segments, segment);
+
+// Recalculate the segment's point_a and point_b pixel coordinates
+    t_point2i recalculated_pixel_point_a = back_transform_point_by_matrix(
+        segment.point_a, 
+        get_inverse_transformation_matrix(canvas->transformation_matrix)
+    );
+
+    t_point2i recalculated_pixel_point_b = back_transform_point_by_matrix(
+        segment.point_b, 
+        get_inverse_transformation_matrix(canvas->transformation_matrix)
+    );
+
+    // Printing recalculated pixel points for debugging
+	printf("New transformign back to pixel points\n");
+    printf("Recalculated Pixel Point A: x: %d, y: %d\n", recalculated_pixel_point_a.x, recalculated_pixel_point_a.y);
+    printf("Recalculated Pixel Point B: x: %d, y: %d\n", recalculated_pixel_point_b.x, recalculated_pixel_point_b.y);
+	printf("original pixel points\n");
+	printf("Pixel Point A: x: %d, y: %d\n", current_point_canvas.x, current_point_canvas.y);
+	printf("Pixel Point B: x: %d, y: %d\n", last_point_canvas.x, last_point_canvas.y);
 }

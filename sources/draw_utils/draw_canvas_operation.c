@@ -16,7 +16,6 @@ void	start_drawing(t_canvas *canvas, t_point2i start_point)
 {
 	t_point2i	start_point_canvas;
 
-	printf("start drawing\n");
 	start_point_canvas = screen_to_canvas(start_point, canvas);
 	canvas->last_point = apply_transformations_to_point(start_point_canvas,
 			canvas->matrix_operations);

@@ -44,6 +44,7 @@ void	free_canvas_list(t_list *canvas_list)
 		free(current_node);
 		current_node = next_node;
 	}
+	current_node = NULL;
 }
 
 t_list	*initialize_canvas_list(t_point2i size_map,

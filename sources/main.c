@@ -30,6 +30,7 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
+	free_canvas_list(data.canvas_list);
 }
 
 int	main(int argc, char **argv)

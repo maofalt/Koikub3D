@@ -43,14 +43,13 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 
 void	free_canvas(t_canvas *canvas)
 {
-	printf("free canvas\n");
 	if (!canvas)
 		return ;
 	if (canvas->pixels)
-		free(canvas->pixels);
+		aligned_free(canvas->pixels);
 	if (canvas->matrix_operations)
 		ft_lstclear(&canvas->matrix_operations, free);
 	if (canvas->segments)
 		free(canvas->segments);
-	free(canvas);
+	aligned_free(canvas);
 }

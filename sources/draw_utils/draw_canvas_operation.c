@@ -49,7 +49,6 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	last_point_canvas = back_transform_point_by_matrix(
 			point2d_to_vector4d(&(canvas->last_point)),
 			invert_matrix);
-	// draw_line_on_map(canvas, last_point_canvas, end_point, color);
 	start = canvas->last_point;
 	end = apply_transformations_to_point(current_point_canvas,
 			canvas->matrix_operations);
@@ -57,4 +56,5 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&canvas->segments, segment);
+	(void)last_point_canvas;
 }

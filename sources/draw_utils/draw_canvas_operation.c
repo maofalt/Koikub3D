@@ -42,13 +42,14 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	t_point2d	start;
 	t_point2d	end;
 
+	(void)color;
 	current_point_canvas = screen_to_canvas(end_point, canvas);
 	t_matrix3x3 invert_matrix
 		= get_inverse_transformation_matrix(canvas->transformation_matrix);
 	last_point_canvas = back_transform_point_by_matrix(
 			point2d_to_vector4d(&(canvas->last_point)),
 			invert_matrix);
-	draw_line_on_map(canvas, last_point_canvas, end_point, color);
+	// draw_line_on_map(canvas, last_point_canvas, end_point, color);
 	start = canvas->last_point;
 	end = apply_transformations_to_point(current_point_canvas,
 			canvas->matrix_operations);

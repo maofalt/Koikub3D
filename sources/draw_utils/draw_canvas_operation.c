@@ -27,7 +27,6 @@ void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 	t_point2i	current_point_canvas;
 	t_point2i	last_point_canvas;
 
-	printf("update drawing\n");
 	current_point_canvas = screen_to_canvas(current_point, canvas);
 	last_point_canvas = back_transform_point_by_matrix(
 			point2d_to_vector4d(&(canvas->last_point)),

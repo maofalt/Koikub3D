@@ -22,22 +22,22 @@ int	map_visualizer_draw(t_cub *data)
 	{
 		start_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos);
-		//copy_canvas_to_temp(data->canvas_list);
+		copy_canvas_to_temp(data->canvas_list);
 		data->drawing = DRAWING;
 	}
 	else if (data->update & LINE_REDRAW && data->drawing & END_DRAWING)
 	{
-		printf("end drawing\n");
 		end_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos, (t_color){{255, 255, 255, 255}});
-		//copy_canvas_to_temp(data->canvas_list);
+		data->drawing = NOT_DRAWING;
+		data->update &= ~LINE_REDRAW;
+		copy_canvas_to_temp(data->canvas_list);
 	}
 	else if (data->update & LINE_REDRAW && data->drawing == DRAWING)
 	{
-		printf("update drawing\n");
-		//copy_temp_to_canvas(data->canvas_list);
-		//update_drawing(get_canvas_from_list(data->canvas_list, MAP),
-			//data->mouse_pos, (t_color){{255, 255, 255, 255}});
+		copy_temp_to_canvas(data->canvas_list);
+		update_drawing(get_canvas_from_list(data->canvas_list, MAP),
+			data->mouse_pos, (t_color){{255, 255, 255, 255}});
 	}
 	if (data->update & FULL_REDRAW)
 	{
@@ -45,13 +45,13 @@ int	map_visualizer_draw(t_cub *data)
 			get_canvas_from_list(data->canvas_list, FINAL_TEMP));
 		redraw_scene(data,
 			get_canvas_from_list(data->canvas_list, MAP));
+		data->update = NO_UPDATE;
 	}
 	canvas_to_mlx_image(data->screen,
 		get_canvas_from_list(data->canvas_list, MAP));
 	mlx_put_image_to_window(data->mlx_ptr,
 		data->win_ptr,
 		data->screen.mlx_img, 0, 0);
-	data->update = NO_UPDATE;
 	usleep(10);
 	return (0);
 }

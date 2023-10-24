@@ -19,7 +19,6 @@ int	ft_handle_zoom(int zoom_direction, t_cub *data)
 	t_matrix3x3		scale;
 
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
-	printf("\tinside ft_handle_zoom\n");
 	if (zoom_direction == 1)
 	{
 		scale = scaling_matrix((t_point2d){{1.05, 1.05}});

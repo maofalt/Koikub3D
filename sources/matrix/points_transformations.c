@@ -32,17 +32,16 @@ t_vector4d	transform_homogenous_point_by_matrix(t_vector4d point,
 {
 	t_vector4d	result;
 
-	printf("\t\t\ttransform_homogenous_point_by_matrix\n");
-	printf("\t\t\t\tmatrix row 0 x: %f y: %f z: %f\n", matrix.row[0].x, matrix.row[0].y, matrix.row[0].z);
-	printf("\t\t\t\tmatrix row 1 x: %f y: %f z: %f\n", matrix.row[1].x, matrix.row[1].y, matrix.row[1].z);
-	printf("\t\t\t\tmatrix row 2 x: %f y: %f z: %f\n", matrix.row[2].x, matrix.row[2].y, matrix.row[2].z);
-	printf("\t\t\t\tpoint x: %f y: %f z: %f\n", point.x, point.y, point.z);
 	result.x = matrix.row[0].x * point.x
 		+ matrix.row[0].y * point.y
 		+ matrix.row[0].z * point.z;
 	result.y = matrix.row[1].x * point.x
 		+ matrix.row[1].y * point.y
 		+ matrix.row[1].z * point.z;
+	result.z = matrix.row[2].x * point.x
+		+ matrix.row[2].y * point.y
+		+ matrix.row[2].z * point.z;
+	result.w = 0;
 	return (result);
 }
 
@@ -54,23 +53,15 @@ t_point2d	apply_transformations_to_point(t_point2i point,
 	t_point2d	result;
 	t_list		*node;
 
-	printf("\tapply_transformations_to_point\n");
-	printf("\t canvas point x: %d y: %d\n", point.x, point.y);
 	hom_point = point2i_to_vector4d(&point);
-	printf("\t 4d canvas point x: %f y: %f z: %f w: %f\n", hom_point.x, hom_point.y, hom_point.z, hom_point.w);
 	node = matrix_list;
-	printf("\t\tnbr of transformations: %d\n", ft_lstsize(matrix_list));
 	while (node)
 	{
 		transformed_point = transform_homogenous_point_by_matrix(hom_point,
 				*(t_matrix3x3 *)(node->content));
-		printf("\t\ttransformed_point x: %f y: %f\n", transformed_point.x,
-			transformed_point.y);
 		hom_point = transformed_point;
 		node = node->next;
 	}
-	//ft_lstclear(&matrix_list, free);
 	result = vector4d_to_point2d(&hom_point);
-	printf("\t result x: %f y: %f\n", result.x, result.y);
 	return (result);
 }

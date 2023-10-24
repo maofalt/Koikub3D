@@ -18,20 +18,23 @@ int	map_visualizer_draw(t_cub *data)
 		return (1);
 	if (data->update == NO_UPDATE)
 		return (0);
-	if (data->update & LINE_REDRAW && data->drawing & DRAWING)
+	if (data->update & LINE_REDRAW && data->drawing == NOT_DRAWING)
 	{
 		start_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos);
 		//copy_canvas_to_temp(data->canvas_list);
+		data->drawing = DRAWING;
 	}
 	else if (data->update & LINE_REDRAW && data->drawing & END_DRAWING)
 	{
+		printf("end drawing\n");
 		end_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			data->mouse_pos, (t_color){{255, 255, 255, 255}});
 		//copy_canvas_to_temp(data->canvas_list);
 	}
-	else if (data->drawing & LINE_REDRAW && data->update & NO_UPDATE)
+	else if (data->update & LINE_REDRAW && data->drawing == DRAWING)
 	{
+		printf("update drawing\n");
 		//copy_temp_to_canvas(data->canvas_list);
 		//update_drawing(get_canvas_from_list(data->canvas_list, MAP),
 			//data->mouse_pos, (t_color){{255, 255, 255, 255}});

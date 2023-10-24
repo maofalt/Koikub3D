@@ -112,10 +112,11 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	data->mouse_pos = (t_point2i){{x, y}};
 	if (buttonsym == 1)
 	{
-		data->drawing = DRAWING;
+		data->drawing = NOT_DRAWING;
+		data->update |= LINE_REDRAW;
+		data->update &= ~NO_UPDATE;
 		// start_drawing(map_canvas, (t_point2i){{x, y}});
 		// copy_canvas_to_temp(data->canvas_list);
-		data->update |= LINE_REDRAW;
 	}
 	if (buttonsym == 3)
 	{
@@ -137,7 +138,7 @@ int	ft_handle_mousemotion(int x, int y, t_cub *data)
 
 	//map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	data->mouse_pos = (t_point2i){{x, y}};
-	if (data->drawing == DRAWING && data->update == NO_UPDATE)
+	if (data->drawing == DRAWING && data->update == LINE_REDRAW)
 	{
 		// copy_temp_to_canvas(data->canvas_list);
 		// update_drawing(map_canvas, (t_point2i){{x, y}}, white_color);

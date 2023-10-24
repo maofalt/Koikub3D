@@ -55,6 +55,6 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 			canvas->matrix_operations);
 	ft_memset(&segment, 0, sizeof(t_segment_d));
 	segment.point_a = point2d_to_vector4d(&start);
-	segment.point_b = point2d_to_vector4d(&end);	
+	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&canvas->segments, segment);
 }

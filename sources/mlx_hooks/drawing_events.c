@@ -112,7 +112,7 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 		data->update |= LINE_REDRAW;
 		data->update &= ~NO_UPDATE;
 	}
-	if (buttonsym == 3)
+	if (buttonsym == 3 && data->update & LINE_REDRAW)
 	{
 		data->drawing = END_DRAWING;
 		data->update |= LINE_REDRAW;

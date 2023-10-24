@@ -19,6 +19,7 @@ int	ft_handle_zoom(int zoom_direction, t_cub *data)
 	t_matrix3x3		scale;
 
 	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	printf("\tinside ft_handle_zoom\n");
 	if (zoom_direction == 1)
 	{
 		scale = scaling_matrix((t_point2d){{1.05, 1.05}});
@@ -27,12 +28,12 @@ int	ft_handle_zoom(int zoom_direction, t_cub *data)
 	{
 		scale = scaling_matrix((t_point2d){{0.95, 0.95}});
 	}
-	if (push_matrix_op(map_canvas->matrix_operations,
-			scale))
-		return (1);
+	data->update |= FULL_REDRAW;
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, scale);
-	data->update |= FULL_REDRAW;
+	if (push_matrix_op(&map_canvas->matrix_operations,
+			scale))
+		return (1);
 	return (0);
 }
 
@@ -47,7 +48,7 @@ int	ft_handle_rotation(int keysim, t_cub *data)
 		rotation = rotation_matrix(-angle);
 	else
 		rotation = rotation_matrix(angle);
-	if (push_matrix_op(map_canvas->matrix_operations, rotation))
+	if (push_matrix_op(&map_canvas->matrix_operations, rotation))
 		return (1);
 	map_canvas->transformation_matrix
 		= matrix_multiply(map_canvas->transformation_matrix, rotation);
@@ -65,8 +66,8 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 	{
 		matrix_transformation = translation_matrix((t_point2d){{5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(map_canvas->matrix_operations,
+				map_canvas->transformation_matrix,matrix_transformation);
+		if (push_matrix_op(&map_canvas->matrix_operations,
 				matrix_transformation))
 			return (1);
 	}
@@ -75,7 +76,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(map_canvas->matrix_operations,
+		if (push_matrix_op(&map_canvas->matrix_operations,
 				matrix_transformation))
 			return (1);
 	}
@@ -84,7 +85,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 		matrix_transformation = translation_matrix((t_point2d){{0, 5}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(map_canvas->matrix_operations,
+		if (push_matrix_op(&map_canvas->matrix_operations,
 				matrix_transformation))
 			return (1);
 	}
@@ -93,7 +94,7 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 		matrix_transformation = translation_matrix((t_point2d){{0, -5}});
 		map_canvas->transformation_matrix = matrix_multiply(
 				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(map_canvas->matrix_operations,
+		if (push_matrix_op(&map_canvas->matrix_operations,
 				matrix_transformation))
 			return (1);
 	}
@@ -105,10 +106,10 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 {
-	t_canvas		*map_canvas;
+	//t_canvas		*map_canvas;
 	//const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
-	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	//map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	data->mouse_pos = (t_point2i){{x, y}};
 	if (buttonsym == 1)
 	{
@@ -132,10 +133,10 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 
 int	ft_handle_mousemotion(int x, int y, t_cub *data)
 {
-	t_canvas		*map_canvas;
+	//t_canvas		*map_canvas;
 	//const t_color	white_color = (t_color){{255, 255, 255, 255}};
 
-	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	//map_canvas = get_canvas_from_list(data->canvas_list, MAP);
 	data->mouse_pos = (t_point2i){{x, y}};
 	if (data->drawing == DRAWING && data->update == NO_UPDATE)
 	{

@@ -20,6 +20,9 @@ t_matrix3x3	matrix_multiply(t_matrix3x3 A, t_matrix3x3 B)
 	int			k;
 
 	i = 0;
+	printf("\t\t\tmatrix_multiply\n");
+	printf("\t\t\t\tmatrix A row 0 x: %f y: %f z: %f\n", A.row[0].x, A.row[0].y, A.row[0].z);
+	printf("\t\t\t\tmatrix A row 1 x: %f y: %f z: %f\n", A.row[1].x, A.row[1].y, A.row[1].z);
 	while (i < 3)
 	{
 		j = 0;

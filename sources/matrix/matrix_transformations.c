@@ -45,13 +45,18 @@ t_matrix3x3	translation_matrix(t_point2d translation)
 	return (trans);
 }
 
-int	push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix)
+int	push_matrix_op(t_list **matrix_op, t_matrix3x3 matrix)
 {
-	t_list	*new_matrix_op;
+	t_matrix3x3	*new_matrix;
+	t_list		*new_matrix_op;
 
-	new_matrix_op = ft_lstnew(&matrix);
-	if (!new_matrix_op)
+	new_matrix = (t_matrix3x3 *)malloc(sizeof(t_matrix3x3));
+	if (!new_matrix)
 		return (1);
-	ft_lstadd_front(&matrix_op, new_matrix_op);
+	*new_matrix = matrix;
+	new_matrix_op = ft_lstnew(new_matrix);
+	if (!new_matrix_op)
+		return (free(new_matrix), 1);
+	ft_lstadd_front(matrix_op, new_matrix_op);
 	return (0);
 }

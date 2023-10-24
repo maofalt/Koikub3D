@@ -43,6 +43,7 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 
 void	free_canvas(t_canvas *canvas)
 {
+	printf("free canvas\n");
 	if (!canvas)
 		return ;
 	if (canvas->pixels)

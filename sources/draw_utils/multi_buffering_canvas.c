@@ -68,7 +68,9 @@ t_point2i	screen_to_canvas(t_point2i screen_point, t_canvas *canvas)
 {
 	t_point2i	canvas_point;
 
+	printf("\t Screen point: %d, %d\n", screen_point.x, screen_point.y);
 	canvas_point.x = round(screen_point.x * canvas->inv_scale.x);
 	canvas_point.y = round(screen_point.y * canvas->inv_scale.y);
+	printf("\t Canvas point: %d, %d\n", canvas_point.x, canvas_point.y);
 	return (canvas_point);
 }

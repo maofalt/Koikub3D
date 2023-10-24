@@ -45,7 +45,7 @@ int			invert_matrix(t_matrix3x3 matrix, t_matrix3x3 *inverse);
 t_matrix3x3	rotation_matrix(double theta);
 t_matrix3x3	scaling_matrix(t_point2d scale);
 t_matrix3x3	translation_matrix(t_point2d translation);
-int			push_matrix_op(t_list *matrix_op, t_matrix3x3 matrix);
+int			push_matrix_op(t_list **matrix_op, t_matrix3x3 matrix);
 
 /*############################################################################*/
 /*                              POINTS TRANSFORMATIONS                        */

@@ -120,10 +120,10 @@ typedef struct s_canvas {
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {
-	t_point2i		size;
 	t_point2i		start_position;
-	int				z_index;
+	t_point2i		size;
 	t_canvas_type	type;
+	int				z_index;
 }	t_canvas_init_entry;
 
 /*############################################################################*/

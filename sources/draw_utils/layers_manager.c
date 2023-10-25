@@ -95,4 +95,19 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	return (NULL);
 }
 
-t_canvas_u
+t_canvas_init_entry	*get_canvas_init_table(void)
+{
+	static t_canvas_init_entry	canvas_init_table[]
+		= {
+	{.size = {UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}, .type = UI,
+		.z_index = UI_Z_INDEX, .position = {0, 0}},
+	{.size = {MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}, .type = MAP,
+		.z_index = MAP_Z_INDEX, .position = {0, 0}},
+	{.size = {FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}, .type = FINAL,
+		.z_index = FINAL_Z_INDEX, .position = {0, 0}},
+	{.size = {MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}, .type = FINAL_TEMP,
+		.z_index = FINAL_TEMP_Z_INDEX, .position = {0, 0}}
+	};
+
+	return (canvas_init_table);
+}

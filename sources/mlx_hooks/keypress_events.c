@@ -21,7 +21,7 @@ void	ft_destroy_window_button(int keysym, t_cub *data)
 	}
 }
 
-	/* Events catching movements and moving into the fractal window*/
+/* Events catching movements and moving into the fractal window*/
 void	ft_movements_keys(int keysym, t_cub *data)
 {
 	if (data->update)

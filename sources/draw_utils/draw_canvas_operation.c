@@ -37,18 +37,12 @@ void	update_drawing(t_canvas *canvas, t_point2i current_point, t_color color)
 void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 {
 	t_point2i	current_point_canvas;
-	t_point2i	last_point_canvas;
 	t_segment_d	segment;
 	t_point2d	start;
 	t_point2d	end;
 
 	(void)color;
 	current_point_canvas = screen_to_canvas(end_point, canvas);
-	t_matrix3x3 invert_matrix
-		= get_inverse_transformation_matrix(canvas->transformation_matrix);
-	last_point_canvas = back_transform_point_by_matrix(
-			point2d_to_vector4d(&(canvas->last_point)),
-			invert_matrix);
 	start = canvas->last_point;
 	end = apply_transformations_to_point(current_point_canvas,
 			canvas->matrix_operations);
@@ -56,5 +50,4 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&canvas->segments, segment);
-	(void)last_point_canvas;
 }

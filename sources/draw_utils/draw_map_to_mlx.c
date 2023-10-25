@@ -12,47 +12,50 @@
 
 #include "draw_utils.h"
 
+static void	handle_line_redraw(t_cub *data)
+{
+	const t_point2i	mouse_pos = data->mouse_pos;
+	t_canvas		*canvas;
+
+	canvas = get_canvas_from_list(data->canvas_list, MAP);
+	if (data->drawing == NOT_DRAWING)
+	{
+		start_drawing(canvas, (t_point2i)mouse_pos);
+		copy_canvas_to_temp(data->canvas_list);
+		data->drawing = DRAWING;
+	}
+	else if (data->drawing & END_DRAWING)
+	{
+		end_drawing(canvas, mouse_pos, (t_color){{255, 255, 255, 255}});
+		redraw_scene(data, canvas);
+		data->drawing = NOT_DRAWING;
+		data->update &= ~LINE_REDRAW;
+		copy_canvas_to_temp(data->canvas_list);
+	}
+	else if (data->drawing == DRAWING)
+	{
+		copy_temp_to_canvas(data->canvas_list);
+		update_drawing(canvas, mouse_pos, (t_color){{255, 255, 255, 255}});
+	}
+}
+
 int	map_visualizer_draw(t_cub *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
 	if (data->update == NO_UPDATE)
 		return (0);
-	if (data->update & LINE_REDRAW && data->drawing == NOT_DRAWING)
-	{
-		start_drawing(get_canvas_from_list(data->canvas_list, MAP),
-			data->mouse_pos);
-		copy_canvas_to_temp(data->canvas_list);
-		data->drawing = DRAWING;
-	}
-	else if (data->update & LINE_REDRAW && data->drawing & END_DRAWING)
-	{
-		end_drawing(get_canvas_from_list(data->canvas_list, MAP),
-			data->mouse_pos, (t_color){{255, 255, 255, 255}});
-		redraw_scene(data,
-			get_canvas_from_list(data->canvas_list, MAP));
-		data->drawing = NOT_DRAWING;
-		data->update &= ~LINE_REDRAW;
-		copy_canvas_to_temp(data->canvas_list);
-	}
-	else if (data->update & LINE_REDRAW && data->drawing == DRAWING)
-	{
-		copy_temp_to_canvas(data->canvas_list);
-		update_drawing(get_canvas_from_list(data->canvas_list, MAP),
-			data->mouse_pos, (t_color){{255, 255, 255, 255}});
-	}
+	if (data->update & LINE_REDRAW)
+		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)
 	{
-		redraw_scene(data,
-		  	get_canvas_from_list(data->canvas_list, FINAL_TEMP));
-		redraw_scene(data,
-			get_canvas_from_list(data->canvas_list, MAP));
+		redraw_scene(data, get_canvas_from_list(data->canvas_list, FINAL_TEMP));
+		redraw_scene(data, get_canvas_from_list(data->canvas_list, MAP));
 		data->update = NO_UPDATE;
 	}
 	canvas_to_mlx_image(data->screen,
 		get_canvas_from_list(data->canvas_list, MAP));
-	mlx_put_image_to_window(data->mlx_ptr,
-		data->win_ptr,
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	usleep(10);
 	return (0);

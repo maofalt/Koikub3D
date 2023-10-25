@@ -16,7 +16,6 @@
 t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 {
 	t_canvas	*canvas;
-	t_color		default_color;
 	int			total_pixels;
 
 	canvas = (t_canvas *)aligned_calloc(1, sizeof(t_canvas), 32);
@@ -31,12 +30,9 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 			* sizeof(t_color), 32);
 	if (!canvas->pixels)
 		return (free(canvas), NULL);
-	ft_memset(&default_color, 0, sizeof(t_color));
 	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
+	canvas->transparency_key = (t_color){{0, 0, 255, 0}};
 	canvas->transformation_matrix = identity_matrix();
-	canvas->dirty_rect_count = 0;
-	canvas->matrix_operations = NULL;
-	canvas->segments = NULL;
 	canvas->type = type;
 	return (canvas);
 }

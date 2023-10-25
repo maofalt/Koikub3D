@@ -13,6 +13,7 @@
 #ifndef DRAW_UTILS_H
 # define DRAW_UTILS_H
 
+# include <stdbool.h>
 # include "mlx.h"
 # include "structures.h"
 # include "colors.h"
@@ -112,7 +113,10 @@ typedef struct s_canvas {
 	t_color			*pixels;
 	t_list			*matrix_operations;
 	t_list			*segments;
-	int				dirty_rect_count;
+	t_point2i		position;
+	t_color			transparency_key;
+	bool			is_dynamic;
+	int				z_index;
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {

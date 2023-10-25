@@ -94,3 +94,5 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	}
 	return (NULL);
 }
+
+t_canvas_u

@@ -27,6 +27,12 @@
 # define FINAL_CANVAS_SIZE_X 1920
 # define FINAL_CANVAS_SIZE_Y 1072
 
+# define MAP_Z_INDEX 3
+# define UI_Z_INDEX 5
+# define FINAL_Z_INDEX 99
+# define FINAL_TEMP_Z_INDEX 99
+# define END_MARKER_Z_INDEX 0
+
 /*############################################################################*/
 /*                              GEOMETRY STRUTURE                             */
 /*############################################################################*/
@@ -94,7 +100,8 @@ typedef enum e_canvas_type
 	MAP,
 	UI,
 	FINAL,
-	FINAL_TEMP
+	FINAL_TEMP,
+	END_MARKER
 }	t_canvas_type;
 
 typedef struct s_dirty_rect
@@ -120,7 +127,7 @@ typedef struct s_canvas {
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {
-	t_point2i		start_position;
+	t_point2i		position;
 	t_point2i		size;
 	t_canvas_type	type;
 	int				z_index;
@@ -130,120 +137,124 @@ typedef struct s_canvas_init_entry {
 /*                              CANVAS INITIALIZATION                         */
 /*############################################################################*/
 
-t_canvas			*initialize_single_canvas(t_point2i size,
-						t_canvas_type type);
-t_list				*initialize_canvas_and_add_to_list(t_point2i size,
-						t_canvas_type type,
-						t_list **canvas_list);
-t_list				*initialize_canvas_list(t_point2i size_map,
-						t_point2i size_ui,
-						t_point2i size_final);
-void				free_canvas(t_canvas *canvas);
-void				free_canvas_list(t_list *canvas_list);
-t_canvas			*get_canvas_from_list(t_list *canvas_list,
-						t_canvas_type type);
-t_canvas_init_entry	*get_canvas_init_table(void);
+t_canvas					*initialize_single_canvas(t_point2i size,
+								t_canvas_type type);
+t_list						*initialize_canvas_and_add_to_list(t_point2i size,
+								t_canvas_type type,
+								t_list **canvas_list);
+t_list						*initialize_canvas_list(void);
+void						free_canvas(t_canvas *canvas);
+void						free_canvas_list(t_list *canvas_list);
+t_canvas					*get_canvas_from_list(t_list *canvas_list,
+								t_canvas_type type);
+const t_canvas_init_entry	*get_canvas_init_table(void);
 
 /*############################################################################*/
 /*                              MAP CANVAS OPERATIONS                         */
 /*############################################################################*/
 
-int					add_segment_to_map(t_canvas *canvas, t_segment_d segment);
-int					erase_line_from_map(t_canvas *canvas, t_segment_d segment);
-int					apply_transformation_to_map(t_canvas *canvas,
-						t_matrix3x3 transform);
+int							add_segment_to_map(t_canvas *canvas,
+								t_segment_d segment);
+int							erase_line_from_map(t_canvas *canvas,
+								t_segment_d segment);
+int							apply_transformation_to_map(t_canvas *canvas,
+								t_matrix3x3 transform);
 
 /*############################################################################*/
 /*                              DRAWING CANVAS OPERATIONS                     */
 /*############################################################################*/
 
-void				put_pixel_on_canvas(t_canvas *canvas,
-						t_point2i coord,
-						t_color color);
-void				put_pixel_on_virtual_canvas(t_canvas *canvas,
-						t_point2i coord,
-						t_color color);
-int					draw_line_on_map(t_canvas *canvas,
-						t_point2i start,
-						t_point2i end,
-						t_color color);
-void				start_drawing(t_canvas *canvas, t_point2i start_point);
-void				update_drawing(t_canvas *canvas,
-						t_point2i current_point,
-						t_color color);
-void				end_drawing(t_canvas *canvas,
-						t_point2i end_point,
-						t_color color);
+void						put_pixel_on_canvas(t_canvas *canvas,
+								t_point2i coord,
+								t_color color);
+void						put_pixel_on_virtual_canvas(t_canvas *canvas,
+								t_point2i coord,
+								t_color color);
+int							draw_line_on_map(t_canvas *canvas,
+								t_point2i start,
+								t_point2i end,
+								t_color color);
+void						start_drawing(t_canvas *canvas,
+								t_point2i start_point);
+void						update_drawing(t_canvas *canvas,
+								t_point2i current_point,
+								t_color color);
+void						end_drawing(t_canvas *canvas,
+								t_point2i end_point,
+								t_color color);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */
 /*############################################################################*/
 
-t_canvas			*get_canvas(t_list *canvas_list, t_canvas_type type);
+t_canvas					*get_canvas(t_list *canvas_list, t_canvas_type type);
 
 /*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */
 /*############################################################################*/
 
-int					draw_UI_elements(t_canvas *ui_canvas);
-void				copy_canvas_to_temp(t_list *canvas_list);
-void				copy_temp_to_screen(t_list *canvas_list, t_img_data *img);
-void				copy_temp_to_canvas(t_list *canvas_list);
-t_point2i			screen_to_canvas(t_point2i screen_point, t_canvas *canvas);
+int							draw_UI_elements(t_canvas *ui_canvas);
+void						copy_canvas_to_temp(t_list *canvas_list);
+void						copy_temp_to_screen(t_list *canvas_list,
+								t_img_data *img);
+void						copy_temp_to_canvas(t_list *canvas_list);
+t_point2i					screen_to_canvas(t_point2i screen_point,
+								t_canvas *canvas);
 
 /*############################################################################*/
 /*                              FUSING CANVASES                               */
 /*############################################################################*/
 
-int					fuse_canvases(t_canvas **array_of_canvases);
+int							fuse_canvases(t_canvas **array_of_canvases);
 
 /*############################################################################*/
 /*                              MLX CONVERSION                                */
 /*############################################################################*/
 
-void				canvas_to_mlx_image(t_img_data screen,
-						t_canvas *final_canvas);
+void						canvas_to_mlx_image(t_img_data screen,
+								t_canvas *final_canvas);
 
 /*############################################################################*/
 /*                              DRAW FUNCTIONS                                */
 /*############################################################################*/
 
-void				img_pix_put(t_img_data *img, int x, int y, int color);
-void				draw_segment(
-						t_img_data *img,
-						t_segment_d const *const segment,
-						int color
-						);
-void				draw_one_line(
-						t_img_data *img,
-						t_line_params const *const segment,
-						t_color color
-						);
+void						img_pix_put(t_img_data *img, int x, int y,
+								int color);
+void						draw_segment(
+								t_img_data *img,
+								t_segment_d const *const segment,
+								int color
+								);
+void						draw_one_line(
+								t_img_data *img,
+								t_line_params const *const segment,
+								t_color color
+								);
 
 /*############################################################################*/
 /*                              DRAW SHAPES                                */
 /*############################################################################*/
-int					draw_line(t_shape_params *params);
-int					draw_rectangle(t_shape_params *params);
-void				draw_circle_points(t_img_data *img,
-						t_point2i center,
-						t_point2i point,
-						t_color color);
-int					draw_circle(t_shape_params *params);
+int							draw_line(t_shape_params *params);
+int							draw_rectangle(t_shape_params *params);
+void						draw_circle_points(t_img_data *img,
+								t_point2i center,
+								t_point2i point,
+								t_color color);
+int							draw_circle(t_shape_params *params);
 
 /*############################################################################*/
 /*                              ALIGNMENT METHODS                             */
 /*############################################################################*/
-void				*aligned_malloc(size_t size, size_t alignment);
-void				aligned_free(void *ptr);
-void				*aligned_calloc(size_t nmemb,
-						size_t size,
-						size_t alignment);
+void						*aligned_malloc(size_t size, size_t alignment);
+void						aligned_free(void *ptr);
+void						*aligned_calloc(size_t nmemb,
+								size_t size,
+								size_t alignment);
 
 /*############################################################################*/
 /*                              ALIGNMENT METHODS                             */
 /*############################################################################*/
-int					map_visualizer_draw(t_cub *data);
-void				redraw_scene(t_cub *data, t_canvas *canvas);
+int							map_visualizer_draw(t_cub *data);
+void						redraw_scene(t_cub *data, t_canvas *canvas);
 
 #endif

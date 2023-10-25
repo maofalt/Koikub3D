@@ -47,26 +47,16 @@ void	free_canvas_list(t_list *canvas_list)
 	current_node = NULL;
 }
 
-t_list	*initialize_canvas_list(t_point2i size_map,
-		t_point2i size_ui,
-		t_point2i size_final)
+t_list	*initialize_canvas_list(void)
 {
-	static t_canvas_init_entry	canvas_init_table[]
-		= {{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, MAP},
-	{{{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, UI},
-	{{{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, FINAL},
-	{{{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, FINAL_TEMP}};
+	const t_canvas_init_entry	*canvas_init_table = get_canvas_init_table();
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;
 
 	canvas_list = NULL;
-	canvas_init_table[0].size = size_map;
-	canvas_init_table[1].size = size_ui;
-	canvas_init_table[2].size = size_final;
-	canvas_init_table[3].size = size_final;
 	i = 0;
-	while (i < sizeof(canvas_init_table) / sizeof(canvas_init_table[0]))
+	while (canvas_init_table[i].type != END_MARKER)
 	{
 		new_node = initialize_canvas_and_add_to_list(canvas_init_table[i].size,
 				canvas_init_table[i].type,
@@ -95,19 +85,39 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	return (NULL);
 }
 
-t_canvas_init_entry	*get_canvas_init_table(void)
+static int	adjusted_height(int desired_height)
 {
-	static t_canvas_init_entry	canvas_init_table[]
-		= {
-	{.size = {UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}, .type = UI,
-		.z_index = UI_Z_INDEX, .position = {0, 0}},
-	{.size = {MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}, .type = MAP,
-		.z_index = MAP_Z_INDEX, .position = {0, 0}},
-	{.size = {FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}, .type = FINAL,
-		.z_index = FINAL_Z_INDEX, .position = {0, 0}},
-	{.size = {MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}, .type = FINAL_TEMP,
-		.z_index = FINAL_TEMP_Z_INDEX, .position = {0, 0}}
+	static const int	single_row_bytes = FINAL_CANVAS_SIZE_X
+		* sizeof(t_color);
+
+	return (((desired_height * single_row_bytes + 31)
+			/ 32) * 32 / single_row_bytes);
+}
+
+const t_canvas_init_entry	*get_canvas_init_table(void)
+{
+	const int					map_height = adjusted_height(1072);
+	const int					ui_height = adjusted_height(1000);
+	const int					final_height = adjusted_height(1072);
+	const int					final_temp_height = adjusted_height(1072);
+	static t_canvas_init_entry	canvas_init_table[] = {
+		{.size = {MAP_CANVAS_SIZE_X, 0},
+		 .type = MAP, .z_index = MAP_Z_INDEX, .position = {0, 0}},
+		{.size = {UI_CANVAS_SIZE_X, 0},
+		 .type = UI, .z_index = UI_Z_INDEX, .position = {0, 0}},
+		{.size = {FINAL_CANVAS_SIZE_X, 0},
+		 .type = FINAL, .z_index = FINAL_Z_INDEX, .position = {0, 0}},
+		{.size = {MAP_CANVAS_SIZE_X, 0},
+		 .type = FINAL_TEMP, .z_index = FINAL_TEMP_Z_INDEX,
+		 .position = {0, 0}},
+		{.size = {0, 0}, .type = END_MARKER, .z_index = 0, .position = {0, 0}}
 	};
+
+	canvas_init_table[0].size.y = map_height;
+	canvas_init_table[1].size.y = ui_height;
+	canvas_init_table[2].size.y = final_height;
+	canvas_init_table[3].size.y = final_temp_height;
 
 	return (canvas_init_table);
 }
+

@@ -49,10 +49,7 @@ int	main(int argc, char **argv)
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
 	// 	ft_mlx_engine(&data);
 	data.canvas_list = NULL;
-	data.canvas_list = initialize_canvas_list(
-			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
-			(t_point2i){{WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 3}},
-			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
+	data.canvas_list = initialize_canvas_list();
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);
 	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_draw, &data))

@@ -101,23 +101,21 @@ const t_canvas_init_entry	*get_canvas_init_table(void)
 	const int					final_height = adjusted_height(1072);
 	const int					final_temp_height = adjusted_height(1072);
 	static t_canvas_init_entry	canvas_init_table[] = {
-		{.size = {MAP_CANVAS_SIZE_X, 0},
-		 .type = MAP, .z_index = MAP_Z_INDEX, .position = {0, 0}},
-		{.size = {UI_CANVAS_SIZE_X, 0},
-		 .type = UI, .z_index = UI_Z_INDEX, .position = {0, 0}},
-		{.size = {FINAL_CANVAS_SIZE_X, 0},
-		 .type = FINAL, .z_index = FINAL_Z_INDEX, .position = {0, 0}},
-		{.size = {MAP_CANVAS_SIZE_X, 0},
-		 .type = FINAL_TEMP, .z_index = FINAL_TEMP_Z_INDEX,
-		 .position = {0, 0}},
-		{.size = {0, 0}, .type = END_MARKER, .z_index = 0, .position = {0, 0}}
+	{.size = {MAP_CANVAS_SIZE_X, 0},
+		.type = MAP, .z_index = MAP_Z_INDEX, .position = {0, 0}},
+	{.size = {UI_CANVAS_SIZE_X, 0},
+		.type = UI, .z_index = UI_Z_INDEX, .position = {0, 0}},
+	{.size = {FINAL_CANVAS_SIZE_X, 0},
+		.type = FINAL, .z_index = FINAL_Z_INDEX, .position = {0, 0}},
+	{.size = {MAP_CANVAS_SIZE_X, 0},
+		.type = FINAL_TEMP, .z_index = FINAL_TEMP_Z_INDEX,
+		.position = {0, 0}},
+	{.size = {0, 0}, .type = END_MARKER, .z_index = 0, .position = {0, 0}}
 	};
 
 	canvas_init_table[0].size.y = map_height;
 	canvas_init_table[1].size.y = ui_height;
 	canvas_init_table[2].size.y = final_height;
 	canvas_init_table[3].size.y = final_temp_height;
-
 	return (canvas_init_table);
 }
-

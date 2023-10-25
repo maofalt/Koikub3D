@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:04:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 02:45:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/25 23:57:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,34 @@ typedef struct s_space_cut_context{
 	int				err;
 }	t_space_cut_context;
 
-static int	_cut_segment(t_space_cut_context *context)
-{
-	int			err;
-	t_vector4d	tmp;
+// static int	_cut_segment(t_space_cut_context *context)
+// {
+// 	int			err;
+// 	t_vector4d	tmp;
 
-	context->intersection
-		= find_intersection(*context->separator, context->segment_cpy);
-	tmp = point2d_to_vector4d(&context->intersection);
-	if (context->point_a_side < 0)
-	{
-		((t_segment_d *)context->segment_node->content)->point_b
-			= tmp;
-		lst_move_node(context->left, &context->segment_node);
-	}
-	else if (context->point_a_side > 0)
-	{
-		*((t_segment_d *)context->segment_node->content) = (t_segment_d)
-		{tmp, context->segment_cpy.point_a, context->segment_cpy.data};
-		lst_move_node(context->right, &context->segment_node);
-	}
-	if (context->point_b_side < 0)
-		err = add_segment_to_lst(context->left, (t_segment_d)
-			{context->segment_cpy.point_b, tmp, context->segment_cpy.data});
-	else
-		err = add_segment_to_lst(context->right, (t_segment_d)
-			{tmp, context->segment_cpy.point_b, context->segment_cpy.data});
-	return (err);
-}
+// 	context->intersection
+// 		= find_intersection(*context->separator, context->segment_cpy);
+// 	tmp = point2d_to_vector4d(&context->intersection);
+// 	if (context->point_a_side < 0)
+// 	{
+// 		((t_segment_d *)context->segment_node->content)->point_b
+// 			= tmp;
+// 		lst_move_node(context->left, &context->segment_node);
+// 	}
+// 	else if (context->point_a_side > 0)
+// 	{
+// 		*((t_segment_d *)context->segment_node->content) = (t_segment_d)
+// 		{tmp, context->segment_cpy.point_a, context->segment_cpy.data};
+// 		lst_move_node(context->right, &context->segment_node);
+// 	}
+// 	if (context->point_b_side < 0)
+// 		err = add_segment_to_lst(context->left, (t_segment_d)
+// 			{context->segment_cpy.point_b, tmp, context->segment_cpy.data});
+// 	else
+// 		err = add_segment_to_lst(context->right, (t_segment_d)
+// 			{tmp, context->segment_cpy.point_b, context->segment_cpy.data});
+// 	return (err);
+// }
 
 static void	_no_segment_intersection(t_space_cut_context *context)
 {
@@ -83,6 +83,37 @@ static t_space_cut_context	_context_init(
 	return (context);
 }
 
+
+
+static int	_cut_segment_keep_same_lst(t_space_cut_context *context)
+{
+	int			err;
+	t_vector4d	tmp;
+
+	context->intersection
+		= find_intersection(*context->separator, context->segment_cpy);
+	tmp = point2d_to_vector4d(&context->intersection);
+	if (context->point_a_side < 0)
+	{
+		((t_segment_d *)context->segment_node->content)->point_b
+			= tmp;
+		// lst_move_node(context->left, &context->segment_node);
+	}
+	else if (context->point_a_side > 0)
+	{
+		*((t_segment_d *)context->segment_node->content) = (t_segment_d)
+		{tmp, context->segment_cpy.point_a, context->segment_cpy.data};
+		// lst_move_node(context->right, &context->segment_node);
+	}
+	if (context->point_b_side < 0)
+		err = add_segment_to_lst(context->segments, (t_segment_d)
+			{context->segment_cpy.point_b, tmp, context->segment_cpy.data});
+	else
+		err = add_segment_to_lst(context->segments, (t_segment_d)
+			{tmp, context->segment_cpy.point_b, context->segment_cpy.data});
+	return (err);
+}
+
 // Divide a 2D space using a line.
 // Return 0 if successful, or 1 if unsuccessful (due to a malloc error).
 // Distribute segments to the Left and Right lists,
@@ -105,7 +136,7 @@ int	cut_space(
 		context.point_a_side = point_space_partitioning(separator, &point);
 		point = vector4d_to_point2d(&context.segment_cpy.point_b);
 		context.point_b_side = point_space_partitioning(separator, &point);
-		if ((context.point_a_side | context.point_b_side) == 0)
+		if ((context.point_a_side && context.point_b_side) == 0)
 		{
 			lst_move_node(segments, &context.segment_node);
 			// if (add_segment_to_lst(left, context.segment_cpy))
@@ -114,7 +145,7 @@ int	cut_space(
 		}
 		else if (context.point_a_side * context.point_b_side < 0)
 		{
-			if (_cut_segment(&context))
+			if (_cut_segment_keep_same_lst(&context))
 				return (1);
 		}
 		else

@@ -104,11 +104,10 @@ typedef enum e_canvas_type
 	END_MARKER
 }	t_canvas_type;
 
-typedef struct s_dirty_rect
-{
-	t_point2d	pos;
-	t_point2d	size;
-}	t_dirty_rect;
+typedef struct s_bounds {
+	t_point2i	top_left;
+	t_point2i	bottom_right;
+}	t_bounds;
 
 typedef struct s_canvas {
 	t_canvas_type	type;
@@ -120,7 +119,7 @@ typedef struct s_canvas {
 	t_color			*pixels;
 	t_list			*matrix_operations;
 	t_list			*segments;
-	t_point2i		position;
+	t_bounds		bounds;
 	t_color			transparency_key;
 	bool			is_dynamic;
 	int				z_index;
@@ -187,7 +186,8 @@ void						end_drawing(t_canvas *canvas,
 /*                              MULTI-BUFFER CANVAS                           */
 /*############################################################################*/
 
-t_canvas					*get_canvas(t_list *canvas_list, t_canvas_type type);
+t_canvas					*get_canvas(t_list *canvas_list,
+								t_canvas_type type);
 
 /*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */

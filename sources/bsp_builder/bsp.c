@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 00:15:03 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/25 23:51:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/26 04:23:36 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,6 @@ t_list	*choose_separator(t_list *segments)
 // 	return (0);
 // }
 
-static int	segment_is_horizontal(t_segment_d *segment)
-{
-	return (segment->point_a.x == segment->point_b.x);
-}
 
 
 int construct_bsp(t_list **unprocessed_segments, t_list **processed_segments , t_tree_node **tree)
@@ -156,10 +152,10 @@ int construct_bsp(t_list **unprocessed_segments, t_list **processed_segments , t
 	processed_segments_right = NULL;
 	if (cut_space(unprocessed_segments, separator_node->content, &left, &right))
 		return (1);//TODO Error
-	detect_gap(*unprocessed_segments, !segment_is_horizontal(separator_node->content));
+	detect_gap(unprocessed_segments, separator_node->content);
 	if (cut_space(processed_segments, separator_node->content, &processed_segments_left, &processed_segments_right))
 		return (1);//TODO Error
-	detect_gap(*unprocessed_segments, !segment_is_horizontal(separator_node->content));
+	detect_gap(processed_segments, separator_node->content);
 
 	while (*unprocessed_segments)
 	{

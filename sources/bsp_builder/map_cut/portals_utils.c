@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 22:16:59 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/25 23:58:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/26 04:32:25 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	sort_segment_lst(t_list	**segments, int use_horizontal_axis)
 	t_list	*result;
 
 	current = *segments;
+	result = NULL;
 	while (current)
 	{
 		next = current->next;
@@ -108,65 +109,135 @@ void	sort_segment_lst(t_list	**segments, int use_horizontal_axis)
 	*segments = result;
 }
 
-static void	detect_gap_x(t_list *sorted_segments)
-{
-	t_list	*current;
-	double	last_pos;
-	double	current_pos;
 
-	last_pos = fmax(((t_segment_d *)sorted_segments->content)->point_a.x,
-			((t_segment_d *)sorted_segments->content)->point_b.x);
+
+static double	get_segment_x(
+	t_segment_d *segment,
+	double required_y,
+	double (*comparison_func)(double, double))
+{
+	if (segment->point_a.y == required_y && segment->point_b.y == required_y)
+	{
+		return (comparison_func(segment->point_a.x, segment->point_b.x));
+	}
+	else if (segment->point_a.y == required_y)
+	{
+		return (segment->point_a.x);
+	}
+	else
+	{
+		return (segment->point_b.x);
+	}
+}
+
+
+static double	get_segment_y(
+	t_segment_d *segment,
+	double required_x,
+	double (*comparison_func)(double, double))
+{
+	if (segment->point_a.x == required_x && segment->point_b.x == required_x)
+	{
+		return (comparison_func(segment->point_a.y, segment->point_b.y));
+	}
+	else if (segment->point_a.x == required_x)
+	{
+		return (segment->point_a.y);
+	}
+	else
+	{
+		return (segment->point_b.y);
+	}
+}
+
+static void	detect_gap_x(t_list *sorted_segments, double y)
+{
+	t_list		*current;
+	double		last_pos;
+	double		current_pos;
+	t_segment_d	*segment;
+
+	segment = sorted_segments->content;
+	last_pos = get_segment_x(segment, y, fmax);
 	current = sorted_segments->next;
+	y = 0;
 	while (current)
 	{
-		current_pos = fmax(((t_segment_d *)current->content)->point_a.x,
-				((t_segment_d *)current->content)->point_b.x);
+		segment = current->content;
+		current_pos = get_segment_x(segment, y, fmin);
 
 		if (current_pos > last_pos)
 		{
 			//gap
-			printf("portal_x = %f , %f\n", last_pos, current_pos);
+			printf("portal_x = y:%f;x: %f , %f\n", y, last_pos, current_pos);
 		}
-		last_pos = current_pos;
+		last_pos = fmax(segment->point_a.x,
+				segment->point_b.x);
 		current = current->next;
 	}
 	printf("detect_gap_x\n");
 }
 
-static void	detect_gap_y(t_list *sorted_segments)
-{
-	t_list	*current;
-	double	last_pos;
-	double	current_pos;
 
-	last_pos = fmax(((t_segment_d *)sorted_segments->content)->point_a.y,
-			((t_segment_d *)sorted_segments->content)->point_b.y);
+// double	get_segment_y(t_segment_d	*segment, double required_x)
+// {
+// 	if (segment->point_a.x == segment->point_b.x)
+// 	{
+// 		return (fmin(segment->point_a.y, segment->point_b.y));
+// 	}
+// 	if (segment->point_a.x == required_x)
+// 	{
+// 		return (segment->point_a.y);
+// 	}
+// 	return (segment->point_b.y);
+// }
+
+static void	detect_gap_y(t_list *sorted_segments, double x)
+{
+	t_list		*current;
+	double		last_pos;
+	double		current_pos;
+	t_segment_d	*segment;
+
+	segment = sorted_segments->content;
+	last_pos = get_segment_y(segment, x, fmax);
 	current = sorted_segments->next;
+	x = 0;
 	while (current)
 	{
-		current_pos = fmin(((t_segment_d *)current->content)->point_a.y,
-				((t_segment_d *)current->content)->point_b.y);
+		segment = current->content;
+		current_pos = get_segment_y(segment, x, fmin);
 
 		if (current_pos > last_pos)
 		{
 			//gap
-			printf("portal_y = %f , %f\n", last_pos, current_pos);
+			printf("portal_y = x:%f;y: %f , %f\n", x, last_pos, current_pos);
 		}
-		last_pos = fmax(((t_segment_d *)current->content)->point_a.y,
-				((t_segment_d *)current->content)->point_b.y);
+		last_pos = fmax(segment->point_a.y,
+				segment->point_b.y);
 		current = current->next;
 	}
 	printf("detect_gap_y\n");
 }
 
 
-int	detect_gap(t_list *sorted_segments, int use_horizontal_axis)
+static int	is_segment_horizontal(t_segment_d *segment)
 {
+	return (segment->point_a.x == segment->point_b.x);
+}
 
+
+int	detect_gap(t_list **segments, t_segment_d *separator)
+{
+	const int use_horizontal_axis = !is_segment_horizontal(separator);
+
+	if (segments == NULL || *segments == NULL)
+		return (0);
+	sort_segment_lst(segments, use_horizontal_axis);
 	if (use_horizontal_axis)
-		detect_gap_x(sorted_segments);
+		detect_gap_x(*segments, separator->point_a.y);
 	else
-		detect_gap_y(sorted_segments);
+		detect_gap_y(*segments, separator->point_a.x);
 	return (0);
 }
 

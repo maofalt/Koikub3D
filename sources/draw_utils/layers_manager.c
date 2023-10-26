@@ -85,37 +85,80 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	return (NULL);
 }
 
-static int	adjusted_height(int desired_height)
-{
-	static const int	single_row_bytes = FINAL_CANVAS_SIZE_X
-		* sizeof(t_color);
+static int adjusted_height(int width, int preferredHeight) {
+    const int avx_bytes = 32;
+    const int pixel_bytes = sizeof(t_color);
+    int total_bytes = width * preferredHeight * pixel_bytes;
+    int remainder = total_bytes % avx_bytes;
 
-	return (((desired_height * single_row_bytes + 31)
-			/ 32) * 32 / single_row_bytes);
+    // If the total byte size isn't aligned with AVX, calculate how many more rows are needed
+    if (remainder != 0) {
+        int bytes_needed = avx_bytes - remainder;
+        int rows_needed = (bytes_needed + pixel_bytes - 1) / pixel_bytes;  // this ensures we round up
+        return preferredHeight + rows_needed;
+    }
+
+    // If the preferred height already meets the alignment, just return that
+    return preferredHeight;
 }
+
+
 
 const t_canvas_init_entry	*get_canvas_init_table(void)
 {
-	const int					map_height = adjusted_height(1072);
-	const int					ui_height = adjusted_height(1000);
-	const int					final_height = adjusted_height(1072);
-	const int					final_temp_height = adjusted_height(1072);
 	static t_canvas_init_entry	canvas_init_table[] = {
-	{.size = {MAP_CANVAS_SIZE_X, 0},
-		.type = MAP, .z_index = MAP_Z_INDEX, .bounds = {{0, 0}, {0, 0}}},
-	{.size = {UI_CANVAS_SIZE_X, 0},
-		.type = UI, .z_index = UI_Z_INDEX, .bounds = {{0, 0}, {0, 0}}},
-	{.size = {FINAL_CANVAS_SIZE_X, 0},
-		.type = FINAL, .z_index = FINAL_Z_INDEX, .bounds = {{0, 0}, {0, 0}}},
-	{.size = {MAP_CANVAS_SIZE_X, 0},
+	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, .type = MAP,
+		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
+	{.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
+		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
+	{.size = (t_point2i){{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, .type = FINAL,
+		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}},
+	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
 		.type = FINAL_TEMP, .z_index = FINAL_TEMP_Z_INDEX,
-		.bounds = {{0, 0}, {0, 0}}},
-	{.size = {0, 0}, .type = END_MARKER, .z_index = 0, .bounds = {{0, 0}, {0, 0}}}
+		.position = (t_point2i){{0, 0}}},
+	{.type = END_MARKER, .z_index = 0}
 	};
+	t_point2i					current_pos;
+	int							current_row_height;
+	int							i;
 
-	canvas_init_table[0].size.y = map_height;
-	canvas_init_table[1].size.y = ui_height;
-	canvas_init_table[2].size.y = final_height;
-	canvas_init_table[3].size.y = final_temp_height;
+	current_pos = (t_point2i){{0, 0}};
+	current_row_height = 0;
+	i = 0;
+	while (canvas_init_table[i].type != END_MARKER)
+	{
+		set_canvas_bounds(&canvas_init_table[i], &current_pos,
+			&current_row_height, 1920);
+		i++;
+	}
 	return (canvas_init_table);
+}
+
+void set_canvas_bounds(t_canvas_init_entry *entry,
+	t_point2i *currentPos,
+	int *currentRowHeight,
+	int maxWidth)
+{
+	entry->size.y = adjusted_height(entry->size.x, entry->size.y);
+	if (entry->stack)
+	{
+		if (currentPos->x + entry->size.x > maxWidth)
+		{
+			currentPos->x = 0;
+			currentPos->y += *currentRowHeight;
+			*currentRowHeight = 0;
+		}
+		entry->bounds.top = *currentPos;
+		entry->bounds.bottom.x = currentPos->x + entry->size.x;
+		entry->bounds.bottom.y = currentPos->y + entry->size.y;
+		currentPos->x += entry->size.x;
+		*currentRowHeight = fmax(*currentRowHeight, entry->size.y);
+	}
+	else
+	{
+		entry->bounds.top = *currentPos;
+		entry->bounds.bottom.x = currentPos->x + entry->size.x;
+		entry->bounds.bottom.y = currentPos->y + entry->size.y;
+		currentPos->y += entry->size.y;
+	}
 }

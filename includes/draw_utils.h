@@ -105,8 +105,8 @@ typedef enum e_canvas_type
 }	t_canvas_type;
 
 typedef struct s_bounds {
-	t_point2i	top_left;
-	t_point2i	bottom_right;
+	t_point2i	top;
+	t_point2i	bottom;
 }	t_bounds;
 
 typedef struct s_canvas {
@@ -126,10 +126,13 @@ typedef struct s_canvas {
 }	t_canvas;
 
 typedef struct s_canvas_init_entry {
-	t_point2i		position;
 	t_point2i		size;
 	t_canvas_type	type;
 	int				z_index;
+	t_point2i		position;
+	t_bounds		bounds;
+	bool			stack;
+	bool			is_dynamic;
 }	t_canvas_init_entry;
 
 /*############################################################################*/
@@ -147,6 +150,10 @@ void						free_canvas_list(t_list *canvas_list);
 t_canvas					*get_canvas_from_list(t_list *canvas_list,
 								t_canvas_type type);
 const t_canvas_init_entry	*get_canvas_init_table(void);
+void						set_canvas_bounds(t_canvas_init_entry *entry,
+								t_point2i *currentPos,
+								int *currentRowHeight,
+								int maxWidth);
 
 /*############################################################################*/
 /*                              MAP CANVAS OPERATIONS                         */

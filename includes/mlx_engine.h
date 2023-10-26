@@ -56,30 +56,35 @@
 /*############################################################################*/
 /*                              MLX_ENGINE FUNCTIONS                          */
 /*############################################################################*/
-
-int		ft_mlx_initialize_pointers(t_cub *data);
-int		ft_mlx_create_window_and_image(t_cub *data);
+int				ft_mlx_initialize_pointers(t_cub *data);
+int				ft_mlx_create_window_and_image(t_cub *data);
 
 /*############################################################################*/
 /*                              MLX_ENGINE HOOKS                          */
 /*############################################################################*/
 
-void	ft_mlx_engine(t_cub *data);
-int		ft_destroy_window(t_cub *data);
-int		ft_handle_keyrelease(int keysym, t_cub *data);
-int		ft_handle_keypress(int keysym, t_cub *data);
-int		ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
-int		ft_handle_mousemotion(int x, int y, t_cub *data);
+void			ft_mlx_engine(t_cub *data);
+int				ft_destroy_window(t_cub *data);
+int				ft_handle_keyrelease(int keysym, t_cub *data);
+int				ft_handle_keypress(int keysym, t_cub *data);
+int				ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
+int				ft_handle_mousemotion(int x, int y, t_cub *data);
 
 /*############################################################################*/
 /*                              KEYPRESS EVENTS                               */
 /*############################################################################*/
-void	ft_destroy_window_button(int keysym, t_cub *data);
-void	ft_movements_keys(int keysym, t_cub *data);
+void			ft_destroy_window_button(int keysym, t_cub *data);
+void			ft_movements_keys(int keysym, t_cub *data);
 
 /*############################################################################*/
 /*                              DRAWING EVENTS                               */
 /*############################################################################*/
-int     ft_handle_zoom(int zoom_direction, t_cub *data);
-int     ft_handle_rotation(int keysim, t_cub *data);
+int				ft_handle_zoom(int zoom_direction, t_cub *data);
+int				ft_handle_rotation(int keysim, t_cub *data);
+
+/*############################################################################*/
+/*                             CANVAS EVENTS                                  */
+/*############################################################################*/
+t_canvas_type	detect_clicked_canvas(t_cub *data, t_point2i click_position);
+
 #endif

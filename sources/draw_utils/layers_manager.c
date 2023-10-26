@@ -127,9 +127,8 @@ const t_canvas_init_entry	*get_canvas_init_table(void)
 	i = 0;
 	while (canvas_init_table[i].type != END_MARKER)
 	{
-		set_canvas_bounds(&canvas_init_table[i], &current_pos,
+		set_canvas_bounds(&canvas_init_table[i++], &current_pos,
 			&current_row_height, 1920);
-		i++;
 	}
 	return (canvas_init_table);
 }

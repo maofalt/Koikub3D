@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:34:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/26 04:24:41 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/30 23:28:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,42 @@
 
 # include "structures.h"
 
-int			point_space_partitioning(t_segment_d *separator, t_point2d *point);
-t_point2d	find_intersection(t_segment_d line, t_segment_d seg);
-void		lst_move_node(t_list **list, t_list **node);
+typedef enum e_side
+{
+	SIDE_ON			= 0b0000,
+	SIDE_LEFT		= 0b0001,
+	SIDE_RIGHT		= 0b0010,
+	SIDE_INTERSECT	= 0b0011,
+}	t_side;
 
-void		sort_segment_lst(t_list	**segments, int use_horizontal_axis);
-int			detect_gap(t_list **segments, t_segment_d *separator);
+typedef struct s_bsp_segment
+{
+	t_segment_d			*segment;
+	int					used_as_separator;
+	t_side				side_of_separator;
+	t_side				point_a_side;
+	t_side				point_b_side;
+	int					has_separator_intersection;
+	t_point2d			separator_intersection;
+}	t_bsp_segment;
 
-// int			construct_bsp(t_list **segments, t_tree_node **tree);
-// int construct_bsp(t_list **segments, t_tree_node **tree, t_cub *data);
-int construct_bsp(t_list **unprocessed_segments, t_list **processed_segments , t_tree_node **tree);
 
+void			sort_lst_node_array(t_list **arr, int size,
+					int (*comparison_function)(t_list *, t_list *));
 
-int			cut_space(
-				t_list **segments,
-				t_segment_d *separator,
-				t_list **left,
-				t_list **right);
+t_bsp_segment	*create_bsp_segment(t_segment_d *segment);
+void			delete_bsp_segment(void *bsp_seg);
+t_list			*convert_to_bsp_segments(t_list *segment_list);
+
+void			bsp_segment_compute_intersec(
+					t_bsp_segment *segment,
+					t_segment_d *separator
+					);
+
+int				cut_space(
+					t_list **segments,
+					t_segment_d *separator,
+					t_list **left,
+					t_list **right);
 
 #endif

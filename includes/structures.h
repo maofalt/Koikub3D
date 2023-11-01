@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/23 04:04:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:42:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,10 +198,10 @@ typedef struct s_wall_data
 
 typedef struct s_portal_data
 {
-	int		size;
-	int		id;
-	int		*destinations_id;
-	void	*destination;
+	int			size;
+	// int			id;
+	// int			*destinations_id;
+	t_segment_d	*destination;
 }	t_portal_data;
 
 typedef union u_wall_portal_data

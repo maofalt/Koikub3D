@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/30 20:45:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:11:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,3 @@ void	bsp_segment_compute_intersec(
 	}
 
 }
-
-

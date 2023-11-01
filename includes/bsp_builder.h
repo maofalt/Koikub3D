@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:34:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/30 23:28:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:12:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void			sort_lst_node_array(t_list **arr, int size,
 t_bsp_segment	*create_bsp_segment(t_segment_d *segment);
 void			delete_bsp_segment(void *bsp_seg);
 t_list			*convert_to_bsp_segments(t_list *segment_list);
+t_list			*create_bsp_segment_node(void);
+t_bsp_segment	*duplicate_bsp_segment(t_bsp_segment *original);
+t_list			*duplicate_bsp_segment_node(t_list *original_node);
+void			lst_move_node(t_list **list, t_list **node);
+
+
+
 
 void			bsp_segment_compute_intersec(
 					t_bsp_segment *segment,

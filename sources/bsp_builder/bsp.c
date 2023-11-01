@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:54:15 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/30 23:38:13 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:29:49 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
 	separator = separator_node->content;
 	separator->used_as_separator = 1;
 	compute_segments_intersections(*bsp_segments, separator->segment);
+	//create_portals
 	return (0);
 }
 

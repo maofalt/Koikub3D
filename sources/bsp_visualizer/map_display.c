@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 03:40:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 01:29:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	map_visualizer_render(t_cub *data)
 	// processed_seg = NULL;
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
-	construct_bsp(&segments_lst, (t_list **)&(t_list* ){NULL} , &tree);
+	construct_bsp(&segments_lst, &tree);
 
 	// printf("##########%p\n", segments_lst->content);
 	// draw_map_segments(data, segments_lst);

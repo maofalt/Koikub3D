@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 04:06:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:41:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "structures.h"
 #include "map_to_edges.h"
 #include "bsp_builder.h"
+#include "maths_utils.h"
 
 int	draw_player(t_cub *data, t_canvas *canvas)
 {

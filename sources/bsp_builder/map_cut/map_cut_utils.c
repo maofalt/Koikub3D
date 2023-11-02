@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/01 15:11:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 03:27:29 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_side	point_segment_side(t_segment_d *separator, t_vector4d *segment_point)
 	ap.vec = segment_point->vec - separator->point_a.vec;
 
 	cross_product = ab.x * ap.y - ab.y * ap.x;
-
 	if (cross_product > 0)
 		return (SIDE_RIGHT);
 	else if (cross_product < 0)
@@ -72,7 +71,7 @@ void	bsp_segment_compute_intersec(
 		= point_segment_side(separator, &segment->segment->point_a);
 	segment->point_b_side
 		= point_segment_side(separator, &segment->segment->point_b);
-	segment->side_of_separator = segment->point_a_side | segment->point_a_side;
+	segment->side_of_separator = segment->point_a_side | segment->point_b_side;
 	if (segment->point_a_side != segment->point_b_side)
 	{
 		segment->separator_intersection

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/01 17:41:40 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:11:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,14 @@ void	draw_map_with_tree(t_cub *data, t_canvas *canvas)
 	while (segments_lst)
 	{
 		segment = *(t_segment_d*)(segments_lst->content);
-		color.d = 0xFF0000FF;
+		if (segment.data.type == WALL)
+			color.d = 0xFF0000FF;
+		else
+			color.d = 0xFFFF0000;
 		segment.point_a.vec *= 10;
 		segment.point_b.vec *= 10;
-		draw_segment_canvas(canvas, &segment, color);
+		if (segment.data.type == WALL)
+			draw_segment_canvas(canvas, &segment, color);
 		segments_lst = segments_lst->next;
 	}
 }
@@ -106,7 +110,7 @@ t_segment_d	transform_player_relative(t_segment_d segment, t_player player)
 	relative_segment.point_a.y = segment.point_a.x * player.dir.x + segment.point_a.y * player.dir.y;
 	relative_segment.point_b.x = segment.point_b.x * player.dir.y - segment.point_b.y * player.dir.x;
 	relative_segment.point_b.y = segment.point_b.x * player.dir.x + segment.point_b.y * player.dir.y;
-
+	relative_segment.data = segment.data;
 	return (relative_segment);
 }
 
@@ -185,10 +189,15 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 	wall.point_b.x += middle.x;
 	wall.point_b.y += middle.y;
 
+	t_color	color;
+	if (wall.data.type == WALL)
+		color.d = 0xFFFFFFFF;
+	else
+		color.d = 0xFFFF0000;
 	draw_segment_canvas(canvas, &projection_top,
-		(t_color){.d = 0xFFFFFFFF});
+		color);
 	draw_segment_canvas(canvas, &projection_bottom,
-		(t_color){.d = 0xFFFFFFFF});
+		color);
 	draw_segment_canvas(canvas, &wall,
 		(t_color) {.d = 0xFF00AA00});
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 03:27:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:18:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void	bsp_segment_compute_intersec(
 	{
 		segment->has_separator_intersection = 0;
 	}
-
+	if (segment->side_of_separator == SIDE_ON)
+		segment->used_as_separator = 1;
 }

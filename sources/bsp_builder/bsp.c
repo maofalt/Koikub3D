@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:54:15 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 02:34:00 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:40:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
 	separator->used_as_separator = 1;
 	compute_segments_intersections(*bsp_segments, separator->segment);
 	//create_portals
+	printf("uuuuuuuu: %f, %f; %f, %f\n", separator->segment->point_a.x, separator->segment->point_a.y, separator->segment->point_b.x, separator->segment->point_b.y);
+	create_portals(*bsp_segments, (separator->segment->point_a.x == separator->segment->point_b.x), bsp_segments); //TODO: move horizontal check inside
 
 	//map_cut
 	if (map_cut(bsp_segments, &left, &right))

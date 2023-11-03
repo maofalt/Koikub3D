@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/11/02 01:34:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:15:29 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	map_convert(t_cub *data)
 	}
 	data->map_data.segments = NULL;
 	data->map_data.bsp = tree;
-	// if (extract_edge_recursively(data->map, &data->map_data.segments))
-	// 	return (1); //TODO free and bsp
+	if (extract_edge_recursively(data->map, &data->map_data.segments))
+		return (1); //TODO free and bsp
 	return (0);
 }
 

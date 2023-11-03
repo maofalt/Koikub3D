@@ -6,14 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:30:28 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/01 17:40:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/03 01:38:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "maths_utils.h"
 
-int	point_space_partitioning(t_segment_d *separator, t_point2d *point)
+double	point_space_partitioning(t_segment_d *separator, t_point2d *point)
 {
 	t_vector4d	ab;
 	t_vector4d	ap;

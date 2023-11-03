@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 23:11:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:29:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_tree_node	*find_player_node(t_tree_node	*tree, t_cub *data)
 	t_tree_node	*child;
 	t_segment_d	separator;
 	t_point2d	player_pos;
-	int			player_side;
+	double		player_side;
 
 	if (!tree)
 		return (NULL);
@@ -77,8 +77,7 @@ void	draw_map_with_tree(t_cub *data, t_canvas *canvas)
 			color.d = 0xFFFF0000;
 		segment.point_a.vec *= 10;
 		segment.point_b.vec *= 10;
-		if (segment.data.type == WALL)
-			draw_segment_canvas(canvas, &segment, color);
+		draw_segment_canvas(canvas, &segment, color);
 		segments_lst = segments_lst->next;
 	}
 }
@@ -193,11 +192,12 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 	if (wall.data.type == WALL)
 		color.d = 0xFFFFFFFF;
 	else
-		color.d = 0xFFFF0000;
+		color.d = (size_t)(void *)wall.data.data.portal.destination;
 	draw_segment_canvas(canvas, &projection_top,
 		color);
+	// if (wall.data.type == WALL)
 	draw_segment_canvas(canvas, &projection_bottom,
-		color);
+			color);
 	draw_segment_canvas(canvas, &wall,
 		(t_color) {.d = 0xFF00AA00});
 }

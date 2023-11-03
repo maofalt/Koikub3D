@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:25:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 23:06:06 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:27:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ t_vector4d	get_segment_max_on_separator(t_bsp_segment *bsp_segment, int use_x)
 		&& bsp_segment->segment->point_a.vec[v_rank] > maxi)
 	{
 		max_point = bsp_segment->segment->point_a;
-		maxi = v_rank;
+		maxi = max_point.vec[v_rank];
 	}
 	if (bsp_segment->point_b_side == SIDE_ON
 		&& bsp_segment->segment->point_b.vec[v_rank] > maxi)
 	{
 		max_point = bsp_segment->segment->point_b;
-		maxi = v_rank;
+		maxi = max_point.vec[v_rank];
 	}
 	return (max_point);
 }
@@ -58,13 +58,13 @@ t_vector4d	get_segment_min_on_separator(t_bsp_segment *bsp_segment, int use_x)
 		&& bsp_segment->segment->point_a.vec[v_rank] < mini)
 	{
 		min_point = bsp_segment->segment->point_a;
-		mini = v_rank;
+		mini = min_point.vec[v_rank];
 	}
 	if (bsp_segment->point_b_side == SIDE_ON
 		&& bsp_segment->segment->point_b.vec[v_rank] < mini)
 	{
 		min_point = bsp_segment->segment->point_b;
-		mini = v_rank;
+		mini = min_point.vec[v_rank];
 	}
 	return (min_point);
 }
@@ -118,11 +118,6 @@ int	create_intersect_seg_nodes_array(t_list *bsp_segments, t_list ***array)
 	size = 0;
 	while (bsp_segments)
 	{
-		t_segment_d *seg = ((t_bsp_segment *)bsp_segments->content)->segment;
-		if (seg->point_a.x == 6 && seg->point_a.y == 7)
-		{
-			printf("Found the 6,7 6,8 : side : %i\n", ((t_bsp_segment *)bsp_segments->content)->side_of_separator);
-		}
 		if ((((t_bsp_segment *)bsp_segments->content)->side_of_separator == SIDE_ON)
 			|| (((t_bsp_segment *)bsp_segments->content)->has_separator_intersection))
 		{
@@ -215,6 +210,7 @@ int	find_gaps(
 	{
 		bsp_segment = bsp_segments_sorted_array[i]->content;
 		printf("......: %f, %f; %f, %f\n", bsp_segment->segment->point_a.x, bsp_segment->segment->point_a.y, bsp_segment->segment->point_b.x, bsp_segment->segment->point_b.y);
+		printf("sides: %i, %i %i %i\n", bsp_segment->point_a_side, bsp_segment->point_b_side, bsp_segment->side_of_separator, bsp_segment->has_separator_intersection);
 		current = get_segment_min_on_separator(bsp_segment, !is_sep_horizontal);
 		printf("#####: %f, %f; %f, %f\n", last.x, last.y, current.x, current.y);
 		printf("--portal: %f; %f\n", current.vec[is_sep_horizontal], last.vec[is_sep_horizontal]);
@@ -250,6 +246,7 @@ int	create_portals(t_list *bsp_segments, int is_sep_horizontal, t_list **portal_
 	if (bsp_segments_nodes_array == NULL)
 		return (1);
 
+	printf("is sep horizontal:%i\n", is_sep_horizontal);
 	if (is_sep_horizontal)
 		sort_lst_node_array(bsp_segments_nodes_array, size, comparison_fun_y);
 	else

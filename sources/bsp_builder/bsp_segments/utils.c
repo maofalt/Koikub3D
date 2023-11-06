@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 23:30:12 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 01:28:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:13:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,13 @@ void	destroy_bsp_segment(void *bsp_seg)
 
 void	destroy_full_bsp_segment(t_bsp_segment *bsp_seg)
 {
-	free(bsp_seg->segment);
-	free(bsp_seg);
-}
-
-t_list	*convert_to_bsp_segments(t_list *segment_list)
-{
-	t_list			*bsp_list;
-	t_bsp_segment	*bsp_seg;
-	t_list			*new_node;
-
-	bsp_list = NULL;
-	while (segment_list)
+	if (bsp_seg)
 	{
-		bsp_seg = create_bsp_segment(segment_list->content);
-		if (!bsp_seg)
-		{
-			ft_lstclear(&bsp_list, destroy_bsp_segment);
-			return (NULL);
-		}
-		new_node = ft_lstnew(bsp_seg);
-		if (!new_node)
-		{
-			destroy_bsp_segment(bsp_seg);
-			ft_lstclear(&bsp_list, destroy_bsp_segment);
-			return (NULL);
-		}
-		bsp_seg->node_ptr = new_node;
-		ft_lstadd_back(&bsp_list, new_node);
-		segment_list = segment_list->next;
+		free(bsp_seg->segment);
+		free(bsp_seg);
 	}
-	return (bsp_list);
 }
+
 
 static t_bsp_segment	*init_new_bsp_segment(void)
 {
@@ -96,6 +71,30 @@ static t_bsp_segment	*init_new_bsp_segment(void)
 	bsp_seg->has_separator_intersection = 0;
 	bsp_seg->node_ptr = NULL;
 	return (bsp_seg);
+}
+
+t_list	*convert_to_bsp_segments(t_list *segment_list)
+{
+	t_list			*bsp_list;
+	t_bsp_segment	*bsp_seg;
+	t_list			*new_node;
+
+	bsp_list = NULL;
+	while (segment_list)
+	{
+		new_node = create_bsp_segment_node();
+		if (!new_node)
+		{
+			ft_lstclear(&bsp_list, destroy_bsp_segment);
+			return (NULL);
+		}
+		bsp_seg = new_node->content;
+		*bsp_seg->segment = *(t_segment_d *)segment_list->content;
+		bsp_seg->node_ptr = new_node;
+		ft_lstadd_back(&bsp_list, new_node);
+		segment_list = segment_list->next;
+	}
+	return (bsp_list);
 }
 
 t_list	*create_bsp_segment_node(void)

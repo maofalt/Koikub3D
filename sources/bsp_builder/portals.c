@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:25:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/03 15:27:26 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:02:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,25 +115,17 @@ int	create_intersect_seg_nodes_array(t_list *bsp_segments, t_list ***array)
 	(*array) = malloc(sizeof(t_list *) * size);
 	if (!(*array))
 		return (-1);
+	ptr = bsp_segments;
 	size = 0;
-	while (bsp_segments)
+	while (ptr)
 	{
-		if ((((t_bsp_segment *)bsp_segments->content)->side_of_separator == SIDE_ON)
-			|| (((t_bsp_segment *)bsp_segments->content)->has_separator_intersection))
-		{
-			(*array)[size++] = bsp_segments;
-			printf("add\n");
-		}
-		else
-		{
-			printf("not add\n");
-		}
-		bsp_segments = bsp_segments->next;
+		if ((((t_bsp_segment *)ptr->content)->side_of_separator == SIDE_ON)
+			|| (((t_bsp_segment *)ptr->content)->has_separator_intersection))
+			(*array)[size++] = ptr;
+		ptr = ptr->next;
 	}
 	return (size);
 }
-
-
 
 
 int	*create_portal_duo(
@@ -205,29 +197,21 @@ int	find_gaps(
 	i = 0;
 	bsp_segment = bsp_segments_sorted_array[i]->content;
 	last = get_segment_max_on_separator(bsp_segment, !is_sep_horizontal);
-	printf("###################################""\n");
 	while (i < size && bsp_segments_sorted_array[i])
 	{
 		bsp_segment = bsp_segments_sorted_array[i]->content;
-		printf("......: %f, %f; %f, %f\n", bsp_segment->segment->point_a.x, bsp_segment->segment->point_a.y, bsp_segment->segment->point_b.x, bsp_segment->segment->point_b.y);
-		printf("sides: %i, %i %i %i\n", bsp_segment->point_a_side, bsp_segment->point_b_side, bsp_segment->side_of_separator, bsp_segment->has_separator_intersection);
 		current = get_segment_min_on_separator(bsp_segment, !is_sep_horizontal);
-		printf("#####: %f, %f; %f, %f\n", last.x, last.y, current.x, current.y);
-		printf("--portal: %f; %f\n", current.vec[is_sep_horizontal], last.vec[is_sep_horizontal]);
 		if (current.vec[is_sep_horizontal] > last.vec[is_sep_horizontal])
 		{
-			//gap
-			printf("portal: %f, %f; %f, %f\n", last.x, last.y, current.x, current.y);
 			portal = create_portal_alone(&last, &current);
 			if (portal == NULL)
-			{
-				printf("error create portal\n");
 				return (1);
-			}
 			ft_lstadd_front(portal_lst, portal);
 		}
-		if (get_segment_max_on_separator(bsp_segment, !is_sep_horizontal).vec[is_sep_horizontal] > last.vec[is_sep_horizontal])
-			last = get_segment_max_on_separator(bsp_segment, !is_sep_horizontal);
+		if (get_segment_max_on_separator(bsp_segment, !is_sep_horizontal)
+			.vec[is_sep_horizontal] > last.vec[is_sep_horizontal])
+			last = get_segment_max_on_separator(bsp_segment,
+					!is_sep_horizontal);
 		++i;
 	}
 	return (0);

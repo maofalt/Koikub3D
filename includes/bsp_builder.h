@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:34:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 13:46:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/05 20:32:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			lst_move_node(t_list **list, t_list **node);
 int				map_cut(t_list **bsp_segments, t_list **left, t_list **right);
 
 int				construct_bsp(t_list **segments, t_tree_node **tree);
+void			destroy_segment_tree(t_tree_node **tree);
 
 t_point2d		find_intersection(t_segment_d line, t_segment_d seg);
 

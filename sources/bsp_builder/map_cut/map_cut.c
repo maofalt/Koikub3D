@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:29:39 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 22:50:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:04:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	cut_portal(t_bsp_segment *bsp_segment, t_bsp_segment **right_portal_1, t_bsp
 	{
 		return (1);
 	}
-
 	if (cut_segment(linked_segment, right_portal_2))
 	{
 		destroy_full_bsp_segment(*right_portal_1);
@@ -128,6 +127,7 @@ int	map_cut(t_list **bsp_segments, t_list **left, t_list **right)
 		{
 			puts("INTERSECT\n");
 			cut_segment_to_node(bsp_segments, left, right);
+			//TODO: Protect
 		}
 		else if (current->side_of_separator == SIDE_LEFT)
 		{

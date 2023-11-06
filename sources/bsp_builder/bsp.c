@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:54:15 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 21:40:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/05 21:41:31 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,23 @@ static t_list	*_get_next_separator(t_list *bsp_segments_lst)
 
 t_list	*choose_separator(t_list *bsp_segments)
 {
-	// t_list	*ptr1;
-	// t_list	*ptr2;
+	t_list	*ptr1;
+	t_list	*ptr2;
 
 	bsp_segments = _get_next_separator(bsp_segments);
 	if (bsp_segments == NULL)
 		return (NULL);
-	return (bsp_segments);
-	// ptr1 = bsp_segments;
-	// ptr2 = bsp_segments;
-	// while (ptr1 != NULL)
-	// {
-	// 	ptr1 = _get_next_separator(ptr1);
-	// 	if (ptr1)
-	// 		ptr1 = _get_next_separator(ptr1->next);
-	// 	if (ptr1 && ptr2)
-	// 		ptr2 = _get_next_separator(ptr2->next);
-	// }
-	// return (ptr2);
+	ptr1 = bsp_segments;
+	ptr2 = bsp_segments;
+	while (ptr1 != NULL)
+	{
+		ptr1 = _get_next_separator(ptr1->next);
+		if (ptr1)
+			ptr1 = _get_next_separator(ptr1->next);
+		if (ptr1 && ptr2)
+			ptr2 = _get_next_separator(ptr2->next);
+	}
+	return (ptr2);
 }
 
 void	compute_segments_intersections(
@@ -67,6 +66,66 @@ void	compute_segments_intersections(
 	}
 }
 
+t_tree_node	*create_tree_node(void)
+{
+	t_tree_node				*tree_node;
+	t_bsp_tree_node_data	*tree_data;
+
+	tree_node = malloc(sizeof(t_tree_node));
+	tree_data = ft_calloc(1, sizeof(t_bsp_tree_node_data));
+	if (tree_node == NULL || tree_data == NULL)
+	{
+		free(tree_data);
+		free(tree_node);
+		perror("create_tree_node");
+		return (NULL);
+	}
+	tree_node->left = NULL;
+	tree_node->right = NULL;
+	tree_node->parent = NULL;
+	tree_node->data = tree_data;
+	return (tree_node);
+}
+
+void	destroy_tree_node(t_tree_node	*node)
+{
+	if (node == NULL)
+		return ;
+
+	free(node->data);
+	free(node);
+}
+
+void	destroy_segment_tree_node(t_tree_node	*node)
+{
+	t_bsp_tree_node_data *data;
+	if (node == NULL)
+		return ;
+
+	data = node->data;
+	printf("destroy seg %p\n", node->data);
+	if (data && data->sector_segments)
+	{
+		printf("destroy sector seg\n");
+		ft_lstclear(&data->sector_segments, free);
+	}
+	destroy_tree_node(node);
+}
+
+void	destroy_bsp_segment_tree_node(t_tree_node	*node)
+{
+	t_bsp_tree_node_data *data;
+	if (node == NULL)
+		return ;
+
+	data = node->data;
+	if (data && data->sector_segments)
+	{
+		ft_lstclear(&data->sector_segments, (void (*)(void *))destroy_full_bsp_segment);
+	}
+	destroy_tree_node(node);
+}
+
 int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
 {
 	t_list			*separator_node;
@@ -74,49 +133,36 @@ int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
 	t_list			*left;
 	t_list			*right;
 	t_tree_node		*tree_node;
-	t_bsp_tree_node_data *tree_data;
 
 	left = NULL;
 	right = NULL;
 
 	if (tree == NULL)
-	{
-		puts("**tree null\n");
 		return (0);
-	}
-
-
 	separator_node = choose_separator(*bsp_segments);
 	if (separator_node == NULL)
 	{
-		puts("sep null\n");
-		tree_node = malloc(sizeof(t_tree_node));
-		tree_data = malloc(sizeof(t_bsp_tree_node_data));
-		//TODO: protect
-		// tree_data->separator = NULL;
-		tree_data->sector_data.floor_height = 0;
-		tree_data->sector_segments = *bsp_segments;
-		tree_node->left = NULL;
-		tree_node->right = NULL;
-		tree_node->parent = NULL;
-		tree_node->data = tree_data;
+		tree_node = create_tree_node();
+		if (tree_node == NULL)
+			return (1);
+		((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
+		((t_bsp_tree_node_data *)tree_node->data)
+			->sector_segments = *bsp_segments;
 		*tree = tree_node;
-
-
-
 		return (0);
 	}
+
 	separator = separator_node->content;
 	separator->used_as_separator = 1;
 	compute_segments_intersections(*bsp_segments, separator->segment);
 	//create_portals
-	printf("uuuuuuuu: %f, %f; %f, %f\n", separator->segment->point_a.x, separator->segment->point_a.y, separator->segment->point_b.x, separator->segment->point_b.y);
 	create_portals(*bsp_segments, (separator->segment->point_a.x == separator->segment->point_b.x), bsp_segments); //TODO: move horizontal check inside
 
 	//map_cut
 	if (map_cut(bsp_segments, &left, &right))
 	{
 		//error;
+		//TODO: free Left right
 		puts("map cut gone wrong\n");
 
 		return (1);
@@ -124,17 +170,21 @@ int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
 
 
 	//TODO: protect mallocs
-	tree_node = malloc(sizeof(t_tree_node));
-	tree_data = malloc(sizeof(t_bsp_tree_node_data));
-	tree_data->separator = *separator->segment;
-	tree_data->sector_data.floor_height = 0;
-	tree_node->left = NULL;
-	tree_node->right = NULL;
-	tree_node->parent = NULL;
-	tree_node->data = tree_data;
+	tree_node = create_tree_node();
+	if (tree_node == NULL)
+		//TODO: free Left right
+		return (1);
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
+	((t_bsp_tree_node_data *)tree_node->data)->separator = *separator->segment;
+	// *tree = tree_node;
 
-	_recursive_map_cut(&left, &(tree_node->left));
-	_recursive_map_cut(&right, &(tree_node->right));
+	if (_recursive_map_cut(&left, &(tree_node->left))
+		|| _recursive_map_cut(&right, &(tree_node->right)))
+	{
+		perror("error: _recursive_map_cut");
+		//TODO: error
+		//TODO: free Left right Tree Node
+	}
 	if (tree_node->left)
 		tree_node->left->parent = tree_node;
 	if (tree_node->right)
@@ -217,11 +267,33 @@ int	construct_bsp(t_list **segments, t_tree_node **tree)
 		return (1);
 	if (_recursive_map_cut(&converted_segments, &bsp_tree))
 	{
-		//error
+		//TODO: free tree and converted seg
 		puts("recursive map cut gone wrong\n");
 	}
 	tree_update_portals_links_to_segments(bsp_tree);
 	tree_convert_bsp_segment_to_segments(bsp_tree);
 	*tree = bsp_tree;
 	return (0);
+}
+
+void	destroy_tree(t_tree_node **tree, void (*del)(t_tree_node *))
+{
+	if (tree == NULL || *tree == NULL)
+		return ;
+	destroy_tree(&(*tree)->left, del);
+	destroy_tree(&(*tree)->right, del);
+	if (del)
+		del(*tree);
+	*tree = NULL;
+}
+
+
+void	destroy_bsp_segment_tree(t_tree_node **tree)
+{
+	destroy_tree(tree, destroy_bsp_segment_tree_node);
+}
+
+void	destroy_segment_tree(t_tree_node **tree)
+{
+	destroy_tree(tree, destroy_segment_tree_node);
 }

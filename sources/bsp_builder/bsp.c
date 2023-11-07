@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:54:15 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/05 21:41:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:06:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,77 +121,9 @@ void	destroy_bsp_segment_tree_node(t_tree_node	*node)
 	data = node->data;
 	if (data && data->sector_segments)
 	{
-		ft_lstclear(&data->sector_segments, (void (*)(void *))destroy_full_bsp_segment);
+		ft_lstclear(&data->sector_segments, destroy_full_bsp_segment);
 	}
 	destroy_tree_node(node);
-}
-
-int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
-{
-	t_list			*separator_node;
-	t_bsp_segment	*separator;
-	t_list			*left;
-	t_list			*right;
-	t_tree_node		*tree_node;
-
-	left = NULL;
-	right = NULL;
-
-	if (tree == NULL)
-		return (0);
-	separator_node = choose_separator(*bsp_segments);
-	if (separator_node == NULL)
-	{
-		tree_node = create_tree_node();
-		if (tree_node == NULL)
-			return (1);
-		((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
-		((t_bsp_tree_node_data *)tree_node->data)
-			->sector_segments = *bsp_segments;
-		*tree = tree_node;
-		return (0);
-	}
-
-	separator = separator_node->content;
-	separator->used_as_separator = 1;
-	compute_segments_intersections(*bsp_segments, separator->segment);
-	//create_portals
-	create_portals(*bsp_segments, (separator->segment->point_a.x == separator->segment->point_b.x), bsp_segments); //TODO: move horizontal check inside
-
-	//map_cut
-	if (map_cut(bsp_segments, &left, &right))
-	{
-		//error;
-		//TODO: free Left right
-		puts("map cut gone wrong\n");
-
-		return (1);
-	}
-
-
-	//TODO: protect mallocs
-	tree_node = create_tree_node();
-	if (tree_node == NULL)
-		//TODO: free Left right
-		return (1);
-	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
-	((t_bsp_tree_node_data *)tree_node->data)->separator = *separator->segment;
-	// *tree = tree_node;
-
-	if (_recursive_map_cut(&left, &(tree_node->left))
-		|| _recursive_map_cut(&right, &(tree_node->right)))
-	{
-		perror("error: _recursive_map_cut");
-		//TODO: error
-		//TODO: free Left right Tree Node
-	}
-	if (tree_node->left)
-		tree_node->left->parent = tree_node;
-	if (tree_node->right)
-		tree_node->right->parent = tree_node;
-	*tree = tree_node;
-
-	return (0);
 }
 
 
@@ -256,25 +188,7 @@ void	tree_update_portals_links_to_segments(t_tree_node *tree)
 	tree_update_portals_links_to_segments(tree->right);
 }
 
-int	construct_bsp(t_list **segments, t_tree_node **tree)
-{
-	t_list		*converted_segments;
-	t_tree_node	*bsp_tree;
 
-	bsp_tree = NULL;
-	converted_segments = convert_to_bsp_segments(*segments);
-	if (converted_segments == NULL)
-		return (1);
-	if (_recursive_map_cut(&converted_segments, &bsp_tree))
-	{
-		//TODO: free tree and converted seg
-		puts("recursive map cut gone wrong\n");
-	}
-	tree_update_portals_links_to_segments(bsp_tree);
-	tree_convert_bsp_segment_to_segments(bsp_tree);
-	*tree = bsp_tree;
-	return (0);
-}
 
 void	destroy_tree(t_tree_node **tree, void (*del)(t_tree_node *))
 {
@@ -296,4 +210,105 @@ void	destroy_bsp_segment_tree(t_tree_node **tree)
 void	destroy_segment_tree(t_tree_node **tree)
 {
 	destroy_tree(tree, destroy_segment_tree_node);
+}
+
+int	_recursive_map_cut(t_list **bsp_segments, t_tree_node **tree)
+{
+	t_list			*separator_node;
+	t_bsp_segment	*separator;
+	t_list			*left;
+	t_list			*right;
+	t_tree_node		*tree_node;
+
+	left = NULL;
+	right = NULL;
+
+	if (tree == NULL)
+		return (0);
+	separator_node = choose_separator(*bsp_segments);
+	if (separator_node == NULL)
+	{
+		tree_node = create_tree_node();
+		if (tree_node == NULL)
+			return (1);
+		((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
+		((t_bsp_tree_node_data *)tree_node->data)
+			->sector_segments = *bsp_segments;
+		*tree = tree_node;
+		return (0);
+	}
+
+	separator = separator_node->content;
+	separator->used_as_separator = 1;
+	compute_segments_intersections(*bsp_segments, separator->segment);
+	if (create_portals(*bsp_segments, separator->segment, bsp_segments))
+	{
+		perror("error: _recursive_map_cut");
+		ft_lstclear(bsp_segments, destroy_full_bsp_segment);
+		return (1);
+	}
+
+	if (map_cut(bsp_segments, &left, &right))
+	{
+		ft_lstclear(bsp_segments, destroy_full_bsp_segment);
+		ft_lstclear(&left, destroy_full_bsp_segment);
+		ft_lstclear(&right, destroy_full_bsp_segment);
+
+		perror("error: _recursive_map_cut\n");
+
+		return (1);
+	}
+
+
+	tree_node = create_tree_node();
+	if (tree_node == NULL)
+	{
+		perror("error: _recursive_map_cut\n");
+		ft_lstclear(bsp_segments, destroy_full_bsp_segment);
+		ft_lstclear(&left, destroy_full_bsp_segment);
+		ft_lstclear(&right, destroy_full_bsp_segment);
+		return (1);
+	}
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
+	((t_bsp_tree_node_data *)tree_node->data)->separator = *separator->segment;
+
+	if (_recursive_map_cut(&left, &(tree_node->left))
+		|| _recursive_map_cut(&right, &(tree_node->right)))
+	{
+		perror("error: _recursive_map_cut");
+		destroy_bsp_segment_tree(&tree_node);
+		ft_lstclear(bsp_segments, destroy_full_bsp_segment);
+		ft_lstclear(&left, destroy_full_bsp_segment);
+		ft_lstclear(&right, destroy_full_bsp_segment);
+		return (1);
+	}
+	if (tree_node->left)
+		tree_node->left->parent = tree_node;
+	if (tree_node->right)
+		tree_node->right->parent = tree_node;
+	*tree = tree_node;
+
+	return (0);
+}
+
+int	construct_bsp(t_list **segments, t_tree_node **tree)
+{
+	t_list		*converted_segments;
+	t_tree_node	*bsp_tree;
+
+	bsp_tree = NULL;
+	converted_segments = convert_to_bsp_segments(*segments);
+	if (converted_segments == NULL)
+		return (1);
+	if (_recursive_map_cut(&converted_segments, &bsp_tree))
+	{
+		ft_lstclear(&converted_segments, destroy_full_bsp_segment);
+		perror("error: construct_bsp");
+		*tree = NULL;
+		return (1);
+	}
+	tree_update_portals_links_to_segments(bsp_tree);
+	tree_convert_bsp_segment_to_segments(bsp_tree);
+	*tree = bsp_tree;
+	return (0);
 }

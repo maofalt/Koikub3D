@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:25:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/04 17:02:58 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 20:57:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ int	find_gaps(
 		{
 			portal = create_portal_alone(&last, &current);
 			if (portal == NULL)
-				return (1);
+				return (ft_lstclear(portal_lst, destroy_full_bsp_segment), 1);
 			ft_lstadd_front(portal_lst, portal);
 		}
 		if (get_segment_max_on_separator(bsp_segment, !is_sep_horizontal)
@@ -217,12 +217,18 @@ int	find_gaps(
 	return (0);
 }
 
-int	create_portals(t_list *bsp_segments, int is_sep_horizontal, t_list **portal_lst)
+int	create_portals(
+	t_list *bsp_segments,
+	t_segment_d *separator,
+	t_list **portal_lst
+	)
 {
 	t_list	**bsp_segments_nodes_array;
 	int		size;
 	int		err;
+	int		is_sep_horizontal;
 
+	is_sep_horizontal = (separator->point_a.x == separator->point_b.x);
 	bsp_segments_nodes_array = NULL;
 	err = 0;
 	size = create_intersect_seg_nodes_array(bsp_segments,
@@ -236,7 +242,8 @@ int	create_portals(t_list *bsp_segments, int is_sep_horizontal, t_list **portal_
 	else
 		sort_lst_node_array(bsp_segments_nodes_array, size, comparison_fun_x);
 
-	err = find_gaps(bsp_segments_nodes_array, size, is_sep_horizontal, portal_lst);
+	err = find_gaps(bsp_segments_nodes_array, size, is_sep_horizontal,
+			portal_lst);
 	free(bsp_segments_nodes_array);
 	return (err);
 }

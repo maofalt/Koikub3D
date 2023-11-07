@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 23:30:12 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/06 14:13:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 18:38:13 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	destroy_bsp_segment(void *bsp_seg)
 	free(bsp_seg);
 }
 
-void	destroy_full_bsp_segment(t_bsp_segment *bsp_seg)
+void	destroy_full_bsp_segment(void *bsp_seg)
 {
 	if (bsp_seg)
 	{
-		free(bsp_seg->segment);
+		free(((t_bsp_segment *)bsp_seg)->segment);
 		free(bsp_seg);
 	}
 }

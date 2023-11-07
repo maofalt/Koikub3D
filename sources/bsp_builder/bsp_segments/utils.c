@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 23:30:12 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/07 18:38:13 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:38:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ void	destroy_full_bsp_segment_node(t_list *node)
 	}
 	free(node);
 }
-
 
 t_bsp_segment	*duplicate_bsp_segment(t_bsp_segment *original)
 {

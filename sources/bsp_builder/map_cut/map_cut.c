@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:29:39 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/07 21:04:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 22:22:10 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,10 @@ int	cut_portal(
 	linked_segment->used_as_separator = 1;
 	if (cut_segment(bsp_segment, right_portal_1))
 	{
-		perror("cut_portal_1");
 		return (1);
 	}
 	if (cut_segment(linked_segment, right_portal_2))
 	{
-		perror("cut_portal_2");
 		destroy_full_bsp_segment(*right_portal_1);
 		return (1);
 	}
@@ -76,7 +74,6 @@ int	cut_portal(
 	(*right_portal_2)->segment->data.data.portal.destination = *right_portal_1;
 	return (0);
 }
-
 
 int	cut_segment_node_wall(
 	t_list **bsp_segment_node,
@@ -102,45 +99,62 @@ int	cut_segment_node_wall(
 	return (0);
 }
 
-int	cut_segment_node_portal(
-	t_list **bsp_segment_node,
-	t_list **left,
-	t_list **right)
+int	cut_portal_in_node(
+	t_bsp_segment *bsp_segment,
+	t_list **right_portal_1,
+	t_list **right_portal_2
+	)
 {
-	t_bsp_segment	*bsp_segment;
 	t_bsp_segment	*new_segment_1;
 	t_bsp_segment	*new_segment_2;
-	t_list			*new_node_right;
 
-	bsp_segment = (*bsp_segment_node)->content;
 	if (cut_portal(bsp_segment, &new_segment_1, &new_segment_2))
 	{
 		perror("cut_segment_node_portal");
 		return (1);
 	}
-	new_node_right = ft_lstnew(new_segment_1);
-	if (!new_node_right)
+	*right_portal_1 = ft_lstnew(new_segment_1);
+	if (!*right_portal_1)
 	{
 		destroy_full_bsp_segment(new_segment_1);
 		destroy_full_bsp_segment(new_segment_2);
 		return (1);
 	}
-	new_segment_1->node_ptr = new_node_right;
-	ft_lstadd_front(right, new_node_right);
-	new_node_right = ft_lstnew(new_segment_2);
-	if (!new_node_right)
+	*right_portal_2 = ft_lstnew(new_segment_2);
+	if (!*right_portal_2)
 	{
 		destroy_full_bsp_segment(new_segment_2);
 		return (1);
 	}
-	new_segment_2->node_ptr = new_node_right;
-	ft_lstadd_front(
-		&((t_bsp_segment*)bsp_segment->segment->data.data.portal.destination)
-		->node_ptr->next, new_node_right);
-	lst_move_node(left, bsp_segment_node);
 	return (0);
 }
 
+int	cut_segment_node_portal(
+	t_list **bsp_segment_node,
+	t_list **left,
+	t_list **right
+	)
+{
+	t_bsp_segment	*bsp_segment;
+	t_list			*new_segment_1;
+	t_list			*new_segment_2;
+	t_bsp_segment	*tmp_seg;
+
+	bsp_segment = (*bsp_segment_node)->content;
+	if (cut_portal_in_node(bsp_segment, &new_segment_1, &new_segment_2))
+		return (1);
+	tmp_seg = new_segment_1->content;
+	tmp_seg->node_ptr = new_segment_1;
+	ft_lstadd_front(right, new_segment_1);
+
+	tmp_seg = new_segment_2->content;
+	tmp_seg->node_ptr = new_segment_2;
+	ft_lstadd_front(
+		&((t_bsp_segment*)bsp_segment->segment->data.data.portal.destination)
+		->node_ptr->next, new_segment_2);
+	lst_move_node(left, bsp_segment_node);
+	return (0);
+}
 
 int	cut_segment_to_node(
 	t_list **bsp_segment_node,
@@ -162,11 +176,30 @@ int	cut_segment_to_node(
 	}
 	return (0);
 }
+//TODO: rename this function
+static int	_map_cut_segment_on(t_list **bsp_segments, t_list **left, t_list **right)
+{
+	t_list			*new_node_right;
+
+	new_node_right = duplicate_bsp_segment_node(*bsp_segments);
+	if (new_node_right == NULL)
+		return (1);
+	if (((t_bsp_segment *)new_node_right->content)
+		->segment->data.type == PORTAL)
+	{
+		((t_bsp_segment *)new_node_right->content)->segment
+			->data.data.portal.destination = (*bsp_segments)->content;
+		((t_bsp_segment *)(*bsp_segments)->content)->segment
+			->data.data.portal.destination = new_node_right->content;
+	}
+	ft_lstadd_front(right, new_node_right);
+	lst_move_node(left, bsp_segments);
+	return (0);
+}
 
 int	map_cut(t_list **bsp_segments, t_list **left, t_list **right)
 {
 	t_bsp_segment	*current;
-	t_list			*new_node_right;
 
 	while (*bsp_segments)
 	{
@@ -174,10 +207,7 @@ int	map_cut(t_list **bsp_segments, t_list **left, t_list **right)
 		if (current->side_of_separator == SIDE_INTERSECT)
 		{
 			if (cut_segment_to_node(bsp_segments, left, right))
-			{
-				perror("map_cut");
 				return (1);
-			}
 		}
 		else if (current->side_of_separator == SIDE_LEFT)
 			lst_move_node(left, bsp_segments);
@@ -185,22 +215,8 @@ int	map_cut(t_list **bsp_segments, t_list **left, t_list **right)
 			lst_move_node(right, bsp_segments);
 		else
 		{
-			puts("ON\n");
-			new_node_right = duplicate_bsp_segment_node(*bsp_segments);
-			if (new_node_right == NULL)
+			if (_map_cut_segment_on(bsp_segments, left, right))
 				return (1);
-
-			//TODO: Move this outside
-			if (((t_bsp_segment *)new_node_right->content)
-				->segment->data.type == PORTAL)
-			{
-				((t_bsp_segment *)new_node_right->content)->segment
-					->data.data.portal.destination = (*bsp_segments)->content;
-				((t_bsp_segment *)(*bsp_segments)->content)->segment
-					->data.data.portal.destination = new_node_right->content;
-			}
-			ft_lstadd_front(right, new_node_right);
-			lst_move_node(left, bsp_segments);
 		}
 	}
 	return (0);

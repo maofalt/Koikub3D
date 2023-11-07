@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 13:18:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:38:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_side	point_segment_side(t_segment_d *separator, t_vector4d *segment_point)
 
 	ab.vec = separator->point_b.vec - separator->point_a.vec;
 	ap.vec = segment_point->vec - separator->point_a.vec;
-
 	cross_product = ab.x * ap.y - ab.y * ap.x;
 	if (cross_product > 0)
 		return (SIDE_RIGHT);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:25:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/07 20:57:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/07 21:36:23 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 t_vector4d	get_segment_max_on_separator(t_bsp_segment *bsp_segment, int use_x)
 {
 	const int	v_rank = (use_x == 0);
-	double			maxi;
+	double		maxi;
 	t_vector4d	max_point;
 
 	maxi = -INFINITY;
-
 	if (bsp_segment->has_separator_intersection != 0)
 	{
 		max_point = point2d_to_vector4d(&bsp_segment->separator_intersection);
@@ -68,7 +67,6 @@ t_vector4d	get_segment_min_on_separator(t_bsp_segment *bsp_segment, int use_x)
 	}
 	return (min_point);
 }
-
 
 int	comparison_fun_x(t_list *bsp_segment_node_a, t_list *bsp_segment_node_b)
 {
@@ -127,7 +125,6 @@ int	create_intersect_seg_nodes_array(t_list *bsp_segments, t_list ***array)
 	return (size);
 }
 
-
 int	*create_portal_duo(
 	t_vector4d *point_a,
 	t_vector4d *point_b,
@@ -148,13 +145,10 @@ int	*create_portal_duo(
 	segment.data.type = PORTAL;
 	segment.data.data.portal.destination = (*portal_b)->content;
 	*((t_bsp_segment *)(*portal_a)->content)->segment = segment;
-
 	segment.data.data.portal.destination = (*portal_a)->content;
 	*((t_bsp_segment *)(*portal_b)->content)->segment = segment;
 	return (0);
 }
-
-
 
 t_list	*create_portal_alone(
 	t_vector4d *point_a,
@@ -179,7 +173,18 @@ t_list	*create_portal_alone(
 	return (portal);
 }
 
+//TODO: rename
+static void	_find_gap_update_last(
+	t_vector4d *last,
+	t_bsp_segment *bsp_segment,
+	int is_sep_horizontal)
+{
+	t_vector4d	seg_max;
 
+	seg_max = get_segment_max_on_separator(bsp_segment, !is_sep_horizontal);
+	if (seg_max.vec[is_sep_horizontal] > last->vec[is_sep_horizontal])
+		*last = seg_max;
+}
 
 int	find_gaps(
 	t_list **bsp_segments_sorted_array,
@@ -208,10 +213,7 @@ int	find_gaps(
 				return (ft_lstclear(portal_lst, destroy_full_bsp_segment), 1);
 			ft_lstadd_front(portal_lst, portal);
 		}
-		if (get_segment_max_on_separator(bsp_segment, !is_sep_horizontal)
-			.vec[is_sep_horizontal] > last.vec[is_sep_horizontal])
-			last = get_segment_max_on_separator(bsp_segment,
-					!is_sep_horizontal);
+		_find_gap_update_last(&last, bsp_segment, is_sep_horizontal);
 		++i;
 	}
 	return (0);
@@ -235,13 +237,11 @@ int	create_portals(
 			&bsp_segments_nodes_array);
 	if (bsp_segments_nodes_array == NULL)
 		return (1);
-
 	printf("is sep horizontal:%i\n", is_sep_horizontal);
 	if (is_sep_horizontal)
 		sort_lst_node_array(bsp_segments_nodes_array, size, comparison_fun_y);
 	else
 		sort_lst_node_array(bsp_segments_nodes_array, size, comparison_fun_x);
-
 	err = find_gaps(bsp_segments_nodes_array, size, is_sep_horizontal,
 			portal_lst);
 	free(bsp_segments_nodes_array);

@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 21:16:51 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 20:30:17 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	explore_edge(t_edge_exploration_context *context)
 {
-	t_point2d		*coord;
-	t_point2d		*delta;
+	t_vector4d		*coord;
+	t_vector4d		*delta;
 	t_segment_d		*segment;
 
 	coord = &(context->coord);
@@ -50,7 +50,7 @@ int	extract_edge_recursively(char **map, t_list **edges)
 	context.map = map;
 	*edges = NULL;
 	context.visited = malloc2DArray(map);
-	print_map(context.map);
+	//print_map(context.map);
 	if (context.visited == NULL)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))
@@ -89,12 +89,12 @@ int	process_row_vertical_horizontal(t_edge_exploration_context *context, t_list 
 	x = 0;
 	while (x < width_map)
 	{
-		context->current_coord = (t_point2d){{x, y}};
+		context->current_coord = (t_vector4d){{x, y, 0, 0}};
 		if (context->map[y][x] == '1')
 		{
-			if (process_direction(context, edges, (t_point2d){{1, 0}}, RIGHT))
+			if (process_direction(context, edges, (t_vector4d){{1, 0, 0, 0}}, RIGHT))
 				return (1);
-			if (process_direction(context, edges, (t_point2d){{0, 1}}, DOWN))
+			if (process_direction(context, edges, (t_vector4d){{0, 1, 0, 0}}, DOWN))
 				return (1);
 		}
 		x++;
@@ -110,13 +110,13 @@ int	process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
 	x = 0;
 	while (x < width_map)
 	{
-		context->current_coord = (t_point2d){{x, y}};
+		context->current_coord = (t_vector4d){{x, y, 0, 0}};
 		if (context->map[y][x] == '1')
 		{
-			if (process_direction(context, edges, (t_point2d){{1, 1}},
+			if (process_direction(context, edges, (t_vector4d){{1, 1, 0, 0}},
 				DIAGONAL_RIGHT))
 				return (1);
-			if (process_direction(context, edges, (t_point2d){{-1, 1}},
+			if (process_direction(context, edges, (t_vector4d){{-1, 1, 0, 0}},
 				DIAGONAL_LEFT))
 				return (1);
 		}
@@ -125,8 +125,8 @@ int	process_row_diagonal(t_edge_exploration_context *context, t_list **edges,
 	return (0);
 }
 
-void	update_context(t_edge_exploration_context *context, t_point2d coord,
-			t_point2d delta, t_direction dir)
+void	update_context(t_edge_exploration_context *context, t_vector4d coord,
+			t_vector4d delta, t_direction dir)
 {
 	t_segment_data	data;
 

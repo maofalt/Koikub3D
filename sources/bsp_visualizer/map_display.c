@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 06:28:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 01:29:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,16 @@ int	map_visualizer_render(t_cub *data)
 {
 	t_list		*segments_lst;
 	t_tree_node *tree;
+	// t_list		*processed_seg;
 
 	tree = NULL;
 	if (data->win_ptr == NULL)
 		return (1);
 	segments_lst = NULL;
+	// processed_seg = NULL;
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
-	construct_bsp(&segments_lst, &tree, data);
+	construct_bsp(&segments_lst, &tree);
 
 	// printf("##########%p\n", segments_lst->content);
 	// draw_map_segments(data, segments_lst);
@@ -88,7 +90,27 @@ int	map_visualizer_render(t_cub *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	printf("--------------------------------\n");
-	usleep(100000);
+	usleep(10);
+	return (0);
+}
+
+int	map_visualizer_draw(t_cub *data)
+{
+	t_list			*current;
+
+	(void)current;
+	if (data->win_ptr == NULL)
+		return (1);
+	if (data->update)
+	{
+		canvas_to_mlx_image(data->screen,
+			get_canvas_from_list(data->canvas_list, MAP));
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->win_ptr,
+			data->screen.mlx_img, 0, 0);
+		data->update = 0;
+		usleep(10);
+	}
 	return (0);
 }
 

@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:25:15 by motero           ###   ########.fr       */
+/*   Updated: 2023/11/06 14:18:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+#include "game_loop.h"
+#include "map_to_edges.h"
+#include "bsp_builder.h"
+
+void	map_destroy(t_cub *data); //TODO remove this
+
 
 void	free_everything(t_cub data)
 {
@@ -30,6 +36,35 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
+	//TODO: destroy bsp
+	map_destroy(&data);
+}
+
+//TODO: move it
+int	map_convert(t_cub *data)
+{
+	t_list		*segments_lst;
+	t_tree_node	*tree;
+
+	tree = NULL;
+	segments_lst = NULL;
+	if (extract_edge_recursively(data->map, &segments_lst))
+		return (1);
+	if (construct_bsp(&segments_lst, &tree))
+	{
+		ft_lstclear(&segments_lst, free);
+		return (1);
+	}
+	data->map_data.segments = segments_lst;
+	data->map_data.bsp = tree;
+	return (0);
+}
+
+//TODO: move it
+void	map_destroy(t_cub *data)
+{
+	destroy_segment_tree(&data->map_data.bsp);
+	ft_lstclear(&data->map_data.segments, free);
 }
 
 int	main(int argc, char **argv)
@@ -48,7 +83,18 @@ int	main(int argc, char **argv)
 	{
 		return (free_everything(data), 1);
 	}
-	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
-		ft_mlx_engine(&data);
+	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
+	// 	ft_mlx_engine(&data);
+	data.canvas_list = NULL;
+	data.canvas_list = initialize_canvas_list(
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
+			(t_point2i){{WINDOW_WIDTH * 0.8, WINDOW_HEIGHT / 3}},
+			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
+	if (data.canvas_list == NULL)
+		return (free_everything(data), 1);
+	if (map_convert(&data))
+		return (free_everything(data), 1);
+	mlx_loop_hook(data.mlx_ptr, &game_loop, &data);
+	ft_mlx_engine(&data);
 	free_everything(data);
 }

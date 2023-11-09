@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:21:52 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:57:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:37:51 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	tree_convert_bsp_segment_to_segments(t_tree_node *tree)
 	tree_convert_bsp_segment_to_segments(tree->right);
 }
 
-static void	lst_update_portals_links_to_segments(t_list **bsp_list)
+static void	lst_update_portals_links_to_segments(
+	t_list **bsp_list,
+	t_tree_node	*tree_node
+	)
 {
 	t_list			*current;
 	t_bsp_segment	*bsp_seg;
@@ -69,6 +72,7 @@ static void	lst_update_portals_links_to_segments(t_list **bsp_list)
 		{
 			bsp_seg->segment->data.data.portal.destination = ((t_bsp_segment *)
 					bsp_seg->segment->data.data.portal.destination)->segment;
+			bsp_seg->segment->data.data.portal.tree_node_ptr = tree_node;
 		}
 		current = current->next;
 	}
@@ -79,7 +83,7 @@ void	tree_update_portals_links_to_segments(t_tree_node *tree)
 	if (tree->left == NULL && tree->right == NULL)
 	{
 		lst_update_portals_links_to_segments(
-			&((t_bsp_tree_node_data*)tree->data)->sector_segments);
+			&((t_bsp_tree_node_data*)tree->data)->sector_segments, tree);
 		return ;
 	}
 	tree_update_portals_links_to_segments(tree->left);

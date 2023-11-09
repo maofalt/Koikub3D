@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/01 18:36:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/09 20:32:25 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ typedef struct s_portal_data
 	// int			id;
 	// int			*destinations_id;
 	void		*destination;
+	void		*tree_node_ptr;
 }	t_portal_data;
 
 typedef union u_wall_portal_data
@@ -257,5 +258,14 @@ typedef struct s_bsp_tree_node_data
 	t_list			*sector_segments;
 	t_sector_data	sector_data;
 }	t_bsp_tree_node_data;
+
+typedef struct s_circular_queue
+{
+	size_t	elem_size;
+	size_t	size;
+	size_t	start;
+	size_t	end;
+	void	*buffer;
+}	t_circular_queue;
 
 #endif

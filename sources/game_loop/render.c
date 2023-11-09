@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/03 15:29:32 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/09 21:46:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ t_tree_node	*find_player_node(t_tree_node	*tree, t_cub *data)
 		child = find_player_node(tree->left, data);
 	if (child != NULL)
 		return (child);
-	else
-		return (NULL);
-	// return (NULL);
+	return (NULL);
 }
 
 
@@ -221,20 +219,41 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 
 void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 {
-	t_tree_node	*node;
-	t_list		*segments;
+	t_tree_node			*node;
+	t_segment_d			*portal;
+	t_list				*segments;
+	t_circular_queue	*sectors_queue;
 
+	sectors_queue = circular_queue_create(256, sizeof(t_tree_node *));
 	node = find_player_node(data->map_data.bsp, data);
-
-	if (!node)
-		return ;
-	segments = ((t_bsp_tree_node_data*)node->data)->sector_segments;
-	while (segments)
+	portal = NULL;
+	while (node)
 	{
-		draw_wall(data, canvas,
-			*(t_segment_d*)segments->content);
-		segments = segments->next;
+		segments = ((t_bsp_tree_node_data*)node->data)->sector_segments;
+		while (segments)
+		{
+			if (((t_segment_d *)segments->content)->data.type == PORTAL
+				&& segments->content != portal)
+			{
+				printf("BOB, (%p)\n", ((t_segment_d *)segments->content)->data.data.portal.tree_node_ptr);
+				circular_queue_add(sectors_queue, &segments->content);
+			}
+			else
+			{
+				draw_wall(data, canvas,
+					*(t_segment_d*)segments->content);
+			}
+			segments = segments->next;
+		}
+		if (circular_queue_pop(sectors_queue, (void **)&portal) == 0)
+		{
+			node = portal->data.data.portal.tree_node_ptr;
+			printf("TIERRY, (%p)\n", node);
+		}
+		else
+			node = NULL;
 	}
+	circular_queue_destroy(sectors_queue);
 }
 
 

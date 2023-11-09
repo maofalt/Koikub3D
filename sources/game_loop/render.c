@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/23 04:06:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:29:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "structures.h"
 #include "map_to_edges.h"
 #include "bsp_builder.h"
+#include "maths_utils.h"
 
 int	draw_player(t_cub *data, t_canvas *canvas)
 {
@@ -33,7 +34,7 @@ t_tree_node	*find_player_node(t_tree_node	*tree, t_cub *data)
 	t_tree_node	*child;
 	t_segment_d	separator;
 	t_point2d	player_pos;
-	int			player_side;
+	double		player_side;
 
 	if (!tree)
 		return (NULL);
@@ -70,7 +71,10 @@ void	draw_map_with_tree(t_cub *data, t_canvas *canvas)
 	while (segments_lst)
 	{
 		segment = *(t_segment_d*)(segments_lst->content);
-		color.d = 0xFF0000FF;
+		if (segment.data.type == WALL)
+			color.d = 0xFF0000FF;
+		else
+			color.d = 0xFFFF0000;
 		segment.point_a.vec *= 10;
 		segment.point_b.vec *= 10;
 		draw_segment_canvas(canvas, &segment, color);
@@ -105,7 +109,7 @@ t_segment_d	transform_player_relative(t_segment_d segment, t_player player)
 	relative_segment.point_a.y = segment.point_a.x * player.dir.x + segment.point_a.y * player.dir.y;
 	relative_segment.point_b.x = segment.point_b.x * player.dir.y - segment.point_b.y * player.dir.x;
 	relative_segment.point_b.y = segment.point_b.x * player.dir.x + segment.point_b.y * player.dir.y;
-
+	relative_segment.data = segment.data;
 	return (relative_segment);
 }
 
@@ -184,10 +188,16 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 	wall.point_b.x += middle.x;
 	wall.point_b.y += middle.y;
 
+	t_color	color;
+	if (wall.data.type == WALL)
+		color.d = 0xFFFFFFFF;
+	else
+		color.d = (size_t)(void *)wall.data.data.portal.destination;
 	draw_segment_canvas(canvas, &projection_top,
-		(t_color){.d = 0xFFFFFFFF});
+		color);
+	// if (wall.data.type == WALL)
 	draw_segment_canvas(canvas, &projection_bottom,
-		(t_color){.d = 0xFFFFFFFF});
+			color);
 	draw_segment_canvas(canvas, &wall,
 		(t_color) {.d = 0xFF00AA00});
 }

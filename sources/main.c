@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/10/23 03:43:37 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:18:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "game_loop.h"
 #include "map_to_edges.h"
 #include "bsp_builder.h"
+
+void	map_destroy(t_cub *data); //TODO remove this
 
 
 void	free_everything(t_cub data)
@@ -35,6 +37,7 @@ void	free_everything(t_cub data)
 	if (data.map != NULL)
 		free_double_char(data.map);
 	//TODO: destroy bsp
+	map_destroy(&data);
 }
 
 //TODO: move it
@@ -47,22 +50,21 @@ int	map_convert(t_cub *data)
 	segments_lst = NULL;
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
-	if (construct_bsp(&segments_lst,(t_list **)&(t_list* ){NULL},  &tree))
+	if (construct_bsp(&segments_lst, &tree))
 	{
-		//TODO: free segments
+		ft_lstclear(&segments_lst, free);
 		return (1);
 	}
-	data->map_data.segments = NULL;
+	data->map_data.segments = segments_lst;
 	data->map_data.bsp = tree;
-	if (extract_edge_recursively(data->map, &data->map_data.segments))
-		return (1); //TODO free and bsp
 	return (0);
 }
 
+//TODO: move it
 void	map_destroy(t_cub *data)
 {
-	//TODO destruct_bsp
-	(void)data;
+	destroy_segment_tree(&data->map_data.bsp);
+	ft_lstclear(&data->map_data.segments, free);
 }
 
 int	main(int argc, char **argv)

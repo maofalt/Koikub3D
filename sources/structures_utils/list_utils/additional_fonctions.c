@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*   additional_fonctions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/11/01 17:30:16 by olimarti         ###   ########.fr       */
+/*   Created: 2023/10/07 23:29:11 by olimarti          #+#    #+#             */
+/*   Updated: 2023/11/08 01:44:28 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx_engine.h"
+#include "structures_utils.h"
 
-void	img_pix_put(t_img_data *img, int x, int y, int color)
+void	lst_move_node(t_list **list, t_list **node)
 {
-	char	*pixel;
+	t_list	*next_tmp;
 
-	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(int *)pixel = color;
+	next_tmp = (*node)->next;
+	ft_lstadd_front(list, (*node));
+	(*node) = next_tmp;
 }

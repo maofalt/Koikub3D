@@ -6,13 +6,13 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/21 22:36:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/02 01:31:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
 #include "matrix.h"
-#include "draw_utils.h"
+#include "maths_utils.h"
 
 void player_handle_event(t_cub *data)
 {

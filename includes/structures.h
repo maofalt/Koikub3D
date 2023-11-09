@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/23 04:04:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/01 18:36:34 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef int				t_v2i			__attribute__((vector_size (2 * sizeof(int))));
 typedef double			t_v2d			__attribute__((vector_size (2 * sizeof(double))));
 typedef u_int8_t		t_vector_color	__attribute__((vector_size (4 * sizeof(u_int8_t))));
 typedef double			t_v4d 			__attribute__((vector_size(4 * sizeof(double))));
+
+typedef struct s_segment_d t_segment_d;
 
 typedef union u_vector4d
 {
@@ -198,10 +200,10 @@ typedef struct s_wall_data
 
 typedef struct s_portal_data
 {
-	int		size;
-	int		id;
-	int		*destinations_id;
-	void	*destination;
+	int			size;
+	// int			id;
+	// int			*destinations_id;
+	void		*destination;
 }	t_portal_data;
 
 typedef union u_wall_portal_data
@@ -216,19 +218,12 @@ typedef union s_segment_data
 	t_wall_portal_data	data;
 }	t_segment_data;
 
-typedef struct s_segment_i
-{
-	t_point2i		point_a;
-	t_point2i		point_b;
-	t_segment_data	data;
-}	t_segment_i;
-
-typedef struct s_segment_d
+struct	s_segment_d
 {
 	t_vector4d		point_a;
 	t_vector4d		point_b;
 	t_segment_data	data;
-}	t_segment_d;
+};
 
 typedef enum e_direction{
 	NONE = 0,

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/10 15:48:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/10 19:41:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,11 @@ void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segm
 	t_vector4d	middle;
 
 
+	player_right.point_a.x = 0;
+	player_right.point_a.y = 0.1;
+	player_right.point_b.x = 10;
+	player_right.point_b.y = 0.01;
+	//-------------
 
 	portal = transform_player_relative(portal, data->player);
 	if (portal.point_a.y <= 0 && portal.point_b.y <= 0)
@@ -243,10 +248,7 @@ void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segm
 	middle.y = canvas->size.y / 2;
 	middle.w = 0;
 	middle.z = 0;
-	player_right.point_a.x = 0;
-	player_right.point_a.y = 0;
-	player_right.point_b.x = 10;
-	player_right.point_b.y = 0.01;
+
 	wall = transform_player_relative(wall, data->player);
 
 	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
@@ -360,7 +362,278 @@ void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segm
 
 
 
+// void	draw_wall_window(t_cub *data, t_canvas *canvas, t_segment_d wall,)
+// {
+// 	t_segment_d	projection_bottom;
+// 	t_segment_d	projection_top;
+// 	t_segment_d	player_right;
+// 	t_vector4d	intersect;
+// 	t_vector4d	middle;
 
+// 	middle.x = canvas->size.x / 2;
+// 	middle.y = canvas->size.y / 2;
+// 	middle.w = 0;
+// 	middle.z = 0;
+// 	player_right.point_a.x = 0;
+// 	player_right.point_a.y = 0.01;
+// 	player_right.point_b.x = 10;
+// 	player_right.point_b.y = 0.01;
+// 	wall = transform_player_relative(wall, data->player);
+
+// 	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
+// 		return ;
+// 	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
+// 	{
+// 		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
+// 		intersect.y = 0.01;
+// 		if (wall.point_a.y < 0.01)
+// 		{
+// 			intersect.z = wall.point_a.z;
+// 			wall.point_a = intersect;
+// 		}
+// 		if (wall.point_b.y < 0.01)
+// 		{
+// 			intersect.z = wall.point_b.z;
+// 			wall.point_b = intersect;
+// 		}
+// 	}
+// 	wall.point_a.z = 10;
+// 	wall.point_b.z = 10;
+// 	projection_top = transform_perspective(wall);
+// 	wall.point_a.z = -10;
+// 	wall.point_b.z = -10;
+// 	projection_bottom = transform_perspective(wall);
+
+// 	// //------------
+
+// 	projection_bottom.point_a.vec *= 10;
+// 	projection_bottom.point_b.vec *= 10;
+// 	projection_top.point_a.vec *= 10;
+// 	projection_top.point_b.vec *= 10;
+// 	projection_bottom.point_a.vec += middle.vec;
+// 	projection_bottom.point_b.vec += middle.vec;
+// 	projection_top.point_a.vec += middle.vec;
+// 	projection_top.point_b.vec += middle.vec;
+
+// 	wall.point_a.vec *= 10;
+// 	wall.point_b.vec *= 10;
+// 	wall.point_a.x += middle.x;
+// 	wall.point_a.y += middle.y;
+// 	wall.point_b.x += middle.x;
+// 	wall.point_b.y += middle.y;
+
+// 	t_color	color;
+// 	if (wall.data.type == WALL)
+// 		color.d = 0xFFFFFFFF;
+// 	else
+// 		color.d = (size_t)(void *)wall.data.data.portal.destination;
+// 	draw_segment_canvas(canvas, &projection_top,
+// 		color);
+// 	// if (wall.data.type == WALL)
+// 	draw_segment_canvas(canvas, &projection_bottom,
+// 			color);
+// 	draw_segment_canvas(canvas, &wall,
+// 		(t_color) {.d = 0xFF00AA00});
+// }
+
+
+
+
+
+// typedef struct s_surface
+// {
+// 	t_vector4d	top_right;
+// 	t_vector4d	top_left;
+// 	t_vector4d	bottom_right;
+// 	t_vector4d	bottom_left;
+// }	t_surface;
+
+
+
+
+void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double left, double right)
+{
+	t_segment_d	projection_bottom;
+	t_segment_d	projection_top;
+	t_segment_d	player_right;
+	t_vector4d	intersect;
+	t_vector4d	middle;
+
+
+	player_right.point_a.x = 0;
+	player_right.point_a.y = 0.1;
+	player_right.point_b.x = 10;
+	player_right.point_b.y = 0.01;
+	//-------------
+
+
+	double	portal_max = right;
+	double	portal_min = left;
+
+	//---------------------
+
+	middle.x = canvas->size.x / 2;
+	middle.y = canvas->size.y / 2;
+	middle.w = 0;
+	middle.z = 0;
+
+	wall = transform_player_relative(wall, data->player);
+
+	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
+		return ;
+	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
+	{
+		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
+		intersect.y = 0.01;
+		if (wall.point_a.y < 0.01)
+		{
+			intersect.z = wall.point_a.z;
+			wall.point_a = intersect;
+		}
+		if (wall.point_b.y < 0.01)
+		{
+			intersect.z = wall.point_b.z;
+			wall.point_b = intersect;
+		}
+	}
+	wall.point_a.z = 10;
+	wall.point_b.z = 10;
+	projection_top = transform_perspective(wall);
+	wall.point_a.z = -10;
+	wall.point_b.z = -10;
+	projection_bottom = transform_perspective(wall);
+
+
+	projection_bottom.point_a.vec *= 10;
+	projection_bottom.point_b.vec *= 10;
+	projection_top.point_a.vec *= 10;
+	projection_top.point_b.vec *= 10;
+
+	// ----------
+	if (projection_bottom.point_a.x > portal_max && projection_bottom.point_b.x > portal_max)
+		return;
+	if (projection_bottom.point_a.x < portal_min && projection_bottom.point_b.x < portal_min)
+		return;
+
+	t_segment_d line;
+	line.point_a.x = portal_max;
+	line.point_b.x = portal_max;
+	line.point_a.y = 1;
+	line.point_b.y = 10;
+	if (projection_bottom.point_a.x > portal_max)
+	{
+		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+	}
+
+	if (projection_bottom.point_b.x > portal_max)
+	{
+		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+	}
+
+	line.point_a.x = portal_min;
+	line.point_b.x = portal_min;
+	if (projection_bottom.point_a.x < portal_min)
+	{
+		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+	}
+
+	if (projection_bottom.point_b.x < portal_min)
+	{
+		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+	}
+
+	// //------------
+
+	projection_bottom.point_a.vec += middle.vec;
+	projection_bottom.point_b.vec += middle.vec;
+	projection_top.point_a.vec += middle.vec;
+	projection_top.point_b.vec += middle.vec;
+
+	wall.point_a.vec *= 10;
+	wall.point_b.vec *= 10;
+	wall.point_a.x += middle.x;
+	wall.point_a.y += middle.y;
+	wall.point_b.x += middle.x;
+	wall.point_b.y += middle.y;
+
+	t_color	color;
+	if (wall.data.type == WALL)
+		color.d = 0xFFFFFFFF;
+	else
+		color.d = (size_t)(void *)wall.data.data.portal.destination;
+	draw_segment_canvas(canvas, &projection_top,
+		color);
+	// if (wall.data.type == WALL)
+	draw_segment_canvas(canvas, &projection_bottom,
+			color);
+	draw_segment_canvas(canvas, &wall,
+		(t_color) {.d = 0xFF00AA00});
+}
+
+
+
+
+int	project_segment(t_cub *data, t_segment_d segment, t_segment_d	*projected_seg)
+{
+	t_segment_d	player_right;
+	t_vector4d	intersect;
+	// t_vector4d	middle;
+
+	// middle.x = canvas->size.x / 2;
+	// middle.y = canvas->size.y / 2;
+	// middle.w = 0;
+	// middle.z = 0;
+
+	player_right.point_a.x = 0;
+	player_right.point_a.y = 0;
+	player_right.point_b.x = 10;
+	player_right.point_b.y = 0.01;
+	segment = transform_player_relative(segment, data->player);
+
+	if (segment.point_a.y <= 0 && segment.point_b.y <= 0)
+		return (1);
+	if (segment.point_a.y <= 0.01 || segment.point_b.y <= 0.01)
+	{
+		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, segment)); //TODO replace by more specialized function
+		intersect.y = 0.01;
+		if (segment.point_a.y < 0.01)
+		{
+			intersect.z = segment.point_a.z;
+			segment.point_a = intersect;
+		}
+		if (segment.point_b.y < 0.01)
+		{
+			intersect.z = segment.point_b.z;
+			segment.point_b = intersect;
+		}
+	}
+	segment.point_a.z = 10;
+	segment.point_b.z = 10;
+	*projected_seg = transform_perspective(segment);
+	projected_seg->point_a.vec *= 10;
+	projected_seg->point_b.vec *= 10;
+	return (0);
+}
+
+
+// t_surface	get_surfaces_intersect(t_surface surface_a, t_surface surface_b)
+// {
+// 	t_surface result;
+
+// }
+
+
+
+typedef struct s_render_item_queue
+{
+	double		right;
+	double		left;
+	t_segment_d	*sector;
+}	t_render_item_queue;
 
 void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 {
@@ -369,40 +642,86 @@ void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 	t_list				*segments;
 	t_circular_queue	*sectors_queue;
 	static int			render_flag_id = 0;
+	t_render_item_queue	render_item;
+	t_render_item_queue	tmp_render_item;
+	t_segment_d			projected_seg;
 
 	++render_flag_id;
-	sectors_queue = circular_queue_create(5, sizeof(void *));
+	sectors_queue = circular_queue_create(1024, sizeof(t_render_item_queue));
 	node = find_player_node(data->map_data.bsp, data);
 	portal = NULL;
+	render_item.left = -INFINITY;
+	render_item.right = INFINITY;
+	render_item.sector = NULL;
 	while (node)
 	{
 		segments = ((t_bsp_tree_node_data*)node->data)->sector_segments;
-		((t_bsp_tree_node_data*)node->data)->sector_data.render_flag_id = render_flag_id;
+
 		while (segments)
 		{
+			// if (((t_segment_d *)segments->content)->data.type == PORTAL)
+			// {
+			// 	if (((t_bsp_tree_node_data *)(((t_tree_node *)(((t_segment_d *)((t_segment_d *)segments->content)->data.data.portal.destination)->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
+			// 	{
+			// 		printf("BOB, (%p)\n", ((t_segment_d *)segments->content));
+			// 		circular_queue_add(sectors_queue, &segments->content);
+			// 	}
+			// }
+			// else
+			// {
+			// 	if (portal)
+			// 		draw_wall_in_portal(data, canvas,
+			// 		*(t_segment_d*)segments->content, *(t_segment_d *)portal->data.data.portal.destination);
+			// 	else
+			// 		draw_wall(data, canvas,
+			// 			*(t_segment_d*)segments->content);
+			// }
 			if (((t_segment_d *)segments->content)->data.type == PORTAL)
 			{
-				if (((t_bsp_tree_node_data *)(((t_tree_node *)(((t_segment_d *)((t_segment_d *)segments->content)->data.data.portal.destination)->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
+				tmp_render_item.sector = ((t_segment_d *)segments->content)->data.data.portal.destination;
+				// if (((t_bsp_tree_node_data *)(((t_tree_node *)(tmp_render_item.sector->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
+				// if (((t_bsp_tree_node_data *)(((t_tree_node *)(tmp_render_item.sector->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
+				// {
+				if (((t_segment_d *)segments->content)->data.data.portal.render_flag_id != render_flag_id)
 				{
-					printf("BOB, (%p)\n", ((t_segment_d *)segments->content));
-					circular_queue_add(sectors_queue, &segments->content);
+
+					if ((t_segment_d *)segments->content != render_item.sector)
+					{
+						if (project_segment(data, *(t_segment_d *)segments->content, &projected_seg) == 0)
+						{
+							// tmp_render_item.left = fmin(projected_seg.point_a.x, projected_seg.point_b.x); //TODO: clamp with current render;
+							// tmp_render_item.right = fmax(projected_seg.point_a.x, projected_seg.point_b.x);
+
+							tmp_render_item.left =  fmax(fmin(projected_seg.point_a.x, projected_seg.point_b.x), fmin(render_item.left, render_item.right));
+							tmp_render_item.right =  fmin(fmax(projected_seg.point_a.x, projected_seg.point_b.x), fmax(render_item.left, render_item.right));
+							printf("%f, %f && \n", tmp_render_item.left, tmp_render_item.right );
+							if (tmp_render_item.left + 1 < tmp_render_item.right //&&
+							// fmin(projected_seg.point_a.x, projected_seg.point_b.x) != render_item.left &&
+							// fmax(projected_seg.point_a.x, projected_seg.point_b.x) != render_item.right
+							)
+							{
+
+								circular_queue_add(sectors_queue, &tmp_render_item);
+								// draw_wall_in_window(data, canvas,
+								// 	*(t_segment_d*)segments->content, render_item.left, render_item.right);
+							}
+						}
+					}
 				}
 			}
 			else
 			{
-				if (portal)
-					draw_wall_in_portal(data, canvas,
-					*(t_segment_d*)segments->content, *(t_segment_d *)portal->data.data.portal.destination);
-				else
-					draw_wall(data, canvas,
-						*(t_segment_d*)segments->content);
+				// draw_wall(data, canvas,
+				// 			*(t_segment_d*)segments->content);
+				draw_wall_in_window(data, canvas,
+							*(t_segment_d*)segments->content, render_item.left, render_item.right);
 			}
 			segments = segments->next;
 		}
-		if (circular_queue_pop(sectors_queue, (void **)&portal) == 0)
+		if (circular_queue_pop(sectors_queue, (void *)&render_item) == 0)
 		{
-			node = ((t_segment_d *)portal->data.data.portal.destination)->data.data.portal.tree_node_ptr;
-			printf("TIERRY, (%p)\n", node);
+			render_item.sector->data.data.portal.render_flag_id = render_flag_id;
+			node = render_item.sector->data.data.portal.tree_node_ptr;
 		}
 		else
 			node = NULL;
@@ -443,7 +762,7 @@ void	game_render(t_cub *data)
 	draw_map_perspective(data, canvas);
 	draw_map_seg(data->map_data.segments, canvas);
 	draw_map_with_tree(data, canvas);
-	// draw_player_fixed(canvas);
+	draw_player_fixed(canvas);
 	canvas_to_mlx_image(data->screen,
 		canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/09 23:50:14 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:03:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	circular_queue_add(t_circular_queue *queue, void *element)
 	return (0);
 }
 
-int	circular_queue_pop(t_circular_queue *queue, void **result)
+int	circular_queue_pop(t_circular_queue *queue, void *result)
 {
 	void	*ptr;
 
@@ -63,7 +63,6 @@ int	circular_queue_pop(t_circular_queue *queue, void **result)
 	if (queue->start == queue->end)
 	{
 		printf("circular_queue_get: empty: %zu %zu %zu\n", queue->start, queue->end, queue->size);
-		*result = NULL;
 		return (1);
 	}
 	ptr = queue->buffer + (queue->start * queue->elem_size);

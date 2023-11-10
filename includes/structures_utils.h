@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:27:10 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/09 21:36:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/10 18:04:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int					add_segment_to_lst(t_list **lst, t_segment_d segment);
 t_circular_queue	*circular_queue_create(size_t size, size_t elem_size);
 void				circular_queue_destroy(t_circular_queue *queue);
 int					circular_queue_add(t_circular_queue *queue, void *element);
-int					circular_queue_pop(t_circular_queue *queue, void **result);
+int					circular_queue_pop(t_circular_queue *queue, void *result);
 
 
 

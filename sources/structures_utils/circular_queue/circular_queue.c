@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/09 21:49:51 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/09 23:50:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	circular_queue_add(t_circular_queue *queue, void *element)
 	size_t	index;
 
 	index = (queue->end + 1) % queue->size;
-	printf("circular_queue_add: %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size);
+	printf("circular_queue_add: %zu %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size, queue->elem_size);
 	if (index == queue->start)
 	{
 		printf("circular_queue_add: buffer full : %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size);
@@ -62,11 +62,13 @@ int	circular_queue_pop(t_circular_queue *queue, void **result)
 	printf("circular_queue_get: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 	if (queue->start == queue->end)
 	{
+		printf("circular_queue_get: empty: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 		*result = NULL;
 		return (1);
 	}
 	ptr = queue->buffer + (queue->start * queue->elem_size);
 	queue->start = (queue->start + 1) % queue->size;
-	*result = ptr;
+	memcpy(result, ptr, queue->elem_size);
+	// *result = *ptr;
 	return	(0);
 }

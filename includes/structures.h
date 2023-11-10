@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/09 20:32:25 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/10 00:12:20 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ typedef struct s_sector_data
 {
 	// t_list	*segments;
 	double	floor_height;
+	int		render_flag_id;
 }	t_sector_data;
 
 typedef struct s_bsp_tree_node_data

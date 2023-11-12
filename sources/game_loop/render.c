@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/10 19:41:32 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/12 03:57:17 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
 	middle.w = 0;
 	middle.z = 0;
 	player_right.point_a.x = 0;
-	player_right.point_a.y = 0;
+	player_right.point_a.y = 0.01;
 	player_right.point_b.x = 10;
 	player_right.point_b.y = 0.01;
 	wall = transform_player_relative(wall, data->player);
@@ -461,9 +461,9 @@ void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double
 
 
 	player_right.point_a.x = 0;
-	player_right.point_a.y = 0.1;
+	player_right.point_a.y = 0.0001;
 	player_right.point_b.x = 10;
-	player_right.point_b.y = 0.01;
+	player_right.point_b.y = 0.0001;
 	//-------------
 
 
@@ -481,16 +481,16 @@ void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double
 
 	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
 		return ;
-	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
+	if (wall.point_a.y <= 0.0001 || wall.point_b.y <= 0.0001)
 	{
 		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
-		intersect.y = 0.01;
-		if (wall.point_a.y < 0.01)
+		intersect.y = 0.0001;
+		if (wall.point_a.y < 0.0001)
 		{
 			intersect.z = wall.point_a.z;
 			wall.point_a = intersect;
 		}
-		if (wall.point_b.y < 0.01)
+		if (wall.point_b.y < 0.0001)
 		{
 			intersect.z = wall.point_b.z;
 			wall.point_b = intersect;
@@ -570,8 +570,27 @@ void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double
 	// if (wall.data.type == WALL)
 	draw_segment_canvas(canvas, &projection_bottom,
 			color);
-	draw_segment_canvas(canvas, &wall,
-		(t_color) {.d = 0xFF00AA00});
+
+	//-----------
+
+	line.point_a = projection_top.point_a;
+	line.point_b = projection_bottom.point_a;
+
+
+	draw_segment_canvas(canvas, &line,
+		color);
+
+	line.point_a = projection_top.point_b;
+	line.point_b = projection_bottom.point_b;
+	// if (wall.data.type == WALL)
+	draw_segment_canvas(canvas, &line,
+			color);
+
+	//-----------
+
+
+	// draw_segment_canvas(canvas, &wall,
+	// 	(t_color) {.d = 0xFF00AA00});
 }
 
 
@@ -589,18 +608,18 @@ int	project_segment(t_cub *data, t_segment_d segment, t_segment_d	*projected_seg
 	// middle.z = 0;
 
 	player_right.point_a.x = 0;
-	player_right.point_a.y = 0;
+	player_right.point_a.y = 0.0001;
 	player_right.point_b.x = 10;
-	player_right.point_b.y = 0.01;
+	player_right.point_b.y = 0.0001;
 	segment = transform_player_relative(segment, data->player);
 
 	if (segment.point_a.y <= 0 && segment.point_b.y <= 0)
 		return (1);
-	if (segment.point_a.y <= 0.01 || segment.point_b.y <= 0.01)
+	if (segment.point_a.y <= 0.0001 || segment.point_b.y <= 0.0001)
 	{
 		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, segment)); //TODO replace by more specialized function
-		intersect.y = 0.01;
-		if (segment.point_a.y < 0.01)
+		intersect.y = 0.0001;
+		if (segment.point_a.y < 0.0001)
 		{
 			intersect.z = segment.point_a.z;
 			segment.point_a = intersect;
@@ -638,7 +657,6 @@ typedef struct s_render_item_queue
 void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 {
 	t_tree_node			*node;
-	t_segment_d			*portal;
 	t_list				*segments;
 	t_circular_queue	*sectors_queue;
 	static int			render_flag_id = 0;
@@ -649,9 +667,8 @@ void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 	++render_flag_id;
 	sectors_queue = circular_queue_create(1024, sizeof(t_render_item_queue));
 	node = find_player_node(data->map_data.bsp, data);
-	portal = NULL;
-	render_item.left = -INFINITY;
-	render_item.right = INFINITY;
+	render_item.left = -WINDOW_WIDTH / 2 - 1; //-INFINITY;
+	render_item.right = WINDOW_WIDTH / 2 + 1;//INFINITY;
 	render_item.sector = NULL;
 	while (node)
 	{
@@ -682,8 +699,8 @@ void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 				// if (((t_bsp_tree_node_data *)(((t_tree_node *)(tmp_render_item.sector->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
 				// if (((t_bsp_tree_node_data *)(((t_tree_node *)(tmp_render_item.sector->data.data.portal.tree_node_ptr))->data))->sector_data.render_flag_id != render_flag_id)
 				// {
-				if (((t_segment_d *)segments->content)->data.data.portal.render_flag_id != render_flag_id)
-				{
+				// if (((t_segment_d *)segments->content)->data.data.portal.render_flag_id != render_flag_id)
+				// {
 
 					if ((t_segment_d *)segments->content != render_item.sector)
 					{
@@ -695,19 +712,19 @@ void	draw_map_perspective(t_cub *data, t_canvas *canvas)
 							tmp_render_item.left =  fmax(fmin(projected_seg.point_a.x, projected_seg.point_b.x), fmin(render_item.left, render_item.right));
 							tmp_render_item.right =  fmin(fmax(projected_seg.point_a.x, projected_seg.point_b.x), fmax(render_item.left, render_item.right));
 							printf("%f, %f && \n", tmp_render_item.left, tmp_render_item.right );
-							if (tmp_render_item.left + 1 < tmp_render_item.right //&&
+							if (tmp_render_item.left < tmp_render_item.right //&&
 							// fmin(projected_seg.point_a.x, projected_seg.point_b.x) != render_item.left &&
 							// fmax(projected_seg.point_a.x, projected_seg.point_b.x) != render_item.right
 							)
 							{
 
 								circular_queue_add(sectors_queue, &tmp_render_item);
-								// draw_wall_in_window(data, canvas,
-								// 	*(t_segment_d*)segments->content, render_item.left, render_item.right);
+								draw_wall_in_window(data, canvas,
+									*(t_segment_d*)segments->content, render_item.left, render_item.right);
 							}
 						}
 					}
-				}
+				// }
 			}
 			else
 			{

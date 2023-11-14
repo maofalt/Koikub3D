@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 03:57:17 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/12 03:57:17 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/12 05:13:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,225 +126,149 @@ t_segment_d	transform_perspective(t_segment_d segment)
 	return (perspective_segment);
 }
 
-void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
-{
-	t_segment_d	projection_bottom;
-	t_segment_d	projection_top;
-	t_segment_d	player_right;
-	t_vector4d	intersect;
-	t_vector4d	middle;
 
-	middle.x = canvas->size.x / 2;
-	middle.y = canvas->size.y / 2;
-	middle.w = 0;
-	middle.z = 0;
-	player_right.point_a.x = 0;
-	player_right.point_a.y = 0.01;
-	player_right.point_b.x = 10;
-	player_right.point_b.y = 0.01;
-	wall = transform_player_relative(wall, data->player);
-
-	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
-		return ;
-	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
-	{
-		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
-		intersect.y = 0.01;
-		if (wall.point_a.y < 0.01)
-		{
-			intersect.z = wall.point_a.z;
-			wall.point_a = intersect;
-		}
-		if (wall.point_b.y < 0.01)
-		{
-			intersect.z = wall.point_b.z;
-			wall.point_b = intersect;
-		}
-	}
-	wall.point_a.z = 10;
-	wall.point_b.z = 10;
-	projection_top = transform_perspective(wall);
-	wall.point_a.z = -10;
-	wall.point_b.z = -10;
-	projection_bottom = transform_perspective(wall);
-
-	// //------------
-
-	projection_bottom.point_a.vec *= 10;
-	projection_bottom.point_b.vec *= 10;
-	projection_top.point_a.vec *= 10;
-	projection_top.point_b.vec *= 10;
-	projection_bottom.point_a.vec += middle.vec;
-	projection_bottom.point_b.vec += middle.vec;
-	projection_top.point_a.vec += middle.vec;
-	projection_top.point_b.vec += middle.vec;
-
-	wall.point_a.vec *= 10;
-	wall.point_b.vec *= 10;
-	wall.point_a.x += middle.x;
-	wall.point_a.y += middle.y;
-	wall.point_b.x += middle.x;
-	wall.point_b.y += middle.y;
-
-	t_color	color;
-	if (wall.data.type == WALL)
-		color.d = 0xFFFFFFFF;
-	else
-		color.d = (size_t)(void *)wall.data.data.portal.destination;
-	draw_segment_canvas(canvas, &projection_top,
-		color);
-	// if (wall.data.type == WALL)
-	draw_segment_canvas(canvas, &projection_bottom,
-			color);
-	draw_segment_canvas(canvas, &wall,
-		(t_color) {.d = 0xFF00AA00});
-}
+// void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segment_d portal)
+// {
+// 	t_segment_d	projection_bottom;
+// 	t_segment_d	projection_top;
+// 	t_segment_d	player_right;
+// 	t_vector4d	intersect;
+// 	t_vector4d	middle;
 
 
+// 	player_right.point_a.x = 0;
+// 	player_right.point_a.y = 0.1;
+// 	player_right.point_b.x = 10;
+// 	player_right.point_b.y = 0.01;
+// 	//-------------
+
+// 	portal = transform_player_relative(portal, data->player);
+// 	if (portal.point_a.y <= 0 && portal.point_b.y <= 0)
+// 		return ;
+// 	if (portal.point_a.y <= 0.01 || portal.point_b.y <= 0.01)
+// 	{
+// 		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, portal)); //TODO replace by more specialized function
+// 		intersect.y = 0.01;
+// 		if (portal.point_a.y < 0.01)
+// 		{
+// 			intersect.z = portal.point_a.z;
+// 			portal.point_a = intersect;
+// 		}
+// 		if (portal.point_b.y < 0.01)
+// 		{
+// 			intersect.z = portal.point_b.z;
+// 			portal.point_b = intersect;
+// 		}
+// 	}
+// 	portal = transform_perspective(portal);
+// 	portal.point_a.vec *= 16;
+// 	portal.point_b.vec *= 16;
+// 	double	portal_max = fmax(portal.point_a.x, portal.point_b.x);
+// 	double	portal_min = fmin(portal.point_a.x, portal.point_b.x);
+
+// 	//---------------------
+
+// 	middle.x = canvas->size.x / 2;
+// 	middle.y = canvas->size.y / 2;
+// 	middle.w = 0;
+// 	middle.z = 0;
+
+// 	wall = transform_player_relative(wall, data->player);
+
+// 	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
+// 		return ;
+// 	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
+// 	{
+// 		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
+// 		intersect.y = 0.01;
+// 		if (wall.point_a.y < 0.01)
+// 		{
+// 			intersect.z = wall.point_a.z;
+// 			wall.point_a = intersect;
+// 		}
+// 		if (wall.point_b.y < 0.01)
+// 		{
+// 			intersect.z = wall.point_b.z;
+// 			wall.point_b = intersect;
+// 		}
+// 	}
+// 	wall.point_a.z = 10;
+// 	wall.point_b.z = 10;
+// 	projection_top = transform_perspective(wall);
+// 	wall.point_a.z = -10;
+// 	wall.point_b.z = -10;
+// 	projection_bottom = transform_perspective(wall);
 
 
-void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segment_d portal)
-{
-	t_segment_d	projection_bottom;
-	t_segment_d	projection_top;
-	t_segment_d	player_right;
-	t_vector4d	intersect;
-	t_vector4d	middle;
+// 	projection_bottom.point_a.vec *= 16;
+// 	projection_bottom.point_b.vec *= 16;
+// 	projection_top.point_a.vec *= 16;
+// 	projection_top.point_b.vec *= 16;
 
+// 	// ----------
+// 	if (projection_bottom.point_a.x > portal_max && projection_bottom.point_b.x > portal_max)
+// 		return;
+// 	if (projection_bottom.point_a.x < portal_min && projection_bottom.point_b.x < portal_min)
+// 		return;
 
-	player_right.point_a.x = 0;
-	player_right.point_a.y = 0.1;
-	player_right.point_b.x = 10;
-	player_right.point_b.y = 0.01;
-	//-------------
+// 	t_segment_d line;
+// 	line.point_a.x = portal_max;
+// 	line.point_b.x = portal_max;
+// 	line.point_a.y = 1;
+// 	line.point_b.y = 10;
+// 	if (projection_bottom.point_a.x > portal_max)
+// 	{
+// 		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+// 		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+// 	}
 
-	portal = transform_player_relative(portal, data->player);
-	if (portal.point_a.y <= 0 && portal.point_b.y <= 0)
-		return ;
-	if (portal.point_a.y <= 0.01 || portal.point_b.y <= 0.01)
-	{
-		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, portal)); //TODO replace by more specialized function
-		intersect.y = 0.01;
-		if (portal.point_a.y < 0.01)
-		{
-			intersect.z = portal.point_a.z;
-			portal.point_a = intersect;
-		}
-		if (portal.point_b.y < 0.01)
-		{
-			intersect.z = portal.point_b.z;
-			portal.point_b = intersect;
-		}
-	}
-	portal = transform_perspective(portal);
-	portal.point_a.vec *= 10;
-	portal.point_b.vec *= 10;
-	double	portal_max = fmax(portal.point_a.x, portal.point_b.x);
-	double	portal_min = fmin(portal.point_a.x, portal.point_b.x);
+// 	if (projection_bottom.point_b.x > portal_max)
+// 	{
+// 		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+// 		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+// 	}
 
-	//---------------------
+// 	line.point_a.x = portal_min;
+// 	line.point_b.x = portal_min;
+// 	if (projection_bottom.point_a.x < portal_min)
+// 	{
+// 		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+// 		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+// 	}
 
-	middle.x = canvas->size.x / 2;
-	middle.y = canvas->size.y / 2;
-	middle.w = 0;
-	middle.z = 0;
+// 	if (projection_bottom.point_b.x < portal_min)
+// 	{
+// 		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
+// 		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
+// 	}
 
-	wall = transform_player_relative(wall, data->player);
+// 	// //------------
 
-	if (wall.point_a.y <= 0 && wall.point_b.y <= 0)
-		return ;
-	if (wall.point_a.y <= 0.01 || wall.point_b.y <= 0.01)
-	{
-		intersect = point2d_to_vector4d_cpy(find_intersection(player_right, wall)); //TODO replace by more specialized function
-		intersect.y = 0.01;
-		if (wall.point_a.y < 0.01)
-		{
-			intersect.z = wall.point_a.z;
-			wall.point_a = intersect;
-		}
-		if (wall.point_b.y < 0.01)
-		{
-			intersect.z = wall.point_b.z;
-			wall.point_b = intersect;
-		}
-	}
-	wall.point_a.z = 10;
-	wall.point_b.z = 10;
-	projection_top = transform_perspective(wall);
-	wall.point_a.z = -10;
-	wall.point_b.z = -10;
-	projection_bottom = transform_perspective(wall);
+// 	projection_bottom.point_a.vec += middle.vec;
+// 	projection_bottom.point_b.vec += middle.vec;
+// 	projection_top.point_a.vec += middle.vec;
+// 	projection_top.point_b.vec += middle.vec;
 
+// 	wall.point_a.vec *= 16;
+// 	wall.point_b.vec *= 16;
+// 	wall.point_a.x += middle.x;
+// 	wall.point_a.y += middle.y;
+// 	wall.point_b.x += middle.x;
+// 	wall.point_b.y += middle.y;
 
-	projection_bottom.point_a.vec *= 10;
-	projection_bottom.point_b.vec *= 10;
-	projection_top.point_a.vec *= 10;
-	projection_top.point_b.vec *= 10;
-
-	// ----------
-	if (projection_bottom.point_a.x > portal_max && projection_bottom.point_b.x > portal_max)
-		return;
-	if (projection_bottom.point_a.x < portal_min && projection_bottom.point_b.x < portal_min)
-		return;
-
-	t_segment_d line;
-	line.point_a.x = portal_max;
-	line.point_b.x = portal_max;
-	line.point_a.y = 1;
-	line.point_b.y = 10;
-	if (projection_bottom.point_a.x > portal_max)
-	{
-		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
-		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
-	}
-
-	if (projection_bottom.point_b.x > portal_max)
-	{
-		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
-		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
-	}
-
-	line.point_a.x = portal_min;
-	line.point_b.x = portal_min;
-	if (projection_bottom.point_a.x < portal_min)
-	{
-		projection_bottom.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
-		projection_top.point_a = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
-	}
-
-	if (projection_bottom.point_b.x < portal_min)
-	{
-		projection_bottom.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_bottom));
-		projection_top.point_b = point2d_to_vector4d_cpy(find_intersection(line, projection_top));
-	}
-
-	// //------------
-
-	projection_bottom.point_a.vec += middle.vec;
-	projection_bottom.point_b.vec += middle.vec;
-	projection_top.point_a.vec += middle.vec;
-	projection_top.point_b.vec += middle.vec;
-
-	wall.point_a.vec *= 10;
-	wall.point_b.vec *= 10;
-	wall.point_a.x += middle.x;
-	wall.point_a.y += middle.y;
-	wall.point_b.x += middle.x;
-	wall.point_b.y += middle.y;
-
-	t_color	color;
-	if (wall.data.type == WALL)
-		color.d = 0xFFFFFFFF;
-	else
-		color.d = (size_t)(void *)wall.data.data.portal.destination;
-	draw_segment_canvas(canvas, &projection_top,
-		color);
-	// if (wall.data.type == WALL)
-	draw_segment_canvas(canvas, &projection_bottom,
-			color);
-	draw_segment_canvas(canvas, &wall,
-		(t_color) {.d = 0xFF00AA00});
-}
+// 	t_color	color;
+// 	if (wall.data.type == WALL)
+// 		color.d = 0xFFFFFFFF;
+// 	else
+// 		color.d = (size_t)(void *)wall.data.data.portal.destination;
+// 	draw_segment_canvas(canvas, &projection_top,
+// 		color);
+// 	// if (wall.data.type == WALL)
+// 	draw_segment_canvas(canvas, &projection_bottom,
+// 			color);
+// 	draw_segment_canvas(canvas, &wall,
+// 		(t_color) {.d = 0xFF00AA00});
+// }
 
 
 
@@ -406,17 +330,17 @@ void	draw_wall_in_portal(t_cub *data, t_canvas *canvas, t_segment_d wall, t_segm
 
 // 	// //------------
 
-// 	projection_bottom.point_a.vec *= 10;
-// 	projection_bottom.point_b.vec *= 10;
-// 	projection_top.point_a.vec *= 10;
-// 	projection_top.point_b.vec *= 10;
+// 	projection_bottom.point_a.vec *= 16;
+// 	projection_bottom.point_b.vec *= 16;
+// 	projection_top.point_a.vec *= 16;
+// 	projection_top.point_b.vec *= 16;
 // 	projection_bottom.point_a.vec += middle.vec;
 // 	projection_bottom.point_b.vec += middle.vec;
 // 	projection_top.point_a.vec += middle.vec;
 // 	projection_top.point_b.vec += middle.vec;
 
-// 	wall.point_a.vec *= 10;
-// 	wall.point_b.vec *= 10;
+// 	wall.point_a.vec *= 16;
+// 	wall.point_b.vec *= 16;
 // 	wall.point_a.x += middle.x;
 // 	wall.point_a.y += middle.y;
 // 	wall.point_b.x += middle.x;
@@ -496,18 +420,18 @@ void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double
 			wall.point_b = intersect;
 		}
 	}
+	wall.point_a.z = -200;
+	wall.point_b.z = -200;
+	projection_top = transform_perspective(wall);
 	wall.point_a.z = 10;
 	wall.point_b.z = 10;
-	projection_top = transform_perspective(wall);
-	wall.point_a.z = -10;
-	wall.point_b.z = -10;
 	projection_bottom = transform_perspective(wall);
 
 
-	projection_bottom.point_a.vec *= 10;
-	projection_bottom.point_b.vec *= 10;
-	projection_top.point_a.vec *= 10;
-	projection_top.point_b.vec *= 10;
+	projection_bottom.point_a.vec *= 16;
+	projection_bottom.point_b.vec *= 16;
+	projection_top.point_a.vec *= 16;
+	projection_top.point_b.vec *= 16;
 
 	// ----------
 	if (projection_bottom.point_a.x > portal_max && projection_bottom.point_b.x > portal_max)
@@ -553,8 +477,8 @@ void	draw_wall_in_window(t_cub *data, t_canvas *canvas, t_segment_d wall, double
 	projection_top.point_a.vec += middle.vec;
 	projection_top.point_b.vec += middle.vec;
 
-	wall.point_a.vec *= 10;
-	wall.point_b.vec *= 10;
+	wall.point_a.vec *= 16;
+	wall.point_b.vec *= 16;
 	wall.point_a.x += middle.x;
 	wall.point_a.y += middle.y;
 	wall.point_b.x += middle.x;
@@ -633,8 +557,8 @@ int	project_segment(t_cub *data, t_segment_d segment, t_segment_d	*projected_seg
 	segment.point_a.z = 10;
 	segment.point_b.z = 10;
 	*projected_seg = transform_perspective(segment);
-	projected_seg->point_a.vec *= 10;
-	projected_seg->point_b.vec *= 10;
+	projected_seg->point_a.vec *= 16;
+	projected_seg->point_b.vec *= 16;
 	return (0);
 }
 

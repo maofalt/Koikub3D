@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/10 19:13:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/14 05:08:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ typedef union u_point2d
 	};
 }	t_point2d;
 
+typedef union u_point2i
+{
+	t_v2i	vec;
+	struct {
+		int	x;
+		int	y;
+	};
+}	t_point2i;
+
 /* bpp = bits per pixel */
 typedef struct s_img_data
 {
@@ -98,6 +107,15 @@ typedef union u_color
 		u_int8_t	b;
 	};
 }	t_color;
+
+/*############################################################################*/
+/*                              MATRIX STRUCTURES                             */
+/*############################################################################*/
+
+typedef struct s_matrix4x4_vectorized
+{
+	t_vector4d	row[3];
+}	t_matrix3x3;
 
 typedef struct s_player
 {
@@ -141,11 +159,87 @@ typedef struct s_tree_node
 	void				*data;
 }	t_tree_node;
 
+
+/*############################################################################*/
+/*                              CANVAS STRUCTURES                             */
+/*############################################################################*/
+
+typedef enum e_canvas_type
+{
+	MAP,
+	UI,
+	FINAL,
+	FINAL_TEMP
+}	t_canvas_type;
+
+typedef struct s_dirty_rect
+{
+	t_point2d	pos;
+	t_point2d	size;
+}	t_dirty_rect;
+
+typedef struct s_canvas {
+	t_canvas_type	type;
+	t_matrix3x3		transformation_matrix;
+	t_point2i		size;
+	t_point2d		last_point;
+	t_color			*pixels;
+	t_list			*dirty_rects;
+	t_list			*segments;
+	double			pixel_scale;
+	int				dirty_rect_count;
+}	t_canvas;
+
+typedef struct s_canvas_init_entry {
+	t_point2i		size;
+	t_canvas_type	type;
+}	t_canvas_init_entry;
+
+typedef struct s_camera
+{
+	t_vector4d	pos;
+	t_vector4d	dir;
+	t_vector4d	right;
+}				t_camera;
+
 typedef struct s_map_data
 {
 	t_tree_node	*bsp;
 	t_list		*segments;
 }	t_map_data;
+
+typedef struct s_circular_queue
+{
+	size_t	elem_size;
+	size_t	size;
+	size_t	start;
+	size_t	end;
+	void	*buffer;
+}	t_circular_queue;
+
+typedef struct s_3d_render
+{
+	t_canvas			*canvas;
+	int					*top_array;
+	int					*bottom_array;
+	t_circular_queue	*queue;
+	t_camera			*camera;
+	t_map_data			*map;
+	t_vector4d			middle;
+}	t_3d_render;
+
+typedef struct s_game_state
+{
+	t_camera	player_camera;
+}	t_game_state;
+
+
+typedef struct s_game_data
+{
+	t_game_state	state;
+	t_3d_render		game_view_render;
+	t_map_data		map_data;
+}	t_game_data;
 
 typedef struct s_cub
 {
@@ -165,7 +259,7 @@ typedef struct s_cub
 	t_inputs			inputs;
 	int					is_drawing;
 	t_list				*canvas_list;
-	t_map_data			map_data;
+	t_game_data			game_data;
 }				t_cub;
 
 typedef struct s_data
@@ -175,15 +269,13 @@ typedef struct s_data
 	char		***map;
 }				t_data;
 
-typedef union u_point2i
-{
-	t_v2i	vec;
-	struct {
-		int	x;
-		int	y;
-	};
-}	t_point2i;
 
+typedef struct s_sector_data
+{
+	double	floor;
+	double	ceil;
+	int		render_flag_id;
+}	t_sector_data;
 
 typedef enum e_segment_type
 {
@@ -195,15 +287,12 @@ typedef struct s_wall_data
 {
 	int		size;
 	double	height;
-	double	floor_height;
 }	t_wall_data;
 
 typedef struct s_portal_data
 {
 	int			size;
 	int			render_flag_id;
-	// int			id;
-	// int			*destinations_id;
 	void		*destination;
 	void		*tree_node_ptr;
 }	t_portal_data;
@@ -214,10 +303,12 @@ typedef union u_wall_portal_data
 	t_portal_data	portal;
 }	t_wall_portal_data;
 
-typedef union s_segment_data
+typedef struct s_segment_data
 {
 	t_segment_type		type;
 	t_wall_portal_data	data;
+	double		ceil;
+	double		floor;
 }	t_segment_data;
 
 struct	s_segment_d
@@ -247,13 +338,6 @@ typedef struct s_edge_exploration_context{
 
 
 
-typedef struct s_sector_data
-{
-	// t_list	*segments;
-	double	floor_height;
-	int		render_flag_id;
-}	t_sector_data;
-
 typedef struct s_bsp_tree_node_data
 {
 	t_segment_d		separator;
@@ -261,13 +345,5 @@ typedef struct s_bsp_tree_node_data
 	t_sector_data	sector_data;
 }	t_bsp_tree_node_data;
 
-typedef struct s_circular_queue
-{
-	size_t	elem_size;
-	size_t	size;
-	size_t	start;
-	size_t	end;
-	void	*buffer;
-}	t_circular_queue;
 
 #endif

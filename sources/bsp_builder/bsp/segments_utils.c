@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:21:52 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/10 19:14:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:54:29 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ static void	lst_update_portals_links_to_segments(
 	while (current != NULL)
 	{
 		bsp_seg = (t_bsp_segment *)current->content;
+		bsp_seg->segment->data.ceil = ((t_bsp_tree_node_data*)tree_node->data)
+			->sector_data.ceil;
+		bsp_seg->segment->data.floor = ((t_bsp_tree_node_data*)tree_node->data)
+			->sector_data.floor;
 		if (bsp_seg->segment->data.type == PORTAL)
 		{
 			bsp_seg->segment->data.data.portal.destination = ((t_bsp_segment *)

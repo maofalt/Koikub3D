@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/11/06 14:18:15 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/14 05:11:45 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ void	free_everything(t_cub data)
 		free_double_char(data.map);
 	//TODO: destroy bsp
 	map_destroy(&data);
+	game_render_destroy(&data);
+}
+
+void	set_segments_ceil_floor(t_list *seg_lst)
+{
+	t_segment_d *seg;
+
+	while (seg_lst)
+	{
+		seg = seg_lst->content;
+		seg->data.ceil = -50;
+		seg->data.floor = 10;
+		seg_lst = seg_lst->next;
+	}
 }
 
 //TODO: move it
@@ -50,22 +64,37 @@ int	map_convert(t_cub *data)
 	segments_lst = NULL;
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
+	set_segments_ceil_floor(segments_lst);
 	if (construct_bsp(&segments_lst, &tree))
 	{
 		ft_lstclear(&segments_lst, free);
 		return (1);
 	}
-	data->map_data.segments = segments_lst;
-	data->map_data.bsp = tree;
+	data->game_data.map_data.segments = segments_lst;
+	data->game_data.map_data.bsp = tree;
 	return (0);
 }
 
 //TODO: move it
 void	map_destroy(t_cub *data)
 {
-	destroy_segment_tree(&data->map_data.bsp);
-	ft_lstclear(&data->map_data.segments, free);
+	destroy_segment_tree(&data->game_data.map_data.bsp);
+	ft_lstclear(&data->game_data.map_data.segments, free);
 }
+
+
+int	init(t_cub *data)
+{
+	if (map_convert(data))
+		return (free_everything(*data), 1);
+	if (game_render_init(data))
+		return (free_everything(*data), 1);
+	return (0);
+}
+
+
+
+
 
 int	main(int argc, char **argv)
 {
@@ -92,8 +121,8 @@ int	main(int argc, char **argv)
 			(t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}});
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);
-	if (map_convert(&data))
-		return (free_everything(data), 1);
+	if (init(&data))
+		return (1);
 	mlx_loop_hook(data.mlx_ptr, &game_loop, &data);
 	ft_mlx_engine(&data);
 	free_everything(data);

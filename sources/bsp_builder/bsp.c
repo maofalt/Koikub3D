@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:54:15 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/10 00:20:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/14 04:53:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	_recursive_map_cut_create_leaf(t_list **bsp_segments, t_tree_node **tree)
 	tree_node = create_tree_node();
 	if (tree_node == NULL)
 		return (1);
-	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
-	((t_bsp_tree_node_data *)tree_node->data)->sector_data.render_flag_id = 0;
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor = -10;
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.ceil = 20;
 	((t_bsp_tree_node_data *)tree_node->data)
 		->sector_segments = *bsp_segments;
 	*tree = tree_node;
@@ -51,8 +51,8 @@ static int	_recursive_map_add_node(
 	tree_node = create_tree_node();
 	if (tree_node == NULL)
 		return (1);
-	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor_height = 0;
-	((t_bsp_tree_node_data *)tree_node->data)->sector_data.render_flag_id = 0;
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.floor = -10;
+	((t_bsp_tree_node_data *)tree_node->data)->sector_data.ceil = 20;
 	((t_bsp_tree_node_data *)tree_node->data)->separator = *separator->segment;
 	if (_recursive_map_cut(&left, &(tree_node->left))
 		|| _recursive_map_cut(&right, &(tree_node->right)))

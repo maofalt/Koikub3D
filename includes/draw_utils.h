@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/01 17:33:20 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/14 01:35:10 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,40 +83,6 @@ typedef struct s_shape_params {
 	t_shape			shape;
 }	t_shape_params;
 
-/*############################################################################*/
-/*                              CANVAS STRUCTURES                             */
-/*############################################################################*/
-
-typedef enum e_canvas_type
-{
-	MAP,
-	UI,
-	FINAL,
-	FINAL_TEMP
-}	t_canvas_type;
-
-typedef struct s_dirty_rect
-{
-	t_point2d	pos;
-	t_point2d	size;
-}	t_dirty_rect;
-
-typedef struct s_canvas {
-	t_canvas_type	type;
-	t_matrix3x3		transformation_matrix;
-	t_point2i		size;
-	t_point2d		last_point;
-	t_color			*pixels;
-	t_list			*dirty_rects;
-	t_list			*segments;
-	double			pixel_scale;
-	int				dirty_rect_count;
-}	t_canvas;
-
-typedef struct s_canvas_init_entry {
-	t_point2i		size;
-	t_canvas_type	type;
-}	t_canvas_init_entry;
 
 /*############################################################################*/
 /*                              CANVAS INITIALIZATION                         */

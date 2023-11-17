@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/10 18:03:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/16 02:19:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ t_circular_queue	*circular_queue_create(size_t size, size_t elem_size)
 
 void	circular_queue_destroy(t_circular_queue *queue)
 {
-	free(queue->buffer);
-	free(queue);
+	if (queue != NULL)
+	{
+		free(queue->buffer);
+		free(queue);
+	}
 }
 
 int	circular_queue_add(t_circular_queue *queue, void *element)

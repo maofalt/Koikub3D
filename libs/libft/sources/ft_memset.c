@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 19:09:38 by motero            #+#    #+#             */
-/*   Updated: 2022/05/10 19:28:35 by motero           ###   ########.fr       */
+/*   Updated: 2023/11/18 19:13:39 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,28 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	unsigned char	*ptr;
+	long			long_c;
 
 	ptr = (unsigned char *) s;
-	while (n-- > 0)
+	long_c = (unsigned char) c;
+	long_c |= long_c << 8;
+	long_c |= long_c << 16;
+	long_c |= long_c << 32;
+	while (n && ((long)ptr & (sizeof(long) - 1)) != 0)
 	{
 		*ptr++ = c;
+		n --;
+	}
+	while (n >= sizeof(long))
+	{
+		*(long *)ptr = long_c;
+		ptr += sizeof(long);
+		n -= sizeof(long);
+	}
+	while (n)
+	{
+		*ptr++ = c;
+		n --;
 	}
 	return (s);
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/17 11:11:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/18 19:27:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "maths_utils.h"
 #include <assert.h>
 
-#define CAMERA_PROXIMITY 0.01
+#define CAMERA_PROXIMITY 0.0001
 #define RENDER_QUEUE_SIZE 128
 
 // typedef struct s_render_item_queue
@@ -157,17 +157,71 @@ int	project_segment(
 // }
 ////-----------------------------
 
-void	draw_vertical_line(t_canvas *canvas, double x, double top, double bottom)
-{
-	t_point2d			cursor;
-	const t_color		color = (t_color) {.d = 0xFFFFFFFF};
 
-	cursor.x = x;
-	cursor.y = top;
-	while (cursor.y <= bottom)
+// static inline 	void	le_put_pixel_on_virtual_canvas(t_canvas *canvas,
+// 	t_point2i *coord,
+// 	const t_color *color)
+// {
+// 	int	offset;
+
+// 	// if (coord->x >= 0 && coord->x < canvas->size.x && coord->y >= 0
+// 	// 	&& coord->y < canvas->size.y)
+// 	// {
+// 		offset = coord->y * canvas->size.x + coord->x;
+// 		canvas->pixels[offset] = *color;
+// 	// }
+// }
+
+// static inline void	draw_vertical_line(t_canvas *canvas, int x, int top, int bottom)
+// {
+// 	t_point2i			cursor;
+// 	const t_color		color = (t_color) {.d = 0xFFFFFFFF};
+
+// 	cursor.x = x;
+// 	cursor.y = top;
+// 	// assert(cursor.x >= 0);
+// 	// assert(cursor.y >= 0);
+// 	// assert(cursor.x <= canvas->size.x);
+// 	// assert(cursor.y <= canvas->size.y);
+// 	while (cursor.y <= bottom)
+// 	{
+// 		le_put_pixel_on_virtual_canvas(canvas, &cursor, &color);
+// 		++cursor.y;
+// 	}
+// }
+
+// static inline 	void	le_put_pixel_on_virtual_canvas(t_canvas *canvas,
+// 	t_point2i *coord,
+// 	const t_color *color)
+// {
+// 	int	offset;
+
+// 	// if (coord->x >= 0 && coord->x < canvas->size.x && coord->y >= 0
+// 	// 	&& coord->y < canvas->size.y)
+// 	// {
+// 		offset = coord->y * canvas->size.x + coord->x;
+// 		canvas->pixels[offset] = *color;
+// 	// }
+// }
+
+static inline void	draw_vertical_line(
+			t_canvas *canvas,
+			int x,
+			int top,
+			int bottom
+			)
+{
+	int					offset;
+
+	// assert(cursor.x >= 0);
+	// assert(cursor.y >= 0);
+	// assert(cursor.x <= canvas->size.x);
+	// assert(cursor.y <= canvas->size.y);
+	while (top <= bottom)
 	{
-		put_pixel_on_virtual_canvas(canvas, cursor, color);
-		++cursor.y;
+		offset = top * canvas->size.x + x;
+		canvas->pixels[offset] = (t_color) {.d = 0xFFFFFFFF};
+		++top;
 	}
 }
 
@@ -214,17 +268,22 @@ void	draw_filled_wall(t_3d_render *render, t_segment_d	wall, double left, double
 	projected_segment_bot.point_a.x = left;
 	projected_segment_bot.point_b.y = projected_segment_bot.point_b.y + coef_bot * (right - projected_segment_bot.point_b.x);
 	projected_segment_bot.point_b.x = right;
-	draw_segment_canvas(render->canvas, &projected_segment_bot, (t_color) {.d = 0xFFF00FFF});
-	draw_segment_canvas(render->canvas, &projected_segment_top, (t_color) {.d = 0xFFFFFFFF});
+	// draw_segment_canvas(render->canvas, &projected_segment_bot, (t_color) {.d = 0xFFF00FFF});
+	// draw_segment_canvas(render->canvas, &projected_segment_top, (t_color) {.d = 0xFFFFFFFF});
 
+		// printf("%f %f\n", projected_segment_top.point_a.y,  projected_segment_bot.point_a.y);
 	while (left < right)
 	{
-		draw_vertical_line(render->canvas, left, projected_segment_bot.point_a.y,  projected_segment_top.point_a.y);
+//
+		render->top_array[(int)left]    = fmax(projected_segment_top.point_a.y, render->top_array[(int)left]);
+		render->bottom_array[(int)left] = fmin(projected_segment_bot.point_a.y, render->bottom_array[(int)left]);
+		draw_vertical_line(render->canvas, left, render->top_array[(int)left], render->bottom_array[(int)left]);
+		// printf("%f, %f, %f\n", left, render->top_array[(int)left], render->bottom_array[(int)left]);
 		++left;
 		projected_segment_top.point_a.y += coef_top;
 		projected_segment_bot.point_a.y += coef_bot;
-		printf("%f, %f, %f\n", left, projected_segment_top.point_a.y , projected_segment_bot.point_a.y );
 	}
+
 }
 
 // void	draw_wall(t_cub *data, t_canvas *canvas, t_segment_d wall)
@@ -332,18 +391,38 @@ void	render_sector(t_3d_render *render, t_render_item_queue item_queue, t_tree_n
 {
 	t_list					*seg_lst;
 	t_segment_d				*segment;
-	// t_render_item_queue		new_item_queue;
-
+	t_segment_d				projected_seg;
+	t_render_item_queue		new_item_queue;
 
 	seg_lst = ((t_bsp_tree_node_data*)node->data)->sector_segments;
+
 	while (seg_lst)
 	{
 		segment = seg_lst->content;
-		if (segment->data.type == PORTAL && segment != item_queue.portal)
+		if (segment->data.type == PORTAL)
 		{
-			// new_item_queue.left
-			circular_queue_add(render->queue,
-				segment->data.data.portal.destination); //FIXME
+		//-------------------
+
+			if (segment != item_queue.portal && project_segment(render, *segment, &projected_seg) == 0)
+			{
+				projected_seg.point_a.y -= 100;
+				projected_seg.point_b.y -= 100;
+
+
+				new_item_queue.left =  fmax(projected_seg.point_a.x, item_queue.left);
+				new_item_queue.right = fmin(projected_seg.point_b.x, item_queue.right);
+				new_item_queue.portal = segment->data.data.portal.destination;
+				// printf("----%f, %f\n", new_item_queue.left, new_item_queue.right);
+				if (new_item_queue.left < new_item_queue.right)
+				{
+
+				projected_seg.point_b.x = new_item_queue.right;
+				projected_seg.point_a.x = new_item_queue.left;
+				draw_segment_canvas(render->canvas, &projected_seg, (t_color) {.d = 0xFF0000FF});
+				//-------------------
+					circular_queue_add(render->queue, &new_item_queue); //FIXME
+				}
+			}
 		}
 		else
 		{
@@ -359,16 +438,21 @@ void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
 	t_tree_node				*node;
 	// t_bsp_tree_node_data	*node_data;
 	t_render_item_queue		item_queue;
+
+	for (int i = 0; i < render->canvas->size.x; i++)
+	{
+		render->top_array[i] = 0;//render->canvas->size.y;
+		render->bottom_array[i] = render->canvas->size.y;
+	} //TODO, maybe use a flag system instead
+
+
 	node = bsp_search_point(render->map->bsp,
 		vector4d_to_point2d(&render->camera->pos));
 	item_queue.left = 0;
 	item_queue.right = render->canvas->size.x;
 	while (node)
 	{
-		// node_data = node->data;
 		render_sector(render, item_queue, node);
-
-
 		if (circular_queue_pop(render->queue, &item_queue) == 0)
 			node = item_queue.portal->data.data.portal.tree_node_ptr;
 		else
@@ -381,9 +465,10 @@ void	game_render(t_cub *data)
 	t_canvas	*canvas;
 
 	canvas = data->game_data.game_view_render.canvas;
+
 	fill_canvas(
 		canvas,
-		(t_color){.d = 0xFF000000});
+		(t_color){.d = 0x00000000});
 	render_3d_draw(&data->game_data.game_view_render);
 	canvas_to_mlx_image(data->screen,
 		canvas);
@@ -415,8 +500,8 @@ int	render_3d_init(t_3d_render *render,
 	render->middle.y = canvas->size.y / 2;
 	render->middle.w = 0;
 	render->middle.z = 0;
-	render->top_array = ft_calloc(canvas->size.x, sizeof(int));
-	render->bottom_array = malloc(canvas->size.x * sizeof(int));
+	render->top_array = ft_calloc(canvas->size.x, sizeof(double));
+	render->bottom_array = ft_calloc(canvas->size.x, sizeof(double));
 	render->queue = circular_queue_create(RENDER_QUEUE_SIZE,
 		sizeof(t_render_item_queue));
 	if (render->top_array == NULL

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/14 05:08:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/18 15:55:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,8 +220,8 @@ typedef struct s_circular_queue
 typedef struct s_3d_render
 {
 	t_canvas			*canvas;
-	int					*top_array;
-	int					*bottom_array;
+	double					*top_array;
+	double					*bottom_array;
 	t_circular_queue	*queue;
 	t_camera			*camera;
 	t_map_data			*map;

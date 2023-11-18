@@ -12,6 +12,6 @@ int	game_loop(t_cub *data)
 		return (1);
 	game_update(data);
 	game_render(data);
-	// usleep(30000);
+	// usleep(10000);
 	return (0);
 }

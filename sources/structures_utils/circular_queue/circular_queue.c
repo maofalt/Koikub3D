@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/16 02:19:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/18 15:58:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	circular_queue_pop(t_circular_queue *queue, void *result)
 {
 	void	*ptr;
 
-	printf("circular_queue_get: %zu %zu %zu\n", queue->start, queue->end, queue->size);
+	printf("circular_queue_pop: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 	if (queue->start == queue->end)
 	{
-		printf("circular_queue_get: empty: %zu %zu %zu\n", queue->start, queue->end, queue->size);
+		printf("circular_queue_pop: empty: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 		return (1);
 	}
 	ptr = queue->buffer + (queue->start * queue->elem_size);

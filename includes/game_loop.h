@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/14 01:44:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/18 20:04:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	player_handle_event(t_cub *data);
 int		game_render_init(t_cub  *data);
 void	game_render_destroy(t_cub *data);
 
+void	count_fps(void);
 
 #endif

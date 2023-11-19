@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 
-long get_nanos()
+static long get_nanos()
 {
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);

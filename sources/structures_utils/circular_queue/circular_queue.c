@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/18 15:58:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/19 18:44:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	circular_queue_add(t_circular_queue *queue, void *element)
 	size_t	index;
 
 	index = (queue->end + 1) % queue->size;
-	printf("circular_queue_add: %zu %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size, queue->elem_size);
+	// printf("circular_queue_add: %zu %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size, queue->elem_size);
 	if (index == queue->start)
 	{
 		printf("circular_queue_add: buffer full : %zu %zu %zu %zu\n", index, queue->start, queue->end, queue->size);
 		return (1);
 	}
-	memcpy(queue->buffer + (queue->end * queue->elem_size), element, queue->elem_size);
+	ft_memcpy(queue->buffer + (queue->end * queue->elem_size), element, queue->elem_size);
 	queue->end = index;
 	return (0);
 }
@@ -62,15 +62,12 @@ int	circular_queue_pop(t_circular_queue *queue, void *result)
 {
 	void	*ptr;
 
-	printf("circular_queue_pop: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 	if (queue->start == queue->end)
 	{
-		printf("circular_queue_pop: empty: %zu %zu %zu\n", queue->start, queue->end, queue->size);
 		return (1);
 	}
 	ptr = queue->buffer + (queue->start * queue->elem_size);
 	queue->start = (queue->start + 1) % queue->size;
-	memcpy(result, ptr, queue->elem_size);
-	// *result = *ptr;
+	ft_memcpy(result, ptr, queue->elem_size);
 	return	(0);
 }

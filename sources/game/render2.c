@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/19 21:58:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/20 00:53:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,7 +375,7 @@ void	draw_solid_wall(
 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	while (left < right)
+	while (left <= right)
 	{
 		draw_solid_wall_line(render, left, projected_top.point_a.y,
 			projected_bot.point_a.y);
@@ -434,14 +434,19 @@ void	draw_filled_area(
 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	while (left < right)
+	t_color color = {.d = 0xFFFFFFFF};
+	double x = left;
+	while (x <= right)
 	{
-		t_color color = {.d = 0xFFFFFFFF};
-		draw_vertical_line(render->canvas, left, projected_top.point_a.y,
-			projected_bot.point_a.y , &color);
+		double bot = fmax(projected_bot.point_a.y, render->top_array[(int)x]);
+		draw_vertical_line(render->canvas, x,
+			render->top_array[(int)x], bot, &color);
+		render->top_array[(int)x] = bot;
+		// render->bottom_array[(int)x] = fmin(projected_bot.point_a.y, render->bottom_array[(int)x]);
 		projected_top.point_a.y += coef_top;
 		projected_bot.point_a.y += coef_bot;
-		++left;
+
+		++x;
 	}
 }
 
@@ -464,7 +469,7 @@ void	draw_portal_ceil_adjustment(
 	if (project_segment(render, *other_side_portal, &other_portal_top))
 		return ;
 
-	if (portal_top->data.ceil > other_side_portal->data.ceil)
+	if (portal_top->data.ceil < other_side_portal->data.ceil)
 	{
 
 		draw_filled_area(render, other_portal_top, *portal_top, left, right); //TODO use pointer instead
@@ -504,7 +509,7 @@ void	draw_portal_wall(
 	double bot_y = projected_bot.point_a.y;
 	double top_y = projected_top.point_a.y;
 	double x = left;
-	while (x < right)
+	while (x <= right)
 	{
 		draw_portal_wall_line(render, x, top_y,
 			bot_y);

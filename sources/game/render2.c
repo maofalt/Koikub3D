@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/20 00:53:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:42:56 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,11 +215,12 @@ static inline void	draw_vertical_line(
 	int					offset;
 
 	assert(x >= 0);
-	assert(x <= canvas->size.x);
+	assert(x < canvas->size.x);
 	assert(top >= 0);
 	assert(bottom <= canvas->size.y);
 	while (top < bottom)
 	{
+
 		offset = top * canvas->size.x + x;
 		canvas->pixels[offset] = *color;
 		++top;
@@ -275,6 +276,7 @@ static inline void	draw_solid_wall_line(
 	const double bottom
 	)
 {
+	assert (x < render->canvas->size.x);
 	const double	old_bottom = render->bottom_array[x];
 	const double	old_top = render->top_array[x];
 	t_color			color;
@@ -375,7 +377,7 @@ void	draw_solid_wall(
 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	while (left <= right)
+	while (left < right)
 	{
 		draw_solid_wall_line(render, left, projected_top.point_a.y,
 			projected_bot.point_a.y);
@@ -435,8 +437,8 @@ void	draw_filled_area(
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
 	t_color color = {.d = 0xFFFFFFFF};
-	double x = left;
-	while (x <= right)
+	int x = left;
+	while (x < right)
 	{
 		double bot = fmax(projected_bot.point_a.y, render->top_array[(int)x]);
 		draw_vertical_line(render->canvas, x,
@@ -508,8 +510,8 @@ void	draw_portal_wall(
 	}
 	double bot_y = projected_bot.point_a.y;
 	double top_y = projected_top.point_a.y;
-	double x = left;
-	while (x <= right)
+	int x = left;
+	while (x < right)
 	{
 		draw_portal_wall_line(render, x, top_y,
 			bot_y);
@@ -636,6 +638,7 @@ void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
 	node = bsp_search_point(render->map->bsp,
 			vector4d_to_point2d(&render->camera->pos));
 	item_queue.left = 0;
+	item_queue.portal = NULL;
 	item_queue.right = render->canvas->size.x;
 	while (node)
 	{

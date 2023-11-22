@@ -55,7 +55,9 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	t_list						*new_node;
 	size_t						i;
 
+	canvas_init_table = NULL;
 	canvas_init_table = get_canvas_init_table(state, canvas_setups);
+	printf("canvas_init_table: %p\n", canvas_init_table);
 	if (!canvas_init_table)
 		return (NULL);
 	canvas_list = NULL;
@@ -96,13 +98,19 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	t_canvas	*current_canvas;
 
 	current_node = canvas_list;
+	printf ("get canvas from list\n");
+	printf(" looking for %d current_node: %p\n", type, current_node);
 	while (current_node)
 	{
 		current_canvas = (t_canvas *)current_node->content;
-		if (current_canvas && current_canvas->type == type)
+		printf("banana OF TYPE %d\n", current_canvas->type);
+		if (current_canvas && current_canvas->type == type) {
+			printf ("canvas %d found! at add current_canvas: %p\n", type ,current_canvas);
 			return (current_canvas);
+		}
 		current_node = current_node->next;
 	}
+	printf ("canvas %d not found!\n", type);
 	return (NULL);
 }
 

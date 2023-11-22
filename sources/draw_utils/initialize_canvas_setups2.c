@@ -36,7 +36,7 @@ int	initialize_gameplay_setup(t_setup_by_game_state *setup)
 	size_t						i;
 
 	init_gameplay_table(canvas_init_table);
-	setup->game_state = MAP_EDITOR;
+	setup->game_state = GAMEPLAY;
 	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
@@ -79,7 +79,7 @@ int	initialize_menu_setup(t_setup_by_game_state *setup)
 	size_t						i;
 
 	init_menu_table(canvas_init_table);
-	setup->game_state = MAP_EDITOR;
+	setup->game_state = MENU;
 	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)

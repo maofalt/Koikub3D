@@ -43,8 +43,8 @@ int	map_visualizer_draw(t_cub *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
-	if (data->update == NO_UPDATE)
-		return (0);
+	// if (data->update == NO_UPDATE)
+	// 	return (0);
 	if (data->update & LINE_REDRAW)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)
@@ -53,8 +53,17 @@ int	map_visualizer_draw(t_cub *data)
 		redraw_scene(data, get_canvas_from_list(data->canvas_list, MAP));
 		data->update = NO_UPDATE;
 	}
+	//canvas_to_mlx_image(data->screen,
+		//get_canvas_from_list(data->canvas_list, MAP));
+	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+	//	data->screen.mlx_img, 0, 0);
+	//merge canvases
+	printf("merge canvases\n");
+	merge_canvases(&data->canvas_list);
+	printf("merge canvases done\n");
 	canvas_to_mlx_image(data->screen,
-		get_canvas_from_list(data->canvas_list, MAP));
+		get_canvas_from_list(data->canvas_list, FINAL));
+	printf("canvas_to_mlx_image done\n");
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	usleep(10);

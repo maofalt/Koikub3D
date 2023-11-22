@@ -46,16 +46,16 @@ int	initialize_setup_by_state(t_setup_by_game_state *setup, t_modus_state state)
 	return (ret);
 }
 
-
+//0 1 3 4  5
 static void	init_map_table(t_canvas_init_entry *table)
 {
 	table[0] = (t_canvas_init_entry){
 		.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
 		.type = MAP,
-		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true};
+		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = false};
 	table[1] = (t_canvas_init_entry){
 		.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
-		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true};
+		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = false};
 	table[2] = (t_canvas_init_entry){
 		.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 		.type = FINAL,

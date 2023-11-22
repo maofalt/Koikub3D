@@ -38,6 +38,7 @@ int	main(int argc, char **argv)
 	t_cub					data;
 	t_setup_by_game_state	*setup_cavas;
 
+	setup_cavas = NULL;
 	if (argc != 2)
 		return (printf("Error\nToo many Arguments"), 1);
 	ft_memset(&data, 0, sizeof(t_cub));
@@ -52,7 +53,7 @@ int	main(int argc, char **argv)
 	data.canvas_list = NULL;
 	data.game_state = MAP_EDITOR;
 	setup_cavas = initialize_canvas_setups();
-	data.canvas_list = initialize_canvas_list(MAP_EDITOR, setup_cavas);
+	data.canvas_list = initialize_canvas_list(data.game_state, setup_cavas);
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);
 	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_draw, &data))

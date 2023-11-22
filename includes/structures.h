@@ -69,6 +69,7 @@ typedef struct s_img_data
 typedef union u_color
 {
 	t_vector_color	rgb_color;
+	u_int32_t        d;
 	struct
 	{
 		u_int8_t	a;

@@ -41,6 +41,7 @@ int	initialize_gameplay_setup(t_setup_by_game_state *setup)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
 		return (1);
+	setup->canvas_count = 3;
 	current_pos = (t_point2i){{0, 0}};
 	current_row_height = 0;
 	i = 0;
@@ -73,7 +74,7 @@ static void	init_menu_table(t_canvas_init_entry *table)
 
 int	initialize_menu_setup(t_setup_by_game_state *setup)
 {
-	static t_canvas_init_entry	canvas_init_table[5];
+	static t_canvas_init_entry	canvas_init_table[4];
 	t_point2i					current_pos;
 	int							current_row_height;
 	size_t						i;
@@ -84,6 +85,7 @@ int	initialize_menu_setup(t_setup_by_game_state *setup)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
 		return (1);
+	setup->canvas_count = 4;
 	current_pos = (t_point2i){{0, 0}};
 	current_row_height = 0;
 	i = 0;

@@ -12,6 +12,30 @@
 
 #include "draw_utils.h"
 
+static void    fill_canvas(
+            t_canvas *canvas,
+            t_color color
+            )
+{
+    t_color                *px;
+    unsigned long long    image_size;
+
+    if (color.d == 0)
+    {
+        ft_memset(canvas->pixels, 0,
+            canvas->size.x * canvas->size.y * sizeof(t_color));
+        return ;
+    }
+    px = canvas->pixels;
+    image_size = canvas->size.y * canvas->size.x;
+    while (image_size > 0)
+    {
+        *px = color;
+        px ++;
+        image_size --;
+    }
+}
+
 // Helper function to initialize a canvas
 t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 {
@@ -30,8 +54,11 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 			* sizeof(t_color), 32);
 	if (!canvas->pixels)
 		return (free(canvas), NULL);
-	ft_memset(canvas->pixels, 0xFFFFFFFF, total_pixels * sizeof(t_color));
-	//ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
+	//ft_memset(canvas->pixels, 0xFFFFFFFF, total_pixels * sizeof(t_color));
+	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
+	//rose color in rgbs is 255, 0, 127 for fill canvas
+	//fill_canvas(canvas, (t_color){{255, 0, 127, 0}});
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
 	canvas->transparency_key = (t_color){{0, 0, 255, 0}};
 	canvas->transformation_matrix = identity_matrix();
 	canvas->type = type;

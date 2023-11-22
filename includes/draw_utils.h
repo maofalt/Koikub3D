@@ -146,6 +146,7 @@ typedef struct s_setup_by_game_state
 {
 	t_modus_state		game_state;
 	t_canvas_init_entry	*canvas_configurations;
+	size_t				canvas_count;
 }	t_setup_by_game_state;
 
 /*############################################################################*/

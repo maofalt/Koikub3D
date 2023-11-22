@@ -47,7 +47,6 @@ static void	copy_canvas_line_by_line(t_canvas *final_canvas, t_canvas *src)
 
 	
 	src_start = src->info.bounds.top;
-	printf("src_start: %d, %d\n", src_start.x, src_start.y);
 	dest = src_start;
 	src_end.x = src->info.bounds.bottom.x;
 	while (src_start.y < src->info.bounds.bottom.y)
@@ -68,13 +67,11 @@ int	merge_canvas(t_canvas *final_canvas, t_canvas *canvas)
 {
 	if (are_canvases_same_size(final_canvas, canvas))
 	{
-		printf("merge_canvas: same size\n");
 		ft_memcpy(final_canvas->pixels, canvas->pixels,
 			final_canvas->size.x * final_canvas->size.y * sizeof(t_color));
 	}
 	else
 	{
-		printf("merge_canvas: different size\n");
 		copy_canvas_line_by_line(final_canvas, canvas);
 	}
 	return (0);

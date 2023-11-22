@@ -80,6 +80,7 @@ int	initialize_map_editor_setup(t_setup_by_game_state *setup)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
 		return (1);
+	setup->canvas_count = 5;
 	current_pos = (t_point2i){{0, 0}};
 	current_row_height = 0;
 	i = 0;

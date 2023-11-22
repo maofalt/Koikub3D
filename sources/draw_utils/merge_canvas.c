@@ -25,6 +25,7 @@ int	merge_canvases(t_list **canvas_list)
 	while (current_node)
 	{
 		canvas = (t_canvas *)current_node->content;
+		printf("canvas of type %d\n", canvas->type);
 		if (canvas->type == MAP || canvas->type == UI || canvas->type == GAME)
 			merge_canvas(final_canvas, canvas);
 		current_node = current_node->next;
@@ -67,14 +68,14 @@ int	merge_canvas(t_canvas *final_canvas, t_canvas *canvas)
 {
 	if (are_canvases_same_size(final_canvas, canvas))
 	{
+		printf("merge_canvas: same size\n");
 		ft_memcpy(final_canvas->pixels, canvas->pixels,
 			final_canvas->size.x * final_canvas->size.y * sizeof(t_color));
 	}
 	else
 	{
+		printf("merge_canvas: different size\n");
 		copy_canvas_line_by_line(final_canvas, canvas);
 	}
 	return (0);
 }
-
-

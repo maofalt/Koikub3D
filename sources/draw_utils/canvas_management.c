@@ -59,6 +59,7 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	//rose color in rgbs is 255, 0, 127 for fill canvas
 	//fill_canvas(canvas, (t_color){{255, 0, 127, 0}});
 	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
+	//printf("color for this canvas is : %d\n", (t_color){.d = (size_t)canvas});
 	canvas->transparency_key = (t_color){{0, 0, 255, 0}};
 	canvas->transformation_matrix = identity_matrix();
 	canvas->type = type;

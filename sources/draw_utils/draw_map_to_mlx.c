@@ -43,8 +43,8 @@ int	map_visualizer_draw(t_cub *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
-	// if (data->update == NO_UPDATE)
-	// 	return (0);
+	if (data->update == NO_UPDATE)
+		return (0);
 	if (data->update & LINE_REDRAW)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)

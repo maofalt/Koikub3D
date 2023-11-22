@@ -26,8 +26,9 @@ t_list	*initialize_canvas_and_add_to_list(t_point2i size,
 	if (!new_node)
 		return (free_canvas(canvas), NULL);
 	new_node->content = canvas;
-	new_node->next = *canvas_list;
-	*canvas_list = new_node;
+	ft_lstadd_back(canvas_list, new_node);
+	//new_node->next = *canvas_list;
+	//*canvas_list = new_node;
 	return (new_node);
 }
 
@@ -72,7 +73,7 @@ t_list	*initialize_canvas_list(t_modus_state state,
 		((t_canvas *)new_node->content)->info = canvas_init_table[i];
 		i++;
 	}
-	reorder_canvases_by_z_index(&canvas_list);
+	//reorder_canvases_by_z_index(&canvas_list);
 	return (canvas_list);
 }
 

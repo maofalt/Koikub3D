@@ -16,7 +16,7 @@ void	copy_canvas_to_temp(t_list *canvas_list)
 {
 	const t_canvas	*final_canvas = get_canvas_from_list(canvas_list, MAP);
 	const t_canvas	*temp_canvas
-		= get_canvas_from_list(canvas_list, FINAL_TEMP);
+		= get_canvas_from_list(canvas_list, FIN_TEMP);
 	size_t			size;
 
 	if (final_canvas && temp_canvas
@@ -30,7 +30,7 @@ void	copy_canvas_to_temp(t_list *canvas_list)
 void	copy_temp_to_screen(t_list *canvas_list, t_img_data *img)
 {
 	const t_canvas	*temp_canvas
-		= get_canvas_from_list(canvas_list, FINAL_TEMP);
+		= get_canvas_from_list(canvas_list, FIN_TEMP);
 	t_point2i		pos;
 	t_color			color;
 
@@ -53,7 +53,7 @@ void	copy_temp_to_canvas(t_list *canvas_list)
 {
 	const t_canvas	*final_canvas = get_canvas_from_list(canvas_list, MAP);
 	const t_canvas	*temp_canvas
-		= get_canvas_from_list(canvas_list, FINAL_TEMP);
+		= get_canvas_from_list(canvas_list, FIN_TEMP);
 	size_t			size;
 
 	if (final_canvas && temp_canvas

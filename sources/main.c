@@ -36,7 +36,6 @@ void	free_everything(t_cub data)
 int	main(int argc, char **argv)
 {
 	t_cub	data;
-
 	if (argc != 2)
 		return (printf("Error\nToo many Arguments"), 1);
 	ft_memset(&data, 0, sizeof(t_cub));
@@ -49,6 +48,8 @@ int	main(int argc, char **argv)
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
 	// 	ft_mlx_engine(&data);
 	data.canvas_list = NULL;
+	data.game_states = initialize_game_states(); //TBD	
+	data.canvas_setups = initizialize_canvas_setups(data.game_states); //TBD
 	data.canvas_list = initialize_canvas_list();
 	if (data.canvas_list == NULL)
 		return (free_everything(data), 1);

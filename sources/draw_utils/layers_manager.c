@@ -111,10 +111,10 @@ const t_canvas_init_entry	*get_canvas_init_table(void)
 		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
 	{.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
 		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
-	{.size = (t_point2i){{FINAL_CANVAS_SIZE_X, FINAL_CANVAS_SIZE_Y}}, .type = FINAL,
+	{.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}}, .type = FINAL,
 		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}},
 	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
-		.type = FINAL_TEMP, .z_index = FINAL_TEMP_Z_INDEX,
+		.type = FIN_TEMP, .z_index = FIN_TEMP_Z_INDEX,
 		.position = (t_point2i){{0, 0}}},
 	{.type = END_MARKER, .z_index = 0}
 	};

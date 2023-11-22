@@ -22,8 +22,8 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	if (!canvas)
 		return (NULL);
 	canvas->size = (t_point2i){{size.x, size.y}};
-	canvas->scale.x = FINAL_CANVAS_SIZE_X / (double)size.x;
-	canvas->scale.y = FINAL_CANVAS_SIZE_Y / (double)size.y;
+	canvas->scale.x = FIN_CANVAS_SIZE_X / (double)size.x;
+	canvas->scale.y = FIN_CANVAS_SIZE_Y / (double)size.y;
 	canvas->inv_scale.vec = 1.0 / canvas->scale.vec;
 	total_pixels = canvas->size.x * canvas->size.y;
 	canvas->pixels = (t_color *)aligned_malloc(total_pixels

@@ -24,13 +24,13 @@
 # define MAP_CANVAS_SIZE_Y 1072
 # define UI_CANVAS_SIZE_X 1000
 # define UI_CANVAS_SIZE_Y 1000
-# define FINAL_CANVAS_SIZE_X 1920
-# define FINAL_CANVAS_SIZE_Y 1072
+# define FIN_CANVAS_SIZE_X 1920
+# define FIN_CANVAS_SIZE_Y 1072
 
 # define MAP_Z_INDEX 3
 # define UI_Z_INDEX 5
 # define FINAL_Z_INDEX 99
-# define FINAL_TEMP_Z_INDEX 99
+# define FIN_TEMP_Z_INDEX 99
 # define END_MARKER_Z_INDEX 0
 
 /*############################################################################*/
@@ -100,7 +100,7 @@ typedef enum e_canvas_type
 	MAP,
 	UI,
 	FINAL,
-	FINAL_TEMP,
+	FIN_TEMP,
 	END_MARKER
 }	t_canvas_type;
 
@@ -134,6 +134,13 @@ typedef struct s_canvas_init_entry {
 	bool			stack;
 	bool			is_dynamic;
 }	t_canvas_init_entry;
+
+
+typedef struct s_setup_by_game_state
+{
+	t_game_state		game_state;
+	t_canvas_init_entry	*canvas_configurations;
+}	t_setup_by_game_state;
 
 /*############################################################################*/
 /*                              CANVAS INITIALIZATION                         */

@@ -49,7 +49,7 @@ int	map_visualizer_draw(t_cub *data)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)
 	{
-		redraw_scene(data, get_canvas_from_list(data->canvas_list, FINAL_TEMP));
+		redraw_scene(data, get_canvas_from_list(data->canvas_list, FIN_TEMP));
 		redraw_scene(data, get_canvas_from_list(data->canvas_list, MAP));
 		data->update = NO_UPDATE;
 	}

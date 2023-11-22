@@ -122,6 +122,14 @@ typedef enum e_update_type
 }	t_update_type;
 
 
+typedef enum e_game_state
+{
+	MAP_EDITOR,
+	GAMEPLAY,
+	MENU,
+	END_GAME_STATE
+}	t_game_state;
+
 
 typedef struct s_data
 {
@@ -233,22 +241,25 @@ typedef struct s_tree_node
 
 typedef struct s_cub
 {
-	t_img_data		texture[4];
-	t_img_data		screen;
-	uint32_t		floor;
-	uint32_t		celling;
-	t_point2i		mouse_pos;
-	t_player		player;
-	t_dda			dda;
-	size_t			mapwidth;
-	size_t			mapheight;
-	t_img			img;
-	void			*mlx_ptr;
-	void			*win_ptr;
-	char			**map;
-	t_drawing_state	drawing;
-	t_update_type	update;
-	t_list			*canvas_list;
+	t_img_data				texture[4];
+	t_img_data				screen;
+	uint32_t				floor;
+	uint32_t				celling;
+	t_point2i				mouse_pos;
+	t_player				player;
+	t_dda					dda;
+	size_t					mapwidth;
+	size_t					mapheight;
+	t_img					img;
+	void					*mlx_ptr;
+	void					*win_ptr;
+	char					**map;
+	t_drawing_state			drawing;
+	t_update_type			update;
+	t_game_state			*game_states;
+	t_game_state			game_state;
+	t_setup_by_game_state	*canvas_setups;
+	t_list					*canvas_list;
 }				t_cub;
 
 #endif

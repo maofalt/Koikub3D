@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/20 12:42:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:54:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@
 
 #define CAMERA_PROXIMITY 0.0001
 #define RENDER_QUEUE_SIZE 128
+#define CEIL_COLOR 0xFF1D1D39
+#define FLOOR_COLOR 0xFF1F6E91
+#define WALL_COLOR 0xFF949DA8
 
-// typedef struct s_render_item_queue
-// {
-// 	double		right;
-// 	double		left;
-// 	t_segment_d	*sector;
-// }	t_render_item_queue;
 
 t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
 {
@@ -113,97 +110,6 @@ int	project_segment(
 	return (0);
 }
 
-// void	draw_wall(t_3d_render *render, t_segment_d	wall, double left, double right)
-// {
-// 	t_segment_d	transformed_seg;
-// 	t_segment_d	*wall;
-
-
-// 	wall.point_a.z = wall.data.floor;
-// 	wall.point_b.z = wall.data.floor;
-// 	if (project_segment(render, wall, &transformed_seg) == 0)
-// 	{
-// 		if (transformed_seg.point_a.)
-// 		draw_segment_canvas(render->canvas, &transformed_seg, (t_color){.d = 0xFFFFFFFF});
-// 	}
-// 	wall.point_a.z = wall.data.ceil;
-// 	wall.point_b.z = wall.data.ceil;
-// 	if (project_segment(render, wall, &transformed_seg) == 0)
-// 	{
-// 		draw_segment_canvas(render->canvas, &transformed_seg, (t_color) {.d = 0xFFF00FFF});
-// 	}
-// }
-
-
-// void	draw_filled_wall(t_3d_render *render, t_segment_d	wall, double left, double right)
-// {
-// 	t_segment_d	transformed_seg;
-// 	t_segment_d	*wall;
-
-
-// 	wall.point_a.z = wall.data.floor;
-// 	wall.point_b.z = wall.data.floor;
-// 	if (project_segment(render, wall, &transformed_seg) == 0)
-// 	{
-// 		if (transformed_seg.point_a.)
-// 		draw_segment_canvas(render->canvas, &transformed_seg, (t_color){.d = 0xFFFFFFFF});
-// 	}
-// 	wall.point_a.z = wall.data.ceil;
-// 	wall.point_b.z = wall.data.ceil;
-// 	if (project_segment(render, wall, &transformed_seg) == 0)
-// 	{
-// 		draw_segment_canvas(render->canvas, &transformed_seg, (t_color) {.d = 0xFFF00FFF});
-// 	}
-// }
-////-----------------------------
-
-
-// static inline 	void	le_put_pixel_on_virtual_canvas(t_canvas *canvas,
-// 	t_point2i *coord,
-// 	const t_color *color)
-// {
-// 	int	offset;
-
-// 	// if (coord->x >= 0 && coord->x < canvas->size.x && coord->y >= 0
-// 	// 	&& coord->y < canvas->size.y)
-// 	// {
-// 		offset = coord->y * canvas->size.x + coord->x;
-// 		canvas->pixels[offset] = *color;
-// 	// }
-// }
-
-// static inline void	draw_vertical_line(t_canvas *canvas, int x, int top, int bottom)
-// {
-// 	t_point2i			cursor;
-// 	const t_color		color = (t_color) {.d = 0xFFFFFFFF};
-
-// 	cursor.x = x;
-// 	cursor.y = top;
-// 	// assert(cursor.x >= 0);
-// 	// assert(cursor.y >= 0);
-// 	// assert(cursor.x <= canvas->size.x);
-// 	// assert(cursor.y <= canvas->size.y);
-// 	while (cursor.y <= bottom)
-// 	{
-// 		le_put_pixel_on_virtual_canvas(canvas, &cursor, &color);
-// 		++cursor.y;
-// 	}
-// }
-
-// static inline 	void	le_put_pixel_on_virtual_canvas(t_canvas *canvas,
-// 	t_point2i *coord,
-// 	const t_color *color)
-// {
-// 	int	offset;
-
-// 	// if (coord->x >= 0 && coord->x < canvas->size.x && coord->y >= 0
-// 	// 	&& coord->y < canvas->size.y)
-// 	// {
-// 		offset = coord->y * canvas->size.x + coord->x;
-// 		canvas->pixels[offset] = *color;
-// 	// }
-// }
-
 static inline void	draw_vertical_line(
 			t_canvas *canvas,
 			const int x,
@@ -239,16 +145,6 @@ double	calc_seg_coef(
 	return (delta.y / fabs(delta.x));
 }
 
-// inline static void	clamp_projection(
-// 		t_segment_d *wall,
-// 		double *left,
-// 		double *right
-// 		)
-// {
-// 	*left = fmax(wall->point_a.x, *left);
-// 	*right = fmin(wall->point_b.x, *right);
-// }
-
 int project_wall(t_3d_render *render,
 					t_segment_d *wall,
 					t_segment_d *projected_top,
@@ -283,19 +179,13 @@ static inline void	draw_solid_wall_line(
 
 	render->top_array[x] = fmax(top, render->top_array[x]);
 	render->bottom_array[x] = fmin(bottom, render->bottom_array[x]);
-	color.d = 0xFFFFFFFF;
+	color.d = WALL_COLOR;
 	draw_vertical_line(render->canvas, x, render->top_array[x],
 		render->bottom_array[x], &color);
-	// if (old_top <= 0)
-	// {
-
-		color.d = 0xFF000055;
-	// }
-	// else
-		// color.d = 0xFF0000FF;
+	color.d = CEIL_COLOR;
 	draw_vertical_line(render->canvas, x, old_top,
 		render->top_array[x], &color);
-	color.d = 0xFFFF0000;
+	color.d = FLOOR_COLOR;
 	draw_vertical_line(render->canvas, x, render->bottom_array[x],
 		old_bottom, &color);
 }
@@ -313,16 +203,10 @@ static inline void	draw_portal_wall_line(
 
 	render->top_array[x] = fmax(top, render->top_array[x]);
 	render->bottom_array[x] = fmin(bottom, render->bottom_array[x]);
-
-	// if (old_top <= 0)
-	// {
-	color.d = 0xFF000055;
-	// }
-	// else
-	// 	color.d = 0xFF0000FF;
+	color.d = CEIL_COLOR;
 	draw_vertical_line(render->canvas, x, old_top,
 		render->top_array[x], &color);
-	color.d = 0xFFFF0000;
+	color.d = FLOOR_COLOR;
 	draw_vertical_line(render->canvas, x, render->bottom_array[x],
 		old_bottom, &color);
 }
@@ -343,14 +227,14 @@ static inline void	draw_portal_wall_line(
 
 // 	// if (old_top <= 0)
 // 	// {
-// 	color.d = 0xFF000055;
+// 	color.d = CEIL_COLOR;
 // 	// }
 // 	// else
 // 	// 	color.d = 0xFF0000FF;
 
 // 	draw_vertical_line(render->canvas, x, old_top,
 // 		render->top_array[x], &color);
-// 	color.d = 0xFFFF0000;
+// 	color.d = FLOOR_COLOR;
 // 	draw_vertical_line(render->canvas, x, render->bottom_array[x],
 // 		old_bottom, &color);
 // }
@@ -417,7 +301,7 @@ typedef struct s_render_item_queue
 }	t_render_item_queue;
 
 
-void	draw_filled_area(
+void	draw_filled_area_ceil(
 	t_3d_render *render,
 	t_segment_d	projected_bot,
 	t_segment_d projected_top,
@@ -436,7 +320,7 @@ void	draw_filled_area(
 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	t_color color = {.d = 0xFFFFFFFF};
+	t_color color = {.d = WALL_COLOR};
 	int x = left;
 	while (x < right)
 	{
@@ -453,6 +337,40 @@ void	draw_filled_area(
 }
 
 
+void	draw_filled_area_floor(
+	t_3d_render *render,
+	t_segment_d	projected_bot,
+	t_segment_d projected_top,
+	double left,
+	double right
+	)
+{
+	double			coef_top;
+	double			coef_bot;
+
+	left = fmax(projected_top.point_a.x, left);
+	right = fmin(projected_top.point_b.x, right);
+	coef_bot = calc_seg_coef(&projected_bot);
+	coef_top = calc_seg_coef(&projected_top);
+	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
+	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
+	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
+	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
+	t_color color = {.d = WALL_COLOR};
+	int x = left;
+	while (x < right)
+	{
+		double top = fmin(projected_top.point_a.y, render->bottom_array[x]);
+		draw_vertical_line(render->canvas, x, top,
+			render->bottom_array[x], &color);
+		render->bottom_array[x] = top;
+		projected_top.point_a.y += coef_top;
+		projected_bot.point_a.y += coef_bot;
+
+		++x;
+	}
+}
+
 void	draw_portal_ceil_adjustment(
 	t_3d_render *render,
 	t_segment_d	*portal_top,
@@ -465,7 +383,6 @@ void	draw_portal_ceil_adjustment(
 	t_segment_d	other_portal_top;
 
 	other_side_portal = portal_top->data.data.portal.destination;
-	// other_side_portal->data.ceil = 10;
 	other_side_portal->point_a.z = other_side_portal->data.ceil;
 	other_side_portal->point_b.z = other_side_portal->data.ceil;
 	if (project_segment(render, *other_side_portal, &other_portal_top))
@@ -473,10 +390,33 @@ void	draw_portal_ceil_adjustment(
 
 	if (portal_top->data.ceil < other_side_portal->data.ceil)
 	{
-
-		draw_filled_area(render, other_portal_top, *portal_top, left, right); //TODO use pointer instead
+		draw_filled_area_ceil(render, other_portal_top, *portal_top, left, right); //TODO use pointer instead
 	}
 }
+
+void	draw_portal_floor_adjustment(
+	t_3d_render *render,
+	t_segment_d	*portal_bot,
+	double left,
+	double right
+	)
+
+{
+	t_segment_d	*other_side_portal = NULL;
+	t_segment_d	other_portal_bot;
+
+	other_side_portal = portal_bot->data.data.portal.destination;
+	other_side_portal->point_a.z = other_side_portal->data.floor;
+	other_side_portal->point_b.z = other_side_portal->data.floor;
+	if (project_segment(render, *other_side_portal, &other_portal_bot))
+		return ;
+
+	if (portal_bot->data.floor > other_side_portal->data.floor)
+	{
+		draw_filled_area_floor(render, *portal_bot, other_portal_bot, left, right);
+	}
+}
+
 
 void	draw_portal_wall(
 	t_3d_render *render,
@@ -520,7 +460,9 @@ void	draw_portal_wall(
 		++x;
 	}
 	projected_top.data = wall->data;
+	projected_bot.data = wall->data;
 	draw_portal_ceil_adjustment(render, &projected_top, left, right);
+	draw_portal_floor_adjustment(render, &projected_bot, left, right);
 }
 
 // void	draw_portal_wall(

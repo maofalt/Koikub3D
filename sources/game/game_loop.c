@@ -39,7 +39,7 @@ void	update_player_sector_ceil(t_3d_render *render, double value)
 	while (seg_lst)
 	{
 		segment = seg_lst->content;
-		segment->data.ceil += value;
+		segment->data.floor += value;
 		seg_lst = seg_lst->next;
 	}
 }

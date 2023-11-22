@@ -26,8 +26,13 @@
 # define UI_CANVAS_SIZE_Y 1000
 # define FIN_CANVAS_SIZE_X 1920
 # define FIN_CANVAS_SIZE_Y 1072
+# define GAME_CANVAS_SIZE_X 1920
+# define GAME_CANVAS_SIZE_Y 1072
+
+
 
 # define MAP_Z_INDEX 3
+# define GAME_Z_INDEX 1
 # define UI_Z_INDEX 5
 # define FINAL_Z_INDEX 99
 # define FIN_TEMP_Z_INDEX 99
@@ -99,6 +104,7 @@ typedef enum e_canvas_type
 {
 	MAP,
 	UI,
+	GAME,
 	FINAL,
 	FIN_TEMP,
 	END_MARKER
@@ -138,7 +144,7 @@ typedef struct s_canvas_init_entry {
 
 typedef struct s_setup_by_game_state
 {
-	t_game_state		game_state;
+	t_modus_state		game_state;
 	t_canvas_init_entry	*canvas_configurations;
 }	t_setup_by_game_state;
 
@@ -151,12 +157,14 @@ t_canvas					*initialize_single_canvas(t_point2i size,
 t_list						*initialize_canvas_and_add_to_list(t_point2i size,
 								t_canvas_type type,
 								t_list **canvas_list);
-t_list						*initialize_canvas_list(void);
+t_list						*initialize_canvas_list(t_modus_state state,
+								t_setup_by_game_state *canvas_setups);
 void						free_canvas(t_canvas *canvas);
 void						free_canvas_list(t_list *canvas_list);
 t_canvas					*get_canvas_from_list(t_list *canvas_list,
 								t_canvas_type type);
-const t_canvas_init_entry	*get_canvas_init_table(void);
+t_canvas_init_entry			*get_canvas_init_table(t_modus_state state,
+								t_setup_by_game_state *canvas_setups);
 void						set_canvas_bounds(t_canvas_init_entry *entry,
 								t_point2i *currentPos,
 								int *currentRowHeight,
@@ -216,10 +224,24 @@ t_point2i					screen_to_canvas(t_point2i screen_point,
 								t_canvas *canvas);
 
 /*############################################################################*/
+/*                              GAME STATE                                    */
+/*############################################################################*/
+
+t_setup_by_game_state		*initialize_canvas_setups(void);
+int							initialize_setup_by_state(
+								t_setup_by_game_state *setup,
+								t_modus_state state);
+int							initialize_map_editor_setup(
+								t_setup_by_game_state *setup);
+int							initialize_gameplay_setup(
+								t_setup_by_game_state *setup);
+int							initialize_menu_setup(
+								t_setup_by_game_state *setup);
+/*############################################################################*/
 /*                              FUSING CANVASES                               */
 /*############################################################################*/
 
-int							fuse_canvases(t_canvas **array_of_canvases);
+int							merge_canvases(t_canvas **array_of_canvases);
 
 /*############################################################################*/
 /*                              MLX CONVERSION                                */

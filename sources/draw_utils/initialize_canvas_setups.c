@@ -31,7 +31,7 @@ t_setup_by_game_state	*initialize_canvas_setups(void)
 	return (canvas_setups);
 }
 
-int	initialize_setup_by_state(t_setup_by_game_state *setup, t_game_state state)
+int	initialize_setup_by_state(t_setup_by_game_state *setup, t_modus_state state)
 {
 	int	ret;
 
@@ -47,23 +47,34 @@ int	initialize_setup_by_state(t_setup_by_game_state *setup, t_game_state state)
 }
 
 
+static void	init_map_table(t_canvas_init_entry *table)
+{
+	table[0] = (t_canvas_init_entry){
+		.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
+		.type = MAP,
+		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true};
+	table[1] = (t_canvas_init_entry){
+		.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
+		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true};
+	table[2] = (t_canvas_init_entry){
+		.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
+		.type = FINAL,
+		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}};
+	table[3] = (t_canvas_init_entry){
+		.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
+		.type = FIN_TEMP, .z_index = FIN_TEMP_Z_INDEX,
+		.position = (t_point2i){{0, 0}}};
+	table[4] = (t_canvas_init_entry){.type = END_MARKER, .z_index = 0};
+}
 
 int	initialize_map_editor_setup(t_setup_by_game_state *setup)
 {
-	static t_canvas_init_entry	canvas_init_table[] = {
-	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, .type = MAP,
-		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
-	{.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
-		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
-	{.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}}, .type = FINAL,
-		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}},
-	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
-		.type = FIN_TEMP, .z_index = FIN_TEMP_Z_INDEX,
-		.position = (t_point2i){{0, 0}}}, {.type = END_MARKER, .z_index = 0}};
+	static t_canvas_init_entry	canvas_init_table[5];
 	t_point2i					current_pos;
 	int							current_row_height;
-	int							i;
+	size_t						i;
 
+	init_map_table(canvas_init_table);
 	setup->game_state = MAP_EDITOR;
 	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
@@ -75,8 +86,9 @@ int	initialize_map_editor_setup(t_setup_by_game_state *setup)
 	while (i < sizeof(canvas_init_table) / sizeof(t_canvas_init_entry) - 1)
 	{
 		setup->canvas_configurations[i] = canvas_init_table[i];
-		set_canvas_bounds(&setup->canvas_configurations[i++], &current_pos,
-						  &current_row_height, 1920);
+		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
+			&current_row_height, 1920);
+		i++;
 	}
 	return (0);
 }

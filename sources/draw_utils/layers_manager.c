@@ -47,13 +47,17 @@ void	free_canvas_list(t_list *canvas_list)
 	current_node = NULL;
 }
 
-t_list	*initialize_canvas_list(void)
+t_list	*initialize_canvas_list(t_modus_state state,
+	t_setup_by_game_state *canvas_setups)
 {
-	const t_canvas_init_entry	*canvas_init_table = get_canvas_init_table();
+	t_canvas_init_entry			*canvas_init_table;
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;
 
+	canvas_init_table = get_canvas_init_table(state, canvas_setups);
+	if (!canvas_init_table)
+		return (NULL);
 	canvas_list = NULL;
 	i = 0;
 	while (canvas_init_table[i].type != END_MARKER)
@@ -66,6 +70,21 @@ t_list	*initialize_canvas_list(void)
 		i++;
 	}
 	return (canvas_list);
+}
+
+t_canvas_init_entry	*get_canvas_init_table(t_modus_state state,
+	t_setup_by_game_state *canvas_setups)
+{
+	size_t	i;
+
+	i = 0;
+	while (canvas_setups[i].game_state != END_GAME_STATE)
+	{
+		if (canvas_setups[i].game_state == state)
+			return (canvas_setups[i].canvas_configurations);
+		i++;
+	}
+	return (NULL);
 }
 
 t_canvas	*get_canvas_from_list(t_list *canvas_list,
@@ -85,53 +104,59 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 	return (NULL);
 }
 
-static int adjusted_height(int width, int preferredHeight) {
-    const int avx_bytes = 32;
-    const int pixel_bytes = sizeof(t_color);
-    int total_bytes = width * preferredHeight * pixel_bytes;
-    int remainder = total_bytes % avx_bytes;
 
-    // If the total byte size isn't aligned with AVX, calculate how many more rows are needed
-    if (remainder != 0) {
-        int bytes_needed = avx_bytes - remainder;
-        int rows_needed = (bytes_needed + pixel_bytes - 1) / pixel_bytes;  // this ensures we round up
-        return preferredHeight + rows_needed;
-    }
-
-    // If the preferred height already meets the alignment, just return that
-    return preferredHeight;
-}
-
-
-
-const t_canvas_init_entry	*get_canvas_init_table(void)
+/*
+** 
+** This function is designed to adjust the height of a canvas to ensure its 
+	total byte size is aligned with AVX (Advanced Vector Extensions) 
+	requirements. It takes the canvas width and a preferred height as input.
+** The function calculates the total byte size of the canvas based on its width,
+	 height, and the size of a pixel (t_color). If this total size is not a 
+	 multiple of the AVX byte size (32 bytes in this case), the function 
+	 computes the additional number of rows needed to align the total size with 
+	 the AVX byte size.
+** The function returns the adjusted height which, when used, ensures that the 
+	total byte size of the canvas is a multiple of the AVX byte size. 
+	This alignment can be crucial for performance optimization in certain 
+	operations, particularly those involving AVX instructions.
+*/
+static int	adjusted_height(int width, int preferredHeight)
 {
-	static t_canvas_init_entry	canvas_init_table[] = {
-	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}}, .type = MAP,
-		.z_index = MAP_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
-	{.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
-		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = true},
-	{.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}}, .type = FINAL,
-		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}},
-	{.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
-		.type = FIN_TEMP, .z_index = FIN_TEMP_Z_INDEX,
-		.position = (t_point2i){{0, 0}}},
-	{.type = END_MARKER, .z_index = 0}
-	};
-	t_point2i					current_pos;
-	int							current_row_height;
-	int							i;
+	const int	avx_bytes = 32;
+	const int	pixel_bytes = sizeof(t_color);
+	const int	total_bytes = width * preferredHeight * pixel_bytes;
+	const int	remainder = total_bytes % avx_bytes;
 
-	current_pos = (t_point2i){{0, 0}};
-	current_row_height = 0;
-	i = 0;
-	while (canvas_init_table[i].type != END_MARKER)
+	if (remainder != 0)
 	{
-		set_canvas_bounds(&canvas_init_table[i++], &current_pos,
-			&current_row_height, 1920);
+		int bytes_needed = avx_bytes - remainder;
+		int rows_needed = (bytes_needed + pixel_bytes - 1) / pixel_bytes;
+		return (preferredHeight + rows_needed);
 	}
-	return (canvas_init_table);
+	return (preferredHeight);
 }
+
+
+
+/*
+** This function is responsible for setting the boundaries of a canvas within 
+	a given space. It takes a pointer to a t_canvas_init_entry structure 
+	(representing a canvas), a pointer to the current position (t_point2i),
+	a pointer to the current row height (int), and the maximum allowed width
+	(int) as inputs.
+** The function first adjusts the height of the canvas using adjusted_height to
+	ensure AVX alignment. If the canvas is marked to stack (i.e., to be placed
+	next to each other horizontally until the max width is reached), it checks
+	if the current position plus the canvas width exceeds the max width. If so,
+	it moves the canvas to the next row. It then sets the top and bottom bounds
+	of the canvas based on the current position and updates the current position
+	and row height accordingly.
+** For canvases not marked to stack, it simply updates the bounds without
+	modifying the current position and row height.
+** This function is crucial in dynamically arranging multiple canvas elements
+	within a constrained space, respecting their individual sizes and the
+	overall layout constraints.
+*/
 
 void set_canvas_bounds(t_canvas_init_entry *entry,
 	t_point2i *currentPos,

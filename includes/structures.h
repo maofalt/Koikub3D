@@ -122,13 +122,13 @@ typedef enum e_update_type
 }	t_update_type;
 
 
-typedef enum e_game_state
+typedef enum e_modus_state
 {
+	MENU,
 	MAP_EDITOR,
 	GAMEPLAY,
-	MENU,
 	END_GAME_STATE
-}	t_game_state;
+}	t_modus_state;
 
 
 typedef struct s_data
@@ -256,9 +256,8 @@ typedef struct s_cub
 	char					**map;
 	t_drawing_state			drawing;
 	t_update_type			update;
-	t_game_state			*game_states;
-	t_game_state			game_state;
-	t_setup_by_game_state	*canvas_setups;
+	t_modus_state			*game_states;
+	t_modus_state			game_state;
 	t_list					*canvas_list;
 }				t_cub;
 

@@ -39,6 +39,24 @@ void	update_player_sector_ceil(t_3d_render *render, double value)
 	while (seg_lst)
 	{
 		segment = seg_lst->content;
+		segment->data.ceil -= value;
+		seg_lst = seg_lst->next;
+	}
+}
+
+void	update_player_sector_floor(t_3d_render *render, double value)
+{
+	t_tree_node				*node;
+	t_list					*seg_lst;
+	t_segment_d				*segment;
+
+	node = bsp_search_point(render->map->bsp,
+			vector4d_to_point2d(&render->camera->pos));
+
+	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
+	while (seg_lst)
+	{
+		segment = seg_lst->content;
 		segment->data.floor += value;
 		seg_lst = seg_lst->next;
 	}
@@ -47,14 +65,24 @@ void	update_player_sector_ceil(t_3d_render *render, double value)
 
 void	sector_edit_handle_event(t_cub *data)
 {
-	if (data->inputs.action_states[a_decrease_sector_height])
+	if (data->inputs.action_states[a_decrease_sector_ceil])
 	{
 		printf("decrease \n");
 		update_player_sector_ceil(&data->game_data.game_view_render, -1);
 	}
-	if (data->inputs.action_states[a_increase_sector_height])
+	if (data->inputs.action_states[a_increase_sector_ceil])
 	{
 		update_player_sector_ceil(&data->game_data.game_view_render, 1);
+		printf("increase \n");
+	}
+	if (data->inputs.action_states[a_decrease_sector_floor])
+	{
+		printf("decrease \n");
+		update_player_sector_floor(&data->game_data.game_view_render, -1);
+	}
+	if (data->inputs.action_states[a_increase_sector_floor])
+	{
+		update_player_sector_floor(&data->game_data.game_view_render, 1);
 		printf("increase \n");
 	}
 }
@@ -73,6 +101,6 @@ int	game_loop(t_cub *data)
 	game_update(data);
 	game_render(data);
 	count_fps();
-	// usleep(9000);
+	usleep(9000);
 	return (0);
 }

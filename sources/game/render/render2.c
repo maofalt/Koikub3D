@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/22 18:54:00 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/22 19:28:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ static inline void	draw_vertical_line(
 	assert(bottom <= canvas->size.y);
 	while (top < bottom)
 	{
-
 		offset = top * canvas->size.x + x;
 		canvas->pixels[offset] = *color;
 		++top;

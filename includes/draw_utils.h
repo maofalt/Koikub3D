@@ -115,22 +115,6 @@ typedef struct s_bounds {
 	t_point2i	bottom;
 }	t_bounds;
 
-typedef struct s_canvas {
-	t_canvas_type	type;
-	t_matrix3x3		transformation_matrix;
-	t_point2i		size;
-	t_point2d		last_point;
-	t_point2d		scale;
-	t_point2d		inv_scale;
-	t_color			*pixels;
-	t_list			*matrix_operations;
-	t_list			*segments;
-	t_bounds		bounds;
-	t_color			transparency_key;
-	bool			is_dynamic;
-	int				z_index;
-}	t_canvas;
-
 typedef struct s_canvas_init_entry {
 	t_point2i		size;
 	t_canvas_type	type;
@@ -141,6 +125,22 @@ typedef struct s_canvas_init_entry {
 	bool			is_dynamic;
 }	t_canvas_init_entry;
 
+typedef struct s_canvas {
+	t_canvas_init_entry	info;
+	t_canvas_type		type;
+	t_matrix3x3			transformation_matrix;
+	t_point2i			size;
+	t_point2d			last_point;
+	t_point2d			scale;
+	t_point2d			inv_scale;
+	t_color				*pixels;
+	t_list				*matrix_operations;
+	t_list				*segments;
+	t_color				transparency_key;
+	bool				is_dynamic;
+	t_bounds			bounds;
+	int					z_index;
+}	t_canvas;
 
 typedef struct s_setup_by_game_state
 {
@@ -241,7 +241,13 @@ int							initialize_menu_setup(
 /*                              FUSING CANVASES                               */
 /*############################################################################*/
 
-int							merge_canvases(t_canvas **array_of_canvases);
+int							merge_canvases(t_list **canvas_list);
+int							merge_canvas(t_canvas *final_canvas,
+								t_canvas *canvas);
+
+void						reorder_canvases_by_z_index(t_list **canvas_list);
+bool						should_swap(t_canvas *a, t_canvas *b);
+void						swap_canvas_content(t_list *a, t_list *b);
 
 /*############################################################################*/
 /*                              MLX CONVERSION                                */

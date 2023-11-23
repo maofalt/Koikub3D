@@ -109,7 +109,6 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 		}
 		current_node = current_node->next;
 	}
-	printf ("canvas %d not found!\n", type);
 	return (NULL);
 }
 

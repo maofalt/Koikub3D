@@ -62,12 +62,12 @@ static void	init_map_table(t_canvas_init_entry *table)
 	table[3] = (t_canvas_init_entry){
 		.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 		.type = FINAL,
-		.z_index = FINAL_Z_INDEX, .position = (t_point2i){{0, 0}}};
+		.z_index = -2, .position = (t_point2i){{0, 0}}};
 	table[4] = (t_canvas_init_entry){
 		.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
-		.type = FIN_TEMP, .z_index = FIN_TEMP_Z_INDEX,
+		.type = FIN_TEMP, .z_index = -2,
 		.position = (t_point2i){{0, 0}}};
-	table[5] = (t_canvas_init_entry){.type = END_MARKER, .z_index = 0};
+	table[5] = (t_canvas_init_entry){.type = END_MARKER, .z_index = -99};
 }
 
 int	initialize_map_editor_setup(t_setup_by_game_state *setup)

@@ -42,26 +42,26 @@ static bool	are_canvases_same_size(t_canvas *a, t_canvas *b)
 */
 static void	copy_canvas_line_by_line(t_canvas *final_canvas, t_canvas *src)
 {
-	t_point2i	src_start;
 	t_point2i	src_end;
 	t_point2i	dest;
 	void		*src_ptr;
 	void		*dest_ptr;
+	int			i;
 
-	src_start = src->info.bounds.top;
-	dest = src_start;
+	dest = src->info.bounds.top;
 	src_end.x = src->info.bounds.bottom.x;
-	while (src_start.y < src->info.bounds.bottom.y)
+	i = 0;
+	while (i + src->info.bounds.top.y < src->info.bounds.bottom.y)
 	{
 		if (dest.y >= final_canvas->size.y)
 			break ;
-		src_ptr = src->pixels + src_start.y * src->size.x + src_start.x;
+		src_ptr = src->pixels + i * src->size.x;
 		dest_ptr = final_canvas->pixels + dest.y * final_canvas->size.x
 			+ dest.x;
 		ft_memcpy(dest_ptr, src_ptr,
-			(src_end.x - src_start.x) * sizeof(t_color));
-		src_start.y++;
+			(src_end.x - src->info.bounds.top.x) * sizeof(t_color));
 		dest.y++;
+		i++;
 	}
 }
 

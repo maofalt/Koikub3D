@@ -57,8 +57,8 @@ static void	init_map_table(t_canvas_init_entry *table)
 		.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
 		.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = false};
 	table[2] = (t_canvas_init_entry){
-		.size = (t_point2i){{1200, 100}}, .type = UI,
-		.z_index = UI_Z_INDEX + 1, .position = (t_point2i){{200, 800}}, .stack = false};
+		.size = (t_point2i){{MAP_CANVAS_SIZE_X - UI_CANVAS_SIZE_X, 100}}, .type = UI,
+		.z_index = UI_Z_INDEX + 1, .position = (t_point2i){{UI_CANVAS_SIZE_X, 800}}, .stack = false};
 	table[3] = (t_canvas_init_entry){
 		.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 		.type = FINAL,

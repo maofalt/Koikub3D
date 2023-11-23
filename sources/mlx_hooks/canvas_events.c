@@ -15,29 +15,29 @@
 
 t_canvas_type	detect_clicked_canvas(t_cub *data, t_point2i click_position)
 {
-	int				i;
 	t_canvas		*canvas;
-	t_canvas_type 	type;
+	t_canvas_type	type;
 	int				z_index;
+	t_list			*canvas_list;
 
-	i = 0;
 	z_index = -1;
 	type = END_MARKER;
-	printf("Detected click on %d %d\n", click_position.x, click_position.y);
-	while (i < END_MARKER)
+	canvas_list = data->canvas_list;
+	if (!canvas_list)
+		return (type);
+	while (canvas_list)
 	{
-		canvas = get_canvas_from_list(data->canvas_list, i++);
-		if (!canvas)
-			continue ;
-		//type = canvas->type;
-	//	printf("\tclicked on canvas %s\n", (type == 0 )? "MAP" : (type == 1 )? "UI" : (type == 2)? "GAME" : (type == 3 )? "FINAL" : (type == 4 )? "FIN_TEMP" : "END_MARKER");
-	//	printf("\t\tcanvas bounds: %d %d %d %d\n", canvas->info.bounds.top.x, canvas->info.bounds.top.y, canvas->info.bounds.bottom.x, canvas->info.bounds.bottom.y);
+		canvas = (t_canvas *)canvas_list->content;
 		if (click_position.x >= canvas->info.bounds.top.x
 			&& click_position.x <= canvas->info.bounds.bottom.x
 			&& click_position.y >= canvas->info.bounds.top.y
 			&& click_position.y <= canvas->info.bounds.bottom.y
 			&& canvas->info.z_index > z_index)
+		{
 			type = canvas->type;
+			z_index = canvas->info.z_index;
+		}
+		canvas_list = canvas_list->next;
 	}
 	return (type);
 }

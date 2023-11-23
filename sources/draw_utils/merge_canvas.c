@@ -46,17 +46,22 @@ static void	copy_canvas_line_by_line(t_canvas *final_canvas, t_canvas *src)
 	void		*src_ptr;
 	void		*dest_ptr;
 
-	
 	src_start = src->info.bounds.top;
 	dest = src_start;
 	src_end.x = src->info.bounds.bottom.x;
+	printf("inside copy_canvas_line_by_line\n");
+	printf("src_start.y: %d\n", src_start.y);
+	printf("src bounds bottom y: %d\n", src->info.bounds.bottom.y);
 	while (src_start.y < src->info.bounds.bottom.y)
 	{
-		if (dest.y >= final_canvas->size.y)
-			break ;
+		printf("dest.y: %d\n", dest.y);
+		printf("final_canvas->size.y: %d\n", final_canvas->size.y);
+		// if (dest.y >= final_canvas->size.y)
+		// 	break ;
 		src_ptr = src->pixels + src_start.y * src->size.x + src_start.x;
 		dest_ptr = final_canvas->pixels + dest.y * final_canvas->size.x
 			+ dest.x;
+		printf("line size copying %ld\n",(src_end.x - src_start.x) * sizeof(t_color));
 		ft_memcpy(dest_ptr, src_ptr,
 			(src_end.x - src_start.x) * sizeof(t_color));
 		src_start.y++;

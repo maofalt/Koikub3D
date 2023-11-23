@@ -39,6 +39,30 @@ static void	handle_line_redraw(t_cub *data)
 	}
 }
 
+static void    fill_canvas(
+            t_canvas *canvas,
+            t_color color
+            )
+{
+    t_color                *px;
+    unsigned long long    image_size;
+
+    if (color.d == 0)
+    {
+        ft_memset(canvas->pixels, 0,
+            canvas->size.x * canvas->size.y * sizeof(t_color));
+        return ;
+    }
+    px = canvas->pixels;
+    image_size = canvas->size.y * canvas->size.x;
+    while (image_size > 0)
+    {
+        *px = color;
+        px ++;
+        image_size --;
+    }
+}
+
 int	map_visualizer_draw(t_cub *data)
 {
 	if (data->win_ptr == NULL)
@@ -58,7 +82,7 @@ int	map_visualizer_draw(t_cub *data)
 	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 	//	data->screen.mlx_img, 0, 0);
 	//merge canvases
-	
+	fill_canvas(data->active_canvas, (t_color){{0, 128, 0, 0}});
 	merge_canvases(&data->canvas_list);
 	canvas_to_mlx_image(data->screen,
 		get_canvas_from_list(data->canvas_list, FINAL));

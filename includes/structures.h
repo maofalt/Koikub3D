@@ -260,6 +260,7 @@ typedef struct s_cub
 	t_modus_state			*game_states;
 	t_modus_state			game_state;
 	t_list					*canvas_list;
+	void					*active_canvas;
 }				t_cub;
 
 #endif

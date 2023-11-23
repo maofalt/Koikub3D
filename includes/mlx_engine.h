@@ -85,6 +85,6 @@ int				ft_handle_rotation(int keysim, t_cub *data);
 /*############################################################################*/
 /*                             CANVAS EVENTS                                  */
 /*############################################################################*/
-t_canvas_type	detect_clicked_canvas(t_cub *data, t_point2i click_position);
+void	        *detect_clicked_canvas(t_cub *data, t_point2i click_position);
 
 #endif

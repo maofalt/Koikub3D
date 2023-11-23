@@ -13,18 +13,18 @@
 #include "mlx_engine.h"
 #include "draw_utils.h"
 
-t_canvas_type	detect_clicked_canvas(t_cub *data, t_point2i click_position)
+void	*detect_clicked_canvas(t_cub *data, t_point2i click_position)
 {
 	t_canvas		*canvas;
-	t_canvas_type	type;
+	t_canvas		*canvas_to_return;
 	int				z_index;
 	t_list			*canvas_list;
 
 	z_index = -1;
-	type = END_MARKER;
+	canvas_to_return = NULL;
 	canvas_list = data->canvas_list;
 	if (!canvas_list)
-		return (type);
+		return (canvas_to_return);
 	while (canvas_list)
 	{
 		canvas = (t_canvas *)canvas_list->content;
@@ -34,10 +34,10 @@ t_canvas_type	detect_clicked_canvas(t_cub *data, t_point2i click_position)
 			&& click_position.y <= canvas->info.bounds.bottom.y
 			&& canvas->info.z_index > z_index)
 		{
-			type = canvas->type;
+			canvas_to_return = canvas;
 			z_index = canvas->info.z_index;
 		}
 		canvas_list = canvas_list->next;
 	}
-	return (type);
+	return (canvas_to_return);
 }

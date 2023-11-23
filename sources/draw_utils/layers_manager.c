@@ -25,6 +25,7 @@ t_list	*initialize_canvas_and_add_to_list(t_point2i size,
 	new_node = (t_list *)malloc(sizeof(t_list));
 	if (!new_node)
 		return (free_canvas(canvas), NULL);
+	new_node->next = NULL;
 	new_node->content = canvas;
 	ft_lstadd_back(canvas_list, new_node);
 	//new_node->next = *canvas_list;
@@ -55,15 +56,16 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	t_list						*canvas_list;
 	t_list						*new_node;
 	size_t						i;
+	size_t						nbr_canvas;
 
 	canvas_init_table = NULL;
 	canvas_init_table = get_canvas_init_table(state, canvas_setups);
-	printf("canvas_init_table: %p\n", canvas_init_table);
 	if (!canvas_init_table)
 		return (NULL);
 	canvas_list = NULL;
 	i = 0;
-	while (i < canvas_setups->canvas_count)
+	nbr_canvas = get_init_table_size(canvas_init_table);
+	while (i < nbr_canvas)
 	{
 		new_node = initialize_canvas_and_add_to_list(canvas_init_table[i].size,
 				canvas_init_table[i].type,

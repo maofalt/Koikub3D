@@ -116,13 +116,14 @@ typedef struct s_bounds {
 }	t_bounds;
 
 typedef struct s_canvas_init_entry {
-	t_point2i		size;
 	t_canvas_type	type;
-	int				z_index;
+	t_point2i		size;
 	t_point2i		position;
 	t_bounds		bounds;
 	bool			stack;
 	bool			is_dynamic;
+	int				z_index;
+	size_t			nbr_canvas;
 }	t_canvas_init_entry;
 
 typedef struct s_canvas {
@@ -238,6 +239,7 @@ int							initialize_gameplay_setup(
 								t_setup_by_game_state *setup);
 int							initialize_menu_setup(
 								t_setup_by_game_state *setup);
+size_t						get_init_table_size(t_canvas_init_entry *table);
 /*############################################################################*/
 /*                              FUSING CANVASES                               */
 /*############################################################################*/

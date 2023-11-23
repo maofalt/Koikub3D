@@ -25,7 +25,6 @@ int	merge_canvases(t_list **canvas_list)
 	while (current_node)
 	{
 		canvas = (t_canvas *)current_node->content;
-		printf("canvas of type %d\n", canvas->type);
 		if (canvas->type == MAP || canvas->type == UI || canvas->type == GAME)
 			merge_canvas(final_canvas, canvas);
 		current_node = current_node->next;

@@ -30,24 +30,23 @@ static void	init_gameplay_table(t_canvas_init_entry *table)
 
 int	initialize_gameplay_setup(t_setup_by_game_state *setup)
 {
-	static t_canvas_init_entry	canvas_init_table[3];
+	static t_canvas_init_entry	canvas_init_table2[3];
 	t_point2i					current_pos;
 	int							current_row_height;
 	size_t						i;
 
-	init_gameplay_table(canvas_init_table);
+	init_gameplay_table(canvas_init_table2);
 	setup->game_state = GAMEPLAY;
-	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table)
+	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table2)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
 		return (1);
-	setup->canvas_count = 3;
 	current_pos = (t_point2i){{0, 0}};
 	current_row_height = 0;
 	i = 0;
-	while (i < sizeof(canvas_init_table) / sizeof(t_canvas_init_entry) - 1)
+	while (i < sizeof(canvas_init_table2) / sizeof(t_canvas_init_entry) - 1)
 	{
-		setup->canvas_configurations[i] = canvas_init_table[i];
+		setup->canvas_configurations[i] = canvas_init_table2[i];
 		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
 			&current_row_height, 1920);
 		i++;
@@ -74,27 +73,38 @@ static void	init_menu_table(t_canvas_init_entry *table)
 
 int	initialize_menu_setup(t_setup_by_game_state *setup)
 {
-	static t_canvas_init_entry	canvas_init_table[4];
+	static t_canvas_init_entry	canvas_init_table3[4];
 	t_point2i					current_pos;
 	int							current_row_height;
 	size_t						i;
 
-	init_menu_table(canvas_init_table);
+	init_menu_table(canvas_init_table3);
 	setup->game_state = MENU;
-	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table)
+	setup->canvas_configurations = ft_calloc(sizeof(canvas_init_table3)
 			/ sizeof(t_canvas_init_entry) - 1, sizeof(t_canvas_init_entry));
 	if (!setup->canvas_configurations)
 		return (1);
-	setup->canvas_count = 4;
 	current_pos = (t_point2i){{0, 0}};
 	current_row_height = 0;
 	i = 0;
-	while (i < sizeof(canvas_init_table) / sizeof(t_canvas_init_entry) - 1)
+	while (i < sizeof(canvas_init_table3) / sizeof(t_canvas_init_entry) - 1)
 	{
-		setup->canvas_configurations[i] = canvas_init_table[i];
+		setup->canvas_configurations[i] = canvas_init_table3[i];
 		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
 			&current_row_height, 1920);
 		i++;
 	}
 	return (0);
+}
+
+size_t	get_init_table_size(t_canvas_init_entry *table)
+{
+	size_t	i;
+
+	i = 0;
+	while (table[i].type != END_MARKER)
+	{
+		i++;
+	}
+	return (i);
 }

@@ -38,6 +38,9 @@ static bool	are_canvases_same_size(t_canvas *a, t_canvas *b)
 	return (a->size.x == b->size.x && a->size.y == b->size.y);
 }
 
+/*
+	copy line by a line 1D canvas to 1D canvas
+*/
 static void	copy_canvas_line_by_line(t_canvas *final_canvas, t_canvas *src)
 {
 	t_point2i	src_start;
@@ -49,19 +52,13 @@ static void	copy_canvas_line_by_line(t_canvas *final_canvas, t_canvas *src)
 	src_start = src->info.bounds.top;
 	dest = src_start;
 	src_end.x = src->info.bounds.bottom.x;
-	printf("inside copy_canvas_line_by_line\n");
-	printf("src_start.y: %d\n", src_start.y);
-	printf("src bounds bottom y: %d\n", src->info.bounds.bottom.y);
 	while (src_start.y < src->info.bounds.bottom.y)
 	{
-		printf("dest.y: %d\n", dest.y);
-		printf("final_canvas->size.y: %d\n", final_canvas->size.y);
-		// if (dest.y >= final_canvas->size.y)
-		// 	break ;
+		if (dest.y >= final_canvas->size.y)
+			break ;
 		src_ptr = src->pixels + src_start.y * src->size.x + src_start.x;
 		dest_ptr = final_canvas->pixels + dest.y * final_canvas->size.x
 			+ dest.x;
-		printf("line size copying %ld\n",(src_end.x - src_start.x) * sizeof(t_color));
 		ft_memcpy(dest_ptr, src_ptr,
 			(src_end.x - src_start.x) * sizeof(t_color));
 		src_start.y++;
@@ -73,13 +70,11 @@ int	merge_canvas(t_canvas *final_canvas, t_canvas *canvas)
 {
 	if (are_canvases_same_size(final_canvas, canvas))
 	{
-		printf("merge_canvas: same size\n");
 		ft_memcpy(final_canvas->pixels, canvas->pixels,
 			final_canvas->size.x * final_canvas->size.y * sizeof(t_color));
 	}
 	else
 	{
-		printf("merge_canvas: different size\n");
 		copy_canvas_line_by_line(final_canvas, canvas);
 	}
 	return (0);

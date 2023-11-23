@@ -187,9 +187,9 @@ void set_canvas_bounds(t_canvas_init_entry *entry,
 	}
 	else
 	{
-		entry->bounds.top = *currentPos;
-		entry->bounds.bottom.x = currentPos->x + entry->size.x;
-		entry->bounds.bottom.y = currentPos->y + entry->size.y;
-		currentPos->y += entry->size.y;
+		entry->bounds.top = entry->position;
+		entry->bounds.bottom.x = entry->position.x + entry->size.x;
+		entry->bounds.bottom.y = entry->position.y + entry->size.y;
+		entry->position.y += entry->size.y;
 	}
 }

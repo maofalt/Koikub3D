@@ -108,6 +108,8 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 	data->mouse_pos = (t_point2i){{x, y}};
 	if (buttonsym == 1)
 	{
+		t_canvas_type  type = detect_clicked_canvas(data, data->mouse_pos);
+		printf("clicked on canvas %s\n", (type == 0 )? "MAP" : (type == 1 )? "UI" : (type == 2)? "GAME" : (type == 3 )? "FINAL" : (type == 4 )? "FIN_TEMP" : "END_MARKER");
 		data->drawing = NOT_DRAWING;
 		data->update |= LINE_REDRAW;
 		data->update &= ~NO_UPDATE;

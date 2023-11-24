@@ -14,3 +14,12 @@
 #include "draw_utils.h"
 
 
+int	ft_handle_mousemotion(int x, int y, t_cub *data)
+{
+	data->mouse_pos = (t_point2i){{x, y}};
+	if (data->drawing == DRAWING && data->update & LINE_REDRAW)
+	{	
+		data->update |= LINE_REDRAW;
+	}
+	return (0);
+}

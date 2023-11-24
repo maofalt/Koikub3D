@@ -33,6 +33,19 @@ void	free_everything(t_cub data)
 	free_canvas_list(data.canvas_list);
 }
 
+static void	free_setup_canvas(t_setup_by_game_state *setup_cavas)
+{
+	int	i;
+
+	i = 0;
+	while (i < END_GAME_STATE)
+	{
+		free(setup_cavas[i].canvas_configurations);
+		i++;
+	}
+	free(setup_cavas);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cub					data;
@@ -50,7 +63,6 @@ int	main(int argc, char **argv)
 		return (free_everything(data), 1);
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
 	// 	ft_mlx_engine(&data);
-	data.canvas_list = NULL;
 	data.game_state = MAP_EDITOR;
 	//data.game_state = MENU;
 	setup_cavas = initialize_canvas_setups();
@@ -60,4 +72,5 @@ int	main(int argc, char **argv)
 	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_draw, &data))
 		ft_mlx_engine(&data);
 	free_everything(data);
+	free_setup_canvas(setup_cavas);
 }

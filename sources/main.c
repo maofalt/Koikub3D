@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/11/24 16:32:51 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:44:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,21 @@ void	set_segments_ceil_floor(t_list *seg_lst)
 	}
 }
 
+
+void	tmp_set_segments_textures(t_list *lst, t_cub *data)
+{
+	t_segment_d *seg;
+
+	while (lst)
+	{
+		seg = lst->content;
+		seg->data.data.wall.texture.texture = data->texture_manager.textures;
+		seg->data.data.wall.texture.offset = 0;
+		lst = lst->next;
+	}
+
+}
+
 //TODO: move it
 int	map_convert(t_cub *data)
 {
@@ -66,6 +81,7 @@ int	map_convert(t_cub *data)
 	if (extract_edge_recursively(data->map, &segments_lst))
 		return (1);
 	set_segments_ceil_floor(segments_lst);
+	tmp_set_segments_textures(segments_lst, data);
 	if (construct_bsp(&segments_lst, &tree))
 	{
 		ft_lstclear(&segments_lst, free);

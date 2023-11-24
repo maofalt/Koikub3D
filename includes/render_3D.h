@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/22 19:45:58 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:33:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,12 @@ void	draw_portal_ceil_offset(
 	t_segment_d	*portal_top,
 	double left,
 	double right
+	);
+
+
+void	draw_wall_texture(
+		t_3d_render *render,
+		t_segment_d	*wall,
+		double left,
+		double right
 	);

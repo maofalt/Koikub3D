@@ -1,7 +1,7 @@
 NO textures/kirby.xpm
-SO textures/mon_amour_seg_roy_de_mon_coeur.xpm
+EA textures/mon_amour_seg_roy_de_mon_coeur.xpm
 WE textures/simple_tiles.xpm
-EA textures/wall.xpm
+SO textures/wall.xpm
 
 F 0,0,1
 C 225,30,0

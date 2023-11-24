@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/24 16:33:57 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:37:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "render_3D.h"
 #include "ressources_managers.h"
 #include <assert.h>
+
 
 t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
 {
@@ -424,10 +425,10 @@ void	game_render(t_cub *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 
-	t_img_data *img;
+	// t_img_data *img;
 
-	img = texture_get_frame(data->texture_manager.textures);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, img->mlx_img, 0,0);
+	// img = texture_get_frame(data->texture_manager.textures);
+	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, img->mlx_img, 0,0);
 }
 
 //-----------

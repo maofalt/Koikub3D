@@ -28,10 +28,15 @@ static inline void	draw_vertical_line(
 	double		y = 0;
 
 	double factor  =  (double)image->size.y / (double) (screen_bottom - screen_top);
-
 	while (screen_top + y < screen_bottom)
 	// while (y * factor < image->size.y)
 	{
+		if (y + screen_top >= canvas->size.y)
+			return;
+		if (img_x > canvas->size.x)
+			return;
+		if (y + screen_top < 0)
+			return;
 		offset = (screen_top + y) * canvas->size.x + screen_x;
 		offset_img = ((int)(factor * y) * image->size.x) + img_x;
 		canvas->pixels[offset].d = img[offset_img];

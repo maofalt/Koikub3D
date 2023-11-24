@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/24 22:37:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:50:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,8 +376,10 @@ void	render_sector(
 		}
 		else
 		{
-			draw_solid_wall(render, (t_segment_d *)seg_lst->content,
+			draw_wall_texture(render, (t_segment_d *)seg_lst->content,
 				item_queue->left, item_queue->right);
+			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
+			// 	item_queue->left, item_queue->right);
 		}
 		seg_lst = seg_lst->next;
 	}

@@ -40,3 +40,20 @@ void	ft_movements_keys(int keysym, t_cub *data)
 		printf("W_KEY pressed\n");
 	data->update = 1;
 }
+
+int	ft_handle_keypress(int keysym, t_cub *data)
+{
+	t_event_handlers	event_handler;
+
+	if (!data->active_canvas)
+		return (0);
+	
+	ft_destroy_window_button(keysym, data);
+	//handle here global key events
+	event_handler = ((t_canvas *)(data->active_canvas))->info.event_handlers;
+	if (event_handler.on_keypress)
+		return (event_handler.on_keypress(keysym,
+				(void *)data->active_canvas,
+				data));
+	return (0);
+}

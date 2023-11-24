@@ -77,14 +77,18 @@ void			ft_destroy_window_button(int keysym, t_cub *data);
 void			ft_movements_keys(int keysym, t_cub *data);
 
 /*############################################################################*/
-/*                              DRAWING EVENTS                               */
+/*                              MAP EDITOR EVENTS                             */
 /*############################################################################*/
+int				map_canvas_handle_keypress(
+					int keysym,
+					void *self,
+					t_cub *data);
 int				ft_handle_zoom(int zoom_direction, t_cub *data);
 int				ft_handle_rotation(int keysim, t_cub *data);
 
 /*############################################################################*/
 /*                             CANVAS EVENTS                                  */
 /*############################################################################*/
-void	        *detect_clicked_canvas(t_cub *data, t_point2i click_position);
+void			*detect_clicked_canvas(t_cub *data, t_point2i click_position);
 
 #endif

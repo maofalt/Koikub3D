@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/11/18 19:15:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:32:51 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "game_loop.h"
 #include "map_to_edges.h"
 #include "bsp_builder.h"
+#include "ressources_managers.h"
 
 void	map_destroy(t_cub *data); //TODO remove this
 
@@ -83,18 +84,17 @@ void	map_destroy(t_cub *data)
 }
 
 
+
 int	init(t_cub *data)
 {
 	if (map_convert(data))
 		return (free_everything(*data), 1);
 	if (game_render_init(data))
 		return (free_everything(*data), 1);
+	if (texture_manager_init(data))
+		return (free_everything(*data), 1);
 	return (0);
 }
-
-
-
-
 
 int	main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 20:50:35 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:02:17 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int	ft_mlx_create_window_and_image(t_cub *data)
 	}
 	data->screen.addr = mlx_get_data_addr(data->screen.mlx_img,
 			&data->screen.bpp, &data->screen.line_len, &data->screen.endian);
-	data->screen.size = (t_vector_i){WINDOW_WIDTH, WINDOW_HEIGHT};
+	data->screen.size = (t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}};
 	return (0);
 }

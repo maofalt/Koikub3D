@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/23 13:35:49 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:33:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "bsp_builder.h"
 #include "maths_utils.h"
 #include "render_3D.h"
+#include "ressources_managers.h"
 #include <assert.h>
 
 t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
@@ -412,8 +413,8 @@ void	game_render(t_cub *data)
 {
 	t_canvas	*canvas;
 
+	texture_manager_update(&data->texture_manager);
 	canvas = data->game_data.game_view_render.canvas;
-
 	fill_canvas(
 		canvas,
 		(t_color){.d = 0x00000000});
@@ -422,6 +423,11 @@ void	game_render(t_cub *data)
 		canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
+
+	t_img_data *img;
+
+	img = texture_get_frame(data->texture_manager.textures);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, img->mlx_img, 0,0);
 }
 
 //-----------

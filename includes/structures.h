@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/22 19:11:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:43:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTURES_H
 
 # include <stdint.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include "libft.h"
 # include "get_next_line.h"
@@ -94,7 +95,7 @@ typedef struct s_img_data
 	int			bpp;
 	int			line_len;
 	int			endian;
-	t_vector_i	size;
+	t_point2i	size;
 }	t_img_data;
 
 /* Parsing structure for CUB3D stocking information from .cub file
@@ -230,8 +231,8 @@ typedef struct s_circular_queue
 typedef struct s_3d_render
 {
 	t_canvas			*canvas;
-	double					*top_array;
-	double					*bottom_array;
+	double				*top_array;
+	double				*bottom_array;
 	t_circular_queue	*queue;
 	t_camera			*camera;
 	t_map_data			*map;
@@ -250,6 +251,30 @@ typedef struct s_game_data
 	t_3d_render		game_view_render;
 	t_map_data		map_data;
 }	t_game_data;
+
+
+typedef struct s_texture
+{
+	t_img_data	**frames;
+	bool		is_animated;
+	int			frame_count;
+	int			current_frame;
+	size_t		ms_per_frame;
+	size_t		current_time;
+}	t_texture;
+
+typedef struct s_texture_ptr
+{
+	int			offset;
+	t_texture	*texture;
+}	t_texture_ptr;
+
+
+typedef struct s_texture_manager
+{
+	t_texture	textures[32]; //TODO maybe malloc
+	int			texture_count;
+	}	t_texture_manager;
 
 typedef struct s_cub
 {
@@ -270,6 +295,7 @@ typedef struct s_cub
 	int					is_drawing;
 	t_list				*canvas_list;
 	t_game_data			game_data;
+	t_texture_manager	texture_manager;
 }				t_cub;
 
 typedef struct s_data
@@ -293,10 +319,12 @@ typedef enum e_segment_type
 	PORTAL
 }	t_segment_type;
 
+
 typedef struct s_wall_data
 {
-	int		size;
-	double	height;
+	int				size;
+	double			height;
+	t_texture_ptr	texture;
 }	t_wall_data;
 
 typedef struct s_portal_data
@@ -317,8 +345,8 @@ typedef struct s_segment_data
 {
 	t_segment_type		type;
 	t_wall_portal_data	data;
-	double		ceil;
-	double		floor;
+	double				ceil;
+	double				floor;
 }	t_segment_data;
 
 struct	s_segment_d

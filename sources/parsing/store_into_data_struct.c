@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   [7]store_into_data_struct.c                        :+:      :+:    :+:   */
+/*   store_into_data_struct.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 20:28:12 by motero            #+#    #+#             */
-/*   Updated: 2023/03/03 23:23:22 by motero           ###   ########.fr       */
+/*   Updated: 2023/11/23 14:01:29 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	textures_to_data(t_cub *data, char **textures)
 			data->texture[i].mlx_img = NULL;
 			return (0);
 		}
-		data->texture[i].size = (t_vector_i){width, height};
+		data->texture[i].size = (t_point2i){{width, height}};
 		data->texture[i].addr = mlx_get_data_addr(data->texture[i].mlx_img, \
 		&data->texture[i].bpp, &data->texture[i].line_len, \
 		&data->texture[i].endian);

@@ -46,12 +46,27 @@ static void	free_setup_canvas(t_setup_by_game_state *setup_cavas)
 	free(setup_cavas);
 }
 
+int	game_logic(t_cub *data, t_setup_by_game_state **setup_cavas)
+{
+	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
+	// 	ft_mlx_engine(&data);
+	data->game_state = MAP_EDITOR;
+	//data.game_state = MENU;
+	*setup_cavas = initialize_canvas_setups();
+	data->canvas_list = initialize_canvas_list(data->game_state, *setup_cavas);
+	if (data->canvas_list == NULL)
+		return (1);
+	if (mlx_loop_hook(data->mlx_ptr, &map_visualizer_draw, data))
+		ft_mlx_engine(data);
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cub					data;
-	t_setup_by_game_state	*setup_cavas;
+	t_setup_by_game_state	*setup_canvas;
 
-	setup_cavas = NULL;
+	setup_canvas = NULL;
 	if (argc != 2)
 		return (printf("Error\nToo many Arguments"), 1);
 	ft_memset(&data, 0, sizeof(t_cub));
@@ -61,16 +76,8 @@ int	main(int argc, char **argv)
 	data.update = NO_UPDATE;
 	if (!main_parsing(&data, argv[1]))
 		return (free_everything(data), 1);
-	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
-	// 	ft_mlx_engine(&data);
-	data.game_state = MAP_EDITOR;
-	//data.game_state = MENU;
-	setup_cavas = initialize_canvas_setups();
-	data.canvas_list = initialize_canvas_list(data.game_state, setup_cavas);
-	if (data.canvas_list == NULL)
-		return (free_everything(data), 1);
-	if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_draw, &data))
-		ft_mlx_engine(&data);
+	if (game_logic(&data, &setup_canvas))
+		printf("Error\nGame logic failed");
 	free_everything(data);
-	free_setup_canvas(setup_cavas);
+	free_setup_canvas(setup_canvas);
 }

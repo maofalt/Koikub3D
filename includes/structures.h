@@ -263,4 +263,11 @@ typedef struct s_cub
 	void					*active_canvas;
 }				t_cub;
 
+typedef struct s_event_handlers {
+	int	(*on_keypress)(int keysym, void *self, t_cub *data);
+	int	(*on_mouseclick)(t_point2i mouse_pos, void *self, t_cub *data);
+	int	(*on_mousemove)(t_point2i mouse_pos, void *self, t_cub *data);
+}	t_event_handlers;
+
+
 #endif

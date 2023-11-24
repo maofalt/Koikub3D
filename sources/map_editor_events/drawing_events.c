@@ -54,53 +54,51 @@ int	ft_handle_rotation(int keysim, t_cub *data)
 	return (0);
 }
 
+
+int	apply_matrix_transformation(t_canvas *map_canvas, int x, int y)
+{
+	t_matrix3x3	matrix_transformation;
+
+	matrix_transformation = translation_matrix((t_point2d){{x, y}});
+	map_canvas->transformation_matrix = matrix_multiply(
+			map_canvas->transformation_matrix, matrix_transformation);
+	return (push_matrix_op(&map_canvas->matrix_operations,
+			matrix_transformation));
+}
+
+int	process_key(int keysym, t_cub *data, int x, int y)
+{
+	t_canvas	*map_canvas;
+
+	printf("process key\n");
+	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	if (keysym == LEFT_KEY || keysym == RIGHT_KEY
+		|| keysym == UP_KEY || keysym == DOWN_KEY)
+	{
+		if (apply_matrix_transformation(map_canvas, x, y))
+			return (1);
+	}
+	return (0);
+}
+
 int	ft_handle_keypress(int keysym, t_cub *data)
 {
-	t_canvas		*map_canvas;
-	t_matrix3x3		matrix_transformation;
+	int		ret;
 
 	ft_destroy_window_button(keysym, data);
-	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	ret = 0;
 	if (keysym == LEFT_KEY)
-	{
-		matrix_transformation = translation_matrix((t_point2d){{5, 0}});
-		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix,matrix_transformation);
-		if (push_matrix_op(&map_canvas->matrix_operations,
-				matrix_transformation))
-			return (1);
-	}
+		ret += process_key(keysym, data, 5, 0);
 	if (keysym == RIGHT_KEY)
-	{
-		matrix_transformation = translation_matrix((t_point2d){{-5, 0}});
-		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(&map_canvas->matrix_operations,
-				matrix_transformation))
-			return (1);
-	}
+		ret += process_key(keysym, data, -5, 0);
 	if (keysym == UP_KEY)
-	{
-		matrix_transformation = translation_matrix((t_point2d){{0, 5}});
-		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(&map_canvas->matrix_operations,
-				matrix_transformation))
-			return (1);
-	}
+		ret += process_key(keysym, data, 0, 5);
 	if (keysym == DOWN_KEY)
-	{
-		matrix_transformation = translation_matrix((t_point2d){{0, -5}});
-		map_canvas->transformation_matrix = matrix_multiply(
-				map_canvas->transformation_matrix, matrix_transformation);
-		if (push_matrix_op(&map_canvas->matrix_operations,
-				matrix_transformation))
-			return (1);
-	}
+		ret += process_key(keysym, data, 0, -5);
 	if (keysym == A_KEY || keysym == D_KEY)
 		ft_handle_rotation(keysym, data);
 	data->update = FULL_REDRAW;
-	return (0);
+	return (ret);
 }
 
 int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)

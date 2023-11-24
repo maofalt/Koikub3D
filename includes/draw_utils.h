@@ -19,6 +19,7 @@
 # include "colors.h"
 # include "matrix.h"
 # include  "list_fonctions.h"
+# include "mlx_engine.h"
 
 # define MAP_CANVAS_SIZE_X 1920
 # define MAP_CANVAS_SIZE_Y 1072
@@ -116,14 +117,15 @@ typedef struct s_bounds {
 }	t_bounds;
 
 typedef struct s_canvas_init_entry {
-	t_canvas_type	type;
-	t_point2i		size;
-	t_point2i		position;
-	t_bounds		bounds;
-	bool			stack;
-	bool			is_dynamic;
-	int				z_index;
-	size_t			nbr_canvas;
+	t_canvas_type		type;
+	t_point2i			size;
+	t_point2i			position;
+	t_bounds			bounds;
+	bool				stack;
+	bool				is_dynamic;
+	int					z_index;
+	size_t				nbr_canvas;
+	t_event_handlers	event_handlers;
 }	t_canvas_init_entry;
 
 typedef struct s_canvas {

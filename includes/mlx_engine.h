@@ -83,7 +83,15 @@ int				map_canvas_handle_keypress(
 					int keysym,
 					void *self,
 					t_cub *data);
-int				ft_handle_zoom(int zoom_direction, t_cub *data);
+int				map_canvas_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
+int				map_canvas_handle_zoom(
+					int zoom_direction,
+					void *map_canvas,
+					t_cub *data);
 int				ft_handle_rotation(int keysim, t_cub *data);
 
 /*############################################################################*/

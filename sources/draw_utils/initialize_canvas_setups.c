@@ -23,11 +23,15 @@ const t_canvas_init_entry	g_canvas_init_table[]
 	.z_index = MAP_Z_INDEX,
 	.event_handlers = {
 	.on_keypress = &map_canvas_handle_keypress,
+	.on_boutonpress = &map_canvas_handle_boutonpress,
 }
 },
 [1] = {
-	.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}}, .type = UI,
-	.z_index = UI_Z_INDEX, .position = (t_point2i){{0, 0}}, .stack = false
+	.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}},
+	.type = UI,
+	.z_index = UI_Z_INDEX,
+	.position = (t_point2i){{0, 0}},
+	.stack = false
 },
 [2] = {
 	.size = (t_point2i){{MAP_CANVAS_SIZE_X - UI_CANVAS_SIZE_X, 100}},
@@ -39,16 +43,16 @@ const t_canvas_init_entry	g_canvas_init_table[]
 [3] = {
 	.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 	.type = FINAL,
-	.z_index = -2, .position = (t_point2i){{0, 0}}
+	.z_index = -2,
+	.position = (t_point2i){{0, 0}}
 },
 [4] = {
 	.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
-	.type = FIN_TEMP, .z_index = -2,
+	.type = FIN_TEMP,
+	.z_index = -2,
 	.position = (t_point2i){{0, 0}}
 },
-[5] = {
-	.type = END_MARKER, .z_index = -99
-}
+[5] = {.type = END_MARKER, .z_index = -99}
 };
 
 t_setup_by_game_state	*initialize_canvas_setups(void)

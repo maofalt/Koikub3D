@@ -13,12 +13,15 @@
 #include "mlx_engine.h"
 #include "draw_utils.h"
 
-int	ft_handle_zoom(int zoom_direction, t_cub *data)
+int	map_canvas_handle_zoom(
+	int zoom_direction,
+	void *self,
+	t_cub *data)
 {
-	t_canvas		*map_canvas;
 	t_matrix3x3		scale;
+	t_canvas		*map_canvas;
 
-	map_canvas = get_canvas_from_list(data->canvas_list, MAP);
+	map_canvas = (t_canvas *)self;
 	if (zoom_direction == 1)
 	{
 		scale = scaling_matrix((t_point2d){{1.05, 1.05}});
@@ -36,13 +39,15 @@ int	ft_handle_zoom(int zoom_direction, t_cub *data)
 	return (0);
 }
 
-int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
+int	map_canvas_handle_boutonpress(
+	int buttonsym,
+	t_point2i mouse_pos,
+	void *self,
+	t_cub *data)
 {
-	data->mouse_pos = (t_point2i){{x, y}};
+	(void)mouse_pos;
 	if (buttonsym == 1)
 	{
-		data->active_canvas = 
-			(t_canvas *)detect_clicked_canvas(data, data->mouse_pos);
 		data->drawing = NOT_DRAWING;
 		data->update |= LINE_REDRAW;
 		data->update &= ~NO_UPDATE;
@@ -53,8 +58,8 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 		data->update |= LINE_REDRAW;
 	}
 	if (buttonsym == 4)
-		ft_handle_zoom(1, data);
+		map_canvas_handle_zoom(1, self,  data);
 	if (buttonsym == 5)
-		ft_handle_zoom(-1, data);
+		map_canvas_handle_zoom(-1, self,  data);
 	return (0);
 }

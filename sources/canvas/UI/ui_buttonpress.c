@@ -22,13 +22,10 @@ int	menu_to_edit_map_handle_boutonpress(
 {
 	(void)mouse_pos;
 	(void)self;
-	printf("menu_to_edit_map_handle_boutonpress\n");
 	if (buttonsym == 1)
 	{
-		printf("trying to change game state\n");
 		data->game_state = MAP_EDITOR;
 		data->update = UPDATE;
-		free_canvas_list(data->canvas_list);
 		data->canvas_list = initialize_canvas_list(data->game_state,
 			((t_setup_by_game_state *)data->setup_canvas));
 	}

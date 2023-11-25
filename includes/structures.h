@@ -261,6 +261,7 @@ typedef struct s_cub
 	t_list					*canvas_list;
 	void					*active_canvas;
 	void					*setup_canvas;
+	t_list					*segments_list;
 }				t_cub;
 
 typedef struct s_event_handlers {

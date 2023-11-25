@@ -34,11 +34,16 @@ int	apply_matrix_transformation(t_canvas *map_canvas, int x, int y)
 {
 	t_matrix3x3	matrix_transformation;
 
+	printf("apply_matrix_transformation for trasnlation\n");
 	matrix_transformation = translation_matrix((t_point2d){{x, y}});
+	if (push_matrix_op(&map_canvas->matrix_operations,
+			matrix_transformation))
+		return (1);
+	printf("\tSuccesfully pushed matrix_transformation\n");
 	map_canvas->transformation_matrix = matrix_multiply(
 			map_canvas->transformation_matrix, matrix_transformation);
-	return (push_matrix_op(&map_canvas->matrix_operations,
-			matrix_transformation));
+	printf("Successfully applied matrix_transformation\n");
+	return (0);
 }
 
 int	process_key(int keysym, t_point2i pos, t_canvas *map_canvas)

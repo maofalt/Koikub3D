@@ -12,6 +12,7 @@
 
 #include "mlx_engine.h"
 #include "draw_utils.h"
+#include "map_to_edges.h"
 
 static void	handle_line_redraw(t_cub *data)
 {
@@ -42,6 +43,18 @@ static void	handle_line_redraw(t_cub *data)
 
 int	map_editor_render(void *self, t_cub *data)
 {
+	t_canvas	*map_editor = (t_canvas *)self;
+	//printf("map_editor_render\n");
+	if (map_editor->segments == NULL)
+	{
+		printf("exctract edge\n");
+		extract_edge_recursively(data->map, &map_editor->segments);
+		//scale = scaling_matrix((t_point2d){{1., 1.05}});
+		//apply_matrix_transformation(map_editor, -1000, 0);
+		//copy_canvas_to_temp(data->canvas_list);
+		data->update |= FULL_REDRAW;
+		//data->update |= LINE_REDRAW;
+	}
 	if (data->update & LINE_REDRAW)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)

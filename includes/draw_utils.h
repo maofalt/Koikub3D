@@ -207,6 +207,14 @@ void						update_drawing(t_canvas *canvas,
 void						end_drawing(t_canvas *canvas,
 								t_point2i end_point,
 								t_color color);
+int							process_key(
+								int keysym,
+								t_point2i pos,
+								t_canvas *map_canvas);
+int							apply_matrix_transformation(
+								t_canvas *map_canvas,
+								int x,
+								int y);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */

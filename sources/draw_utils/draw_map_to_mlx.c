@@ -40,26 +40,25 @@ int	render(t_cub *data)
 {
 	t_canvas	*final_canvas;
 
-	printf("render\n");
+	//printf("render\n");
 	if (data->win_ptr == NULL)
 		return (1);
-	printf("\t looking for final canvas\n");
+	//printf("\t checking if needd to update\n");
+	if (data->update == NO_UPDATE)
+		return (0);
+	//printf("\t looking for final canvas\n");
 	final_canvas = get_canvas_from_list(data->canvas_list, FINAL);
 	if (!final_canvas)
 		return (1);
-	printf("\t final canvas found\n");
-	if (data->update == NO_UPDATE)
-		return (0);
-	//cycle thorugh alll canvas to render
-	printf("\t updating each canvas\n");
+	//cycle thorugh all canvas to render
+	//printf("\t updating each canvas\n");
 	apply_to_canvas(data, render_base);
-	printf("\t updating each canvas done\nmerging canvas");
+	//printf("\t updating each canvas done\nmerging canvas");
 	merge_canvases(&data->canvas_list);
 	canvas_to_mlx_image(data->screen, final_canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	usleep(10);
-	//data->update = NO_UPDATE;
 	return (0);
 }
 

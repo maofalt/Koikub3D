@@ -12,55 +12,46 @@
 
 #include "draw_utils.h"
 
-static void	handle_line_redraw(t_cub *data)
+/*
+	Method that will cycle through all canvases of the data->canvas_list
+	and apply pointer to function of each canvas.
+	Only for canvas with the type UI, MAP, GAME
+*/
+int	apply_to_canvas(t_cub *data, t_canvas_func canvas_func)
 {
-	const t_point2i	mouse_pos = data->mouse_pos;
-	t_canvas		*canvas;
+	t_list		*current_canvas;
+	t_canvas	*canvas;
 
-	canvas = get_canvas_from_list(data->canvas_list, MAP);
-	if (data->drawing == NOT_DRAWING)
+	current_canvas = data->canvas_list;
+	while (current_canvas)
 	{
-		start_drawing(canvas, (t_point2i)mouse_pos);
-		copy_canvas_to_temp(data->canvas_list);
-		data->drawing = DRAWING;
+		canvas = (t_canvas *)current_canvas->content;
+		if (canvas->type == UI || canvas->type == MAP || canvas->type == GAME)
+		{
+			if (canvas_func != NULL)
+				canvas_func(canvas, data);
+		}
+		current_canvas = current_canvas->next;
 	}
-	else if (data->drawing & END_DRAWING)
-	{
-		end_drawing(canvas, mouse_pos, (t_color){{255, 255, 255, 255}});
-		redraw_scene(data, canvas);
-		data->drawing = NOT_DRAWING;
-		data->update &= ~LINE_REDRAW;
-		copy_canvas_to_temp(data->canvas_list);
-	}
-	else if (data->drawing == DRAWING)
-	{
-		copy_temp_to_canvas(data->canvas_list);
-		update_drawing(canvas, mouse_pos, (t_color){{255, 255, 255, 255}});
-	}
+	return (0);
 }
 
-int	map_visualizer_draw(t_cub *data)
+int	render(t_cub *data)
 {
+	t_canvas	*final_canvas;
+
 	if (data->win_ptr == NULL)
+		return (1);
+	final_canvas = get_canvas_from_list(data->canvas_list, FINAL);
+	if (!final_canvas)
 		return (1);
 	if (data->update == NO_UPDATE)
 		return (0);
-	if (data->update & LINE_REDRAW)
-		handle_line_redraw(data);
-	if (data->update & FULL_REDRAW)
-	{
-		redraw_scene(data, get_canvas_from_list(data->canvas_list, FIN_TEMP));
-		redraw_scene(data, get_canvas_from_list(data->canvas_list, MAP));
-		data->update = NO_UPDATE;
-	}
-	//canvas_to_mlx_image(data->screen,
-		//get_canvas_from_list(data->canvas_list, MAP));
-	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-	//	data->screen.mlx_img, 0, 0);
-	//merge canvases
+
+	//cycle thorugh alll canvas to render
+	apply_to_canvas(data, render_base);
 	merge_canvases(&data->canvas_list);
-	canvas_to_mlx_image(data->screen,
-		get_canvas_from_list(data->canvas_list, FINAL));
+	canvas_to_mlx_image(data->screen, final_canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	usleep(10);

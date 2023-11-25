@@ -12,7 +12,7 @@
 
 #include "mlx_engine.h"
 
-int	ft_handle_rotation(int keysim, t_cub *data)
+int	map_editor_handle_rotation(int keysim, t_cub *data)
 {
 	const double	angle = 3.14159265 / 128.0;
 	t_matrix3x3		rotation;
@@ -68,7 +68,7 @@ int	map_canvas_handle_keypress(int keysym, void *self, t_cub *data)
 	if (keysym == DOWN_KEY)
 		ret += process_key(keysym, (t_point2i){{0, -5}}, map_canvas);
 	if (keysym == A_KEY || keysym == D_KEY)
-		ft_handle_rotation(keysym, data);
+		map_editor_handle_rotation(keysym, data);
 	data->update = FULL_REDRAW;
 	return (ret);
 }

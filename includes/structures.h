@@ -69,7 +69,7 @@ typedef struct s_img_data
 typedef union u_color
 {
 	t_vector_color	rgb_color;
-	u_int32_t        d;
+	u_int32_t		d;
 	struct
 	{
 		u_int8_t	a;
@@ -122,7 +122,6 @@ typedef enum e_update_type
 	NO_UPDATE = 4
 }	t_update_type;
 
-
 typedef enum e_modus_state
 {
 	MENU,
@@ -130,7 +129,6 @@ typedef enum e_modus_state
 	GAMEPLAY,
 	END_GAME_STATE
 }	t_modus_state;
-
 
 typedef struct s_data
 {
@@ -268,7 +266,9 @@ typedef struct s_event_handlers {
 	int	(*on_boutonpress)(int keysym, t_point2i mouse_pos,
 			void *self, t_cub *data);
 	int	(*on_mousemove)(t_point2i mouse_pos, void *self, t_cub *data);
+	int	(*render)(void *self, t_cub *data);
 }	t_event_handlers;
 
+typedef int				(*t_canvas_func)(void *, t_cub *);
 
 #endif

@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   general_events.c                                   :+:      :+:    :+:   */
+/*   layers_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 21:35:09 by motero           ###   ########.fr       */
+/*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
+/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx_engine.h"
 #include "draw_utils.h"
 
+int	render_base(void *self, t_cub *data)
+{
+	t_canvas	*canvas;
 
-
-
+	(void)data;
+	canvas = (t_canvas *)self;
+	if (canvas && canvas->info.event_handlers.render)
+		return (canvas->info.event_handlers.render(self, data));
+	return (-1);
+}

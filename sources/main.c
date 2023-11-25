@@ -51,12 +51,11 @@ int	game_logic(t_cub *data, t_setup_by_game_state **setup_cavas)
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
 	// 	ft_mlx_engine(&data);
 	data->game_state = MAP_EDITOR;
-	//data.game_state = MENU;
 	*setup_cavas = initialize_canvas_setups();
 	data->canvas_list = initialize_canvas_list(data->game_state, *setup_cavas);
 	if (data->canvas_list == NULL)
 		return (1);
-	if (mlx_loop_hook(data->mlx_ptr, &map_visualizer_draw, data))
+	if (mlx_loop_hook(data->mlx_ptr, &render, data))
 		ft_mlx_engine(data);
 	return (0);
 }

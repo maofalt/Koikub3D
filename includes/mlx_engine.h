@@ -92,7 +92,8 @@ int				map_canvas_handle_zoom(
 					int zoom_direction,
 					void *map_canvas,
 					t_cub *data);
-int				ft_handle_rotation(int keysim, t_cub *data);
+int				map_editor_render(void *self, t_cub *data);
+int				map_editor_handle_rotation(int keysim, t_cub *data);
 
 /*############################################################################*/
 /*                             CANVAS EVENTS                                  */

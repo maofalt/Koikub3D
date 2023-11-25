@@ -24,6 +24,7 @@ const t_canvas_init_entry	g_canvas_init_table[]
 	.event_handlers = {
 	.on_keypress = &map_canvas_handle_keypress,
 	.on_boutonpress = &map_canvas_handle_boutonpress,
+	.render = &map_editor_render
 }
 },
 [1] = {

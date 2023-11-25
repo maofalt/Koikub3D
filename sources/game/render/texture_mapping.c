@@ -16,7 +16,7 @@ int project_wall(t_3d_render *render,
 static inline void	draw_vertical_line(
 			t_canvas *canvas,
 			t_img_data	*image,
-			const int 	img_x,
+			int 	img_x,
 			int 		screen_x,
 			int 		screen_top,
 			const int	screen_bottom
@@ -27,7 +27,9 @@ static inline void	draw_vertical_line(
 	int			offset_img;
 	double		y = 0;
 
+	img_x = img_x % image->size.x;
 	double factor  =  (double)image->size.y / (double) (screen_bottom - screen_top);
+	y = fmax(-screen_top, y);
 	while (screen_top + y < screen_bottom)
 	// while (y * factor < image->size.y)
 	{
@@ -35,10 +37,10 @@ static inline void	draw_vertical_line(
 			return;
 		if (img_x > canvas->size.x)
 			return;
-		if (y + screen_top < 0)
-			return;
+		// if (y + screen_top < 0)
+		// 	return;
 		offset = (screen_top + y) * canvas->size.x + screen_x;
-		offset_img = ((int)(factor * y) * image->size.x) + img_x;
+		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
 		canvas->pixels[offset].d = img[offset_img];
 		++y;
 	}
@@ -69,12 +71,24 @@ void	draw_wall_texture(
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
 	double x = 0;
 
+	// double wall_size = (right - left);
+
+	// wall_size = fmin(texture_get_frame(wall->data.data.wall.texture.texture)->size.x, wall_size);
+
+	// wall_size = (double)((int)wall_size % (int)texture_get_frame(wall->data.data.wall.texture.texture)->size.x);
+	// sqrt(
+	// pow(((double)wall->point_a.x - (double)wall->point_b.x), 2)+
+	// pow(((double)wall->point_a.y - (double)wall->point_b.y), 2));
+	double factor  =  texture_get_frame(wall->data.data.wall.texture.texture)->size.y / fmin((projected_bot.point_a.y - projected_top.point_a.y), (projected_bot.point_b.y - projected_top.point_b.y));
+	// factor = fmax(factor, 1);
+	// factor /;
+	printf("factors :%f, bot:%f, top:%f \n", factor, projected_bot.point_a.y, projected_top.point_a.y);
 	while (left + x < right)
 	{
 		// draw_solid_wall_line(render->canvas, x, projected_top.point_a.y,
 		// 	projected_bot.point_a.y);
 		draw_vertical_line(render->canvas,
-			texture_get_frame(wall->data.data.wall.texture.texture), x,
+			texture_get_frame(wall->data.data.wall.texture.texture), x * factor,
 				left + x ,projected_top.point_a.y, projected_bot.point_a.y);
 
 		projected_top.point_a.y += coef_top;

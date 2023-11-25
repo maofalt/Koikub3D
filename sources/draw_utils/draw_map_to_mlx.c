@@ -47,7 +47,6 @@ int	render(t_cub *data)
 		return (1);
 	if (data->update == NO_UPDATE)
 		return (0);
-
 	//cycle thorugh alll canvas to render
 	apply_to_canvas(data, render_base);
 	merge_canvases(&data->canvas_list);
@@ -55,6 +54,7 @@ int	render(t_cub *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
 	usleep(10);
+	data->update = NO_UPDATE;
 	return (0);
 }
 

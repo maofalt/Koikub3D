@@ -37,8 +37,7 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 [3] = {.type = END_MARKER, .z_index = 0}
 };
 
-
-const t_canvas_init_entry	g_canvas_init_table3[]
+const t_canvas_init_entry	g_canvas_init_table_main_menu[]
 	= {
 [0] = {
 	.type = GAME,
@@ -58,7 +57,7 @@ const t_canvas_init_entry	g_canvas_init_table3[]
 	.stack = false,
 	.event_handlers = {
 	.on_keypress = NULL,
-	.on_boutonpress = NULL,
+	.on_boutonpress = &menu_to_edit_map_handle_boutonpress,
 	.render = NULL}},
 [2] = {
 	.type = UI,
@@ -116,7 +115,8 @@ int	initialize_gameplay_setup(t_setup_by_game_state *setup)
 
 static void	init_menu_table(t_canvas_init_entry *table)
 {
-	ft_memcpy(table, g_canvas_init_table3, sizeof(g_canvas_init_table3));
+	ft_memcpy(table, g_canvas_init_table_main_menu,
+		sizeof(g_canvas_init_table_main_menu));
 }
 
 int	initialize_menu_setup(t_setup_by_game_state *setup)

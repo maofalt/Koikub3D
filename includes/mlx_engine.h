@@ -96,6 +96,14 @@ int				map_editor_render(void *self, t_cub *data);
 int				map_editor_handle_rotation(int keysim, t_cub *data);
 
 /*############################################################################*/
+/*                             MAIN MENU EVENTS                               */
+/*############################################################################*/
+int				menu_to_edit_map_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
+/*############################################################################*/
 /*                             CANVAS EVENTS                                  */
 /*############################################################################*/
 void			*detect_clicked_canvas(t_cub *data, t_point2i click_position);

@@ -14,6 +14,7 @@
 
 void	ft_mlx_engine(t_cub *data)
 {
+	printf("ft_mlx_engine\n");
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &ft_handle_keypress, data);
 	mlx_hook(data->win_ptr, ButtonPress, ButtonPressMask,
 		&ft_handle_boutonpress, data);

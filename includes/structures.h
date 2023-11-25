@@ -238,6 +238,7 @@ typedef struct s_tree_node
 	void				*data;
 }	t_tree_node;
 
+
 typedef struct s_cub
 {
 	t_img_data				texture[4];
@@ -259,6 +260,7 @@ typedef struct s_cub
 	t_modus_state			game_state;
 	t_list					*canvas_list;
 	void					*active_canvas;
+	void					*setup_canvas;
 }				t_cub;
 
 typedef struct s_event_handlers {

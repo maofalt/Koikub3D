@@ -66,16 +66,20 @@ static void printfallsegments(t_list *current_segment)
 int	map_editor_render(void *self, t_cub *data)
 {
 	t_canvas	*map_editor = (t_canvas *)self;
+	t_matrix3x3	scale;
+	(void)scale;
 	//printf("map_editor_render\n");
 	if (map_editor->segments == NULL)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		//scale = scaling_matrix((t_point2d){{1., 1.05}});
 		apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
-		//copy_canvas_to_temp(data->canvas_list);
+		scale = scaling_matrix((t_point2d){{0.5, 0.5}});
+		map_editor->transformation_matrix
+			= matrix_multiply(map_editor->transformation_matrix, scale);
+		if (push_matrix_op(&map_editor->matrix_operations, scale))
+			return (1);
 		data->update |= FULL_REDRAW;
-		//data->update |= LINE_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)
 		handle_line_redraw(data);

@@ -135,6 +135,7 @@ void	update_context(t_edge_exploration_context *context, t_vector4d coord,
 
 	ft_memset(&data, 0, sizeof(t_segment_data));
 	context->coord = coord;
+	context->coord.z = 1;
 	context->delta = delta;
 	context->segment = (t_segment_d){context->coord, context->coord, data};
 	context->direction = dir;

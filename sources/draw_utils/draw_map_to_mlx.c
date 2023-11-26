@@ -76,9 +76,14 @@ void	redraw_scene(t_cub *data, t_canvas *canvas)
 	color = (t_color){{255, 255, 255, 255}};
 	invert_matrix
 		= get_inverse_transformation_matrix(canvas->transformation_matrix);
+	printf("Segments to be redrawn\n");
+	int i = 0;
 	while (current_segment)
 	{
 		segment = *(t_segment_d *)current_segment->content;
+		printf("SEGMENTS  %d\n", i++);
+		printf("\tstart: [%f, %f]", segment.point_a.x, segment.point_a.y);
+		printf(" \tend: [%f, %f]\n", segment.point_b.x, segment.point_b.y);
 		draw_line_on_map(canvas,
 			back_transform_point_by_matrix(segment.point_a, invert_matrix),
 			back_transform_point_by_matrix(segment.point_b, invert_matrix),

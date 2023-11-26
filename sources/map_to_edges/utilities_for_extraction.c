@@ -84,3 +84,4 @@ void	free2DArray(t_direction **array)
 	}
 	free(array);
 }
+

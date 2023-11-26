@@ -59,9 +59,9 @@ t_point2i	back_transform_point_by_matrix(t_vector4d point, t_matrix3x3 matrix)
 
 	result.x = round(matrix.row[0].x * point.x
 			+ matrix.row[0].y * point.y
-			+ matrix.row[0].z *1);
+			+ matrix.row[0].z * point.z);
 	result.y = round(matrix.row[1].x * point.x
 			+ matrix.row[1].y * point.y
-			+ matrix.row[1].z * 1);
+			+ matrix.row[1].z * point.z);
 	return (result);
 }

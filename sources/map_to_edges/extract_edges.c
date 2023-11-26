@@ -55,7 +55,6 @@ int	extract_edge_recursively(char **map, t_list **edges)
 	if (process_map(&context, edges, height_map, width_map))
 		return (1);
 	free2DArray(context.visited);
-	printf("extracted_edge_recursively done!\n");
 	return (0);
 }
 

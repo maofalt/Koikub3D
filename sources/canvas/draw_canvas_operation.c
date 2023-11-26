@@ -50,7 +50,7 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&canvas->segments, segment);
-	printf("NEW SEGMENT added\n");
-	printf("\tstart: [%f, %f]", segment.point_a.x, segment.point_a.y);
-	printf(" \tend: [%f, %f]", segment.point_b.x, segment.point_b.y);
+	//printf("NEW SEGMENT added\n");
+	//printf("\tstart: [%f, %f]", segment.point_a.x, segment.point_a.y);
+	//printf(" \tend: [%f, %f]", segment.point_b.x, segment.point_b.y);
 }

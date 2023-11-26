@@ -57,6 +57,7 @@ int	game_logic(t_cub *data, t_setup_by_game_state **setup_cavas)
 	data->canvas_list = initialize_canvas_list(data->game_state, *setup_cavas);
 	if (data->canvas_list == NULL)
 		return (1);
+	data->active_canvas = data->canvas_list;
 	if (mlx_loop_hook(data->mlx_ptr, &render, data))
 		ft_mlx_engine(data);
 	return (0);

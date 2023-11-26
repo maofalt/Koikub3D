@@ -26,8 +26,14 @@ int	menu_to_edit_map_handle_boutonpress(
 	{
 		data->game_state = MAP_EDITOR;
 		data->update = UPDATE;
+		//printf("old active canvas: %p\n", data->active_canvas);
+		//printf(("old canvas_list head: %p\n"), data->canvas_list);
+		free_canvas_list(data->canvas_list);
 		data->canvas_list = initialize_canvas_list(data->game_state,
 			((t_setup_by_game_state *)data->setup_canvas));
+		//printf("new canvas_list head: %p\n", data->canvas_list);
+		data->active_canvas = get_canvas_from_list(data->canvas_list, MAP);
+		//printf("new active canvas: %p\n", data->active_canvas);
 	}
 	return (0);
 }

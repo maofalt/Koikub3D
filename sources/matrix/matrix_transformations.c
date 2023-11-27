@@ -47,16 +47,6 @@ t_matrix3x3	translation_matrix(t_point2d translation)
 	return (trans);
 }
 
-// t_matrix3x3	translation_matrix(t_point2d translation)
-// {
-// 	t_matrix3x3	trans;
-
-// 	(void)translation;
-// 	trans.row[0].vec = (t_v4d){0.8, 0, 0, 0};
-// 	trans.row[1].vec = (t_v4d){0, 0.8, 0, 0};
-// 	trans.row[2].vec = (t_v4d){0, 0, 1, 0};
-// 	return (trans);
-// }
 
 int	push_matrix_op(t_list **matrix_op, t_matrix3x3 matrix)
 {

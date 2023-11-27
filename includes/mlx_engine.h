@@ -15,7 +15,7 @@
 
 # include "cub3D.h"
 # include "mlx.h"
-# include "structures.h"
+//# include "structures.h"
 # include "draw_utils.h"
 
 /*############################################################################*/

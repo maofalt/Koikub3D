@@ -30,25 +30,13 @@ int	map_editor_handle_rotation(int keysim, t_cub *data)
 	return (0);
 }
 
-int	apply_matrix_transformation(t_canvas *map_canvas, int x, int y)
-{
-	t_matrix3x3	matrix_transformation;
-
-	matrix_transformation = translation_matrix((t_point2d){{x, y}});
-	if (push_matrix_op(&map_canvas->matrix_operations,
-			matrix_transformation))
-		return (1);
-	map_canvas->transformation_matrix = matrix_multiply(
-			map_canvas->transformation_matrix, matrix_transformation);
-	return (0);
-}
-
 int	process_key(int keysym, t_point2i pos, t_canvas *map_canvas)
 {
 	if (keysym == LEFT_KEY || keysym == RIGHT_KEY
 		|| keysym == UP_KEY || keysym == DOWN_KEY)
 	{
-		if (apply_matrix_transformation(map_canvas, pos.x, pos.y))
+		if (apply_matrix_transformation(map_canvas,
+				translation_matrix((t_point2d){{pos.x, pos.y}})))
 			return (1);
 	}
 	return (0);

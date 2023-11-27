@@ -72,7 +72,9 @@ int	map_editor_render(void *self, t_cub *data)
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
 		//scale = scaling_matrix((t_point2d){{1., 1.05}});
-		apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
+		//apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
+		apply_matrix_transformation(map_editor, translation_matrix((t_point2d){{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}}));
+		
 		//copy_canvas_to_temp(data->canvas_list);
 		data->update |= FULL_REDRAW;
 		//data->update |= LINE_REDRAW;

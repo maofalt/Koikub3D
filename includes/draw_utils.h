@@ -212,9 +212,8 @@ int							process_key(
 								t_point2i pos,
 								t_canvas *map_canvas);
 int							apply_matrix_transformation(
-								t_canvas *map_canvas,
-								int x,
-								int y);
+								t_canvas *canvas,
+								t_matrix3x3 matrix);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */

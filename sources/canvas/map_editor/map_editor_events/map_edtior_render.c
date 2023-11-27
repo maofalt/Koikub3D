@@ -73,12 +73,16 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
-		scale = scaling_matrix((t_point2d){{0.5, 0.5}});
-		map_editor->transformation_matrix
-			= matrix_multiply(map_editor->transformation_matrix, scale);
-		if (push_matrix_op(&map_editor->matrix_operations, scale))
-			return (1);
+
+		//apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
+		apply_matrix_transformation(map_editor,
+			translation_matrix((t_point2d)
+			{{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}}));
+		//scale = scaling_matrix((t_point2d){{0.5, 0.5}});
+		// map_editor->transformation_matrix
+		// 	= matrix_multiply(map_editor->transformation_matrix, scale);
+		// if (push_matrix_op(&map_editor->matrix_operations, scale))
+		// 	return (1);
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)

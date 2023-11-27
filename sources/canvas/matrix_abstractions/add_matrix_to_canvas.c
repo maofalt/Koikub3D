@@ -29,16 +29,14 @@ int	apply_zoom_at_position(t_canvas *canvas, double zoom, t_point2i pos)
 	t_matrix3x3	zoom_matrix;
 	t_matrix3x3	translation_back;
 
-	(void)zoom;
 	translation = translation_matrix((t_point2d){{pos.x, pos.y}});
-	// if (apply_matrix_transformation(canvas, translation))
-	// 	return (1);
+	if (apply_matrix_transformation(canvas, translation))
+		return (1);
 	zoom_matrix = scaling_matrix((t_point2d){{zoom, zoom}});
 	if (apply_matrix_transformation(canvas, zoom_matrix))
 		return (1);
 	translation_back = translation_matrix((t_point2d){{-pos.x, -pos.y}});
-	// if (apply_matrix_transformation(canvas, translation_back))
-	// 	return (1);
-	printf("Everything went well\n");
+	if (apply_matrix_transformation(canvas, translation_back))
+		return (1);
 	return (0);
 }

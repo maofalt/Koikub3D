@@ -73,8 +73,8 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		apply_zoom_at_position(map_editor, 0.07,
-			(t_point2i){{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}});
+		apply_zoom_at_position(map_editor, 0.050,
+			(t_point2i){{1, 1}});
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)

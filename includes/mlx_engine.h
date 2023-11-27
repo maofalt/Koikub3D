@@ -91,9 +91,11 @@ int				map_canvas_handle_boutonpress(
 int				map_canvas_handle_zoom(
 					int zoom_direction,
 					void *map_canvas,
-					t_cub *data);
+					t_cub *data,
+					t_point2i mouse_pos);
 int				map_editor_render(void *self, t_cub *data);
-int				map_editor_handle_rotation(int keysim, t_cub *data);
+int				map_editor_handle_rotation(int keysim, t_cub *data,
+					void *map_canvas);
 
 /*############################################################################*/
 /*                             MAIN MENU EVENTS                               */

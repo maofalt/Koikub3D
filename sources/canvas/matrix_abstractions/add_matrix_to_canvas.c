@@ -14,13 +14,10 @@
 
 int	apply_matrix_transformation(t_canvas *canvas, t_matrix3x3 matrix)
 {
-	printf("apply_matrix_transformation\n");
 	if (push_matrix_op(&canvas->matrix_operations,
 			matrix))
 		return (1);
-	printf("Matrix applied and pushed\n");
 	canvas->transformation_matrix = matrix_multiply(
 			canvas->transformation_matrix, matrix);
-	printf("Matrix multiplied\n");
 	return (0);
 }

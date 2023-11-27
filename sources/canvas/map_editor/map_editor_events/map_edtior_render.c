@@ -73,8 +73,6 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-
-		//apply_matrix_transformation(map_editor, -WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2);
 		apply_matrix_transformation(map_editor,
 			translation_matrix((t_point2d)
 			{{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}}));

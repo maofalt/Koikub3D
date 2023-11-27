@@ -30,12 +30,14 @@ int	map_canvas_handle_zoom(
 	{
 		scale = scaling_matrix((t_point2d){{0.95, 0.95}});
 	}
-	data->update |= FULL_REDRAW;
-	map_canvas->transformation_matrix
-		= matrix_multiply(map_canvas->transformation_matrix, scale);
-	if (push_matrix_op(&map_canvas->matrix_operations,
-			scale))
+	// map_canvas->transformation_matrix
+	// 	= matrix_multiply(map_canvas->transformation_matrix, scale);
+	// if (push_matrix_op(&map_canvas->matrix_operations,
+	// 		scale))
+	//return (1);
+	if (apply_matrix_transformation(map_canvas, scale))
 		return (1);
+	data->update |= FULL_REDRAW;
 	return (0);
 }
 

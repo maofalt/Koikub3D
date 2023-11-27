@@ -211,9 +211,17 @@ int							process_key(
 								int keysym,
 								t_point2i pos,
 								t_canvas *map_canvas);
+
+/*############################################################################*/
+/*                              MATRIX ABSTRACTIONS                           */
+/*############################################################################*/
 int							apply_matrix_transformation(
 								t_canvas *canvas,
 								t_matrix3x3 matrix);
+int							apply_zoom_at_position(
+								t_canvas *canvas,
+								double zoom,
+								t_point2i pos);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */

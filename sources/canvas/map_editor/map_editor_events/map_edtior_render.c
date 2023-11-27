@@ -51,12 +51,12 @@ static void printfallsegments(t_list *current_segment)
 	    segment = (t_segment_d *)current_segment->content; // Cast the content to t_segment_d
 	    if (segment != NULL) // Check if segment is not NULL
 	    {
-			//printf("SEGMENTS  %d\n", i);
-			//printf("\tstart: [%f, %f]", segment->point_a.x, segment->point_a.y);
-	        //printf(" \tend: [%f, %f]", segment->point_b.x, segment->point_b.y);
+			printf("SEGMENTS  %d\n", i);
+			printf("\tstart: [%f, %f]", segment->point_a.x, segment->point_a.y);
+	        printf(" \tend: [%f, %f]", segment->point_b.x, segment->point_b.y);
 			//calcuallte length and print it
-			//printf("\tsize: %f\n", sqrt(pow(segment->point_b.x - segment->point_a.x, 2) + pow(segment->point_b.y - segment->point_a.y, 2)));
-	        // printf("size: %d\n", ...); // Size is not a property of t_segment_d based on your example
+			printf("\tsize: %f\n", sqrt(pow(segment->point_b.x - segment->point_a.x, 2) + pow(segment->point_b.y - segment->point_a.y, 2)));
+	      //  printf("size: %d\n", ...); // Size is not a property of t_segment_d based on your example
 	    }
 	    current_segment = current_segment->next; // Move to the next element in the list
 		i++;
@@ -73,14 +73,8 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		apply_matrix_transformation(map_editor,
-			translation_matrix((t_point2d)
-			{{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}}));
-		//scale = scaling_matrix((t_point2d){{0.5, 0.5}});
-		// map_editor->transformation_matrix
-		// 	= matrix_multiply(map_editor->transformation_matrix, scale);
-		// if (push_matrix_op(&map_editor->matrix_operations, scale))
-		// 	return (1);
+		apply_zoom_at_position(map_editor, 0.07,
+			(t_point2i){{-WINDOW_WIDTH / 2, -WINDOW_HEIGHT / 2}});
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)

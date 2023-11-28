@@ -13,6 +13,7 @@
 #include "mlx_engine.h"
 #include "draw_utils.h"
 #include "map_to_edges.h"
+#include "parsing.h"
 
 static void	handle_line_redraw(t_cub *data)
 {
@@ -51,11 +52,11 @@ static void printfallsegments(t_list *current_segment)
 	    segment = (t_segment_d *)current_segment->content; // Cast the content to t_segment_d
 	    if (segment != NULL) // Check if segment is not NULL
 	    {
-			printf("SEGMENTS  %d\n", i);
-			printf("\tstart: [%f, %f]", segment->point_a.x, segment->point_a.y);
-	        printf(" \tend: [%f, %f]", segment->point_b.x, segment->point_b.y);
+			// printf("SEGMENTS  %d\n", i);
+			// printf("\tstart: [%f, %f]", segment->point_a.x, segment->point_a.y);
+	        // printf(" \tend: [%f, %f]", segment->point_b.x, segment->point_b.y);
 			//calcuallte length and print it
-			printf("\tsize: %f\n", sqrt(pow(segment->point_b.x - segment->point_a.x, 2) + pow(segment->point_b.y - segment->point_a.y, 2)));
+			// printf("\tsize: %f\n", sqrt(pow(segment->point_b.x - segment->point_a.x, 2) + pow(segment->point_b.y - segment->point_a.y, 2)));
 	      //  printf("size: %d\n", ...); // Size is not a property of t_segment_d based on your example
 	    }
 	    current_segment = current_segment->next; // Move to the next element in the list
@@ -73,8 +74,24 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		apply_zoom_at_position(map_editor, 0.050,
-			(t_point2i){{1, 1}});
+		data->mapwidth = get_map_width(data->map);
+		printf("mapwidth: %ld\n", data->mapwidth);
+		data->mapheight = get_map_height(data->map);  
+		printf("mapheight: %ld\n", data->mapheight);
+		t_point2i		map_center = (t_point2i){{(data->mapwidth)/ 2, data->mapwidth / 2}};
+		(void)map_center;
+		t_point2i 		pos_to_center = (t_point2i){{(WINDOW_WIDTH / 2) - map_center.x, (WINDOW_HEIGHT / 2) -map_center.y}};
+		// double	scale_x =  (double)data->mapwidth / (double)WINDOW_WIDTH;
+		// double	scale_y =  (double)data->mapheight / (double)WINDOW_HEIGHT;
+		double scale_x = (double)WINDOW_WIDTH / data->mapwidth;
+		double scale_y = (double)WINDOW_HEIGHT / data->mapheight;
+		double	scale = scale_x < scale_y ? scale_x : scale_y;
+		printf("scale: %f\n", scale);
+		printf("inv scale : %f\n", 1 / scale);
+		apply_zoom_at_position(map_editor, 1,
+			pos_to_center);
+		apply_zoom_at_position(map_editor,(1 /scale) * 1.2,
+			(t_point2i){{0,0}});
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)

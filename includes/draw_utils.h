@@ -221,11 +221,11 @@ int							apply_matrix_transformation(
 int							apply_zoom_at_position(
 								t_canvas *canvas,
 								double zoom,
-								t_point2i pos);
+								t_point2d pos);
 int							apply_rotation_at_position(
 								t_canvas *canvas,
 								double angle,
-								t_point2i pos);
+								t_point2d pos);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */

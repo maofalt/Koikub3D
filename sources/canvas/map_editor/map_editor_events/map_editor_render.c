@@ -64,34 +64,42 @@ static void printfallsegments(t_list *current_segment)
 	}
 }
 
+//Autotcenter map in the screen 
+static int	auto_center_map(t_canvas *canvas, t_cub *data)
+{
+	t_point2d		map_center;
+	t_point2d		scaled_map_center;
+	t_point2d		scales;
+	double			scale;
+
+	data->mapwidth = get_map_width(data->map);
+	data->mapheight = get_map_height(data->map);
+	map_center = (t_point2d){{(data->mapwidth) / 2, data->mapheight / 2}};
+	scales = (t_point2d){{(double)WINDOW_WIDTH / data->mapwidth,
+		(double)WINDOW_HEIGHT / data->mapheight}};
+	scale = scales.y;
+	if (scales.x < scales.y)
+		scale = scales.x;
+	scaled_map_center = (t_point2d)
+	{{map_center.x - ((WINDOW_WIDTH / 2) / scale),
+		map_center.y - ((WINDOW_HEIGHT / 2) / scale)}};
+	if (apply_zoom_at_position(canvas, (1 / scale) * 1.0,
+			scaled_map_center))
+		return (1);
+	return (0);
+}
+
+
 int	map_editor_render(void *self, t_cub *data)
 {
-	t_canvas	*map_editor = (t_canvas *)self;
-	t_matrix3x3	scale;
-	(void)scale;
-	//printf("map_editor_render\n");
+	t_canvas	*map_editor;
+
+	map_editor = (t_canvas *)self;
 	if (map_editor->segments == NULL)
 	{
 		extract_edge_recursively(data->map, &map_editor->segments);
 		printfallsegments(map_editor->segments);
-		data->mapwidth = get_map_width(data->map);
-		printf("mapwidth: %ld\n", data->mapwidth);
-		data->mapheight = get_map_height(data->map);  
-		printf("mapheight: %ld\n", data->mapheight);
-		t_point2i		map_center = (t_point2i){{(data->mapwidth)/ 2, data->mapwidth / 2}};
-		(void)map_center;
-		t_point2i 		pos_to_center = (t_point2i){{(WINDOW_WIDTH / 2) - map_center.x, (WINDOW_HEIGHT / 2) -map_center.y}};
-		// double	scale_x =  (double)data->mapwidth / (double)WINDOW_WIDTH;
-		// double	scale_y =  (double)data->mapheight / (double)WINDOW_HEIGHT;
-		double scale_x = (double)WINDOW_WIDTH / data->mapwidth;
-		double scale_y = (double)WINDOW_HEIGHT / data->mapheight;
-		double	scale = scale_x < scale_y ? scale_x : scale_y;
-		printf("scale: %f\n", scale);
-		printf("inv scale : %f\n", 1 / scale);
-		apply_zoom_at_position(map_editor, 1,
-			pos_to_center);
-		apply_zoom_at_position(map_editor,(1 /scale) * 1.2,
-			(t_point2i){{0,0}});
+		auto_center_map(map_editor, data);
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)
@@ -104,3 +112,11 @@ int	map_editor_render(void *self, t_cub *data)
 	}
 	return (0);
 }
+		// t_point2i 		pos_to_center = (t_point2i){{(WINDOW_WIDTH / 2) - map_center.x, (WINDOW_HEIGHT / 2) -map_center.y}};
+		// double scale_x = (double)WINDOW_WIDTH / data->mapwidth;
+		// double scale_y = (double)WINDOW_HEIGHT / data->mapheight;
+		// double	scale = scale_x < scale_y ? scale_x : scale_y;
+		// apply_zoom_at_position(map_editor, 1,
+		// 	pos_to_center);
+		// apply_zoom_at_position(map_editor,(1 /scale) * 1.2,
+		// 	(t_point2i){{0,0}});

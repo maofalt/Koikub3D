@@ -25,7 +25,7 @@ int	apply_matrix_transformation(t_canvas *canvas, t_matrix3x3 matrix)
 static int	apply_transformation_at_position(
 	t_canvas *canvas,
 	t_matrix3x3	transform_matrix,
-	t_point2i	pos)
+	t_point2d	pos)
 {
 	t_matrix3x3	translation;
 	t_matrix3x3	translation_back;
@@ -42,7 +42,7 @@ static int	apply_transformation_at_position(
 }
 
 //apply zoom centered in  a given position 
-int	apply_zoom_at_position(t_canvas *canvas, double zoom, t_point2i pos)
+int	apply_zoom_at_position(t_canvas *canvas, double zoom, t_point2d pos)
 {
 	t_matrix3x3	zoom_matrix;
 
@@ -50,7 +50,7 @@ int	apply_zoom_at_position(t_canvas *canvas, double zoom, t_point2i pos)
 	return (apply_transformation_at_position(canvas, zoom_matrix, pos));
 }
 
-int	apply_rotation_at_position(t_canvas *canvas, double angle, t_point2i pos)
+int	apply_rotation_at_position(t_canvas *canvas, double angle, t_point2d pos)
 {
 	t_matrix3x3	rot_matrix;
 

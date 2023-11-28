@@ -222,6 +222,10 @@ int							apply_zoom_at_position(
 								t_canvas *canvas,
 								double zoom,
 								t_point2i pos);
+int							apply_rotation_at_position(
+								t_canvas *canvas,
+								double angle,
+								t_point2i pos);
 
 /*############################################################################*/
 /*                              MULTI-BUFFER CANVAS                           */

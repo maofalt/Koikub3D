@@ -15,14 +15,13 @@
 int	map_editor_handle_rotation(int keysim, t_cub *data, void *map_canvas)
 {
 	const double	angle = 3.14159265 / 128.0;
-	t_matrix3x3		rotation;	
+	int				ret;
 
 	(void)data;
+	ret = 1;
 	if (keysim == A_KEY)
-		rotation = rotation_matrix(-angle);
-	else
-		rotation = rotation_matrix(angle);
-	if (apply_matrix_transformation((t_canvas *)map_canvas, rotation))
+		ret = -1;
+	if (apply_rotation_at_position((t_canvas *)map_canvas, ret * angle, (t_point2i){{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}}))
 		return (1);
 	return (0);
 }

@@ -105,6 +105,7 @@ typedef enum e_canvas_type
 {
 	MAP,
 	UI,
+	BUTTON,
 	GAME,
 	FINAL,
 	FIN_TEMP,

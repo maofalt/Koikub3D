@@ -25,7 +25,8 @@ int	merge_canvases(t_list **canvas_list)
 	while (current_node)
 	{
 		canvas = (t_canvas *)current_node->content;
-		if (canvas->type == MAP || canvas->type == UI || canvas->type == GAME)
+		if (canvas->type == MAP || canvas->type == UI || canvas->type == GAME ||
+			canvas->type == BUTTON)
 			merge_canvas(final_canvas, canvas);
 		current_node = current_node->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/25 02:40:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/11/28 02:53:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -412,6 +412,28 @@ void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
 	}
 }
 
+
+void	render_seg_lst(
+	t_3d_render *render,
+	t_list *seg_lst
+	)
+{
+	t_segment_d				*segment;
+
+	while (seg_lst)
+	{
+		segment = seg_lst->content;
+		if (segment->data.type == WALL)
+		{
+			draw_wall_texture(render, (t_segment_d *)seg_lst->content,
+				0, render->canvas->size.x);
+			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
+			// 	item_queue->left, item_queue->right);
+		}
+		seg_lst = seg_lst->next;
+	}
+}
+
 void	game_render(t_cub *data)
 {
 	t_canvas	*canvas;
@@ -421,6 +443,7 @@ void	game_render(t_cub *data)
 	fill_canvas(
 		canvas,
 		(t_color){.d = 0x00000000});
+	// render_seg_lst(&data->game_data.game_view_render, data->game_data.map_data.segments);
 	render_3d_draw(&data->game_data.game_view_render);
 	canvas_to_mlx_image(data->screen,
 		canvas);

@@ -1,8 +1,8 @@
-NO textures/mon_amour_seg_roy_de_mon_coeur.xpm
+NO textures/debug.xpm
 
-SO     ./textures/simple_tiles.xpm
-WE                textures/simple_tiles.xpm
-EA textures/simple_tiles.xpm
+SO     textures/debug.xpm
+WE                textures/debug.xpm
+EA textures/debug.xpm
 
 F                           0,100,0
 C 1,0,255

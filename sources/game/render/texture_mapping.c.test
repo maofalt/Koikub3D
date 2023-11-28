@@ -1,0 +1,429 @@
+
+
+#include "structures.h"
+#include "ressources_managers.h"
+
+t_segment_d	transform_camera_relative_segment(
+	t_segment_d segment,
+	t_camera *camera);
+
+int	relative_segment_clip_front(t_segment_d *segment);
+
+static void	put_pixel_on_virtual_canvas(t_canvas *canvas,
+		t_point2d coord,
+		t_color color)
+{
+	t_point2d	start;
+	t_point2d	end;
+	t_point2d	virt;
+
+	start = (t_point2d)(coord.vec * canvas->pixel_scale);
+	end = (t_point2d)(coord.vec + canvas->pixel_scale);
+	virt.y = start.y;
+	while (virt.y < end.y)
+	{
+		virt.x = start.x;
+		while (virt.x < end.x)
+		{
+			if (virt.x >= 0 && virt.x < canvas->size.x
+				&& virt.y >= 0 && virt.y < canvas->size.y)
+			{
+				canvas->pixels[(int)virt.y * canvas->size.x
+					+ (int)virt.x] = color;
+			}
+			virt.x++;
+		}
+		virt.y++;
+	}
+}
+
+static inline void	draw_vertical_line(
+			t_canvas *canvas,
+			const int x,
+			int top,
+			const int bottom,
+			const t_color *const color
+			)
+{
+	int					offset;
+
+	// assert(x >= 0);
+	// assert(x < canvas->size.x);
+	// assert(top >= 0);
+	// assert(bottom <= canvas->size.y);
+	while (top < bottom)
+	{
+		offset = top * canvas->size.x + x;
+		canvas->pixels[offset] = *color;
+		++top;
+	}
+}
+
+
+static inline void	draw_vertical_line_color(
+			t_canvas *canvas,
+			const int x,
+			int top,
+			int bottom,
+			const t_color color
+			)
+{
+	int					offset;
+
+	// assert(x >= 0);
+	// assert(x < canvas->size.x);
+	// assert(top >= 0);
+	// assert(bottom <= canvas->size.y);
+	top = fmax((double)top, 0);
+	bottom = fmin((double)bottom, canvas->size.y);
+	while (top < bottom)
+	{
+		offset = top * canvas->size.x + x;
+		canvas->pixels[offset] = color;
+		++top;
+	}
+}
+
+// Affine calculation of txtx would be:
+//    alpha : (x-x1) / (x2-x1)
+//    u0    : 0;
+//    u1    : 1023;
+//    txtx  : u0 + u1 * alpha;
+// Perspective-corrected calculation of txtx (from Wikipedia):
+//    txtx  : ((1-alpha) * (u0 / z0) + alpha * (u1 / z1))
+//          / (((1-alpha) / z0) + alpha/z1);
+// Unrolled for only one division with Maxima:
+//    txtx  : u0*z1*(x2-x) + u1*z0*(x-x1)
+//          / ((x2-x)*z1 + (x-x1)*z0);
+
+
+// t_vector4d	project_point(t_3d_render *render, t_vector4d point)
+// {
+// 	t_vector4d	transformed_point;
+
+// 	transformed_point.x = -point.x * 16 / point.y;
+// 	transformed_point.y = point.z / point.y;
+// 	transformed_point.z = point.y;
+// 	transformed_point.w = 0;
+// 	transformed_point.vec *= 16;
+// 	transformed_point.vec += render->middle.vec;
+// 	return (transformed_point);
+// }
+
+double	project_point_x(double	point_x, double	point_z)
+{
+	return (-point_x * 16 / point_z);
+}
+double	project_point_y(double	height, double	point_z)
+{
+	return (height / point_z);
+}
+
+void	draw_wall_texture_old(
+		t_3d_render *render,
+		t_segment_d	*wall,
+		double left,
+		double right
+	);
+
+void	draw_wall_texture(
+		t_3d_render *render,
+		t_segment_d	*wall,
+		double left,
+		double right
+	)
+{
+	// draw_wall_texture_old(render, wall, left, right);
+	t_segment_d	relative_seg = transform_camera_relative_segment(*wall, render->camera);
+	if (relative_seg.point_a.x > relative_seg.point_b.x)
+	{
+		t_vector4d tmp_point = relative_seg.point_a;
+		relative_seg.point_a = relative_seg.point_b;
+		relative_seg.point_b = tmp_point;
+	}
+
+	printf("relative_seg.point_a.x = %f, relative_seg.point_b.x = %f\n", relative_seg.point_a.x , relative_seg.point_b.x);
+	double seg_size = sqrt(pow(relative_seg.point_a.x, relative_seg.point_a.x) + pow(relative_seg.point_b.x, relative_seg.point_b.x));
+
+	left =  project_point_x(relative_seg.point_a.x, relative_seg.point_a.y) * 16  + render->middle.x;//, left);
+	right = project_point_x(relative_seg.point_b.x, relative_seg.point_b.y) * 16  + render->middle.x;//, right);
+	double steps = right - left;
+	double i = 0;
+	double one_on_z_end = 1 / relative_seg.point_b.y;
+	double one_on_z_start = 1 / relative_seg.point_a.y;
+	double one_on_z_delta = (one_on_z_end - one_on_z_start) / steps;
+	double one_on_z = one_on_z_start;
+
+	printf("right - left: %f\n", steps);
+	printf("one_on_z_delta: %f\n",one_on_z_delta);
+
+	while (i < steps)
+	{
+
+		double screen_x = (left + i);
+		// double z = (1/one_on_z);
+		// double relative_x = ((screen_x - render->middle.x) * z) / -16;
+		// if (screen_x < render->canvas->size.x && screen_x > 0 && z < -1)
+		// {
+
+		// printf("relative_x: %f, relative_seg.point_a.x:%f\n",relative_x, relative_seg.point_a.x);
+
+		// double txtx;
+
+		double u0 = 0;
+		double u1 = 255;
+		double z0 = relative_seg.point_a.y;
+		double z1 = relative_seg.point_b.y;
+		double x =  i;
+		double x1 = 0;
+		double x2 = steps;
+
+		double txtx  = (u0*z1*(x2-x) + u1*z0*(x-x1)) / (((x2-x)*z1 + (x-x1)*z0));
+
+		double screen_point_top = project_point_y(-10,1) * 16	+ render->middle.y;
+		double screen_point_bot = project_point_y(10, 1) * 16	+ render->middle.y;
+		// double reprojected_x = project_point_x(relative_x, -z) * 16 + render->middle.y;
+		// printf("z: %f, 1/z: %f, relative_x: %f\n", z, one_on_z, relative_x);
+		// printf("-%f %f : %f %f\n", screen_x, right, screen_point_top, screen_point_bot);
+
+		draw_vertical_line_color(render->canvas, i + left, screen_point_top, screen_point_bot, (t_color) {.a=txtx * 255, .r = 255, .g = 0, .b=255});
+		// draw_vertical_line_color(render->canvas, screen_x, screen_point_top, screen_point_bot, (t_color) {.a=255, .r = 255, .g = 0, .b=255});
+		// draw_vertical_line_color(render->canvas, screen_x, screen_point_bot, screen_point_top, (t_color) {.a=255, .r = 255, .g = 0, .b=255});
+		// put_pixel_on_virtual_canvas(render->canvas,	 (t_point2d){.x = relative_x + render->middle.x, .y=z+ render->middle.y},  (t_color){.d=0xFFFFFFFF});
+		// // }
+		one_on_z += one_on_z_delta;
+		++i;
+	}
+
+}
+
+// void	draw_wall_texture(
+// 		t_3d_render *render,
+// 		t_segment_d	*wall,
+// 		double left,
+// 		double right
+// 	)
+// {
+// 	// draw_wall_texture_old(render, wall, left, right);
+// 	t_segment_d	relative_seg = transform_camera_relative_segment(*wall, render->camera);
+// 	if (relative_seg.point_a.x > relative_seg.point_b.x)
+// 	{
+// 		t_vector4d tmp_point = relative_seg.point_a;
+// 		relative_seg.point_a = relative_seg.point_b;
+// 		relative_seg.point_b = tmp_point;
+// 	}
+
+// 	printf("relative_seg.point_a.x = %f, relative_seg.point_b.x = %f\n", relative_seg.point_a.x , relative_seg.point_b.x);
+// 	double seg_size = sqrt(pow(relative_seg.point_a.x, relative_seg.point_a.x) + pow(relative_seg.point_b.x, relative_seg.point_b.x));
+
+// 	left =  project_point_x(relative_seg.point_a.x, relative_seg.point_a.y) * 1  + render->middle.x;//, left);
+// 	right = project_point_x(relative_seg.point_b.x, relative_seg.point_b.y) * 1  + render->middle.x;//, right);
+// 	double steps = right - left;
+// 	double i = 0;
+// 	double one_on_z_end = 1 / relative_seg.point_b.y;
+// 	double one_on_z_start = 1 / relative_seg.point_a.y;
+// 	double one_on_z_delta = (one_on_z_end - one_on_z_start) / steps;
+// 	double one_on_z = one_on_z_start;
+
+// 	printf("right - left: %f\n", steps);
+// 	printf("one_on_z_delta: %f\n",one_on_z_delta);
+
+// 	while (i < steps)
+// 	{
+
+// 		double screen_x = (left + i);
+// 		double z = (1/one_on_z);
+// 		double relative_x = ((screen_x - render->middle.x) * z) / -16;
+// 		// if (screen_x < render->canvas->size.x && screen_x > 0 && z < -1)
+// 		// {
+
+// 		printf("relative_x: %f, relative_seg.point_a.x:%f\n",relative_x, relative_seg.point_a.x);
+
+// 		double txtx;
+// 		if (relative_x > relative_seg.point_a.x)
+// 			txtx = (relative_x - relative_seg.point_a.x) / (relative_seg.point_b.x - relative_seg.point_a.x);
+// 		else
+// 			txtx = (z - relative_seg.point_a.y) / (relative_seg.point_b.y - relative_seg.point_a.y);
+
+// 		double screen_point_top = project_point_y(-10,-z) * 16	+ render->middle.y;
+// 		double screen_point_bot = project_point_y(10, -z) * 16	+ render->middle.y;
+// 		double reprojected_x = project_point_x(relative_x, -z) * 16 + render->middle.y;
+// 		// printf("z: %f, 1/z: %f, relative_x: %f\n", z, one_on_z, relative_x);
+// 		// printf("-%f %f : %f %f\n", screen_x, right, screen_point_top, screen_point_bot);
+
+// 		draw_vertical_line_color(render->canvas, reprojected_x, screen_point_top, screen_point_bot, (t_color) {.a=txtx * 255, .r = 255, .g = 0, .b=255});
+// 		// draw_vertical_line_color(render->canvas, screen_x, screen_point_top, screen_point_bot, (t_color) {.a=255, .r = 255, .g = 0, .b=255});
+// 		// draw_vertical_line_color(render->canvas, screen_x, screen_point_bot, screen_point_top, (t_color) {.a=255, .r = 255, .g = 0, .b=255});
+// 		put_pixel_on_virtual_canvas(render->canvas,	 (t_point2d){.x = relative_x + render->middle.x, .y=z+ render->middle.y},  (t_color){.d=0xFFFFFFFF});
+// 		// }
+// 		one_on_z += one_on_z_delta;
+// 		++i;
+// 	}
+
+// }
+void	draw_wall_texture_old(
+		t_3d_render *render,
+		t_segment_d	*wall,
+		double left,
+		double right
+	)
+{
+	t_segment_d	relative_seg = transform_camera_relative_segment(*wall, render->camera);
+	if (relative_seg.point_a.x > relative_seg.point_b.x)
+	{
+		t_vector4d tmp_point = relative_seg.point_a;
+		relative_seg.point_a = relative_seg.point_b;
+		relative_seg.point_b = tmp_point;
+	}
+	double seg_size = sqrt(pow(relative_seg.point_a.x, relative_seg.point_a.x) + pow(relative_seg.point_b.x, relative_seg.point_b.x));
+
+	t_vector4d	delta;
+	t_vector4d	diff;
+	t_vector4d	cursor;
+	double		step;
+
+	// delta.vec = relative_seg.point_b.vec - relative_seg.point_a.vec;
+	delta.vec = relative_seg.point_b.vec - relative_seg.point_a.vec;
+	if (fabs(delta.x) >= fabs(delta.y))
+		step = fabs(delta.x);
+	else
+		step = fabs(delta.y);
+
+	delta.vec = delta.vec / step;
+	cursor.vec = relative_seg.point_a.vec;
+
+
+
+	double start = relative_seg.point_a.x;
+	double end = relative_seg.point_b.x;
+	double x = 0;
+	while (x < step)
+	{
+		double screen_point_x = project_point_x(cursor.x, cursor.y)	+ render->middle.x;
+		double screen_point_top = project_point_y(-10, cursor.y)	+ render->middle.y;
+		double screen_point_bot = project_point_y(10, cursor.y)		+ render->middle.y;
+
+		if (screen_point_x < render->canvas->size.x && screen_point_x > 0 && cursor.y < -1);
+		{
+			// double txtx = x / step;
+			double txtx;
+			if (delta.x == 0)
+				txtx = (cursor.y - relative_seg.point_a.y) / (relative_seg.point_b.y - relative_seg.point_a.y);
+			else
+				txtx = (cursor.x - relative_seg.point_a.x) / (relative_seg.point_b.x - relative_seg.point_a.x);
+
+
+		draw_vertical_line_color(render->canvas, screen_point_x, screen_point_top, screen_point_bot, (t_color) {.a=txtx * 255, .r = 255, .g = 0, .b=255});
+		// draw_vertical_line_color(render->canvas, screen_point_x, screen_point_top, screen_point_bot, (t_color) {.a=(x / step) * 255, .r = 255, .g = 0, .b=255});
+		// draw_vertical_line(render->canvas, screen_point_x, screen_point_top, screen_point_bot,)
+		// draw_vertical_line_color(render->canvas, screen_point_x, screen_point_top, screen_point_bot, (t_color) {.a=(cursor.y / fmax(relative_seg.point_a.y,relative_seg.point_b.y ))  * 255, .r = 255, .g = 0, .b=255});
+		}
+		// printf("%f / %f = %f \n",cursor.x ,fmax(relative_seg.point_a.x,relative_seg.point_b.x), (cursor.x / fmax(relative_seg.point_a.x,relative_seg.point_b.x)));
+		x = x + 1.0f / 200.0f;
+		cursor.x = cursor.x + delta.x * 1.0f / 200.0f;
+		cursor.y = cursor.y + delta.y * 1.0f / 200.0f;
+	}
+
+}
+
+/*
+void	draw_wall_texture(
+		t_3d_render *render,
+		t_segment_d	*wall,
+		double left,
+		double right
+	)
+{
+	t_segment_d		projected_top;
+	t_segment_d		projected_bot;
+	double			coef_top;
+	double			coef_bot;
+
+	if (project_wall(render, wall, &projected_top, &projected_bot))
+		return ;
+	left = fmax(projected_top.point_a.x, left);
+	right = fmin(projected_top.point_b.x, right);
+	coef_bot = calc_seg_coef(&projected_bot);
+	coef_top = calc_seg_coef(&projected_top);
+	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
+	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
+	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
+	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
+	double x = 0;
+
+	double factor  = 1;
+
+	t_segment_d	relative_segment = transform_camera_relative_segment(*wall, render->camera);
+	t_segment_d	project_full_seg;
+
+	printf("wall.point_a.x: %f\n", wall->point_a.x);
+	printf("wall.point_b.x: %f\n", wall->point_b.x);
+	printf("relative_segment.point_a.x: %f\n", relative_segment.point_a.x);
+	printf("relative_segment.point_b.x: %f\n", relative_segment.point_b.x);
+	project_segment_no_clip(render, relative_segment, &project_full_seg);
+	double width_full_wall = project_full_seg.point_b.x - project_full_seg.point_a.x;
+	//fmax(relative_segment.point_a.x, relative_segment.point_b.x) - fmin(relative_segment.point_a.x, relative_segment.point_b.x);
+	printf("Width of the full wall: %f\n", width_full_wall);
+	printf("proj_full.point_a.x: %f\n", project_full_seg.point_a.x);
+	printf("proj_full.point_b.x: %f\n", project_full_seg.point_b.x);
+	printf("left: %f\n", left);
+	if (width_full_wall == 0)
+		return;
+	double left_full_wall_percent = (left - fmin(relative_segment.point_a.x, relative_segment.point_b.x)) / width_full_wall;
+	double right_full_wall_percent = (right - fmax(relative_segment.point_a.x, relative_segment.point_b.x)) / width_full_wall;
+
+	t_img_data	*image = texture_get_frame(wall->data.data.wall.texture.texture);
+	double texture_wall_factor = image->size.x / width_full_wall;
+	printf("Texture wall factor: %f\n", texture_wall_factor);
+	double	texture_offset = (left - fmin(project_full_seg.point_a.x, project_full_seg.point_b.x));
+	printf("Texture offset: %f\n", texture_offset);
+
+	while (left + x < right)
+	{
+		draw_vertical_line(render->canvas,
+			texture_get_frame(wall->data.data.wall.texture.texture), (x + texture_offset) * texture_wall_factor,
+				left + x ,projected_top.point_a.y, projected_bot.point_a.y);
+
+		projected_top.point_a.y += coef_top;
+		projected_bot.point_a.y += coef_bot;
+		++x;
+	}
+
+}
+*/
+
+// 		draw_vertical_line(canvas, image, x, 500, 90+ x/10, 200 - x/10);
+
+
+// void	draw_solid_wall(
+// 	t_3d_render *render,
+// 	t_segment_d	*wall,
+// 	double left,
+// 	double right
+// 	)
+// {
+// 	t_segment_d		projected_top;
+// 	t_segment_d		projected_bot;
+// 	double			coef_top;
+// 	double			coef_bot;
+
+// 	if (project_wall(render, wall, &projected_top, &projected_bot))
+// 		return ;
+// 	left = fmax(projected_top.point_a.x, left);
+// 	right = fmin(projected_top.point_b.x, right);
+// 	coef_bot = calc_seg_coef(&projected_bot);
+// 	coef_top = calc_seg_coef(&projected_top);
+// 	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
+// 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
+// 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
+// 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
+// 	double x;
+// 	while (x + left < right)
+// 	{
+// 		draw_solid_wall_line(render, left, , projected_top.point_a.y,
+// 			projected_bot.point_a.y);
+// 		projected_top.point_a.y += coef_top;
+// 		projected_bot.point_a.y += coef_bot;
+// 		++x;
+// 	}
+// }

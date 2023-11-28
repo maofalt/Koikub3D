@@ -329,4 +329,8 @@ void						*aligned_calloc(size_t nmemb,
 int							map_visualizer_draw(t_cub *data);
 void						redraw_scene(t_cub *data, t_canvas *canvas);
 
+/*############################################################################*/
+/*                              UTILS FOR LIFE                                */
+/*############################################################################*/
+bool						is_valid_canvas(t_canvas *canvas);
 #endif

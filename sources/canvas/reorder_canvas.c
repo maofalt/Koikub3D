@@ -37,8 +37,7 @@ void	reorder_canvases_by_z_index(t_list **canvas_list)
 
 bool	should_swap(t_canvas *a, t_canvas *b)
 {
-	if ((a->type == MAP || a->type == UI || a->type == GAME)
-		&& (b->type == MAP || b->type == UI || b->type == GAME))
+	if ((is_valid_canvas(a) && is_valid_canvas(b)))
 		return (a->z_index > b->z_index);
 	return (false);
 }

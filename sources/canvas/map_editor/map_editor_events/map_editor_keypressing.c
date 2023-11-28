@@ -24,7 +24,7 @@ int	map_editor_handle_rotation(int keysim, t_cub *data, void *map_canvas)
 	if (apply_rotation_at_position(
 			(t_canvas *)map_canvas,
 			ret * angle,
-			(t_point2i){{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}}))
+			(t_point2d){{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}}))
 		return (1);
 	return (0);
 }

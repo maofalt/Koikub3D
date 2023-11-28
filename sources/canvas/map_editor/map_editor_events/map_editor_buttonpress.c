@@ -27,7 +27,8 @@ int	map_canvas_handle_zoom(
 	zoom = 1.05;
 	if (zoom_direction == 1)
 		zoom = 0.95;
-	if (apply_zoom_at_position(map_canvas, zoom, mouse_pos))
+	if (apply_zoom_at_position(map_canvas, zoom,
+			(t_point2d){{mouse_pos.x, mouse_pos.y}}))
 		return (1);
 	data->update |= FULL_REDRAW;
 	return (0);

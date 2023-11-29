@@ -73,7 +73,6 @@ t_list	*initialize_canvas_list(t_modus_state state,
 		((t_canvas *)new_node->content)->info = canvas_init_table[i];
 		i++;
 	}
-	//reorder_canvases_by_z_index(&canvas_list);
 	return (canvas_list);
 }
 

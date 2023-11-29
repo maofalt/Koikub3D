@@ -74,8 +74,10 @@ void	redraw_scene(t_cub *data, t_canvas *canvas)
 		canvas->size.x * canvas->size.y * sizeof(t_color));
 	current_segment = canvas->data.map_editor.segments;
 	color = (t_color){{255, 255, 255, 255}};
+	printf("redraw_scene \t");
 	invert_matrix
 		= get_inverse_transformation_matrix(canvas->data.map_editor.transformation_matrix);
+	printf("done\n");
 	//printf("Segments to be redrawn\n");
 	// int i = 0;
 	while (current_segment)

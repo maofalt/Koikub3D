@@ -40,6 +40,7 @@ t_canvas	*initialize_map_editor_canvas(t_canvas_init_entry *entry)
 {
 	t_canvas	*canvas;
 
+	printf("initialize_map_editor_canvas\n");
 	canvas = common_canvas_initialization(entry);
 	if (!canvas)
 		return (NULL);

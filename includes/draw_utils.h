@@ -98,6 +98,48 @@ typedef struct s_shape_params {
 }	t_shape_params;
 
 /*############################################################################*/
+/*                            CANVAS SPECIALIZATION                           */
+/*############################################################################*/
+
+typedef struct s_map_editor_data
+{
+	t_list		*matrix_operations;
+	t_list		*segments;
+	t_matrix3x3	transformation_matrix;
+}	t_map_editor_data;
+
+typedef struct s_button_data
+{
+	char		*text;
+	t_img_data	*img;
+	t_point2i	size;
+	t_color		color;
+	int			(*action_on_click)(void *data, void *self);
+}	t_button_data;
+
+typedef struct s_ui_data
+{
+	t_list			*buttons;
+	t_image_data	*img;
+}	t_ui_data;
+
+typedef struct s_game_data
+{
+	t_list	*matrix_operations;
+	t_list	*segments;
+}	t_game_data;
+
+typedef union u_canvas_data
+{
+	s_map_editor_data	map_editor;
+	s_button_data		button;
+	s_ui_data			ui;
+	s_game_data			game;
+}	t_canvas_data;
+
+typedef t_canvas	*(*t_canvas_init_func)(t_canvas_init_entry *);
+
+/*############################################################################*/
 /*                              CANVAS STRUCTURES                             */
 /*############################################################################*/
 
@@ -131,6 +173,7 @@ typedef struct s_canvas_init_entry {
 
 typedef struct s_canvas {
 	t_canvas_init_entry	info;
+	t_canvas_data		data;
 	t_canvas_type		type;
 	t_matrix3x3			transformation_matrix;
 	t_point2i			size;

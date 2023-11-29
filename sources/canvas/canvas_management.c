@@ -57,7 +57,6 @@ t_canvas	*initialize_single_canvas(t_point2i size, t_canvas_type type)
 	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
 	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
 	canvas->transparency_key = (t_color){{0, 0, 255, 0}};
-	canvas->transformation_matrix = identity_matrix();
 	canvas->type = type;
 	return (canvas);
 }

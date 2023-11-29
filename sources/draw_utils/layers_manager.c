@@ -28,8 +28,6 @@ t_list	*initialize_canvas_and_add_to_list(t_point2i size,
 	new_node->next = NULL;
 	new_node->content = canvas;
 	ft_lstadd_back(canvas_list, new_node);
-	//new_node->next = *canvas_list;
-	//*canvas_list = new_node;
 	return (new_node);
 }
 

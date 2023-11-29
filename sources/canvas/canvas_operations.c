@@ -37,7 +37,7 @@
 	Codede porrly we have to free all the memory
 */
 
-int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
+int	add_segment_to_map(t_map_editor_data *map_editor, t_segment_d segment)
 {
 	t_segment_d	*new_segment;
 	t_list		*new_node;
@@ -49,7 +49,7 @@ int	add_segment_to_map(t_canvas *canvas, t_segment_d segment)
 	new_node = ft_lstnew((void *)new_segment);
 	if (!new_node)
 		return (free(new_segment),
-			ft_lstclear(&canvas->segments, free), 1);
-	ft_lstadd_back(&(canvas->segments), new_node);
+			ft_lstclear(&map_editor->segments, free), 1);
+	ft_lstadd_back(&(map_editor->segments), new_node);
 	return (0);
 }

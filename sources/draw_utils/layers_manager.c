@@ -12,14 +12,14 @@
 
 #include "draw_utils.h"
 
-t_list	*initialize_canvas_and_add_to_list(t_point2i size,
-			t_canvas_type type,
-			t_list **canvas_list)
+t_list	*initialize_canvas_and_add_to_list(
+	t_canvas_init_entry *entry,
+	t_list **canvas_list)
 {
 	t_canvas	*canvas;
 	t_list		*new_node;
 
-	canvas = initialize_single_canvas(size, type);
+	canvas = initialize_canvas(entry);
 	if (!canvas)
 		return (NULL);
 	new_node = (t_list *)malloc(sizeof(t_list));
@@ -56,7 +56,6 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	size_t						i;
 	size_t						nbr_canvas;
 
-	canvas_init_table = NULL;
 	canvas_init_table = get_canvas_init_table(state, canvas_setups);
 	if (!canvas_init_table)
 		return (NULL);
@@ -65,12 +64,11 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	nbr_canvas = get_init_table_size(canvas_init_table);
 	while (i < nbr_canvas)
 	{
-		new_node = initialize_canvas_and_add_to_list(canvas_init_table[i].size,
-				canvas_init_table[i].type,
-				&canvas_list);
+		new_node = initialize_canvas_and_add_to_list(
+				&canvas_init_table[i], &canvas_list);
 		if (!new_node)
 			return (free_canvas_list(canvas_list), NULL);
-		((t_canvas *)new_node->content)->info = canvas_init_table[i];
+		//((t_canvas *)new_node->content)->info = canvas_init_table[i];
 		i++;
 	}
 	return (canvas_list);

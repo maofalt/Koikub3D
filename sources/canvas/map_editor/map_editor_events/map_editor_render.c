@@ -65,7 +65,7 @@ static void printfallsegments(t_list *current_segment)
 }
 
 //Autotcenter map in the screen 
-static int	auto_center_map(t_canvas *canvas, t_cub *data)
+static int	auto_center_map(t_map_editor_data *map_editor , t_cub *data)
 {
 	t_point2d		map_center;
 	t_point2d		scaled_map_center;
@@ -83,7 +83,7 @@ static int	auto_center_map(t_canvas *canvas, t_cub *data)
 	scaled_map_center = (t_point2d)
 	{{map_center.x - ((WINDOW_WIDTH / 2) / scale),
 		map_center.y - ((WINDOW_HEIGHT / 2) / scale)}};
-	if (apply_zoom_at_position(canvas, (1 / scale) * 1.0,
+	if (apply_zoom_at_position(map_editor, (1 / scale) * 1.0,
 			scaled_map_center))
 		return (1);
 	return (0);
@@ -92,14 +92,16 @@ static int	auto_center_map(t_canvas *canvas, t_cub *data)
 
 int	map_editor_render(void *self, t_cub *data)
 {
-	t_canvas	*map_editor;
+	t_canvas			*map_editor;
+	t_map_editor_data	*map_editor_data;
 
 	map_editor = (t_canvas *)self;
-	if (map_editor->segments == NULL)
+	map_editor_data = &map_editor->data.map_editor;
+	if (map_editor_data->segments == NULL)
 	{
-		extract_edge_recursively(data->map, &map_editor->segments);
-		printfallsegments(map_editor->segments);
-		auto_center_map(map_editor, data);
+		extract_edge_recursively(data->map, &map_editor_data->segments);
+		printfallsegments(map_editor_data->segments);
+		auto_center_map(map_editor_data, data);
 		data->update |= FULL_REDRAW;
 	}
 	if (data->update & LINE_REDRAW)

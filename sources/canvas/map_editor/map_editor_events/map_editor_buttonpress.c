@@ -20,14 +20,16 @@ int	map_canvas_handle_zoom(
 	t_cub *data,
 	t_point2i mouse_pos)
 {
-	t_canvas		*map_canvas;
-	double			zoom;
+	t_map_editor_data	*map_editor;
+	t_canvas			*map_canvas;
+	double				zoom;
 
 	map_canvas = (t_canvas *)self;
+	map_editor = &map_canvas->data.map_editor;
 	zoom = 1.05;
 	if (zoom_direction == 1)
 		zoom = 0.95;
-	if (apply_zoom_at_position(map_canvas, zoom,
+	if (apply_zoom_at_position(map_editor, zoom,
 			(t_point2d){{mouse_pos.x, mouse_pos.y}}))
 		return (1);
 	data->update |= FULL_REDRAW;

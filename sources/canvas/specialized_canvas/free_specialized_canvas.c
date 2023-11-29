@@ -9,32 +9,62 @@
 /*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "draw_utils.h"
 
-t_canvas_free_func	g_canvas_free_functions[END_MARKER]
-	= {
-[MAP] = free_map_editor,
-[UI] = free_ui,
-[BUTTON] = free_button,
-[GAME] = free_game,
-[FIN_TEMP] = NULL,
-[FINAL] = NULL
-};
-
-void	free_canvas_by_type(t_canvas *canvas)
+void	free_map_editor(t_canvas *canvas)
 {
-	if (canvas->type >= END_MARKER || !g_canvas_free_functions[canvas->type])
+	t_map_editor_data	*map_editor;
+
+	map_editor = &canvas->data.map_editor;
+	if (!map_editor)
 		return ;
-	return (g_canvas_free_functions[canvas->type](canvas));
+	if (map_editor->matrix_operations)
+		ft_lstclear(&map_editor->matrix_operations, free);
+	if (map_editor->segments)
+		ft_lstclear(&map_editor->segments, free);
+	aligned_free(map_editor);
 }
 
-void	free_canvas(t_canvas *canvas)
+void	free_ui(t_canvas *canvas)
 {
-	if (!canvas)
+	t_ui_data	*ui;
+
+	ui = &canvas->data.ui;
+	if (!ui)
 		return ;
-	if (canvas->pixels)
-		aligned_free(canvas->pixels);
-	free_canvas_by_type(canvas);
-	aligned_free(canvas);
+	//free(ui);
 }
+
+void	free_button(t_canvas *canvas)
+{
+	t_button_data	*button;
+
+	button = &canvas->data.button;
+	if (!button)
+		return ;
+	//free(button);
+}
+
+void	free_game(t_canvas *canvas)
+{
+	t_game_data	*game;
+
+	game = &canvas->data.game;
+	if (!game)
+		return ;
+	//free(game);
+}
+
+// void	free_fin_temp(t_fin_temp_data *fin_temp)
+// {
+// 	if (!fin_temp)
+// 		return ;
+// 	free(fin_temp);
+// }
+
+// void	free_final(t_final_data *final)
+// {
+// 	if (!final)
+// 		return ;
+// 	free(final);
+// }

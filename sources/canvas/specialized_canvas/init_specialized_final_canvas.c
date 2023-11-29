@@ -12,29 +12,44 @@
 
 #include "draw_utils.h"
 
-t_canvas_free_func	g_canvas_free_functions[END_MARKER]
-	= {
-[MAP] = free_map_editor,
-[UI] = free_ui,
-[BUTTON] = free_button,
-[GAME] = free_game,
-[FIN_TEMP] = NULL,
-[FINAL] = NULL
-};
-
-void	free_canvas_by_type(t_canvas *canvas)
+static void    fill_canvas(
+            t_canvas *canvas,
+            t_color color
+            )
 {
-	if (canvas->type >= END_MARKER || !g_canvas_free_functions[canvas->type])
-		return ;
-	return (g_canvas_free_functions[canvas->type](canvas));
+    t_color                *px;
+    unsigned long long    image_size;
+
+    if (color.d == 0)
+    {
+        ft_memset(canvas->pixels, 0,
+            canvas->size.x * canvas->size.y * sizeof(t_color));
+        return ;
+    }
+    px = canvas->pixels;
+    image_size = canvas->size.y * canvas->size.x;
+    while (image_size > 0)
+    {
+        *px = color;
+        px ++;
+        image_size --;
+    }
 }
 
-void	free_canvas(t_canvas *canvas)
+t_canvas	*initialize_fin_temp_canvas(t_canvas_init_entry *entry)
 {
-	if (!canvas)
-		return ;
-	if (canvas->pixels)
-		aligned_free(canvas->pixels);
-	free_canvas_by_type(canvas);
-	aligned_free(canvas);
+	t_canvas	*canvas;
+
+	canvas = common_canvas_initialization(entry);
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
+	return (canvas);
+}
+
+t_canvas	*initialize_final_canvas(t_canvas_init_entry *entry)
+{
+	t_canvas	*canvas;
+
+	canvas = common_canvas_initialization(entry);
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
+	return (canvas);
 }

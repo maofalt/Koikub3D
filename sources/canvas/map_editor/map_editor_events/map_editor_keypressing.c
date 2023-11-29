@@ -14,15 +14,17 @@
 
 int	map_editor_handle_rotation(int keysim, t_cub *data, void *map_canvas)
 {
-	const double	angle = 3.14159265 / 128.0;
-	int				ret;
+	t_map_editor_data	*map_editor;
+	const double		angle = 3.14159265 / 128.0;
+	int					ret;
 
 	(void)data;
+	map_editor = &((t_canvas *)map_canvas)->data.map_editor;
 	ret = 1;
 	if (keysim == A_KEY)
 		ret = -1;
 	if (apply_rotation_at_position(
-			(t_canvas *)map_canvas,
+			map_editor,
 			ret * angle,
 			(t_point2d){{WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2}}))
 		return (1);
@@ -31,10 +33,13 @@ int	map_editor_handle_rotation(int keysim, t_cub *data, void *map_canvas)
 
 int	process_key(int keysym, t_point2i pos, t_canvas *map_canvas)
 {
+	t_map_editor_data	*map_editor;
+
+	map_editor = &((t_canvas *)map_canvas)->data.map_editor;
 	if (keysym == LEFT_KEY || keysym == RIGHT_KEY
 		|| keysym == UP_KEY || keysym == DOWN_KEY)
 	{
-		if (apply_matrix_transformation(map_canvas,
+		if (apply_matrix_transformation(map_editor,
 				translation_matrix((t_point2d){{pos.x, pos.y}})))
 			return (1);
 	}

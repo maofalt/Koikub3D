@@ -12,17 +12,28 @@
 
 #include "draw_utils.h"
 
-t_canvas_init_func g_canvas_init_functions[END_MARKER] = {
-    [MAP] = initialize_map_editor_canvas,
-    [UI] = initialize_button_canvas,
-    // ... other canvas type initializations ...
-};
+static void    fill_canvas(
+            t_canvas *canvas,
+            t_color color
+            )
+{
+    t_color                *px;
+    unsigned long long    image_size;
 
-t_canvas *initialize_canvas(t_canvas_init_entry *entry) {
-    if (entry->type >= END_MARKER) {
-        return NULL;  // Invalid type
+    if (color.d == 0)
+    {
+        ft_memset(canvas->pixels, 0,
+            canvas->size.x * canvas->size.y * sizeof(t_color));
+        return ;
     }
-    return canvas_init_functions[entry->type](entry);
+    px = canvas->pixels;
+    image_size = canvas->size.y * canvas->size.x;
+    while (image_size > 0)
+    {
+        *px = color;
+        px ++;
+        image_size --;
+    }
 }
 
 t_canvas	*initialize_map_editor_canvas(t_canvas_init_entry *entry)
@@ -30,10 +41,13 @@ t_canvas	*initialize_map_editor_canvas(t_canvas_init_entry *entry)
 	t_canvas	*canvas;
 
 	canvas = common_canvas_initialization(entry);
+	if (!canvas)
+		return (NULL);
 	canvas->type = MAP;
-	canvas->transformation_matrix = identity_matrix();
+	canvas->data.map_editor.transformation_matrix = identity_matrix();
 	canvas->data.map_editor.matrix_operations = NULL;
 	canvas->data.map_editor.segments = NULL;
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
 	return (canvas);
 }
 
@@ -41,7 +55,25 @@ t_canvas	*initialize_button_canvas(t_canvas_init_entry *entry)
 {
 	t_canvas	*canvas;
 
-	canvas = common_canvas_initialization(entry).
+	canvas = common_canvas_initialization(entry);
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
 	return (canvas);
 }
 
+t_canvas	*initialize_ui_canvas(t_canvas_init_entry *entry)
+{
+	t_canvas	*canvas;
+
+	canvas = common_canvas_initialization(entry);
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
+	return (canvas);
+}
+
+t_canvas	*initialize_game_canvas(t_canvas_init_entry *entry)
+{
+	t_canvas	*canvas;
+
+	canvas = common_canvas_initialization(entry);
+	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
+	return (canvas);
+}

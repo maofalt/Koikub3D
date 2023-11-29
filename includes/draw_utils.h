@@ -97,6 +97,7 @@ typedef struct s_shape_params {
 	t_shape			shape;
 }	t_shape_params;
 
+
 /*############################################################################*/
 /*                            CANVAS SPECIALIZATION                           */
 /*############################################################################*/
@@ -106,6 +107,7 @@ typedef struct s_map_editor_data
 	t_list		*matrix_operations;
 	t_list		*segments;
 	t_matrix3x3	transformation_matrix;
+	t_point2d	last_point;
 }	t_map_editor_data;
 
 typedef struct s_button_data
@@ -120,7 +122,7 @@ typedef struct s_button_data
 typedef struct s_ui_data
 {
 	t_list			*buttons;
-	t_image_data	*img;
+	t_img_data		*img;
 }	t_ui_data;
 
 typedef struct s_game_data
@@ -131,13 +133,11 @@ typedef struct s_game_data
 
 typedef union u_canvas_data
 {
-	s_map_editor_data	map_editor;
-	s_button_data		button;
-	s_ui_data			ui;
-	s_game_data			game;
+	t_map_editor_data	map_editor;
+	t_button_data		button;
+	t_ui_data			ui;
+	t_game_data			game;
 }	t_canvas_data;
-
-typedef t_canvas	*(*t_canvas_init_func)(t_canvas_init_entry *);
 
 /*############################################################################*/
 /*                              CANVAS STRUCTURES                             */
@@ -175,14 +175,10 @@ typedef struct s_canvas {
 	t_canvas_init_entry	info;
 	t_canvas_data		data;
 	t_canvas_type		type;
-	t_matrix3x3			transformation_matrix;
 	t_point2i			size;
-	t_point2d			last_point;
 	t_point2d			scale;
 	t_point2d			inv_scale;
 	t_color				*pixels;
-	t_list				*matrix_operations;
-	t_list				*segments;
 	t_color				transparency_key;
 	bool				is_dynamic;
 	t_bounds			bounds;
@@ -196,19 +192,38 @@ typedef struct s_setup_by_game_state
 	size_t				canvas_count;
 }	t_setup_by_game_state;
 
+
+typedef t_canvas	*(*t_canvas_init_func)(t_canvas_init_entry *);
+typedef void		(*t_canvas_free_func)(t_canvas *);
+
+t_canvas					*initialize_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*common_canvas_initialization(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_map_editor_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_button_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_ui_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_game_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_fin_temp_canvas(
+								t_canvas_init_entry *entry);
+t_canvas					*initialize_final_canvas(
+								t_canvas_init_entry *entry);
+
+
 /*############################################################################*/
 /*                              CANVAS INITIALIZATION                         */
 /*############################################################################*/
 
-t_canvas					*initialize_single_canvas(t_point2i size,
-								t_canvas_type type);
-t_list						*initialize_canvas_and_add_to_list(t_point2i size,
-								t_canvas_type type,
+t_list						*initialize_canvas_and_add_to_list(
+								t_canvas_init_entry *entry,
 								t_list **canvas_list);
 t_list						*initialize_canvas_list(t_modus_state state,
 								t_setup_by_game_state *canvas_setups);
-void						free_canvas(t_canvas *canvas);
-void						free_canvas_list(t_list *canvas_list);
+
 t_canvas					*get_canvas_from_list(t_list *canvas_list,
 								t_canvas_type type);
 t_canvas_init_entry			*get_canvas_init_table(t_modus_state state,
@@ -218,11 +233,23 @@ void						set_canvas_bounds(t_canvas_init_entry *entry,
 								int *currentRowHeight,
 								int maxWidth);
 
+
+/*############################################################################*/
+/*                              CANVAS DESTRUCTION                            */
+/*############################################################################*/
+void						free_canvas(t_canvas *canvas);
+void						free_canvas_list(t_list *canvas_list);
+void						free_canvas_by_type(t_canvas *canvas);
+void						free_map_editor(t_canvas *canvas);
+void						free_ui(t_canvas *canvas);
+void						free_button(t_canvas *canvas);
+void						free_game(t_canvas *canvas);
+
 /*############################################################################*/
 /*                              MAP CANVAS OPERATIONS                         */
 /*############################################################################*/
 
-int							add_segment_to_map(t_canvas *canvas,
+int							add_segment_to_map(t_map_editor_data *map_editor,
 								t_segment_d segment);
 int							erase_line_from_map(t_canvas *canvas,
 								t_segment_d segment);
@@ -260,14 +287,14 @@ int							process_key(
 /*                              MATRIX ABSTRACTIONS                           */
 /*############################################################################*/
 int							apply_matrix_transformation(
-								t_canvas *canvas,
+								t_map_editor_data *map_editor,
 								t_matrix3x3 matrix);
 int							apply_zoom_at_position(
-								t_canvas *canvas,
+								t_map_editor_data *map_editor,
 								double zoom,
 								t_point2d pos);
 int							apply_rotation_at_position(
-								t_canvas *canvas,
+								t_map_editor_data *map_editor,
 								double angle,
 								t_point2d pos);
 

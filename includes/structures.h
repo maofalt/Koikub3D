@@ -130,6 +130,13 @@ typedef enum e_modus_state
 	END_GAME_STATE
 }	t_modus_state;
 
+typedef enum e_img_fit_mode
+{
+	FIT_IMAGE_TO_CANVAS,
+	FIT_CANVAS_TO_IMAGE
+}	t_img_fit_mode;
+
+
 typedef struct s_data
 {
 	char		**textures;

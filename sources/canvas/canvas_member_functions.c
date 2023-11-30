@@ -18,7 +18,7 @@ int	render_base(void *self, t_cub *data)
 
 	(void)data;
 	canvas = (t_canvas *)self;
-	if (canvas && canvas->info.event_handlers.render)
-		return (canvas->info.event_handlers.render(self, data));
+	if (canvas && canvas->event_handlers.render)
+		return (canvas->event_handlers.render(self, data));
 	return (-1);
 }

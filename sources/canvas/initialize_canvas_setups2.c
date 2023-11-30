@@ -22,11 +22,17 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 	.stack = true
 },
 [1] = {
-	.type = UI,
+	.type = BUTTON,
 	.size = (t_point2i){{1920, 100}},
 	.z_index = UI_Z_INDEX,
 	.position = (t_point2i){{0, 0}},
-	.stack = true
+	.stack = true,
+	.event_handlers = {
+	.on_keypress = NULL,
+	.on_boutonpress = NULL,
+	.render = NULL},
+	.fit_mode = FIT_CANVAS_TO_IMAGE,
+	.image_path = "assets/textures/button_main_menu.xpm"
 },
 [2] = {
 	.type = FIN_TEMP,

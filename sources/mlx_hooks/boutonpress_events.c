@@ -25,7 +25,7 @@ int	ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data)
 		data->active_canvas
 			= (t_canvas *)detect_clicked_canvas(data, data->mouse_pos);
 	}
-	event_handler = ((t_canvas *)(data->active_canvas))->info.event_handlers;
+	event_handler = ((t_canvas *)(data->active_canvas))->event_handlers;
 	if (event_handler.on_boutonpress)
 		return (event_handler.on_boutonpress(buttonsym,
 				(t_point2i){{x, y}},

@@ -42,6 +42,9 @@ t_canvas	*common_canvas_initialization(t_canvas_init_entry *entry)
 	canvas->scale.x = FIN_CANVAS_SIZE_X / entry->size.x;
 	canvas->scale.y = FIN_CANVAS_SIZE_Y / entry->size.y;
 	canvas->inv_scale.vec = 1.0 / canvas->scale.vec;
+	canvas->bounds = entry->bounds;
+	canvas->z_index = entry->z_index;
+	canvas->event_handlers = entry->event_handlers;
 	total_pixels = canvas->size.x * canvas->size.y;
 	canvas->transparency_key = (t_color){{0, 0, 255, 0}};
 	canvas->pixels = (t_color *)aligned_malloc(total_pixels
@@ -49,6 +52,5 @@ t_canvas	*common_canvas_initialization(t_canvas_init_entry *entry)
 	if (!canvas->pixels)
 		return (free(canvas), NULL);
 	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
-	canvas->info = (*entry);
 	return (canvas);
 }

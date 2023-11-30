@@ -54,9 +54,17 @@ t_canvas	*initialize_map_editor_canvas(t_canvas_init_entry *entry)
 
 t_canvas	*initialize_button_canvas(t_canvas_init_entry *entry)
 {
-	t_canvas	*canvas;
+	t_canvas		*canvas;
+	//t_button_data	*button_data;
 
 	canvas = common_canvas_initialization(entry);
+	if (!canvas)
+		return (NULL);
+	// canvas->data.button = {
+	// 	.image_path = entry->image_path,
+	// 	.image = NULL,
+	// 	.fit_mode = entry->fit_mode,
+	// }};
 	fill_canvas(canvas, (t_color){.d = (size_t)canvas});
 	return (canvas);
 }

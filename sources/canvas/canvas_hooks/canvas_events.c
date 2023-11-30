@@ -28,14 +28,14 @@ void	*detect_clicked_canvas(t_cub *data, t_point2i click_position)
 	while (canvas_list)
 	{
 		canvas = (t_canvas *)canvas_list->content;
-		if (click_position.x >= canvas->info.bounds.top.x
-			&& click_position.x <= canvas->info.bounds.bottom.x
-			&& click_position.y >= canvas->info.bounds.top.y
-			&& click_position.y <= canvas->info.bounds.bottom.y
-			&& canvas->info.z_index > z_index)
+		if (click_position.x >= canvas->bounds.top.x
+			&& click_position.x <= canvas->bounds.bottom.x
+			&& click_position.y >= canvas->bounds.top.y
+			&& click_position.y <= canvas->bounds.bottom.y
+			&& canvas->z_index > z_index)
 		{
 			canvas_to_return = canvas;
-			z_index = canvas->info.z_index;
+			z_index = canvas->z_index;
 		}
 		canvas_list = canvas_list->next;
 	}

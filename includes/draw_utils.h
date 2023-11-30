@@ -29,9 +29,6 @@
 # define FIN_CANVAS_SIZE_Y 1072
 # define GAME_CANVAS_SIZE_X 1920
 # define GAME_CANVAS_SIZE_Y 1072
-
-
-
 # define MAP_Z_INDEX 3
 # define GAME_Z_INDEX 1
 # define UI_Z_INDEX 5
@@ -112,11 +109,10 @@ typedef struct s_map_editor_data
 
 typedef struct s_button_data
 {
-	char		*text;
-	t_img_data	*img;
-	t_point2i	size;
-	t_color		color;
-	int			(*action_on_click)(void *data, void *self);
+	char			*image_path;
+	t_img_data		*img;
+	t_color			color;
+	int				(*action_on_click)(void *data, void *self);
 }	t_button_data;
 
 typedef struct s_ui_data
@@ -169,10 +165,12 @@ typedef struct s_canvas_init_entry {
 	int					z_index;
 	size_t				nbr_canvas;
 	t_event_handlers	event_handlers;
+	t_img_fit_mode		fit_mode;
+	char				*image_path;
+	t_color				color;
 }	t_canvas_init_entry;
 
 typedef struct s_canvas {
-	t_canvas_init_entry	info;
 	t_canvas_data		data;
 	t_canvas_type		type;
 	t_point2i			size;
@@ -183,6 +181,7 @@ typedef struct s_canvas {
 	bool				is_dynamic;
 	t_bounds			bounds;
 	int					z_index;
+	t_event_handlers	event_handlers;
 }	t_canvas;
 
 typedef struct s_setup_by_game_state
@@ -192,6 +191,9 @@ typedef struct s_setup_by_game_state
 	size_t				canvas_count;
 }	t_setup_by_game_state;
 
+/*############################################################################*/
+/*                              CANVAS INITIALIZATION                         */
+/*############################################################################*/
 
 typedef t_canvas	*(*t_canvas_init_func)(t_canvas_init_entry *);
 typedef void		(*t_canvas_free_func)(t_canvas *);
@@ -212,12 +214,6 @@ t_canvas					*initialize_fin_temp_canvas(
 								t_canvas_init_entry *entry);
 t_canvas					*initialize_final_canvas(
 								t_canvas_init_entry *entry);
-
-
-/*############################################################################*/
-/*                              CANVAS INITIALIZATION                         */
-/*############################################################################*/
-
 t_list						*initialize_canvas_and_add_to_list(
 								t_canvas_init_entry *entry,
 								t_list **canvas_list);
@@ -232,7 +228,6 @@ void						set_canvas_bounds(t_canvas_init_entry *entry,
 								t_point2i *currentPos,
 								int *currentRowHeight,
 								int maxWidth);
-
 
 /*############################################################################*/
 /*                              CANVAS DESTRUCTION                            */

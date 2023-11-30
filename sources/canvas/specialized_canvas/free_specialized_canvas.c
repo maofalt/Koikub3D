@@ -22,7 +22,7 @@ void	free_map_editor(t_canvas *canvas)
 		ft_lstclear(&map_editor->matrix_operations, free);
 	if (map_editor->segments)
 		ft_lstclear(&map_editor->segments, free);
-	aligned_free(map_editor);
+	//aligned_free(map_editor);
 }
 
 void	free_ui(t_canvas *canvas)

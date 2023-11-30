@@ -108,7 +108,7 @@ int	map_editor_render(void *self, t_cub *data)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)
 	{
-		redraw_scene(data, get_canvas_from_list(data->canvas_list, FIN_TEMP));
+		//redraw_scene(data, get_canvas_from_list(data->canvas_list, FIN_TEMP));
 		redraw_scene(data, (t_canvas *)self);
 		data->update = NO_UPDATE;
 	}

@@ -101,6 +101,6 @@ int	game_loop(t_cub *data)
 	game_update(data);
 	game_render(data);
 	count_fps();
-	usleep(12000);
+	usleep(16000);
 	return (0);
 }

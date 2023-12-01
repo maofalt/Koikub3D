@@ -1,0 +1,26 @@
+/* XPM */
+static char *Windows_Toggle_Selected[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c black",
+". c gray25",
+"X c #D4D0C8",
+"o c white",
+/* pixels */
+"                ",
+" ..............X",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" .ooooooooo  ooX",
+" .oooooooo  oooX",
+" .ooo  oo  ooooX",
+" .oooo    oooooX",
+" .ooooo  ooooooX",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" .oooooooooooooX",
+" XXXXXXXXXXXXXXX"
+};

@@ -1,0 +1,25 @@
+/* XPM */
+static char *Windows_Button_Focus_Outlined[] = {
+/* columns rows colors chars-per-pixel */
+"15 15 4 1 ",
+"  c black",
+". c gray25",
+"X c #D4D0C8",
+"o c white",
+/* pixels */
+"               ",
+" oooooooooooo. ",
+" oXXXXXXXXXXX. ",
+" oX X X X X X. ",
+" oXXXXXXXXXXX. ",
+" oX XXXXXXX X. ",
+" oXXXXXXXXXXX. ",
+" oX XXXXXXX X. ",
+" oXXXXXXXXXXX. ",
+" oX XXXXXXX X. ",
+" oXXXXXXXXXXX. ",
+" oX X X X X X. ",
+" oXXXXXXXXXXX. ",
+" ............. ",
+"               "
+};

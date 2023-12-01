@@ -29,17 +29,23 @@ const t_canvas_init_entry	g_canvas_init_table[]
 },
 [1] = {
 	.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}},
-	.type = UI,
+	.type = BUTTON,
 	.z_index = UI_Z_INDEX,
 	.position = (t_point2i){{0, 0}},
-	.stack = false
+	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = WINDOW_BASE,
+	.text = "EDIT MAP"
 },
 [2] = {
 	.size = (t_point2i){{MAP_CANVAS_SIZE_X - UI_CANVAS_SIZE_X, 100}},
-	.type = UI,
+	.type = BUTTON,
 	.z_index = UI_Z_INDEX + 1,
 	.position = (t_point2i){{UI_CANVAS_SIZE_X, 800}},
-	.stack = false
+	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = WINDOW_BASE,
+	.text = "TBD"
 },
 [3] = {
 	.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},

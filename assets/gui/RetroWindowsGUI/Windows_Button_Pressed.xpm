@@ -1,0 +1,25 @@
+/* XPM */
+static char *Windows_Button_Pressed[] = {
+/* columns rows colors chars-per-pixel */
+"15 15 4 1 ",
+"  c black",
+". c gray25",
+"X c #D4D0C8",
+"o c white",
+/* pixels */
+"               ",
+" .............X",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .XXXXXXXXXXXoX",
+" .ooooooooooooX",
+" XXXXXXXXXXXXXX"
+};

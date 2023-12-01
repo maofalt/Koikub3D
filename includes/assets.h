@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 17:16:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/11 23:38:27 by motero           ###   ########.fr       */
+/*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
+/*   Updated: 2023/10/14 19:21:52 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
 
-# include <stdint.h>
-# include "libft.h"
-# include "list_fonctions.h"
-# include "get_next_line.h"
-# include "structures.h"
-# include "parsing.h"
-# include "mlx_engine.h"
-# include "draw_utils.h"
-# include "bsp_visualizer.h"
-# include "colors.h"
-# include <math.h>
+#ifndef ASSETS_H
+# define ASSETS_H
+
 # include <mlx.h>
-# include <stdbool.h>
-# include "matrix.h"
-# include "assets.h"
-# ifndef FOV
-#  define FOV 60
-# endif
+# include "structures.h"
+# define ASSETS_BASE_PATH "assets/gui/RetroWindowsGUI/"
 
 /*############################################################################*/
-/*                              GENERAL FUNCTIONS                             */
+/*                             		ASSETS                                    */
 /*############################################################################*/
-void	free_everything(t_cub data);
+
+int			load_ui_assets(
+				void *mlx_ptr,
+				t_img_data *ui_images,
+				const char **paths);
+int			initialize_and_preload_assets(t_cub *data);
+t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images);
 
 #endif

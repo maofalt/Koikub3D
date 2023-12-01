@@ -58,6 +58,43 @@ typedef struct s_img_data
 	t_vector_i	size;
 }	t_img_data;
 
+/*############################################################################*/
+/*                              	ASSETS                                    */
+/*############################################################################*/
+
+typedef enum e_ui_assets
+{
+	WINDOW_BASE,
+	WINDOW_HEADER_INACTIVE,
+	WINDOW_HEADER_RESIZABLE_INACTIVE,
+	WINDOW_HEADER_RESIZABLE,
+	WINDOW_HEADER,
+	WINDOWS_BUTTON_FOCUS_OUTLINED,
+	WINDOWS_BUTTON_FOCUS,
+	WINDOWS_BUTTON_INACTIVE,
+	WINDOWS_BUTTON_PRESSED_OUTLINED,
+	WINDOWS_BUTTON_PRESSED,
+	WINDOWS_BUTTON,
+	WINDOWS_DIVIDER_LINE,
+	WINDOWS_EXAMPLE_ITCHPIC,
+	WINDOWS_EXAMPLE_MAIN,
+	WINDOWS_EXAMPLE_POPUP,
+	WINDOWS_ICONS,
+	WINDOWS_INNER_FRAME_INVERTED,
+	WINDOWS_INNER_FRAME,
+	WINDOWS_PROGRESS_FILL,
+	WINDOWS_RATIO_INACTIVE,
+	WINDOWS_RATIO_SELECTED,
+	WINDOWS_RATIO,
+	WINDOWS_SIDEBAR_UNDERSIDE,
+	WINDOWS_SLIDER_BACKGROUND,
+	WINDOWS_SLIDER_HANDLE,
+	WINDOWS_TOGGLE_ACTIVE,
+	WINDOWS_TOGGLE_INACTIVE,
+	WINDOWS_TOGGLE_SELECTED,
+	ASSET_COUNT
+}	t_ui_assets;
+
 /* Parsing structure for CUB3D stocking information from .cub file
 ** a wolrd map in a 2D int array of MAPWIDTH * MAPHEIGHT
 ** a array  of size 4 of sprites using t_image from the mlx
@@ -250,6 +287,7 @@ typedef struct s_cub
 {
 	t_img_data				texture[4];
 	t_img_data				screen;
+	t_img_data				ui_images[ASSET_COUNT];
 	uint32_t				floor;
 	uint32_t				celling;
 	t_point2i				mouse_pos;
@@ -280,5 +318,6 @@ typedef struct s_event_handlers {
 }	t_event_handlers;
 
 typedef int				(*t_canvas_func)(void *, t_cub *);
+
 
 #endif

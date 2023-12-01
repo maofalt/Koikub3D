@@ -1,0 +1,25 @@
+/* XPM */
+static char *Windows_Inner_Frame[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1 ",
+"  c gray25",
+". c white",
+"X c None",
+/* pixels */
+"               .",
+" ............. .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+" .XXXXXXXXXXXX .",
+"               .",
+"................"
+};

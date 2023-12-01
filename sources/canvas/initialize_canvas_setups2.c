@@ -31,8 +31,9 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 	.on_keypress = NULL,
 	.on_boutonpress = NULL,
 	.render = NULL},
-	.fit_mode = FIT_CANVAS_TO_IMAGE,
-	.image_path = "assets/textures/button_main_menu.xpm"
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = WINDOWS_EXAMPLE_MAIN,
+	.text = "Hello World"
 },
 [2] = {
 	.type = FIN_TEMP,

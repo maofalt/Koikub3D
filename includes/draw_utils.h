@@ -109,9 +109,11 @@ typedef struct s_map_editor_data
 
 typedef struct s_button_data
 {
-	char			*image_path;
+	t_ui_assets		asset;
+	char			text[256];
 	t_img_data		*img;
 	t_color			color;
+	t_img_fit_mode	fit_mode;
 	int				(*action_on_click)(void *data, void *self);
 }	t_button_data;
 
@@ -166,8 +168,9 @@ typedef struct s_canvas_init_entry {
 	size_t				nbr_canvas;
 	t_event_handlers	event_handlers;
 	t_img_fit_mode		fit_mode;
-	char				*image_path;
+	t_ui_assets			asset;
 	t_color				color;
+	char				text[256];
 }	t_canvas_init_entry;
 
 typedef struct s_canvas {

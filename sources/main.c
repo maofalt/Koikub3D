@@ -75,6 +75,8 @@ int	main(int argc, char **argv)
 	ft_mlx_initialize_pointers(&data);
 	if (data.mlx_ptr == NULL)
 		return (1);
+	if (initialize_and_preload_assets(&data))
+		return (free_everything(data), 1);
 	data.update = UPDATE;
 	data.game_state = MENU;
 	if (!main_parsing(&data, argv[1]))

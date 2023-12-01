@@ -26,7 +26,7 @@ int	apply_to_canvas(t_cub *data, t_canvas_func canvas_func)
 	while (current_canvas)
 	{
 		canvas = (t_canvas *)current_canvas->content;
-		if (canvas->type == UI || canvas->type == MAP || canvas->type == GAME)
+		if (is_valid_canvas(canvas))
 		{
 			if (canvas_func != NULL)
 				canvas_func(canvas, data);

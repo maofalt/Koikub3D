@@ -22,3 +22,34 @@ int	render_base(void *self, t_cub *data)
 		return (canvas->event_handlers.render(self, data));
 	return (-1);
 }
+
+
+void	fill_canvas_with_image(t_canvas *canvas, t_img_data *img)
+{
+	t_point2i	pos;
+	t_point2i	img_pos;
+	t_point2d	scale;
+	t_color		*pixel;
+
+	scale.x = (double)img->size[0] / canvas->size.x;
+	scale.y = (double)img->size[1] / canvas->size.y;
+
+	pos.y = 0;
+	while (pos.y < canvas->size.y)
+	{
+		pos.x = 0;
+		while (pos.x < canvas->size.x)
+		{
+			// Adjust the scaling for each axis
+			img_pos.x = (int)(pos.x * scale.x);
+			img_pos.y = (int)(pos.y * scale.y);
+
+			// Fetch the pixel from the image and set it to the canvas
+			pixel = (t_color *)(img->addr + (img_pos.y * img->line_len + img_pos.x * (img->bpp / 8)));
+			canvas->pixels[pos.y * canvas->size.x + pos.x] = *pixel;
+			pos.x++;
+		}
+		pos.y++;
+	}
+}
+

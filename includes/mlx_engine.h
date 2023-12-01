@@ -47,7 +47,7 @@
 # define W_KEY 119
 
 # define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1072
+# define WINDOW_HEIGHT 1020
 
 # ifndef FOV
 #  define FOV 90
@@ -100,11 +100,18 @@ int				map_editor_handle_rotation(int keysim, t_cub *data,
 /*############################################################################*/
 /*                             MAIN MENU EVENTS                               */
 /*############################################################################*/
+
+
+/*############################################################################*/
+/*                             BUTTON EVENTS                               */
+/*############################################################################*/
 int				menu_to_edit_map_handle_boutonpress(
 					int buttonsym,
 					t_point2i mouse_pos,
 					void *self,
 					t_cub *data);
+int				button_render(void *self, t_cub *data);
+
 /*############################################################################*/
 /*                             CANVAS EVENTS                                  */
 /*############################################################################*/

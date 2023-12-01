@@ -1,0 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   general_events.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
+/*   Updated: 2023/10/16 21:35:09 by motero           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "mlx_engine.h"
+#include "draw_utils.h"
+#include "assets.h"
+
+
+//Fill canvas with color either fill it with  the texture
+int	button_render(void *self, t_cub *data)
+{
+	t_canvas		*button;
+	t_button_data	*button_data;
+
+	button = (t_canvas *)self;
+	button_data = &button->data.button;
+
+	if (button_data->img == NULL)
+	{
+		button_data->img = get_ui_asset(button_data->asset, data->ui_images);
+		if (button_data->img == NULL)
+			return (0);
+		fill_canvas_with_image(button, button_data->img);
+	}
+	return (0);
+}

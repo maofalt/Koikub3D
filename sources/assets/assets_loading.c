@@ -45,7 +45,10 @@ static const	char *g_ui_asset_paths[ASSET_COUNT]
 [WINDOWS_SLIDER_HANDLE] = ASSETS_BASE_PATH "Windows_Slider_Handle.xpm",
 [WINDOWS_TOGGLE_ACTIVE] = ASSETS_BASE_PATH "Windows_Toggle_Active.xpm",
 [WINDOWS_TOGGLE_INACTIVE] = ASSETS_BASE_PATH "Windows_Toggle_Inactive.xpm",
-[WINDOWS_TOGGLE_SELECTED] = ASSETS_BASE_PATH "Windows_Toggle_Selected.xpm"
+[WINDOWS_TOGGLE_SELECTED] = ASSETS_BASE_PATH "Windows_Toggle_Selected.xpm",
+[BACKGROUND] = "assets/gui/background/Desktop.xpm",
+[ICON_DRAW] = "assets/gui/icons/IconPaintDraw.xpm",
+[ICON_GAME] = "assets/gui/icons/IconGame.xpm"
 };
 
 t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images)
@@ -72,8 +75,6 @@ int	load_ui_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths)
 	index = 0;
 	while (index < ASSET_COUNT)
 	{
-		printf("load_ui_assets %d\n", index);
-		printf("load_ui_assets %s\n", paths[index]);
 		ui_images[index].mlx_img = mlx_xpm_file_to_image(mlx_ptr,
 				(char *)paths[index], &width, &height);
 		if (ui_images[index].mlx_img == NULL)
@@ -84,6 +85,5 @@ int	load_ui_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths)
 		ui_images[index].size = (t_vector_i){width, height};
 		index++;
 	}
-	printf("all assets loaded succesfully\n");
 	return (0);
 }

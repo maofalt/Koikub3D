@@ -34,7 +34,7 @@ const t_canvas_init_entry	g_canvas_init_table[]
 	.position = (t_point2i){{0, 0}},
 	.stack = false,
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
-	.asset = WINDOW_BASE,
+	.asset = WINDOWS_INNER_FRAME,
 	.text = "EDIT MAP"
 },
 [2] = {
@@ -121,7 +121,7 @@ int	initialize_map_editor_setup(t_setup_by_game_state *setup)
 	{
 		setup->canvas_configurations[i] = canvas_init_table[i];
 		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
-			&current_row_height, 1920);
+			&current_row_height, WINDOW_WIDTH);
 		i++;
 	}
 	return (0);

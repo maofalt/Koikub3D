@@ -22,13 +22,13 @@
 # include "mlx_engine.h"
 
 # define MAP_CANVAS_SIZE_X 1920
-# define MAP_CANVAS_SIZE_Y 1072
+# define MAP_CANVAS_SIZE_Y 1020
 # define UI_CANVAS_SIZE_X 200
-# define UI_CANVAS_SIZE_Y 1072
+# define UI_CANVAS_SIZE_Y 1020
 # define FIN_CANVAS_SIZE_X 1920
-# define FIN_CANVAS_SIZE_Y 1072
+# define FIN_CANVAS_SIZE_Y 1020
 # define GAME_CANVAS_SIZE_X 1920
-# define GAME_CANVAS_SIZE_Y 1072
+# define GAME_CANVAS_SIZE_Y 1020
 # define MAP_Z_INDEX 3
 # define GAME_Z_INDEX 1
 # define UI_Z_INDEX 5
@@ -307,6 +307,9 @@ t_canvas					*get_canvas(t_list *canvas_list,
 /*                 		CANVAS MEMBER FUNCTIONS                               */
 /*############################################################################*/
 int							render_base(void *canvas, t_cub *data);
+void						fill_canvas_with_image(
+								t_canvas *canvas,
+								t_img_data *img);
 
 /*############################################################################*/
 /*                              UI CANVAS OPERATIONS                          */

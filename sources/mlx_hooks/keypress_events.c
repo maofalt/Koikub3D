@@ -48,8 +48,6 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 	if (!data->active_canvas)
 		return (0);
 	ft_destroy_window_button(keysym, data);
-	//handle here global key events
-	//printf("activate canvas %p\n", data->active_canvas);
 	event_handler = ((t_canvas *)(data->active_canvas))->event_handlers;
 	if (event_handler.on_keypress)
 		return (event_handler.on_keypress(keysym,

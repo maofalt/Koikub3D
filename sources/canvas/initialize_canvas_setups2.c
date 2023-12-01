@@ -23,7 +23,7 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 },
 [1] = {
 	.type = BUTTON,
-	.size = (t_point2i){{1920, 100}},
+	.size = (t_point2i){{WINDOW_WIDTH, 100}},
 	.z_index = UI_Z_INDEX,
 	.position = (t_point2i){{0, 0}},
 	.stack = true,
@@ -32,7 +32,7 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 	.on_boutonpress = NULL,
 	.render = NULL},
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
-	.asset = WINDOWS_EXAMPLE_MAIN,
+	.asset = ICON_DRAW,
 	.text = "Hello World"
 },
 [2] = {
@@ -47,35 +47,42 @@ const t_canvas_init_entry	g_canvas_init_table2[]
 const t_canvas_init_entry	g_canvas_init_table_main_menu[]
 	= {
 [0] = {
-	.type = GAME,
+	.type = BUTTON,
 	.z_index = 1,
 	.position = (t_point2i){{0, 0}},
-	.size = (t_point2i){{1920, 1072}},
+	.size = (t_point2i){{WINDOW_WIDTH, WINDOW_HEIGHT}},
 	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = BACKGROUND,
 	.event_handlers = {
-	.on_keypress = NULL,
-	.on_boutonpress = NULL,
-	.render = NULL}},
+	.on_keypress = &mlx_int_do_nothing,
+	.on_boutonpress = &mlx_int_do_nothing,
+	.render = &button_render}},
 [1] = {
-	.type = UI,
+	.type = BUTTON,
 	.z_index = 2,
-	.size = (t_point2i){{1920 / 2, 250}},
-	.position = (t_point2i){{500, 250}},
+	.size = (t_point2i){{64, 64}},
+	.position = (t_point2i){{60, 650}},
 	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = ICON_DRAW,
 	.event_handlers = {
-	.on_keypress = NULL,
+	.on_keypress = &mlx_int_do_nothing,
 	.on_boutonpress = &menu_to_edit_map_handle_boutonpress,
-	.render = NULL}},
+	.render = &button_render}},
+
 [2] = {
-	.type = UI,
-	.size = (t_point2i){{1920 / 2, 250}},
+	.type = BUTTON,
+	.size = (t_point2i){{80, 80}},
 	.z_index = 2,
-	.position = (t_point2i){{500, 600}},
+	.position = (t_point2i){{50, 750}},
 	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = ICON_GAME,
 	.event_handlers = {
-	.on_keypress = NULL,
-	.on_boutonpress = NULL,
-	.render = NULL}},
+	.on_keypress = &mlx_int_do_nothing,
+	.on_boutonpress = &mlx_int_do_nothing,
+	.render = &button_render}},
 [3] = {
 	.type = FINAL,
 	.z_index = -2,
@@ -114,7 +121,7 @@ int	initialize_gameplay_setup(t_setup_by_game_state *setup)
 	{
 		setup->canvas_configurations[i] = canvas_init_table2[i];
 		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
-			&current_row_height, 1920);
+			&current_row_height, WINDOW_WIDTH);
 		i++;
 	}
 	return (0);
@@ -146,7 +153,7 @@ int	initialize_menu_setup(t_setup_by_game_state *setup)
 	{
 		setup->canvas_configurations[i] = canvas_init_table3[i];
 		set_canvas_bounds(&setup->canvas_configurations[i], &current_pos,
-			&current_row_height, 1920);
+			&current_row_height, WINDOW_WIDTH);
 		i++;
 	}
 	return (0);

@@ -22,7 +22,8 @@ static inline void	draw_vertical_line_tiled(
 			int 		screen_x,
 			int 		screen_top,
 			const int	screen_bottom,
-			double		tiled_factor
+			double		tiled_factor,
+			double		depth
 			)
 {
 	uint32_t	*img = (void *)image->addr;
@@ -45,6 +46,25 @@ static inline void	draw_vertical_line_tiled(
 		offset = (screen_top + y) * canvas->size.x + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
 		canvas->pixels[offset].d = img[offset_img];
+
+		double center_dist = (pow((screen_top + y) - (canvas->size.y/2) , 2) + pow(screen_x - (canvas->size.x/2), 2));
+
+		double opacity = 0.1/ fmax(depth * depth, 1);
+
+		// depth = depth / (center_dist/1000);
+		// if (center_dist < 10000)
+		// {
+			// depth -= 1 / sqrt(center_dist);
+			// depth =  1;
+		opacity +=  (0.5 / (depth*1.5)) * fmin(((50000 * fmin(1000, depth) / (center_dist*2))), 4);
+		// }
+
+		opacity = fmin(opacity, 1);
+		opacity = fmax(opacity, 0);
+		canvas->pixels[offset].b *= opacity;
+		canvas->pixels[offset].g *= opacity;
+		canvas->pixels[offset].r *= opacity;
+		canvas->pixels[offset].a *= opacity;
 		++y;
 	}
 }
@@ -214,7 +234,7 @@ double	calc_wall_texture_repeat_factor_x(t_segment_d *segment)
 double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
 {
 
-	return (fabs(segment->data.floor - segment->data.ceil) / 30);
+	return (fabs(segment->data.floor - segment->data.ceil) / fabs(DEFAULT_FLOOR - DEFAULT_CEIL));
 
 }
 
@@ -348,7 +368,7 @@ void draw_wall_texture(
 
 		draw_vertical_line_tiled(render->canvas,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
-			x, top, bot, texture_tiling_factor_y);
+			x, top, bot, texture_tiling_factor_y, 1/(one_over_z));
 
 		// draw_vertical_line_color(render->canvas,
 		// 				x, top, bot, (t_color) {.a=txtx, .r = 255, .g = 0, .b=255});

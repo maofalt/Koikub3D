@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/11/24 16:43:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/01 05:12:36 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 ** https://users.ece.cmu.edu/~franzf/teaching/slides-18-645-simd.pdf
 **
 */
+
+# define DEFAULT_CEIL -80
+# define DEFAULT_FLOOR 20
 
 enum e_action { a_move_up,
 	a_move_down,

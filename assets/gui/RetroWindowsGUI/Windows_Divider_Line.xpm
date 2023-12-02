@@ -1,0 +1,10 @@
+/* XPM */
+static char *Windows_Divider_Line[] = {
+/* columns rows colors chars-per-pixel */
+"1 2 2 1 ",
+"  c #808080",
+". c white",
+/* pixels */
+" ",
+"."
+};

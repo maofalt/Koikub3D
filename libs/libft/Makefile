@@ -6,7 +6,7 @@
 #    By: motero <motero@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/01/28 20:10:41 by motero           ###   ########.fr        #
+#    Updated: 2023/10/20 00:55:14 by motero           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ ft_strlen.c \
 ft_memset.c \
 ft_bzero.c \
 ft_memcpy.c \
+ft_memcpy_avx.c \
+ft_memcpy_x86.c \
 ft_memmove.c \
 ft_strlcpy.c \
 ft_strlcat.c \
@@ -86,7 +88,9 @@ ft_switch_case_two.c\
 ft_printerror.c \
 ft_strcmp.c \
 ft_strconcat.c \
-ft_strcpy.c
+ft_strcpy.c \
+memcpy_x86_bulk.s \
+memcpy_x86_remainder.s
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
@@ -102,12 +106,15 @@ ft_switch_cases.c\
 ft_switch_case_two.c
 SRCS_PRINT = $(addprefix $(SRCS_PATH_PRINT), $(SRCS_PRINT_NAME))
 
+AS = as
+
+
 #=============================================================================#
 #                                OBJECTS                                      #
 #=============================================================================#
 
 OBJS_PATH = objs/
-OBJS_NAME = $(SRCS_NAME:.c=.o)
+OBJS_NAME = $(patsubst %.c,%.o,$(patsubst %.s,%.o,$(SRCS_NAME)))
 OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 
 OBJS_NAME_PRINT = $(SRCS_PRINT_NAME:.c=.o)
@@ -118,7 +125,7 @@ OBJS_PRINT = $(addprefix $(OBJS_PATH), $(OBJS_NAME_PRINT))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -msse2 -mavx -g3
 
 LIBA = ar rc
 LIBS = ranlib
@@ -152,6 +159,9 @@ $(OBJS_PATH):
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(HDRS)
 			@$(CC) $(CFLAGS) $(HDR_INC) -c $< -o $@
+
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.s
+			@$(AS) -o $@ $<
 
 
 all: ${NAME} ${HDRS}

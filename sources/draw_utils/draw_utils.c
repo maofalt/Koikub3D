@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/05 22:51:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:11:29 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,46 +20,14 @@ void	img_pix_put(t_img_data *img, int x, int y, int color)
 	*(int *)pixel = color;
 }
 
-void	rectangle(t_img_data *img, t_vector_i pos, t_vector_i size, int color)
+int	point_space_partitioning(t_segment_d *separator, t_point2d *point)
 {
-	int	x;
-	int	y;
+	t_vector4d	ab;
+	t_vector4d	ap;
+	t_vector4d	tmp_point;
 
-	y = pos[1];
-	while (y < pos[1] + size[1])
-	{
-		x = pos[0];
-		while (x < pos[0] + size[0])
-		{
-			img_pix_put(img, x, y, color);
-			x++;
-		}
-		y++;
-	}
-}
-
-/*
-** Function that draw the celling and floor of the map
-** ussing the rectangle function and the color of the celling and floor
-** already stored on the map structure
-** as well using the  SCREEN_HEIGHT and SCREEN_WIDTH defined on the mlx_engine.h
-*/
-
-void	draw_celling_floor(t_cub *data)
-{
-	t_vector_i	pos;
-	t_vector_i	size;
-	t_img_data	img;
-
-	img = data->screen;
-	pos[0] = 0;
-	pos[1] = 0;
-	size[0] = WINDOW_WIDTH;
-	size[1] = WINDOW_HEIGHT / 2;
-	rectangle(&img, pos, size, data->celling);
-	pos[0] = 0;
-	pos[1] = WINDOW_HEIGHT / 2;
-	size[0] = WINDOW_WIDTH;
-	size[1] = WINDOW_HEIGHT / 2;
-	rectangle(&img, pos, size, data->floor);
+	tmp_point = point2d_to_vector4d(point);
+	ab.vec = separator->point_b.vec - separator->point_a.vec;
+	ap.vec = tmp_point.vec - separator->point_a.vec;
+	return (ab.x * ap.y - ab.y * ap.x);
 }

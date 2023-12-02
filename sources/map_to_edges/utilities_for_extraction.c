@@ -6,14 +6,14 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/11 23:47:19 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/14 19:56:24 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map_to_edges.h"
 
 int	process_direction(t_edge_exploration_context *context, t_list **edges,
-		t_point2d delta, t_direction dir)
+		t_vector4d delta, t_direction dir)
 {
 	update_context(context, context->current_coord, delta, dir);
 	explore_edge(context);
@@ -84,3 +84,4 @@ void	free2DArray(t_direction **array)
 	}
 	free(array);
 }
+

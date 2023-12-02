@@ -1,0 +1,32 @@
+/* XPM */
+static char *Windows_Slider_Handle[] = {
+/* columns rows colors chars-per-pixel */
+"11 21 5 1 ",
+"  c gray25",
+". c #808080",
+"X c #D4D0C8",
+"o c white",
+"O c None",
+/* pixels */
+"oooooooooo ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"oXXXXXXXX. ",
+"OoXXXXXX. O",
+"OOoXXXX. OO",
+"OOOoXX. OOO",
+"OOOOo. OOOO",
+"OOOOO OOOOO"
+};

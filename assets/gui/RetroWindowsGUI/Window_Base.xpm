@@ -1,0 +1,25 @@
+/* XPM */
+static char *Window_Base[] = {
+/* columns rows colors chars-per-pixel */
+"15 15 4 1 ",
+"  c black",
+". c gray25",
+"X c #D4D0C8",
+"o c white",
+/* pixels */
+"XXXXXXXXXXXXXX ",
+"Xoooooooooooo. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"XoXXXXXXXXXXX. ",
+"X............. ",
+"               "
+};

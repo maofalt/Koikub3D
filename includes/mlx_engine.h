@@ -6,7 +6,7 @@
 /*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:27:41 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/13 22:56:25 by motero           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "cub3D.h"
 # include "mlx.h"
-# include "structures.h"
+//# include "structures.h"
+# include "draw_utils.h"
 
 /*############################################################################*/
 /*                              BUTTONS DEFINITION                            */
@@ -46,7 +47,7 @@
 # define W_KEY 119
 
 # define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WINDOW_HEIGHT 1020
 
 # ifndef FOV
 #  define FOV 90
@@ -55,25 +56,65 @@
 /*############################################################################*/
 /*                              MLX_ENGINE FUNCTIONS                          */
 /*############################################################################*/
-
-int		ft_mlx_initialize_pointers(t_cub *data);
-int		ft_mlx_create_window_and_image(t_cub *data);
+int				ft_mlx_initialize_pointers(t_cub *data);
+int				ft_mlx_create_window_and_image(t_cub *data);
 
 /*############################################################################*/
 /*                              MLX_ENGINE HOOKS                          */
 /*############################################################################*/
 
-void	ft_mlx_engine(t_cub *data);
-int     ft_destroy_window(t_cub *data);
-int	    ft_handle_keyrelease(int keysym, t_cub *data);
-int     ft_handle_keypress(int keysym, t_cub *data);
-int     ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
-
+void			ft_mlx_engine(t_cub *data);
+int				ft_destroy_window(t_cub *data);
+int				ft_handle_keyrelease(int keysym, t_cub *data);
+int				ft_handle_keypress(int keysym, t_cub *data);
+int				ft_handle_boutonpress(int buttonsym, int x, int y, t_cub *data);
+int				ft_handle_mousemotion(int x, int y, t_cub *data);
 
 /*############################################################################*/
 /*                              KEYPRESS EVENTS                               */
 /*############################################################################*/
-void	ft_destroy_window_button(int keysym, t_cub *data);
-void	ft_movements_keys(int keysym, t_cub *data);
+void			ft_destroy_window_button(int keysym, t_cub *data);
+void			ft_movements_keys(int keysym, t_cub *data);
+
+/*############################################################################*/
+/*                              MAP EDITOR EVENTS                             */
+/*############################################################################*/
+int				map_canvas_handle_keypress(
+					int keysym,
+					void *self,
+					t_cub *data);
+int				map_canvas_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
+int				map_canvas_handle_zoom(
+					int zoom_direction,
+					void *map_canvas,
+					t_cub *data,
+					t_point2i mouse_pos);
+int				map_editor_render(void *self, t_cub *data);
+int				map_editor_handle_rotation(int keysim, t_cub *data,
+					void *map_canvas);
+
+/*############################################################################*/
+/*                             MAIN MENU EVENTS                               */
+/*############################################################################*/
+
+
+/*############################################################################*/
+/*                             BUTTON EVENTS                               */
+/*############################################################################*/
+int				menu_to_edit_map_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
+int				button_render(void *self, t_cub *data);
+
+/*############################################################################*/
+/*                             CANVAS EVENTS                                  */
+/*############################################################################*/
+void			*detect_clicked_canvas(t_cub *data, t_point2i click_position);
 
 #endif

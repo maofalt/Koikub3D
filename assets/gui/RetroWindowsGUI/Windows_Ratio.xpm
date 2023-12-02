@@ -1,0 +1,24 @@
+/* XPM */
+static char *Windows_Ratio[] = {
+/* columns rows colors chars-per-pixel */
+"13 13 5 1 ",
+"  c black",
+". c #808080",
+"X c #C0C0C0",
+"o c white",
+"O c None",
+/* pixels */
+"OOOO....OOOOO",
+"OO.      .OOO",
+"O. .ooooo .OO",
+"O .ooooooo.OO",
+". ooooooooo.o",
+". ooooooooo.o",
+". ooooooooo.o",
+". ooooooooo.o",
+"O ooooooooo.o",
+"O. ooooooo.oO",
+"OO..ooooo.XoO",
+"OOOO.....ooOO",
+"OOOOoooooOOOO"
+};

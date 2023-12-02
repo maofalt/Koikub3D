@@ -1,0 +1,26 @@
+/* XPM */
+static char *Windows_Inner_Frame_Inverted[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c gray25",
+". c #808080",
+"X c #D4D0C8",
+"o c white",
+/* pixels */
+"...............o",
+".             Xo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+". XXXXXXXXXXXXXo",
+".XXXXXXXXXXXXXXo",
+"oooooooooooooooo"
+};

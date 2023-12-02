@@ -95,6 +95,8 @@ typedef enum e_ui_assets
 	BACKGROUND,
 	ICON_DRAW,
 	ICON_GAME,
+	BAR_WITH_DRAW,
+	SIDE_BAR,
 	ASSET_COUNT
 }	t_ui_assets;
 

@@ -48,7 +48,9 @@ static const	char *g_ui_asset_paths[ASSET_COUNT]
 [WINDOWS_TOGGLE_SELECTED] = ASSETS_BASE_PATH "Windows_Toggle_Selected.xpm",
 [BACKGROUND] = "assets/gui/background/Desktop.xpm",
 [ICON_DRAW] = "assets/gui/icons/ModifyMap.xpm",
-[ICON_GAME] = "assets/gui/icons/PlayGame.xpm"
+[ICON_GAME] = "assets/gui/icons/PlayGame.xpm",
+[BAR_WITH_DRAW] = "assets/gui/background/desktop_bar.xpm",
+[SIDE_BAR] = "assets/gui/background/SideBar.xpm"
 };
 
 t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images)

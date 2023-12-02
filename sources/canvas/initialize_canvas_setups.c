@@ -28,25 +28,31 @@ const t_canvas_init_entry	g_canvas_init_table[]
 }
 },
 [1] = {
-	.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y}},
+	.size = (t_point2i){{UI_CANVAS_SIZE_X, UI_CANVAS_SIZE_Y - 60}},
 	.type = BUTTON,
 	.z_index = UI_Z_INDEX,
 	.position = (t_point2i){{0, 0}},
 	.stack = false,
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
-	.asset = WINDOWS_INNER_FRAME,
-	.text = "EDIT MAP"
-},
+	.asset = SIDE_BAR,
+	.text = "EDIT MAP",
+	.event_handlers = {
+	.on_keypress = &mlx_int_do_nothing,
+	.on_boutonpress = &mlx_int_do_nothing,
+	.render = &button_render}},
 [2] = {
-	.size = (t_point2i){{MAP_CANVAS_SIZE_X - UI_CANVAS_SIZE_X, 100}},
+	.size = (t_point2i){{MAP_CANVAS_SIZE_X, 60}},
 	.type = BUTTON,
 	.z_index = UI_Z_INDEX + 1,
-	.position = (t_point2i){{UI_CANVAS_SIZE_X, 800}},
+	.position = (t_point2i){{0, UI_CANVAS_SIZE_Y - 60}},
 	.stack = false,
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
-	.asset = WINDOW_BASE,
-	.text = "TBD"
-},
+	.asset = BAR_WITH_DRAW,
+	.text = "TBD",
+	.event_handlers = {
+	.on_keypress = &mlx_int_do_nothing,
+	.on_boutonpress = &mlx_int_do_nothing,
+	.render = &button_render}},
 [3] = {
 	.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 	.type = FINAL,

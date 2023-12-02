@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/28 02:53:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/02 22:43:34 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,12 +284,6 @@ void	render_portal(
 		return ;
 	left = fmax(projected_top.point_a.x, left);
 	right = fmin(projected_top.point_b.x, right);
-	coef_bot = calc_seg_coef(&projected_bot);
-	coef_top = calc_seg_coef(&projected_top);
-	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
-	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
-	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
-	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
 	t_render_item_queue		new_item_queue;
 	if (left < right)
 	{
@@ -298,6 +292,12 @@ void	render_portal(
 		new_item_queue.portal = wall->data.data.portal.destination;
 		circular_queue_add(render->queue, &new_item_queue);
 	}
+	coef_bot = calc_seg_coef(&projected_bot);
+	coef_top = calc_seg_coef(&projected_top);
+	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
+	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
+	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
+	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
 	double bot_y = projected_bot.point_a.y;
 	double top_y = projected_top.point_a.y;
 	int x = left;
@@ -314,46 +314,6 @@ void	render_portal(
 	draw_portal_ceil_offset(render, &projected_top, left, right);
 	draw_portal_floor_offset(render, &projected_bot, left, right);
 }
-
-// void	draw_portal_wall(
-// 	t_3d_render *render,
-// 	t_segment_d	*wall,
-// 	double left,
-// 	double right
-// 	)
-// {
-// 	t_segment_d		projected_top;
-// 	t_segment_d		projected_bot;
-// 	double			coef_top;
-// 	double			coef_bot;
-
-// 	if (project_wall(render, wall, &projected_top, &projected_bot))
-// 		return ;
-// 	left = fmax(projected_top.point_a.x, left);
-// 	right = fmin(projected_top.point_b.x, right);
-// 	coef_bot = calc_seg_coef(&projected_bot);
-// 	coef_top = calc_seg_coef(&projected_top);
-// 	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
-// 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
-// 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
-// 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-// 	t_render_item_queue		new_item_queue;
-// 	if (left < right)
-// 	{
-// 		new_item_queue.left = left;
-// 		new_item_queue.right = right;
-// 		new_item_queue.portal = wall->data.data.portal.destination;
-// 		circular_queue_add(render->queue, &new_item_queue);
-// 	}
-// 	while (left < right)
-// 	{
-// 		draw_portal_wall_line(render, left, projected_top.point_a.y,
-// 			projected_bot.point_a.y);
-// 		projected_top.point_a.y += coef_top;
-// 		projected_bot.point_a.y += coef_bot;
-// 		++left;
-// 	}
-// }
 
 void	render_sector(
 	t_3d_render *render,
@@ -412,28 +372,6 @@ void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
 	}
 }
 
-
-void	render_seg_lst(
-	t_3d_render *render,
-	t_list *seg_lst
-	)
-{
-	t_segment_d				*segment;
-
-	while (seg_lst)
-	{
-		segment = seg_lst->content;
-		if (segment->data.type == WALL)
-		{
-			draw_wall_texture(render, (t_segment_d *)seg_lst->content,
-				0, render->canvas->size.x);
-			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
-			// 	item_queue->left, item_queue->right);
-		}
-		seg_lst = seg_lst->next;
-	}
-}
-
 void	game_render(t_cub *data)
 {
 	t_canvas	*canvas;
@@ -443,17 +381,11 @@ void	game_render(t_cub *data)
 	fill_canvas(
 		canvas,
 		(t_color){.d = 0x00000000});
-	// render_seg_lst(&data->game_data.game_view_render, data->game_data.map_data.segments);
 	render_3d_draw(&data->game_data.game_view_render);
 	canvas_to_mlx_image(data->screen,
 		canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
-
-	// t_img_data *img;
-
-	// img = texture_get_frame(data->texture_manager.textures);
-	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, img->mlx_img, 0,0);
 }
 
 //-----------

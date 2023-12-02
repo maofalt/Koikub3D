@@ -61,8 +61,8 @@ const t_canvas_init_entry	g_canvas_init_table_main_menu[]
 [1] = {
 	.type = BUTTON,
 	.z_index = 2,
-	.size = (t_point2i){{64, 64}},
-	.position = (t_point2i){{60, 650}},
+	.size = (t_point2i){{122, 99}},
+	.position = (t_point2i){{30, 640}},
 	.stack = false,
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
 	.asset = ICON_DRAW,
@@ -73,9 +73,9 @@ const t_canvas_init_entry	g_canvas_init_table_main_menu[]
 
 [2] = {
 	.type = BUTTON,
-	.size = (t_point2i){{80, 80}},
+	.size = (t_point2i){{87, 100}},
 	.z_index = 2,
-	.position = (t_point2i){{50, 750}},
+	.position = (t_point2i){{45, 775}},
 	.stack = false,
 	.fit_mode = FIT_IMAGE_TO_CANVAS,
 	.asset = ICON_GAME,

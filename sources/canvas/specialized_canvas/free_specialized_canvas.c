@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:52:45 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:52:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	free_map_editor(t_canvas *canvas)
 		return ;
 	if (map_editor->matrix_operations)
 		ft_lstclear(&map_editor->matrix_operations, free);
-	if (map_editor->segments)
-		ft_lstclear(&map_editor->segments, free);
+	// if (map_editor->segments)
+	// 	ft_lstclear(&map_editor->segments, free);
 	//aligned_free(map_editor);
 }
 

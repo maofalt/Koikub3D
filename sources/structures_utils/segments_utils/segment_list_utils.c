@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:34:59 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:35:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:48:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*create_segment_node(void)
 	t_segment_d	*segment;
 	t_list		*node;
 
-	segment = malloc(sizeof(t_segment_d));
+	segment = ft_calloc(1,sizeof(t_segment_d));
 	if (segment == NULL)
 		return (NULL);
 	node = ft_lstnew(segment);
@@ -50,4 +50,45 @@ int	add_segment_to_lst(t_list **lst, t_segment_d segment)
 		return (1);
 	ft_lstadd_front(lst, node);
 	return (0);
+}
+
+t_list	*duplicate_segment_node(t_list *original_node)
+{
+	t_segment_d	*original_segment;
+	t_segment_d	*duplicated_segment;
+	t_list		*duplicated_node;
+
+	if (!original_node || !original_node->content)
+		return (NULL);
+	original_segment = (t_segment_d *)original_node->content;
+	duplicated_segment = ft_calloc(1, sizeof(t_segment_d));
+	if (!duplicated_segment)
+		return (NULL);
+	*duplicated_segment = *original_segment;
+	duplicated_node = ft_lstnew(duplicated_segment);
+	if (!duplicated_node)
+	{
+		free(duplicated_segment);
+		return (NULL);
+	}
+	return (duplicated_node);
+}
+
+t_list *lst_segment_cpy(t_list *lst)
+{
+	t_list	*new_lst;
+	t_list	*new_node;
+	t_list	*current_node;
+
+	new_lst = NULL;
+	current_node = lst;
+	while (current_node)
+	{
+		new_node = duplicate_segment_node(current_node);
+		if (!new_node)
+			return (ft_lstclear(&new_lst, free), NULL);
+		ft_lstadd_back(&new_lst, new_node);
+		current_node = current_node->next;
+	}
+	return (new_lst);
 }

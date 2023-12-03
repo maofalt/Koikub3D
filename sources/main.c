@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:33:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:59:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	set_segments_ceil_floor(t_list *seg_lst)
 	while (seg_lst)
 	{
 		seg = seg_lst->content;
+
 		seg->data.ceil = -50;
 		seg->data.floor = 10;
 		seg_lst = seg_lst->next;
@@ -108,7 +109,8 @@ int	map_convert(t_cub *data)
 	t_tree_node	*tree;
 
 	tree = NULL;
-	segments_lst = NULL;
+	segments_lst = data->segments_list;
+	printf("caribou##%p\n", data->segments_list);
 	if (!segments_lst && extract_edge_recursively(data->map, &segments_lst))
 		return (1);
 	set_segments_ceil_floor(segments_lst);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:17:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:19:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ const t_canvas_init_entry	g_canvas_init_table_main_menu[]
 	.on_keyrelease = &mlx_int_do_nothing,
 	.on_boutonpress = &menu_to_edit_map_handle_boutonpress,
 	.render = &button_render}},
-
 [2] = {
 	.type = BUTTON,
 	.size = (t_point2i){{87, 100}},

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:06:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:21:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,31 @@ const t_canvas_init_entry	g_canvas_init_table[]
 	.on_boutonpress = &mlx_int_do_nothing,
 	.render = &button_render}},
 [3] = {
+	.type = BUTTON,
+	.size = (t_point2i){{87, 100}},
+	.z_index = 10,
+	.position = (t_point2i){{45, 775}},
+	.stack = false,
+	.fit_mode = FIT_IMAGE_TO_CANVAS,
+	.asset = ICON_GAME,
+	.event_handlers = {
+	.on_keypress = &mlx_int_do_nothing,
+	.on_keyrelease = &mlx_int_do_nothing,
+	.on_boutonpress = &menu_to_game_handle_boutonpress,
+	.render = &button_render}},
+[4] = {
 	.size = (t_point2i){{FIN_CANVAS_SIZE_X, FIN_CANVAS_SIZE_Y}},
 	.type = FINAL,
 	.z_index = -2,
 	.position = (t_point2i){{0, 0}}
 },
-[4] = {
+[5] = {
 	.size = (t_point2i){{MAP_CANVAS_SIZE_X, MAP_CANVAS_SIZE_Y}},
 	.type = FIN_TEMP,
 	.z_index = -2,
 	.position = (t_point2i){{0, 0}}
 },
-[5] = {.type = END_MARKER, .z_index = -99}
+[6] = {.type = END_MARKER, .z_index = -99}
 };
 
 t_setup_by_game_state	*initialize_canvas_setups(void)
@@ -109,7 +122,7 @@ static void	init_map_table(t_canvas_init_entry *table)
 
 int	initialize_map_editor_setup(t_setup_by_game_state *setup)
 {
-	static t_canvas_init_entry	canvas_init_table[6];
+	static t_canvas_init_entry	canvas_init_table[7];
 	t_point2i					current_pos;
 	int							current_row_height;
 	size_t						i;

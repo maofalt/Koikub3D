@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:57:15 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:24:17 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	map_convert(t_cub *data);
 int	game_init(t_cub *data, t_canvas *canvas)
 {
 	data->update = UPDATE;
+	printf("game_init\n");
 	if (map_convert(data))
 		return (free_everything(*data), 1);
 	if (game_render_init(data, canvas))

@@ -6,11 +6,12 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:52:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:32:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assets.h"
+#include "ressources_managers.h"
 
 static const	char *g_ui_asset_paths[ASSET_COUNT]
 	= {
@@ -72,6 +73,7 @@ int	initialize_and_preload_assets(t_cub *data)
 	if (texture_manager_init(data))
 		//TODO: free
 		return (1);
+	return (0);
 }
 
 

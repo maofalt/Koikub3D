@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 16:31:28 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/24 17:52:10 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:04:42 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	texture_manager_destroy(t_cub *data)
 
 int	texture_manager_init(t_cub *data)
 {
-	if (texture_init(data->texture_manager.textures, 4, 10000))
+	if (texture_init(data->texture_manager.textures, 4, 1000))
 		return (1);
 	texture_set(data->texture_manager.textures, 0, data->texture + 0);
 	texture_set(data->texture_manager.textures, 1, data->texture + 1);

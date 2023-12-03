@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:05:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:33:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,6 @@ static void	free_setup_canvas(t_setup_by_game_state *setup_cavas)
 	free(setup_cavas);
 }
 
-
-// int	game_init(t_cub *data)
-// {
-// 	if (map_convert(data))
-// 		return (free_everything(*data), 1);
-// 	if (game_render_init(data))
-// 		return (free_everything(*data), 1);
-// 	return (0);
-// }
-
 int	game_logic(t_cub *data, t_setup_by_game_state **setup_cavas)
 {
 	// if (mlx_loop_hook(data.mlx_ptr, &map_visualizer_render, &data))
@@ -80,7 +70,7 @@ int	game_logic(t_cub *data, t_setup_by_game_state **setup_cavas)
 	data->active_canvas = get_canvas_from_list(data->canvas_list, BUTTON);
 	if (mlx_loop_hook(data->mlx_ptr, &render, data))
 		ft_mlx_engine(data);
-
+	return (0);
 }
 
 void	set_segments_ceil_floor(t_list *seg_lst)

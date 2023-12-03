@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:02:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:10:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_destroy_window(t_cub *data)
 	return (0);
 }
 
-int	ft_handle_game_keyrelease(int keysym, t_cub *data)
+int	ft_handle_game_keyrelease(int keysym, __attribute_maybe_unused__ void *canvas, t_cub *data)
 {
 	(void)data;
 	if (keysym == XK_Escape)
@@ -29,7 +29,7 @@ int	ft_handle_game_keyrelease(int keysym, t_cub *data)
 	return (0);
 }
 
-int	ft_handle_game_keypress(int keysym, t_cub *data)
+int	ft_handle_game_keypress(int keysym, __attribute_maybe_unused__ void *canvas, t_cub *data)
 {
 	ft_destroy_window_button(keysym, data);
 	ft_movements_keys(keysym, data, 1);

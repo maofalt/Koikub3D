@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 21:55:36 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:09:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,13 @@ int				map_editor_handle_rotation(int keysim, t_cub *data,
 /*                             GAME EVENTS                                    */
 /*############################################################################*/
 
-int				ft_handle_game_keypress(int keysym, t_cub *data);
-int				ft_handle_game_keyrelease(int keysym, t_cub *data);
-
+int				ft_handle_game_keypress(int keysym, void *canvas, t_cub *data);
+int				ft_handle_game_keyrelease(int keysym, void *canvas, t_cub *data);
+int				menu_to_game_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
 /*############################################################################*/
 /*                             BUTTON EVENTS                               */
 /*############################################################################*/

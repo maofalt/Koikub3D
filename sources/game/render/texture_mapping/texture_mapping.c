@@ -112,7 +112,7 @@ double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
 	return (fabs(segment->data.floor - segment->data.ceil) / 30);
 }
 
-double	calc_wall_texture_offset(t_segment_d *segment)
+double	calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment)
 {
 	return 0.5;
 }

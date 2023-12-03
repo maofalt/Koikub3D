@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:02:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:14:53 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ int	ft_handle_keypress(int keysym, t_cub *data)
 
 int	ft_handle_keyrelease(int keysym, t_cub *data)
 {
-	(void)data;
-	if (keysym == XK_Escape)
-		ft_printf("Escape released\n");
+	t_event_handlers	event_handler;
+
+	if (!data->active_canvas)
+		return (0);
+	event_handler = ((t_canvas *)(data->active_canvas))->event_handlers;
+	if (event_handler.on_keyrelease)
+		return (event_handler.on_keyrelease(keysym,
+				(void *)data->active_canvas,
+				data));
 	return (0);
 }
 

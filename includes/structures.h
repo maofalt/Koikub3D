@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 21:49:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 23:11:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,6 +456,7 @@ typedef struct s_cub
 
 typedef struct s_event_handlers {
 	int	(*on_keypress)(int keysym, void *self, t_cub *data);
+	int	(*on_keyrelease)(int keysym, void *self, t_cub *data);
 	int	(*on_boutonpress)(int keysym, t_point2i mouse_pos,
 			void *self, t_cub *data);
 	int	(*on_mousemove)(t_point2i mouse_pos, void *self, t_cub *data);

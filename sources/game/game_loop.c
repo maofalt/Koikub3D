@@ -94,13 +94,15 @@ void	game_update(t_cub *data)
 	sector_edit_handle_event(data);
 }
 
-int	game_loop(t_cub *data)
+int	game_loop(void *self, t_cub *data)
 {
+	(void)self;
 	if (data->win_ptr == NULL)
 		return (1);
 	game_update(data);
 	game_render(data);
 	count_fps();
-	usleep(16000);
+	// usleep(16000);
+	data->update = UPDATE;
 	return (0);
 }

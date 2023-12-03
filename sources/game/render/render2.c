@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/02 22:43:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:56:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,11 +426,10 @@ int	render_3d_init(t_3d_render *render,
 	return (0);
 }
 
-int	game_render_init(t_cub  *data)
+int	game_render_init(t_cub  *data, t_canvas *canvas)
 {
-	t_canvas	*canvas;
-
-	canvas = get_canvas_from_list(data->canvas_list, MAP);
+	if (canvas == NULL)
+		return (1);
 	return (render_3d_init(&data->game_data.game_view_render, canvas,
 		&data->game_data.state.player_camera, &data->game_data.map_data));
 }

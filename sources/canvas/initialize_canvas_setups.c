@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_shapes.c                                      :+:      :+:    :+:   */
+/*   initialize_canvas_setups.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/13 23:50:38 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 23:06:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_setup_by_game_state	*initialize_canvas_setups(void)
 	{
 		initialize_setup_by_state(&canvas_setups[i], i);
 		i++;
-	}	
+	}
 	return (canvas_setups);
 }
 

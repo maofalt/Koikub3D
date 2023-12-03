@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/19 04:42:37 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:47:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	canvas_list = NULL;
 	i = 0;
 	nbr_canvas = get_init_table_size(canvas_init_table);
+	printf("nbr_canvas: %zu\n", nbr_canvas);
 	while (i < nbr_canvas)
 	{
 		new_node = initialize_canvas_and_add_to_list(
@@ -79,8 +80,10 @@ t_canvas_init_entry	*get_canvas_init_table(t_modus_state state,
 	size_t	i;
 
 	i = 0;
+	printf("state: %d\n", state);
 	while (canvas_setups[i].game_state != END_GAME_STATE)
 	{
+		printf("canvas_setups[%zu].game_state: %d\n", i, canvas_setups[i].game_state);
 		if (canvas_setups[i].game_state == state)
 			return (canvas_setups[i].canvas_configurations);
 		i++;
@@ -108,18 +111,18 @@ t_canvas	*get_canvas_from_list(t_list *canvas_list,
 
 
 /*
-** 
-** This function is designed to adjust the height of a canvas to ensure its 
-	total byte size is aligned with AVX (Advanced Vector Extensions) 
+**
+** This function is designed to adjust the height of a canvas to ensure its
+	total byte size is aligned with AVX (Advanced Vector Extensions)
 	requirements. It takes the canvas width and a preferred height as input.
 ** The function calculates the total byte size of the canvas based on its width,
-	 height, and the size of a pixel (t_color). If this total size is not a 
-	 multiple of the AVX byte size (32 bytes in this case), the function 
-	 computes the additional number of rows needed to align the total size with 
+	 height, and the size of a pixel (t_color). If this total size is not a
+	 multiple of the AVX byte size (32 bytes in this case), the function
+	 computes the additional number of rows needed to align the total size with
 	 the AVX byte size.
-** The function returns the adjusted height which, when used, ensures that the 
-	total byte size of the canvas is a multiple of the AVX byte size. 
-	This alignment can be crucial for performance optimization in certain 
+** The function returns the adjusted height which, when used, ensures that the
+	total byte size of the canvas is a multiple of the AVX byte size.
+	This alignment can be crucial for performance optimization in certain
 	operations, particularly those involving AVX instructions.
 */
 static int	adjusted_height(int width, int preferredHeight)
@@ -141,8 +144,8 @@ static int	adjusted_height(int width, int preferredHeight)
 
 
 /*
-** This function is responsible for setting the boundaries of a canvas within 
-	a given space. It takes a pointer to a t_canvas_init_entry structure 
+** This function is responsible for setting the boundaries of a canvas within
+	a given space. It takes a pointer to a t_canvas_init_entry structure
 	(representing a canvas), a pointer to the current position (t_point2i),
 	a pointer to the current row height (int), and the maximum allowed width
 	(int) as inputs.

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   additional_fonctions.c                             :+:      :+:    :+:   */
+/*   segment_list_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/07 23:29:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/11 23:39:57 by motero           ###   ########.fr       */
+/*   Created: 2023/11/08 01:34:59 by olimarti          #+#    #+#             */
+/*   Updated: 2023/11/08 01:35:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "list_fonctions.h"
+#include "structures.h"
 
 t_list	*create_segment_node(void)
 {

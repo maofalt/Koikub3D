@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 19:09:38 by motero            #+#    #+#             */
-/*   Updated: 2023/10/17 17:35:27 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:01:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	long_c |= long_c << 8;
 	long_c |= long_c << 16;
 	long_c |= long_c << 32;
-	while (n && (long)ptr % sizeof(long) != 0)
+	while (n && ((long)ptr & (sizeof(long) - 1)) != 0)
 	{
 		*ptr++ = c;
 		n --;
@@ -42,7 +42,6 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
 /*
 [>void printArray(int arr[], int n)<]
 [>{<]

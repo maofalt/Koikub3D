@@ -1,0 +1,106 @@
+
+#include "game_loop.h"
+
+
+#include "maths_utils.h"
+
+static t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
+{
+	t_tree_node	*child;
+	t_segment_d	separator;
+	double		point_side;
+
+	if (!tree)
+		return (NULL);
+	if (!tree->left || !tree->right)
+		return (tree);
+	separator = ((t_bsp_tree_node_data *)tree->data)->separator;
+	point_side = point_space_partitioning(&separator, &point);
+	if (point_side > 0)
+		child = bsp_search_point(tree->right, point);
+	else
+		child = bsp_search_point(tree->left, point);
+	if (child != NULL)
+		return (child);
+	return (NULL);
+}
+
+
+void	update_player_sector_ceil(t_3d_render *render, double value)
+{
+	t_tree_node				*node;
+	t_list					*seg_lst;
+	t_segment_d				*segment;
+
+	node = bsp_search_point(render->map->bsp,
+			vector4d_to_point2d(&render->camera->pos));
+
+	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
+	while (seg_lst)
+	{
+		segment = seg_lst->content;
+		segment->data.ceil -= value;
+		seg_lst = seg_lst->next;
+	}
+}
+
+void	update_player_sector_floor(t_3d_render *render, double value)
+{
+	t_tree_node				*node;
+	t_list					*seg_lst;
+	t_segment_d				*segment;
+
+	node = bsp_search_point(render->map->bsp,
+			vector4d_to_point2d(&render->camera->pos));
+
+	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
+	while (seg_lst)
+	{
+		segment = seg_lst->content;
+		segment->data.floor += value;
+		seg_lst = seg_lst->next;
+	}
+}
+
+
+void	sector_edit_handle_event(t_cub *data)
+{
+	if (data->inputs.action_states[a_decrease_sector_ceil])
+	{
+		printf("decrease \n");
+		update_player_sector_ceil(&data->game_data.game_view_render, -1);
+	}
+	if (data->inputs.action_states[a_increase_sector_ceil])
+	{
+		update_player_sector_ceil(&data->game_data.game_view_render, 1);
+		printf("increase \n");
+	}
+	if (data->inputs.action_states[a_decrease_sector_floor])
+	{
+		printf("decrease \n");
+		update_player_sector_floor(&data->game_data.game_view_render, -1);
+	}
+	if (data->inputs.action_states[a_increase_sector_floor])
+	{
+		update_player_sector_floor(&data->game_data.game_view_render, 1);
+		printf("increase \n");
+	}
+}
+
+
+void	game_update(t_cub *data)
+{
+	player_handle_event(data);
+	sector_edit_handle_event(data);
+}
+
+int	game_loop(t_cub *data)
+{
+	if (data->win_ptr == NULL)
+		return (1);
+	game_update(data);
+	game_render(data);
+	count_fps();
+	usleep(16000);
+	return (0);
+}

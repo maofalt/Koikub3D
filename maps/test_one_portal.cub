@@ -1,0 +1,18 @@
+NO                                   ./textures/simple_tiles.xpm
+SO     ./textures/simple_tiles.xpm
+WE                textures/simple_tiles.xpm
+EA textures/simple_tiles.xpm
+
+F                           0,100,0
+C 1,0,255
+
+111111111111
+1000010000N1
+100001000001
+100001000001
+100001000001
+100001000001
+100001000001
+100000000001
+100000000001
+111111111111

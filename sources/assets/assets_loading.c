@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   layers_manager.c                                   :+:      :+:    :+:   */
+/*   assets_loading.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:52:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ int	initialize_and_preload_assets(t_cub *data)
 {
 	if (data->mlx_ptr == NULL)
 		return (1);
-	return (load_ui_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths));
+	if (load_ui_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths))
+	{
+		//TODO: free
+		return (1);
+	}
+	if (texture_manager_init(data))
+		//TODO: free
+		return (1);
 }
 
 
@@ -84,7 +91,7 @@ int	load_ui_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths)
 		ui_images[index].addr = mlx_get_data_addr(ui_images[index].mlx_img,
 				&ui_images[index].bpp, &ui_images[index].line_len,
 				&ui_images[index].endian);
-		ui_images[index].size = (t_vector_i){width, height};
+		ui_images[index].size = (t_point2i){width, height};
 		index++;
 	}
 	return (0);

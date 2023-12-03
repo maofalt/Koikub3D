@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_edges.c                                    :+:      :+:    :+:   */
+/*   vector_matrix_conversions.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 21:16:51 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:33:23 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ t_point2i	back_transform_point_by_matrix(t_vector4d point, t_matrix3x3 matrix)
 			+ matrix.row[1].y * point.y
 			+ matrix.row[1].z * point.z);
 	return (result);
+}
+
+t_vector4d	point2d_to_vector4d_cpy(t_point2d point)
+{
+	t_vector4d	result;
+
+	result.x = point.x;
+	result.y = point.y;
+	result.z = 1;
+	result.w = 0;
+	return (result);
+}
+
+t_point2d	vector4d_to_point2d_cpy(t_vector4d vec4d)
+{
+	t_point2d	point2d;
+
+	point2d.x = vec4d.x;
+	point2d.y = vec4d.y;
+	return (point2d);
 }

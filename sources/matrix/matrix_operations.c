@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_edges.c                                    :+:      :+:    :+:   */
+/*   matrix_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 21:16:51 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:35:16 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,16 @@ int	invert_matrix(t_matrix3x3 matrix, t_matrix3x3 *inverse)
 	inverse->row[2].z = (matrix.row[0].x * matrix.row[1].y
 			- matrix.row[1].x * matrix.row[0].y) / det;
 	return (0);
+}
+
+t_point2d	matrix_vector_multiply(t_matrix3x3 matrix, t_point2d point)
+{
+	t_point2d	result;
+
+	result.x = matrix.row[0].x * point.x
+		+ matrix.row[0].y * point.y + matrix.row[0].z;
+	result.y = matrix.row[1].x * point.x
+		+ matrix.row[1].y * point.y + matrix.row[1].z;
+
+	return (result);
 }

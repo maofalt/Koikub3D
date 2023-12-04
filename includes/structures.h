@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 19:21:52 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 23:11:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 # define STRUCTURES_H
 
 # include <stdint.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include "libft.h"
-# include "../gnl/get_next_line.h"
+# include "get_next_line.h"
 # include "colors.h"
 # include "mlx_int.h"
 
@@ -34,6 +35,18 @@
 **
 */
 
+enum e_action { a_move_up,
+	a_move_down,
+	a_move_left,
+	a_move_right,
+	a_turn_left,
+	a_turn_right,
+	a_increase_sector_ceil,
+	a_decrease_sector_ceil,
+	a_increase_sector_floor,
+	a_decrease_sector_floor,
+	a_total_actions};
+
 typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
 typedef int				t_vector_i		__attribute__((vector_size (8)));
@@ -47,6 +60,37 @@ typedef u_int8_t		t_vector_color	__attribute__((vector_size (4
 typedef double			t_v4d			__attribute__((vector_size (4
 	* sizeof(double))));
 
+typedef struct s_segment_d t_segment_d;
+
+typedef union u_vector4d
+{
+	t_v4d	vec;
+	struct {
+		double	x;
+		double	y;
+		double	z;
+		double	w;
+	};
+}	t_vector4d;
+
+typedef union u_point2d
+{
+	t_v2d	vec;
+	struct {
+		double	x;
+		double	y;
+	};
+}	t_point2d;
+
+typedef union u_point2i
+{
+	t_v2i	vec;
+	struct {
+		int	x;
+		int	y;
+	};
+}	t_point2i;
+
 /* bpp = bits per pixel */
 typedef struct s_img_data
 {
@@ -55,7 +99,7 @@ typedef struct s_img_data
 	int			bpp;
 	int			line_len;
 	int			endian;
-	t_vector_i	size;
+	t_point2i	size;
 }	t_img_data;
 
 /*############################################################################*/
@@ -121,10 +165,20 @@ typedef union u_color
 	};
 }	t_color;
 
+/*############################################################################*/
+/*                              MATRIX STRUCTURES                             */
+/*############################################################################*/
+
+typedef struct s_matrix4x4_vectorized
+{
+	t_vector4d	row[3];
+}	t_matrix3x3;
+
 typedef struct s_player
 {
-	t_vector_f	pos;
-	t_vector_f	dir;
+	t_vector4d	pos;
+	t_vector4d	dir;
+	t_vector4d	right;
 	t_vector_f	plane;
 }				t_player;
 
@@ -178,6 +232,113 @@ typedef enum e_img_fit_mode
 	FIT_CANVAS_TO_IMAGE
 }	t_img_fit_mode;
 
+typedef struct s_inputs
+{
+	int		action_states[a_total_actions];
+}			t_inputs;
+
+typedef struct s_tree_node
+{
+	struct s_tree_node	*parent;
+	struct s_tree_node	*left;
+	struct s_tree_node	*right;
+	void				*data;
+}	t_tree_node;
+
+
+/*############################################################################*/
+/*                              CANVAS STRUCTURES                             */
+/*############################################################################*/
+
+typedef enum e_canvas_type
+{
+	MAP,
+	UI,
+	BUTTON,
+	GAME,
+	FINAL,
+	FIN_TEMP,
+	END_MARKER
+}	t_canvas_type;
+
+typedef struct s_dirty_rect
+{
+	t_point2d	pos;
+	t_point2d	size;
+}	t_dirty_rect;
+
+typedef struct s_camera
+{
+	t_vector4d	pos;
+	t_vector4d	dir;
+	t_vector4d	right;
+}				t_camera;
+
+typedef struct s_map_data
+{
+	t_tree_node	*bsp;
+	t_list		*segments;
+}	t_map_data;
+
+typedef struct s_circular_queue
+{
+	size_t	elem_size;
+	size_t	size;
+	size_t	start;
+	size_t	end;
+	void	*buffer;
+}	t_circular_queue;
+
+typedef struct s_canvas t_canvas;
+
+typedef struct s_3d_render
+{
+	t_canvas			*canvas;
+	double				*top_array;
+	double				*bottom_array;
+	t_circular_queue	*queue;
+	t_camera			*camera;
+	t_map_data			*map;
+	t_vector4d			middle;
+}	t_3d_render;
+
+typedef struct s_game_state
+{
+	t_camera	player_camera;
+}	t_game_state;
+
+
+typedef struct s_game_data
+{
+	t_game_state	state;
+	t_3d_render		game_view_render;
+	t_map_data		map_data;
+}	t_game_data;
+
+
+typedef struct s_texture
+{
+	t_img_data	**frames;
+	bool		is_animated;
+	int			frame_count;
+	int			current_frame;
+	size_t		ms_per_frame;
+	size_t		current_time;
+}	t_texture;
+
+typedef struct s_texture_ptr
+{
+	int			offset;
+	t_texture	*texture;
+}	t_texture_ptr;
+
+
+typedef struct s_texture_manager
+{
+	t_texture	textures[32]; //TODO maybe malloc
+	int			texture_count;
+	}	t_texture_manager;
+
 
 typedef struct s_data
 {
@@ -186,34 +347,13 @@ typedef struct s_data
 	char		***map;
 }				t_data;
 
-typedef union u_point2i
-{
-	t_v2i	vec;
-	struct {
-		int	x;
-		int	y;
-	};
-}	t_point2i;
 
-typedef union u_point2d
+typedef struct s_sector_data
 {
-	t_v2d	vec;
-	struct {
-		double	x;
-		double	y;
-	};
-}	t_point2d;
-
-typedef union u_vector4d
-{
-	t_v4d	vec;
-	struct {
-		double	x;
-		double	y;
-		double	z;
-		double	w;
-	};
-}	t_vector4d;
+	double	floor;
+	double	ceil;
+	int		render_flag_id;
+}	t_sector_data;
 
 typedef enum e_segment_type
 {
@@ -221,46 +361,42 @@ typedef enum e_segment_type
 	PORTAL
 }	t_segment_type;
 
+
 typedef struct s_wall_data
 {
-	int		size;
-	double	height;
-	double	floor_height;	
+	int				size;
+	double			height;
+	t_texture_ptr	texture;
 }	t_wall_data;
 
 typedef struct s_portal_data
 {
-	int		size;
-	int		id;
-	int		*destinations_id;
-	void	*destination;
+	int			size;
+	int			render_flag_id;
+	void		*destination;
+	void		*tree_node_ptr;
 }	t_portal_data;
 
 typedef union u_wall_portal_data
 {
 	t_wall_data		wall;
-	t_portal_data	portal;	
+	t_portal_data	portal;
 }	t_wall_portal_data;
 
-typedef union s_segment_data
+typedef struct s_segment_data
 {
 	t_segment_type		type;
 	t_wall_portal_data	data;
+	double				ceil;
+	double				floor;
 }	t_segment_data;
 
-typedef struct s_segment_i
-{
-	t_point2i		point_a;
-	t_point2i		point_b;
-	t_segment_data	data;
-}	t_segment_i;
-
-typedef struct s_segment_d
+struct	s_segment_d
 {
 	t_vector4d		point_a;
 	t_vector4d		point_b;
 	t_segment_data	data;
-}	t_segment_d;
+};
 
 typedef enum e_direction{
 	NONE = 0,
@@ -280,13 +416,14 @@ typedef struct s_edge_exploration_context{
 	t_direction		**visited;
 }	t_edge_exploration_context;
 
-typedef struct s_tree_node
-{
-	struct s_tree_node	*left;
-	struct s_tree_node	*right;
-	void				*data;
-}	t_tree_node;
 
+
+typedef struct s_bsp_tree_node_data
+{
+	t_segment_d		separator;
+	t_list			*sector_segments;
+	t_sector_data	sector_data;
+}	t_bsp_tree_node_data;
 
 typedef struct s_cub
 {
@@ -312,10 +449,14 @@ typedef struct s_cub
 	void					*active_canvas;
 	void					*setup_canvas;
 	t_list					*segments_list;
+	t_inputs				inputs; //TODO: move it
+	t_game_data				game_data;
+	t_texture_manager		texture_manager;
 }				t_cub;
 
 typedef struct s_event_handlers {
 	int	(*on_keypress)(int keysym, void *self, t_cub *data);
+	int	(*on_keyrelease)(int keysym, void *self, t_cub *data);
 	int	(*on_boutonpress)(int keysym, t_point2i mouse_pos,
 			void *self, t_cub *data);
 	int	(*on_mousemove)(t_point2i mouse_pos, void *self, t_cub *data);

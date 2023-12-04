@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_canvas_operation.c                            :+:      :+:    :+:   */
+/*   draw_map_basics.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 22:10:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:49:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw_utils.h"
 
-inline	void	put_pixel_on_virtual_canvas(t_canvas *canvas,
+static inline	void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 	t_point2i coord,
 	t_color color)
 {
@@ -71,6 +71,6 @@ int	draw_line_on_map(t_canvas *canvas,
 			err += delta.x;
 			start.y += step.y;
 		}
-	}	
+	}
 	return (0);
 }

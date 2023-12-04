@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_engine.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/13 22:56:25 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 23:09:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,33 @@
 # define PLUS_KEY 61
 # define BRACE_L_KEY 91
 # define BRACE_R_KEY 93
-# define D_KEY 100
-# define C_KEY 99
-# define Z_KEY 122
-# define Q_KEY 113
-# define S_KEY 115
-# define A_KEY 97
-# define W_KEY 119
+// # define XK_d 100
+// # define C_KEY 99
+// # define Z_KEY 122
+// # define Q_KEY 113
+// # define S_KEY 115
+// # define XK_a 97
+// # define W_KEY 119
+
+typedef struct s_key_action_map
+{
+	int				key_id;
+	enum e_action	action;
+}	t_key_action_map;
+
+static const t_key_action_map	g_key_to_action[] = {
+{XK_w, a_move_up},
+{XK_s, a_move_down},
+{XK_a, a_move_left},
+{XK_d, a_move_right},
+{XK_Left, a_turn_left},
+{XK_Right, a_turn_right},
+{XK_equal, a_increase_sector_ceil},
+{XK_minus, a_decrease_sector_ceil},
+{XK_0, a_increase_sector_floor},
+{XK_9, a_decrease_sector_floor},
+{-1, -1},
+};
 
 # define WINDOW_WIDTH 1920
 # define WINDOW_HEIGHT 1020
@@ -73,8 +93,9 @@ int				ft_handle_mousemotion(int x, int y, t_cub *data);
 /*############################################################################*/
 /*                              KEYPRESS EVENTS                               */
 /*############################################################################*/
+
 void			ft_destroy_window_button(int keysym, t_cub *data);
-void			ft_movements_keys(int keysym, t_cub *data);
+void			ft_movements_keys(int keysym, t_cub *data, int state);
 
 /*############################################################################*/
 /*                              MAP EDITOR EVENTS                             */
@@ -98,10 +119,16 @@ int				map_editor_handle_rotation(int keysim, t_cub *data,
 					void *map_canvas);
 
 /*############################################################################*/
-/*                             MAIN MENU EVENTS                               */
+/*                             GAME EVENTS                                    */
 /*############################################################################*/
 
-
+int				ft_handle_game_keypress(int keysym, void *canvas, t_cub *data);
+int				ft_handle_game_keyrelease(int keysym, void *canvas, t_cub *data);
+int				menu_to_game_handle_boutonpress(
+					int buttonsym,
+					t_point2i mouse_pos,
+					void *self,
+					t_cub *data);
 /*############################################################################*/
 /*                             BUTTON EVENTS                               */
 /*############################################################################*/
@@ -116,5 +143,6 @@ int				button_render(void *self, t_cub *data);
 /*                             CANVAS EVENTS                                  */
 /*############################################################################*/
 void			*detect_clicked_canvas(t_cub *data, t_point2i click_position);
+
 
 #endif

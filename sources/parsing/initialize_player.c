@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   [10]initialize_player.c                            :+:      :+:    :+:   */
+/*   initialize_player.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:39:01 by motero            #+#    #+#             */
-/*   Updated: 2023/03/03 18:01:29 by motero           ###   ########.fr       */
+/*   Updated: 2023/10/16 04:09:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	initialize_player(t_cub *data)
 	initialize_player_pos(data);
 	initialize_player_dir(data);
 	initialize_player_plane(data);
-	data->dda.pos = data->player.pos;
+	// data->dda.pos = data->player.pos;
 	return (1);
 }
 
@@ -35,7 +35,7 @@ int	initialize_player(t_cub *data)
 void	initialize_player_pos(t_cub *data)
 {
 	int	x;
-	int	y;	
+	int	y;
 
 	x = 0;
 	while (data->map[x])
@@ -46,8 +46,8 @@ void	initialize_player_pos(t_cub *data)
 			if (data->map[x][y] == 'N' || data->map[x][y] == 'S' ||
 				data->map[x][y] == 'E' || data->map[x][y] == 'W')
 			{
-				data->player.pos[0] = x + 0.5;
-				data->player.pos[1] = y + 0.5;
+				data->player.pos.x = x + 0.5;
+				data->player.pos.y = y + 0.5;
 				return ;
 			}
 			y++;
@@ -65,26 +65,26 @@ void	initialize_player_dir(t_cub *data)
 {
 	char	orientation;
 
-	orientation = data->map[(int)data->player.pos[0]][(int)data->player.pos[1]];
+	orientation = data->map[(int)data->player.pos.x][(int)data->player.pos.y];
 	if (orientation == 'N')
 	{
-		data->player.dir[0] = -1;
-		data->player.dir[1] = 0;
+		data->player.dir.x = -1;
+		data->player.dir.y = 0;
 	}
 	else if (orientation == 'S')
 	{
-		data->player.dir[0] = 1;
-		data->player.dir[1] = 0;
+		data->player.dir.x = 1;
+		data->player.dir.y = 0;
 	}
 	else if (orientation == 'E')
 	{
-		data->player.dir[0] = 0;
-		data->player.dir[1] = 1;
+		data->player.dir.x = 0;
+		data->player.dir.y = 1;
 	}
 	else if (orientation == 'W')
 	{
-		data->player.dir[0] = 0;
-		data->player.dir[1] = -1;
+		data->player.dir.x = 0;
+		data->player.dir.y = -1;
 	}
 }
 
@@ -96,7 +96,7 @@ void	initialize_player_plane(t_cub *data)
 {
 	char	direction;
 
-	direction = data->map[(int)data->player.pos[0]][(int)data->player.pos[1]];
+	direction = data->map[(int)data->player.pos.x][(int)data->player.pos.y];
 	if (direction == 'N')
 	{
 		data->player.plane[0] = 0;

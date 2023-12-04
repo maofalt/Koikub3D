@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_on_mlx.c                                      :+:      :+:    :+:   */
+/*   draw_map_to_mlx.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/17 06:03:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/03 22:59:25 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ int	render(t_cub *data)
 	if (data->win_ptr == NULL)
 		return (1);
 	//printf("\t checking if needd to update\n");
-	if (data->update == NO_UPDATE)
-		return (0);
+	// if (data->update == NO_UPDATE)
+	// 	return (0);
 	//printf("\t looking for final canvas\n");
 	final_canvas = get_canvas_from_list(data->canvas_list, FINAL);
+	printf("final_canvas: %p\n", final_canvas);
 	if (!final_canvas)
 		return (1);
+	printf("we found a final canvas\n");
 	//cycle thorugh all canvas to render
 	//printf("\t updating each canvas\n");
 	apply_to_canvas(data, render_base);
@@ -66,7 +68,7 @@ void	redraw_scene(t_cub *data, t_canvas *canvas)
 {
 	t_list		*current_segment;
 	t_matrix3x3	invert_matrix;
-	t_segment_d	segment;	
+	t_segment_d	segment;
 	t_color		color;
 
 	(void)data;

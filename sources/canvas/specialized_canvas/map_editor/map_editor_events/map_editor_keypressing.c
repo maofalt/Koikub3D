@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keypress_events.c                                  :+:      :+:    :+:   */
+/*   map_editor_keypressing.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/10 19:28:18 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:55:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	map_editor_handle_rotation(int keysim, t_cub *data, void *map_canvas)
 	(void)data;
 	map_editor = &((t_canvas *)map_canvas)->data.map_editor;
 	ret = 1;
-	if (keysim == A_KEY)
+	if (keysim == XK_a)
 		ret = -1;
 	if (apply_rotation_at_position(
 			map_editor,
@@ -63,7 +63,7 @@ int	map_canvas_handle_keypress(int keysym, void *self, t_cub *data)
 		ret += process_key(keysym, (t_point2i){{0, offset}}, map_canvas);
 	if (keysym == DOWN_KEY)
 		ret += process_key(keysym, (t_point2i){{0, -offset}}, map_canvas);
-	if (keysym == A_KEY || keysym == D_KEY)
+	if (keysym == XK_a || keysym == XK_d)
 		map_editor_handle_rotation(keysym, data, map_canvas);
 	data->update = FULL_REDRAW;
 	return (ret);

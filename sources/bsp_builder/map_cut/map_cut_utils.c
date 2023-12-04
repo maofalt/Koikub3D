@@ -3,40 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   map_cut_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 01:33:10 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/14 19:04:37 by motero           ###   ########.fr       */
+/*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
+/*   Updated: 2023/11/08 01:06:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bsp_builder.h"
+#include "draw_utils.h"
+#include "maths_utils.h"
+#include <assert.h>
 
-t_point2d	find_intersection(t_segment_d line, t_segment_d seg)
+t_side	point_segment_side(t_segment_d *separator, t_vector4d *segment_point)
 {
-	t_point2d	intersection;
-	t_point2d	ab_1;
-	t_point2d	ab_2;
-	double		c1;
-	double		c2;
+	t_vector4d	ab;
+	t_vector4d	ap;
+	double		cross_product;
 
-	ab_1 = (t_point2d){{line.point_b.y - line.point_a.y,
-		line.point_a.x - line.point_b.x}};
-	c1 = ab_1.x * line.point_a.x + ab_1.y * line.point_a.y;
-	ab_2 = (t_point2d){{seg.point_b.y - seg.point_a.y,
-		seg.point_a.x - seg.point_b.x}};
-	c2 = ab_2.x * seg.point_a.x + ab_2.y * seg.point_a.y;
-	intersection.vec = (t_v2d){(ab_2.y * c1 - ab_1.y * c2),
-		(ab_1.x * c2 - ab_2.x * c1)};
-	intersection.vec /= ab_1.x * ab_2.y - ab_2.x * ab_1.y;
-	return (intersection);
+	ab.vec = separator->point_b.vec - separator->point_a.vec;
+	ap.vec = segment_point->vec - separator->point_a.vec;
+	cross_product = ab.x * ap.y - ab.y * ap.x;
+	if (cross_product > 0)
+		return (SIDE_RIGHT);
+	else if (cross_product < 0)
+		return (SIDE_LEFT);
+	else
+		return (SIDE_ON);
 }
 
-void	lst_move_node(t_list **list, t_list **node)
+void	bsp_segment_compute_intersec(
+			t_bsp_segment *segment,
+			t_segment_d *separator
+			)
 {
-	t_list	*next_tmp;
+	segment->point_a_side
+		= point_segment_side(separator, &segment->segment->point_a);
+	segment->point_b_side
+		= point_segment_side(separator, &segment->segment->point_b);
+	segment->side_of_separator = segment->point_a_side | segment->point_b_side;
+	if (segment->point_a_side != segment->point_b_side)
+	{
+		segment->separator_intersection
+			= find_intersection(*separator, *segment->segment);
+		segment->has_separator_intersection = 1;
+	}
+	else
+	{
+		segment->has_separator_intersection = 0;
+	}
+	if (segment->side_of_separator == SIDE_ON)
+		segment->used_as_separator = 1;
+}
 
-	next_tmp = (*node)->next;
-	ft_lstadd_front(list, (*node));
-	(*node) = next_tmp;
+int	cut_segment(t_bsp_segment *bsp_segment, t_bsp_segment **new_segment_right)
+{
+	assert(bsp_segment->side_of_separator == SIDE_INTERSECT);
+	(*new_segment_right) = duplicate_bsp_segment(bsp_segment);
+	if ((*new_segment_right) == NULL)
+		return (1);
+	if (bsp_segment->has_separator_intersection)
+	{
+		if (bsp_segment->point_a_side == SIDE_LEFT)
+		{
+			bsp_segment->segment->point_b
+				= point2d_to_vector4d(&bsp_segment->separator_intersection);
+			(*new_segment_right)->segment->point_a
+				= point2d_to_vector4d(&bsp_segment->separator_intersection);
+		}
+		else
+		{
+			bsp_segment->segment->point_a
+				= point2d_to_vector4d(&bsp_segment->separator_intersection);
+			(*new_segment_right)->segment->point_b
+				= point2d_to_vector4d(&bsp_segment->separator_intersection);
+		}
+	}
+	return (0);
+}
+
+int	cut_portal(
+	t_bsp_segment *bsp_segment,
+	t_bsp_segment **right_portal_1,
+	t_bsp_segment **right_portal_2
+	)
+{
+	t_bsp_segment	*linked_segment;
+
+	assert(bsp_segment->side_of_separator == SIDE_INTERSECT);
+	linked_segment = bsp_segment->segment->data.data.portal.destination;
+	linked_segment->point_a_side = bsp_segment->point_a_side;
+	linked_segment->point_b_side = bsp_segment->point_b_side;
+	linked_segment->separator_intersection
+		= bsp_segment->separator_intersection;
+	linked_segment->side_of_separator = bsp_segment->side_of_separator;
+	linked_segment->has_separator_intersection
+		= bsp_segment->has_separator_intersection;
+	linked_segment->used_as_separator = 1;
+	if (cut_segment(bsp_segment, right_portal_1))
+	{
+		return (1);
+	}
+	if (cut_segment(linked_segment, right_portal_2))
+	{
+		destroy_full_bsp_segment(*right_portal_1);
+		return (1);
+	}
+	(*right_portal_1)->segment->data.data.portal.destination = *right_portal_2;
+	(*right_portal_2)->segment->data.data.portal.destination = *right_portal_1;
+	return (0);
 }

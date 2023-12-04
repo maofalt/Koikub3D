@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: motero <motero@student.42.fr>              +#+  +:+       +#+         #
+#    By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/10/16 21:54:55 by motero           ###   ########.fr        #
+#    Updated: 2023/12/03 21:02:01 by olimarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,9 +90,14 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 #-g3 -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
+CFLAGS = -Wall -Wextra -pg -g3# -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
 LIBA = ar rc
 LIBS = ranlib
+
+ifneq ($(no_error), true)
+	CFLAGS += -Werror
+endif
+
 
 RM = rm -Rf
 

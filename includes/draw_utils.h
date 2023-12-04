@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 23:10:14 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 21:50:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "structures.h"
 # include "colors.h"
 # include "matrix.h"
-# include  "list_fonctions.h"
+// # include "list_fonctions.h"
 # include "mlx_engine.h"
 
 # define MAP_CANVAS_SIZE_X 1920
@@ -84,7 +84,7 @@ typedef union u_shape
 	t_line_params		line;
 	t_rectangle_params	rect;
 	t_circle_params		circle;
-	t_triangle_params	triangle;	
+	t_triangle_params	triangle;
 }	t_shape;
 
 typedef struct s_shape_params {
@@ -123,34 +123,24 @@ typedef struct s_ui_data
 	t_img_data		*img;
 }	t_ui_data;
 
-typedef struct s_game_data
+typedef struct s_editor_data
 {
 	t_list	*matrix_operations;
 	t_list	*segments;
-}	t_game_data;
+}	t_editor_data;
 
 typedef union u_canvas_data
 {
 	t_map_editor_data	map_editor;
 	t_button_data		button;
 	t_ui_data			ui;
-	t_game_data			game;
+	t_editor_data			game;
 }	t_canvas_data;
 
 /*############################################################################*/
 /*                              CANVAS STRUCTURES                             */
 /*############################################################################*/
 
-typedef enum e_canvas_type
-{
-	MAP,
-	UI,
-	BUTTON,
-	GAME,
-	FINAL,
-	FIN_TEMP,
-	END_MARKER
-}	t_canvas_type;
 
 typedef struct s_bounds {
 	t_point2i	top;
@@ -261,9 +251,9 @@ int							apply_transformation_to_map(t_canvas *canvas,
 void						put_pixel_on_canvas(t_canvas *canvas,
 								t_point2i coord,
 								t_color color);
-void						put_pixel_on_virtual_canvas(t_canvas *canvas,
-								t_point2i coord,
-								t_color color);
+// void						put_pixel_on_virtual_canvas(t_canvas *canvas,
+// 								t_point2i coord,
+// 								t_color color);
 int							draw_line_on_map(t_canvas *canvas,
 								t_point2i start,
 								t_point2i end,
@@ -377,13 +367,22 @@ void						draw_one_line(
 /*############################################################################*/
 /*                              DRAW SHAPES                                */
 /*############################################################################*/
-int							draw_line(t_shape_params *params);
-int							draw_rectangle(t_shape_params *params);
-void						draw_circle_points(t_img_data *img,
-								t_point2i center,
-								t_point2i point,
-								t_color color);
-int							draw_circle(t_shape_params *params);
+int			draw_line(t_shape_params *params);
+int			draw_rectangle(t_shape_params *params);
+void		draw_circle_points(t_img_data *img,
+				t_point2i center,
+				t_point2i point,
+				t_color color);
+int			draw_circle(t_shape_params *params);
+void		draw_segment_canvas(
+				t_canvas *canvas,
+				t_segment_d const *const segment,
+				t_color color
+				);
+void		fill_canvas(
+				t_canvas *canvas,
+				t_color color
+				);
 
 /*############################################################################*/
 /*                              ALIGNMENT METHODS                             */

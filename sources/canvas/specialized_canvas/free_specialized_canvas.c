@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   layers_manager.c                                   :+:      :+:    :+:   */
+/*   free_specialized_canvas.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
+/*   Updated: 2023/12/03 23:52:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "draw_utils.h"
 
 void	free_map_editor(t_canvas *canvas)
@@ -20,8 +21,8 @@ void	free_map_editor(t_canvas *canvas)
 		return ;
 	if (map_editor->matrix_operations)
 		ft_lstclear(&map_editor->matrix_operations, free);
-	if (map_editor->segments)
-		ft_lstclear(&map_editor->segments, free);
+	// if (map_editor->segments)
+	// 	ft_lstclear(&map_editor->segments, free);
 	//aligned_free(map_editor);
 }
 
@@ -47,7 +48,7 @@ void	free_button(t_canvas *canvas)
 
 void	free_game(t_canvas *canvas)
 {
-	t_game_data	*game;
+	t_editor_data	*game;
 
 	game = &canvas->data.game;
 	if (!game)

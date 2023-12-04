@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 00:31:41 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:44:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/04 05:26:34 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static int	comparison_fun_x(
 	bsp_segment_b = bsp_segment_node_b->content;
 	min_a = get_segment_min_on_separator(bsp_segment_a, 1).x;
 	min_b = get_segment_min_on_separator(bsp_segment_b, 1).x;
-	return (min_a - min_b);
+
+	return ((min_a > min_b) - (min_a < min_b));
 }
 
 static int	comparison_fun_y(
@@ -99,7 +100,7 @@ static int	comparison_fun_y(
 	bsp_segment_b = bsp_segment_node_b->content;
 	min_a = get_segment_min_on_separator(bsp_segment_a, 0).y;
 	min_b = get_segment_min_on_separator(bsp_segment_b, 0).y;
-	return (min_a - min_b);
+	return ((min_a > min_b) - (min_a < min_b));
 }
 
 void	sort_intersect_segments_array(

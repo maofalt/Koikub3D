@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:50:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/04 05:09:28 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static inline	void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 	if (coord.x >= 0 && coord.x < canvas->size.x && coord.y >= 0
 		&& coord.y < canvas->size.y)
 	{
-		offset = coord.y * canvas->size.x + coord.x;
+		offset = ((int)coord.y) * canvas->size.x + coord.x;
 		canvas->pixels[offset] = color;
 	}
 }
@@ -47,6 +47,7 @@ void	draw_segment_canvas(
 	cursor.y = segment->point_a.y;
 	while (step > 0)
 	{
+		printf("cursor -> x: %f, %f\n", cursor.x, cursor.y);
 		put_pixel_on_virtual_canvas(canvas, cursor, color);
 		cursor.x = cursor.x + delta.x;
 		cursor.y = cursor.y + delta.y;

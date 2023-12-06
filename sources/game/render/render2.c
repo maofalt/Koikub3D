@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/06 06:00:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:15:10 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,11 +355,13 @@ void	render_sector(
 	}
 }
 
-void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
+void	render_3d_draw(t_3d_render *render)
 {
 	t_tree_node				*node;
 	t_render_item_queue		item_queue;
 
+	ft_memset(render->z_buffer, 0,
+		render->canvas->size.x * render->canvas->size.y * sizeof(double));
 	for (int i = 0; i < render->canvas->size.x; i++)
 	{
 		render->top_array[i] = 0;//render->canvas->size.y;
@@ -382,6 +384,76 @@ void	render_3d_draw(__attribute_maybe_unused__ t_3d_render *render)
 	}
 }
 
+// double center_dist = (pow((screen_top + y) - (canvas->size.y/2) , 2) + pow(screen_x - (canvas->size.x/2), 2));
+
+// 		double opacity = 0.1/ fmax(depth * depth, 1);
+
+// 		// depth = depth / (center_dist/1000);
+// 		// if (center_dist < 10000)
+// 		// {
+// 			// depth -= 1 / sqrt(center_dist);
+// 			// depth =  1;
+// 		opacity +=  (0.5 / (depth*1.5)) * fmin(((50000 * fmin(1000, depth) / (center_dist*2))), 4);
+// 		// }
+
+// 		opacity = fmin(opacity, 1);
+// 		opacity = fmax(opacity, 0);
+// 		canvas->pixels[offset].b *= opacity;
+// 		canvas->pixels[offset].g *= opacity;
+// 		canvas->pixels[offset].r *= opacity;
+// 		canvas->pixels[offset].a *= opacity;
+
+__attribute__((optimize("-ffast-math")))
+t_color	shader_torch(t_color original_color, int offset, int width, int height, t_3d_render *render)
+{
+	int y = offset / width;
+	int x = offset % width;
+	double depth = render->z_buffer[offset];
+
+	double center_dist = ((y - height/2) * (y - height/2)) + ((x - width/2) * (x - width/2));
+
+	double opacity = 0.1/ fmax(depth * depth, 1);
+
+	// depth = depth / (center_dist/1000);
+	// if (center_dist < 10000)
+	// {
+		// depth -= 1 / sqrt(center_dist);
+		// depth =  1;
+	opacity +=  (0.5 / (depth*1.5)) * fmin(((50000 * fmin(1000, depth) / (center_dist*2))), 4);
+	// }
+
+	opacity = fmin(opacity, 1);
+	opacity = fmax(opacity, 0);
+	original_color.b *= opacity;
+	original_color.g *= opacity;
+	original_color.r *= opacity;
+	original_color.a *= opacity;
+
+	return (original_color);
+}
+
+
+void	post_process_frame(t_3d_render *render)
+{
+	const int max_offset = render->canvas->size.x * render->canvas->size.y;
+	int	i;
+
+	i = 0;
+	while (i < max_offset)
+	{
+		// if (render->z_buffer[i] >= 1)
+		// {
+		// 	render->canvas->pixels[i].a /= render->z_buffer[i];
+		// 	render->canvas->pixels[i].r /= render->z_buffer[i];
+		// 	render->canvas->pixels[i].g /= render->z_buffer[i];
+		// 	render->canvas->pixels[i].b /= render->z_buffer[i];
+		// }
+		render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i,
+			render->canvas->size.x, render->canvas->size.y, render);
+		++i;
+	}
+}
+
 void	game_render(t_cub *data)
 {
 	t_canvas	*canvas;
@@ -392,6 +464,7 @@ void	game_render(t_cub *data)
 		canvas,
 		(t_color){.d = 0x00000000});
 	render_3d_draw(&data->game_data.game_view_render);
+	post_process_frame(&data->game_data.game_view_render);
 	canvas_to_mlx_image(data->screen,
 		canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
@@ -404,6 +477,7 @@ void	render_3d_destroy(t_3d_render *render)
 {
 	free(render->top_array);
 	free(render->bottom_array);
+	free(render->z_buffer);
 	circular_queue_destroy(render->queue);
 	render->bottom_array = NULL;
 	render->top_array = NULL;
@@ -424,10 +498,13 @@ int	render_3d_init(t_3d_render *render,
 	render->middle.z = 0;
 	render->top_array = ft_calloc(canvas->size.x, sizeof(double));
 	render->bottom_array = ft_calloc(canvas->size.x, sizeof(double));
+	render->z_buffer = ft_calloc(canvas->size.x * canvas->size.y,
+		sizeof(render->z_buffer));
 	render->queue = circular_queue_create(RENDER_QUEUE_SIZE,
 			sizeof(t_render_item_queue));
 	if (render->top_array == NULL
 		|| render->bottom_array == NULL
+		|| render->z_buffer == NULL
 		|| render->queue == NULL)
 	{
 		render_3d_destroy(render);

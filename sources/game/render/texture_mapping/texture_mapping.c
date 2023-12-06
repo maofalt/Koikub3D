@@ -19,11 +19,12 @@ static inline void	draw_vertical_line_tiled(
 			t_3d_render	*render,
 			t_canvas *canvas,
 			t_img_data	*image,
-			int 	img_x,
+			int 		img_x,
 			int 		screen_x,
 			int 		screen_top,
-			int	screen_bottom,
-			double		tiled_factor
+			int			screen_bottom,
+			double		tiled_factor,
+			double			depth
 			)
 {
 	uint32_t	*img = (void *)image->addr;
@@ -46,6 +47,7 @@ static inline void	draw_vertical_line_tiled(
 		offset = (screen_top + y) * canvas->size.x + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
 		canvas->pixels[offset].d = img[offset_img];
+		render->z_buffer[offset] = depth;
 		++y;
 	}
 }
@@ -215,7 +217,7 @@ void draw_wall_texture(
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
 		draw_vertical_line_tiled(render, render->canvas,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
-			x, top, bot, data.texture_tiling_factor_y);
+			x, top, bot, data.texture_tiling_factor_y, 1/one_over_z);
 		top += coef_top;
 		bot += coef_bot;
 		x++;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 22:56:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/06 06:00:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,18 +192,18 @@ static inline void	draw_portal_wall_line(
 	const double bottom
 	)
 {
-	const double	old_bottom = render->bottom_array[x];
-	const double	old_top = render->top_array[x];
-	t_color			color;
+	// const double	old_bottom = render->bottom_array[x];
+	// const double	old_top = render->top_array[x];
+	// t_color			color;
 
 	render->top_array[x] = fmax(top, render->top_array[x]);
 	render->bottom_array[x] = fmin(bottom, render->bottom_array[x]);
-	color.d = CEIL_COLOR;
-	draw_vertical_line(render->canvas, x, old_top,
-		render->top_array[x], &color);
-	color.d = FLOOR_COLOR;
-	draw_vertical_line(render->canvas, x, render->bottom_array[x],
-		old_bottom, &color);
+	// color.d = CEIL_COLOR;
+	// draw_vertical_line(render->canvas, x, old_top,
+		// render->top_array[x], &color);
+	// color.d = FLOOR_COLOR;
+	// draw_vertical_line(render->canvas, x, render->bottom_array[x],
+	// 	old_bottom, &color);
 }
 
 void	draw_solid_wall(
@@ -268,6 +268,13 @@ typedef struct s_render_item_queue
 }	t_render_item_queue;
 
 
+void	draw_portal_offset(
+	t_3d_render *render,
+	t_segment_d	*portal_bot,
+	double left,
+	double right
+	);
+
 void	render_portal(
 	t_3d_render *render,
 	t_segment_d	*wall,
@@ -311,8 +318,11 @@ void	render_portal(
 	}
 	projected_top.data = wall->data;
 	projected_bot.data = wall->data;
-	draw_portal_ceil_offset(render, &projected_top, left, right);
-	draw_portal_floor_offset(render, &projected_bot, left, right);
+	// draw_portal_ceil_offset(render, &projected_top, left, right);
+	// draw_portal_floor_offset(render, &projected_bot, left, right);
+	draw_portal_offset(render, wall, left, right);
+
+
 }
 
 void	render_sector(

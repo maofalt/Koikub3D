@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:59:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/06 05:15:45 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,61 @@ void	tmp_set_segments_textures(t_list *lst, t_cub *data)
 
 }
 
+
+static void	lst_update_portals_textures(
+	t_list **bsp_list,
+	t_texture_ptr *padding_texture_top,
+	t_texture_ptr *padding_texture_bottom
+	)
+{
+	t_list			*current;
+	t_segment_d	*seg;
+
+	current = *bsp_list;
+	while (current != NULL)
+	{
+		seg = (t_segment_d *)current->content;
+		if (seg->data.type == PORTAL)
+		{
+			seg->data.data.portal.padding_texture_bottom
+				= *padding_texture_bottom;
+			seg->data.data.portal.padding_texture_top = *padding_texture_top;
+			printf("coucou\n");
+		}
+		current = current->next;
+	}
+}
+
+void	tree_update_update_portals_textures(
+	t_tree_node *tree,
+	t_texture_ptr *padding_texture_top,
+	t_texture_ptr *padding_texture_bottom
+	)
+{
+	if (tree->left == NULL && tree->right == NULL)
+	{
+		lst_update_portals_textures(
+			&((t_bsp_tree_node_data*)tree->data)->sector_segments,
+			padding_texture_top, padding_texture_bottom);
+		return ;
+	}
+	tree_update_update_portals_textures(tree->left,
+		padding_texture_top, padding_texture_bottom);
+	tree_update_update_portals_textures(tree->right,
+		padding_texture_top, padding_texture_bottom);
+}
+
+void set_bsp_default_textures(t_cub *data)
+{
+	t_texture_ptr texture_ptr;
+
+	texture_ptr.texture = data->texture_manager.textures;
+	printf("hello: %i\n", texture_ptr.texture->frame_count);
+	texture_ptr.offset = 0;
+	tree_update_update_portals_textures(data->game_data.map_data.bsp,
+	&texture_ptr, &texture_ptr);
+}
+
 //TODO: move it
 int	map_convert(t_cub *data)
 {
@@ -122,6 +177,7 @@ int	map_convert(t_cub *data)
 	}
 	data->game_data.map_data.segments = segments_lst;
 	data->game_data.map_data.bsp = tree;
+	set_bsp_default_textures(data);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 19:33:45 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/23 13:31:36 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/06 05:37:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,45 @@ void	draw_portal_floor_offset(
 	if (portal_bot->data.floor > other_side_portal->data.floor)
 	{
 		draw_filled_area_floor(render, &other_portal_bot, left, right);
+	}
+}
+
+
+void	draw_portal_offset(
+	t_3d_render *render,
+	t_segment_d	*portal_bot,
+	double left,
+	double right
+	)
+
+{
+	t_segment_d	*other_side_portal = NULL;
+	// t_segment_d	other_portal_bot;
+
+	other_side_portal = portal_bot->data.data.portal.destination;
+	other_side_portal->point_a.z = other_side_portal->data.floor;
+	other_side_portal->point_b.z = other_side_portal->data.floor;
+	// if (project_segment(render, *other_side_portal, &other_portal_bot))
+	// 	return ;
+
+	if (portal_bot->data.floor > other_side_portal->data.floor)
+	{
+		t_segment_d	padding_top;
+
+		padding_top = *portal_bot;
+		padding_top.data.floor = portal_bot->data.floor;
+		padding_top.data.ceil = other_side_portal->data.floor;
+		padding_top.data.data.wall.texture = portal_bot->data.data.portal.padding_texture_bottom;
+		draw_wall_texture(render, &padding_top, left, right);
+	}
+	if (portal_bot->data.ceil < other_side_portal->data.ceil)
+	{
+		t_segment_d	padding_top;
+
+		padding_top = *portal_bot;
+		padding_top.data.ceil = portal_bot->data.ceil;
+		padding_top.data.floor = other_side_portal->data.ceil;
+		padding_top.data.data.wall.texture = portal_bot->data.data.portal.padding_texture_bottom;
+		draw_wall_texture(render, &padding_top, left, right);
 	}
 }

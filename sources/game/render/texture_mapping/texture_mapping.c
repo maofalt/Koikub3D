@@ -16,12 +16,13 @@ int project_wall(t_3d_render *render,
 					);
 
 static inline void	draw_vertical_line_tiled(
+			t_3d_render	*render,
 			t_canvas *canvas,
 			t_img_data	*image,
 			int 	img_x,
 			int 		screen_x,
 			int 		screen_top,
-			const int	screen_bottom,
+			int	screen_bottom,
 			double		tiled_factor
 			)
 {
@@ -32,7 +33,8 @@ static inline void	draw_vertical_line_tiled(
 
 	img_x = img_x % image->size.x;
 	double factor  =  ((double)image->size.y * tiled_factor) / (double) (screen_bottom - screen_top);
-	y = fmax(-screen_top, y);
+	y = (int)fmax(0, render->top_array[screen_x] - screen_top); //fmax(screen_top, render->top_array[screen_x]);
+	screen_bottom = fmin(screen_bottom, render->bottom_array[screen_x]);
 	while (screen_top + y < screen_bottom)
 	{
 		if (y + screen_top >= canvas->size.y)
@@ -211,7 +213,7 @@ void draw_wall_texture(
 		double one_over_z = (1 - alpha) / data.clipped_relative_segment.point_a.y + alpha /  data.clipped_relative_segment.point_b.y;
 		double txtx = (((1 - alpha) * (data.u0 / data.clipped_relative_segment.point_a.y) + alpha * (data.u1 / data.clipped_relative_segment.point_b.y))) / one_over_z;
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
-		draw_vertical_line_tiled(render->canvas,
+		draw_vertical_line_tiled(render, render->canvas,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
 			x, top, bot, data.texture_tiling_factor_y);
 		top += coef_top;

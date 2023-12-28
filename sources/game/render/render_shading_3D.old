@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/29 00:11:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/28 23:27:42 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -496,47 +496,80 @@ double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 
 t_color	shader_deferred_shading(t_color original_color, int offset, int width, int height, t_3d_render *render)
 {
-
-	t_vector4d lights[10] = {
-		(t_vector4d){.vec={2, 2, 0, 0}},
-		(t_vector4d){.vec={10, 2, 0, 0}},
-		(t_vector4d){.vec={40, 2, 0, 0}},
-		(t_vector4d){.vec={2, 10, 0, 0}},
-		(t_vector4d){.vec={10, 10, 0, 0}},
-		(t_vector4d){.vec={40, 10, 0, 0}},
-		(t_vector4d){.vec={2, 40, 0, 0}},
-		(t_vector4d){.vec={10, 40, 0, 0}},
-		(t_vector4d){.vec={40, 40, 0, 0}},
-		(t_vector4d){.vec={2, 2, 10, 0}},
-	};
 	int y = offset / width;
 	int x = offset % width;
 	t_g_buffer g_buff = render->g_buffer[offset];
 
-	t_color lighting = original_color ;
+	//     vec3 FragPos = texture(gPosition, TexCoords).rgb;
+    // vec3 Normal = texture(gNormal, TexCoords).rgb;
+    // vec3 Albedo = texture(gAlbedoSpec, TexCoords).rgb;
+    // float Specular = texture(gAlbedoSpec, TexCoords).a;
+
+    // // then calculate lighting as usual
+    // vec3 lighting = Albedo * 0.1; // hard-coded ambient component
+    // vec3 viewDir = normalize(viewPos - FragPos);
+    // for(int i = 0; i < NR_LIGHTS; ++i)
+    // {
+    //     // diffuse
+    //     vec3 lightDir = normalize(lights[i].Position - FragPos);
+    //     vec3 diffuse = max(dot(Normal, lightDir), 0.0) * Albedo * lights[i].Color;
+    //     lighting += diffuse;
+    // }
+
+	t_vector4d light_pos = {.vec={2, 2, 0, 0}};
+	light_pos = transform_camera_relative_point(light_pos, render->camera);
+	t_color lighting = original_color;
 	double luminosity = 0.1;
-	lighting.r *= luminosity;
-	lighting.g *= luminosity;
-	lighting.b *= luminosity;
+	// lighting.r *= 0.1;
+	// lighting.g *= 0.1;
+	// lighting.b *= 0.1;
+	// lighting.a *= 0.1;
 
-	for (int i = 0; i < 2; i++) {
-		t_vector4d light_pos = lights[i];
-		light_pos = transform_camera_relative_point(light_pos, render->camera);
+	// t_vector4d view_dir;
+	// view_dir.vec =  render->camera->pos.vec - g_buff.world_pos.vec;
+	// normalize_vector_2d(&view_dir);
 
-		t_vector4d light_dir = {.vec={0, 0, 0, 0}};
-		light_dir.vec = light_pos.vec - g_buff.world_pos.vec;
-		normalize_vector_3d(&light_dir);
+	t_vector4d light_dir = {.vec={0, 0, 0, 0}};
 
-		double diffuse = fmax(dot_product_3d(&g_buff.normal, &light_dir), 0.0);
-		double dist = sqrt((light_pos.x - g_buff.world_pos.x) * (light_pos.x - g_buff.world_pos.x) + (light_pos.y - g_buff.world_pos.y) * (light_pos.y - g_buff.world_pos.y) + (light_pos.z - g_buff.world_pos.z) * (light_pos.z - g_buff.world_pos.z));
-		double attenuation = 1.0 / (dist);
+	light_dir.vec = light_pos.vec - g_buff.world_pos.vec;
 
-		lighting.r += original_color.r * fmin(1, diffuse * attenuation);
-		lighting.g += original_color.g * fmin(1, diffuse * attenuation);
-		lighting.b += original_color.b * fmin(1, diffuse * attenuation);
-	}
+	// if (g_buff.world_pos.x != 0 || g_buff.world_pos.y != 0)
+	// 	printf("g_buff.world_pos: %f, %f\n", g_buff.world_pos.x, g_buff.world_pos.y);
 
-	return lighting;
+	normalize_vector_3d(&light_dir);
+
+	double diffuse = fmax(dot_product_3d(&g_buff.normal, &light_dir), 0.0);
+	// printf("diffuse: %f\n", diffuse);
+
+	// lighting.r = fabs(g_buff.world_pos.x * 1);
+	// lighting.g = fabs(g_buff.world_pos.y * 1);
+
+	//double dist = sqrt((light_pos.x - g_buff.world_pos.x) * (light_pos.x - g_buff.world_pos.x) + (light_pos.y - g_buff.world_pos.y) * (light_pos.y - g_buff.world_pos.y));
+	double dist = sqrt((light_pos.x - g_buff.world_pos.x) * (light_pos.x - g_buff.world_pos.x) + (light_pos.y - g_buff.world_pos.y) * (light_pos.y - g_buff.world_pos.y) + (light_pos.z - g_buff.world_pos.z) * (light_pos.z - g_buff.world_pos.z));
+	double attenuation = 1.0 / (dist);
+
+
+	// diffuse = 1;
+
+	lighting.r =  original_color.r * fmin(1, diffuse * attenuation + luminosity);
+	lighting.g =  original_color.g * fmin(1, diffuse * attenuation + luminosity );
+	lighting.b =  original_color.b * fmin(1, diffuse * attenuation + luminosity);
+
+
+
+	// lighting.r = fmax(dot_product_2d(&g_buff.normal, &light_dir), 0.0) * 255;
+	// lighting.g = fmin(dot_product_2d(&g_buff.normal, &light_dir), 0.0) * -255;
+
+
+	// if ((x == width / 2) && (y == height / 2))
+	// {
+	// 	printf("light_dir: %lf %lf; \n", light_dir.x, light_dir.y);
+	// 	printf("mid : normal:%lf %lf; \n", g_buff.normal.x, g_buff.normal.y);
+	// 	printf("cross product:%lf; \n",dot_product_2d(&g_buff.normal, &light_dir));
+	// 	printf("world_pos: %lf %lf\n", g_buff.world_pos.x, g_buff.world_pos.y );
+	// }
+
+	return (lighting);
 }
 
 

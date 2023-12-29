@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/29 00:11:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/29 02:32:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 #include "ressources_managers.h"
 #include <assert.h>
 
-
-t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
+t_vector4d transform_camera_relative_point(t_vector4d point, t_camera *camera)
 {
-	t_vector4d	relative_point;
+	t_vector4d relative_point;
 
 	point.vec = point.vec - camera->pos.vec;
 	relative_point.x = point.x * camera->dir.y - point.y * camera->dir.x;
@@ -32,7 +31,7 @@ t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
 	return (relative_point);
 }
 
-t_segment_d	transform_camera_relative_segment(
+t_segment_d transform_camera_relative_segment(
 	t_segment_d segment,
 	t_camera *camera)
 {
@@ -41,9 +40,9 @@ t_segment_d	transform_camera_relative_segment(
 	return (segment);
 }
 
-t_vector4d	project_point(t_3d_render *render, t_vector4d point)
+t_vector4d project_point(t_3d_render *render, t_vector4d point)
 {
-	t_vector4d	transformed_point;
+	t_vector4d transformed_point;
 
 	transformed_point.x = -point.x * 16 / point.y;
 	transformed_point.y = point.z / point.y;
@@ -54,20 +53,19 @@ t_vector4d	project_point(t_3d_render *render, t_vector4d point)
 	return (transformed_point);
 }
 
-int	relative_segment_clip_front(t_segment_d *segment)
+int relative_segment_clip_front(t_segment_d *segment)
 {
-	t_segment_d	horizontal;
-	t_vector4d	intersect;
+	t_segment_d horizontal;
+	t_vector4d intersect;
 
 	horizontal = (t_segment_d){.point_a = {{1, CAMERA_PROXIMITY, 0, 0}},
-		.point_b = {{10, CAMERA_PROXIMITY, 0, 0}}};
+							   .point_b = {{10, CAMERA_PROXIMITY, 0, 0}}};
 	if (segment->point_a.y <= 0 && segment->point_b.y <= 0)
 		return (1);
-	if (segment->point_a.y <= CAMERA_PROXIMITY
-		|| segment->point_b.y <= CAMERA_PROXIMITY)
+	if (segment->point_a.y <= CAMERA_PROXIMITY || segment->point_b.y <= CAMERA_PROXIMITY)
 	{
 		intersect = point2d_to_vector4d_cpy(
-				find_intersection(horizontal, *segment));
+			find_intersection(horizontal, *segment));
 		intersect.y = CAMERA_PROXIMITY;
 		if (segment->point_a.y < CAMERA_PROXIMITY)
 		{
@@ -83,8 +81,7 @@ int	relative_segment_clip_front(t_segment_d *segment)
 	return (0);
 }
 
-
-int	project_segment(
+int project_segment(
 	t_3d_render *render,
 	t_segment_d segment,
 	t_segment_d *projected_seg)
@@ -106,15 +103,14 @@ int	project_segment(
 	return (0);
 }
 
-static inline void	draw_vertical_line(
-			t_canvas *canvas,
-			const int x,
-			int top,
-			const int bottom,
-			const t_color *const color
-			)
+static inline void draw_vertical_line(
+	t_canvas *canvas,
+	const int x,
+	int top,
+	const int bottom,
+	const t_color *const color)
 {
-	int					offset;
+	int offset;
 
 	assert(x >= 0);
 	assert(x < canvas->size.x);
@@ -128,11 +124,10 @@ static inline void	draw_vertical_line(
 	}
 }
 
-double	calc_seg_coef(
-			t_segment_d *segment
-			)
+double calc_seg_coef(
+	t_segment_d *segment)
 {
-	t_point2d	delta;
+	t_point2d delta;
 
 	delta.x = segment->point_b.x - segment->point_a.x;
 	delta.y = segment->point_b.y - segment->point_a.y;
@@ -141,10 +136,9 @@ double	calc_seg_coef(
 }
 
 int project_wall(t_3d_render *render,
-					t_segment_d *wall,
-					t_segment_d *projected_top,
-					t_segment_d *projected_bottom
-					)
+				 t_segment_d *wall,
+				 t_segment_d *projected_top,
+				 t_segment_d *projected_bottom)
 {
 	wall->point_a.z = wall->data.floor;
 	wall->point_b.z = wall->data.floor;
@@ -159,38 +153,35 @@ int project_wall(t_3d_render *render,
 	return (0);
 }
 
-
-static inline void	draw_solid_wall_line(
+static inline void draw_solid_wall_line(
 	const t_3d_render *const render,
 	int x,
 	const double top,
-	const double bottom
-	)
+	const double bottom)
 {
-	assert (x < render->canvas->size.x);
-	const double	old_bottom = render->bottom_array[x];
-	const double	old_top = render->top_array[x];
-	t_color			color;
+	assert(x < render->canvas->size.x);
+	const double old_bottom = render->bottom_array[x];
+	const double old_top = render->top_array[x];
+	t_color color;
 
 	render->top_array[x] = fmax(top, render->top_array[x]);
 	render->bottom_array[x] = fmin(bottom, render->bottom_array[x]);
 	color.d = WALL_COLOR;
 	draw_vertical_line(render->canvas, x, render->top_array[x],
-		render->bottom_array[x], &color);
+					   render->bottom_array[x], &color);
 	color.d = CEIL_COLOR;
 	draw_vertical_line(render->canvas, x, old_top,
-		render->top_array[x], &color);
+					   render->top_array[x], &color);
 	color.d = FLOOR_COLOR;
 	draw_vertical_line(render->canvas, x, render->bottom_array[x],
-		old_bottom, &color);
+					   old_bottom, &color);
 }
 
-static inline void	draw_portal_wall_line(
+static inline void draw_portal_wall_line(
 	const t_3d_render *const render,
 	int x,
 	const double top,
-	const double bottom
-	)
+	const double bottom)
 {
 	// const double	old_bottom = render->bottom_array[x];
 	// const double	old_top = render->top_array[x];
@@ -200,26 +191,25 @@ static inline void	draw_portal_wall_line(
 	render->bottom_array[x] = fmin(bottom, render->bottom_array[x]);
 	// color.d = CEIL_COLOR;
 	// draw_vertical_line(render->canvas, x, old_top,
-		// render->top_array[x], &color);
+	// render->top_array[x], &color);
 	// color.d = FLOOR_COLOR;
 	// draw_vertical_line(render->canvas, x, render->bottom_array[x],
 	// 	old_bottom, &color);
 }
 
-void	draw_solid_wall(
+void draw_solid_wall(
 	t_3d_render *render,
-	t_segment_d	*wall,
+	t_segment_d *wall,
 	double left,
-	double right
-	)
+	double right)
 {
-	t_segment_d		projected_top;
-	t_segment_d		projected_bot;
-	double			coef_top;
-	double			coef_bot;
+	t_segment_d projected_top;
+	t_segment_d projected_bot;
+	double coef_top;
+	double coef_bot;
 
 	if (project_wall(render, wall, &projected_top, &projected_bot))
-		return ;
+		return;
 	left = fmax(projected_top.point_a.x, left);
 	right = fmin(projected_top.point_b.x, right);
 	coef_bot = calc_seg_coef(&projected_bot);
@@ -231,19 +221,18 @@ void	draw_solid_wall(
 	while (left < right)
 	{
 		draw_solid_wall_line(render, left, projected_top.point_a.y,
-			projected_bot.point_a.y);
+							 projected_bot.point_a.y);
 		projected_top.point_a.y += coef_top;
 		projected_bot.point_a.y += coef_bot;
 		++left;
 	}
 }
 
-
-t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
+t_tree_node *bsp_search_point(t_tree_node *tree, t_point2d point)
 {
-	t_tree_node	*child;
-	t_segment_d	separator;
-	double		point_side;
+	t_tree_node *child;
+	t_segment_d separator;
+	double point_side;
 
 	if (!tree)
 		return (NULL);
@@ -262,36 +251,33 @@ t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
 
 typedef struct s_render_item_queue
 {
-	double					right;
-	double					left;
-	t_segment_d				*portal;
-}	t_render_item_queue;
+	double right;
+	double left;
+	t_segment_d *portal;
+} t_render_item_queue;
 
-
-void	draw_portal_offset(
+void draw_portal_offset(
 	t_3d_render *render,
-	t_segment_d	*portal_bot,
+	t_segment_d *portal_bot,
 	double left,
-	double right
-	);
+	double right);
 
-void	render_portal(
+void render_portal(
 	t_3d_render *render,
-	t_segment_d	*wall,
+	t_segment_d *wall,
 	double left,
-	double right
-	)
+	double right)
 {
-	t_segment_d		projected_top;
-	t_segment_d		projected_bot;
-	double			coef_top;
-	double			coef_bot;
+	t_segment_d projected_top;
+	t_segment_d projected_bot;
+	double coef_top;
+	double coef_bot;
 
 	if (project_wall(render, wall, &projected_top, &projected_bot))
-		return ;
+		return;
 	left = fmax(projected_top.point_a.x, left);
 	right = fmin(projected_top.point_b.x, right);
-	t_render_item_queue		new_item_queue;
+	t_render_item_queue new_item_queue;
 	if (left < right)
 	{
 		new_item_queue.left = left;
@@ -311,7 +297,7 @@ void	render_portal(
 	while (x < right)
 	{
 		draw_portal_wall_line(render, x, top_y,
-			bot_y);
+							  bot_y);
 		top_y += coef_top;
 		bot_y += coef_bot;
 		++x;
@@ -321,18 +307,15 @@ void	render_portal(
 	// draw_portal_ceil_offset(render, &projected_top, left, right);
 	// draw_portal_floor_offset(render, &projected_bot, left, right);
 	draw_portal_offset(render, wall, left, right);
-
-
 }
 
-void	render_sector(
+void render_sector(
 	t_3d_render *render,
 	t_render_item_queue *item_queue,
-	t_tree_node *node
-	)
+	t_tree_node *node)
 {
-	t_list					*seg_lst;
-	t_segment_d				*segment;
+	t_list *seg_lst;
+	t_segment_d *segment;
 
 	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
 	while (seg_lst)
@@ -342,12 +325,12 @@ void	render_sector(
 		{
 			if (segment != item_queue->portal)
 				render_portal(render, segment,
-					item_queue->left, item_queue->right);
+							  item_queue->left, item_queue->right);
 		}
 		else
 		{
 			draw_wall_texture(render, (t_segment_d *)seg_lst->content,
-				item_queue->left, item_queue->right);
+							  item_queue->left, item_queue->right);
 			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
 			// 	item_queue->left, item_queue->right);
 		}
@@ -355,22 +338,21 @@ void	render_sector(
 	}
 }
 
-void	render_3d_draw(t_3d_render *render)
+void render_3d_draw(t_3d_render *render)
 {
-	t_tree_node				*node;
-	t_render_item_queue		item_queue;
+	t_tree_node *node;
+	t_render_item_queue item_queue;
 
-	ft_memset(render->g_buffer, 0,
-		render->canvas->size.x * render->canvas->size.y * sizeof(render->g_buffer[0]));
+	memset(render->g_buffer, 0,
+		   render->canvas->size.x * render->canvas->size.y * sizeof(render->g_buffer[0]));
 	for (int i = 0; i < render->canvas->size.x; i++)
 	{
-		render->top_array[i] = 0;//render->canvas->size.y;
+		render->top_array[i] = 0; // render->canvas->size.y;
 		render->bottom_array[i] = render->canvas->size.y;
-	} //TODO, maybe use a flag system instead
-
+	} // TODO, maybe use a flag system instead
 
 	node = bsp_search_point(render->map->bsp,
-			vector4d_to_point2d(&render->camera->pos));
+							vector4d_to_point2d(&render->camera->pos));
 	item_queue.left = 0;
 	item_queue.portal = NULL;
 	item_queue.right = render->canvas->size.x;
@@ -404,22 +386,22 @@ void	render_3d_draw(t_3d_render *render)
 // 		canvas->pixels[offset].a *= opacity;
 
 // __attribute__((optimize("-ffast-math")))
-t_color	shader_torch(t_color original_color, int offset, int width, int height, t_3d_render *render)
+t_color shader_torch(t_color original_color, int offset, int width, int height, t_3d_render *render)
 {
 	int y = offset / width;
 	int x = offset % width;
 	double depth = render->g_buffer[offset].z;
 
-	double center_dist = ((y - height/2) * (y - height/2)) + ((x - width/2) * (x - width/2));
+	double center_dist = ((y - height / 2) * (y - height / 2)) + ((x - width / 2) * (x - width / 2));
 
-	double opacity = 0.1/ fmax(depth * depth, 1);
+	double opacity = 0.1 / fmax(depth * depth, 1);
 
 	// depth = depth / (center_dist/1000);
 	// if (center_dist < 10000)
 	// {
-		// depth -= 1 / sqrt(center_dist);
-		// depth =  1;
-	opacity +=  (0.5 / (depth*1.5)) * fmin(((50000 * fmin(1000, depth) / (center_dist*2))), 4);
+	// depth -= 1 / sqrt(center_dist);
+	// depth =  1;
+	opacity += (0.5 / (depth * 1.5)) * fmin(((50000 * fmin(1000, depth) / (center_dist * 2))), 4);
 	// }
 
 	opacity = fmin(opacity, 1);
@@ -446,19 +428,18 @@ double q_rsqrt(double number)
 	// y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
 	// // y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 
-
-	return 1/sqrt(number);
+	return 1 / sqrt(number);
 }
 void normalize_vector_2d(t_vector4d *vec)
 {
-	double reverse_lenght = q_rsqrt(vec->x*vec->x+vec->y*vec->y);
+	double reverse_lenght = q_rsqrt(vec->x * vec->x + vec->y * vec->y);
 	vec->vec[0] *= reverse_lenght;
 	vec->vec[1] *= reverse_lenght;
 }
 
 void normalize_vector_3d(t_vector4d *vec)
 {
-	double reverse_lenght = q_rsqrt(vec->x*vec->x+vec->y*vec->y+vec->z*vec->z);
+	double reverse_lenght = q_rsqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 	vec->vec[0] *= reverse_lenght;
 	vec->vec[1] *= reverse_lenght;
 	vec->vec[2] *= reverse_lenght;
@@ -469,18 +450,13 @@ double dot_product_2d(t_vector4d *vec1, t_vector4d *vec2)
 	// double result = vec1->x * vec2->x + vec1->y * vec2->y;
 	double result = vec1->x * vec2->x + vec1->y * vec2->y;
 	return result;
-
-
 }
 double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 {
 	// double result = vec1->x * vec2->x + vec1->y * vec2->y;
-	double result = vec1->x * vec2->x + vec1->y * vec2->y + + vec1->z * vec2->z;
+	double result = vec1->x * vec2->x + vec1->y * vec2->y + +vec1->z * vec2->z;
 	return result;
-
-
 }
-
 
 // double point_cross_product()
 // {
@@ -494,42 +470,69 @@ double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 // }
 
 
-t_color	shader_deferred_shading(t_color original_color, int offset, int width, int height, t_3d_render *render)
+	t_vector4d lights[40] = {
+		(t_vector4d){.vec = {2, 2, 0, 0}},
+		(t_vector4d){.vec = {10, 2, 0, 0}},
+		(t_vector4d){.vec = {40, 2, 0, 0}},
+		(t_vector4d){.vec = {2, 10, 0, 0}},
+		(t_vector4d){.vec = {10, 10, 0, 0}},
+		(t_vector4d){.vec = {40, 10, 0, 0}},
+		(t_vector4d){.vec = {2, 40, 0, 0}},
+		(t_vector4d){.vec = {10, 40, 0, 0}},
+		(t_vector4d){.vec = {40, 40, 0, 0}},
+		(t_vector4d){.vec = {2, 2, 10, 0}},
+		(t_vector4d){.vec = {20, 20, 20, 0}},
+		(t_vector4d){.vec = {30, 30, 30, 0}},
+		(t_vector4d){.vec = {50, 50, 50, 0}},
+		(t_vector4d){.vec = {5, 5, 5, 0}},
+		(t_vector4d){.vec = {15, 15, 15, 0}},
+		(t_vector4d){.vec = {3, 3, 3, 0}},
+		(t_vector4d){.vec = {6, 6, 6, 0}},
+		(t_vector4d){.vec = {9, 9, 9, 0}},
+		(t_vector4d){.vec = {12, 12, 12, 0}},
+		(t_vector4d){.vec = {15, 15, 15, 0}},
+		(t_vector4d){.vec = {18, 18, 18, 0}},
+		(t_vector4d){.vec = {21, 21, 21, 0}},
+		(t_vector4d){.vec = {24, 24, 24, 0}},
+		(t_vector4d){.vec = {27, 27, 27, 0}},
+		(t_vector4d){.vec = {30, 30, 30, 0}},
+		(t_vector4d){.vec = {33, 33, 33, 0}},
+		(t_vector4d){.vec = {36, 36, 36, 0}},
+		(t_vector4d){.vec = {39, 39, 39, 0}},
+		(t_vector4d){.vec = {42, 42, 42, 0}},
+		(t_vector4d){.vec = {45, 45, 45, 0}},
+		(t_vector4d){.vec = {48, 48, 48, 0}},
+		(t_vector4d){.vec = {51, 51, 51, 0}},
+		(t_vector4d){.vec = {54, 54, 54, 0}},
+		(t_vector4d){.vec = {57, 57, 57, 0}},
+		(t_vector4d){.vec = {60, 60, 60, 0}},
+	};
+
+t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render *render)
 {
 
-	t_vector4d lights[10] = {
-		(t_vector4d){.vec={2, 2, 0, 0}},
-		(t_vector4d){.vec={10, 2, 0, 0}},
-		(t_vector4d){.vec={40, 2, 0, 0}},
-		(t_vector4d){.vec={2, 10, 0, 0}},
-		(t_vector4d){.vec={10, 10, 0, 0}},
-		(t_vector4d){.vec={40, 10, 0, 0}},
-		(t_vector4d){.vec={2, 40, 0, 0}},
-		(t_vector4d){.vec={10, 40, 0, 0}},
-		(t_vector4d){.vec={40, 40, 0, 0}},
-		(t_vector4d){.vec={2, 2, 10, 0}},
-	};
-	int y = offset / width;
-	int x = offset % width;
+	// int y = offset / width;
+	// int x = offset % width;
 	t_g_buffer g_buff = render->g_buffer[offset];
 
-	t_color lighting = original_color ;
+	t_color lighting = original_color;
 	double luminosity = 0.1;
 	lighting.r *= luminosity;
 	lighting.g *= luminosity;
 	lighting.b *= luminosity;
 
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 20; i++)
+	{
 		t_vector4d light_pos = lights[i];
 		light_pos = transform_camera_relative_point(light_pos, render->camera);
 
-		t_vector4d light_dir = {.vec={0, 0, 0, 0}};
+		t_vector4d light_dir = {.vec = {0, 0, 0, 0}};
 		light_dir.vec = light_pos.vec - g_buff.world_pos.vec;
 		normalize_vector_3d(&light_dir);
 
 		double diffuse = fmax(dot_product_3d(&g_buff.normal, &light_dir), 0.0);
 		double dist = sqrt((light_pos.x - g_buff.world_pos.x) * (light_pos.x - g_buff.world_pos.x) + (light_pos.y - g_buff.world_pos.y) * (light_pos.y - g_buff.world_pos.y) + (light_pos.z - g_buff.world_pos.z) * (light_pos.z - g_buff.world_pos.z));
-		double attenuation = 1.0 / (dist);
+		double attenuation = 1.0 / (dist * dist);
 
 		lighting.r += original_color.r * fmin(1, diffuse * attenuation);
 		lighting.g += original_color.g * fmin(1, diffuse * attenuation);
@@ -539,40 +542,227 @@ t_color	shader_deferred_shading(t_color original_color, int offset, int width, i
 	return lighting;
 }
 
+t_color shader_floor(t_color original_color, int offset, t_3d_render *render)
+{
+	// Calculate the floor color based on the offset
+	int x = offset % render->canvas->size.x;
+	int y = offset / render->canvas->size.x;
+	t_color floor_color = {.r = 0, .g = 0, .b = 0};
+
+	// Geometric tiling pattern
+	int tile_size = 4;
+	int tile_x = x / tile_size;
+	int tile_y = y / tile_size;
+
+	// Calculate the position of the current tile in world coordinates
+	double world_tile_x = tile_x - render->camera->pos.x / tile_size;
+	double world_tile_y = tile_y - render->camera->pos.y / tile_size;
+
+	// Rotate the world coordinates based on camera direction
+	double cos_theta = render->camera->dir.x;
+	double sin_theta = render->camera->dir.y;
+
+	// Add a counter to make the rotation continuously slow move
+	static double rotation_counter ;
+	rotation_counter +=  0.00000001; // Adjust the speed of rotation here
+
+	double rotated_tile_x = world_tile_x * cos_theta - world_tile_y * sin_theta + rotation_counter;
+	double rotated_tile_y = world_tile_x * sin_theta + world_tile_y * cos_theta + rotation_counter;
+
+	// Apply a color pattern based on the rotated tile coordinates
+	if ((int)rotated_tile_x % 2 == 0)
+	{
+		if ((int)rotated_tile_y % 2 == 0)
+		{
+			floor_color.r = 3;
+			floor_color.g = 3;
+			floor_color.b = 3;
+		}
+		else
+		{
+			floor_color.r = 0;
+			floor_color.g = 0;
+			floor_color.b = 0;
+		}
+	}
+	else
+	{
+		if ((int)rotated_tile_y % 2 == 0)
+		{
+			floor_color.r = 0;
+			floor_color.g = 0;
+			floor_color.b = 0;
+		}
+		else
+		{
+			floor_color.r = 3;
+			floor_color.g = 3;
+			floor_color.b = 3;
+		}
+	}
+
+	return floor_color;
+}
 
 
-void	post_process_frame(t_3d_render *render)
+t_color shader_motif(t_color original_color, int offset, t_3d_render *render)
+{
+	// Calculate the floor color based on the offset
+	int x = offset % render->canvas->size.x;
+	int y = offset / render->canvas->size.x;
+	t_color floor_color = {.r = 0, .g = 0, .b = 0};
+
+	// Geometric tiling pattern
+	int tile_size = 5;
+	int tile_x = x / tile_size;
+	int tile_y = y / tile_size;
+
+	// Calculate the position of the current tile in world coordinates
+	double world_tile_x = tile_x - render->camera->pos.x / tile_size;
+	double world_tile_y = tile_y - render->camera->pos.y / tile_size;
+
+	// Rotate the world coordinates based on camera direction
+	double cos_theta = render->camera->dir.x;
+	double sin_theta = render->camera->dir.y;
+
+	// Add a counter to make the rotation continuously slow move
+	static double rotation_counter ;
+	rotation_counter +=  0.0000001; // Adjust the speed of rotation here
+
+	double rotated_tile_x = world_tile_x * cos_theta - world_tile_y * sin_theta + rotation_counter;
+	double rotated_tile_y = world_tile_x * sin_theta + world_tile_y * cos_theta + rotation_counter;
+
+	// Apply a color pattern based on the rotated tile coordinates
+	if ((int)rotated_tile_x % 2 == 0)
+	{
+		if ((int)rotated_tile_y % 2 == 0)
+		{
+			floor_color.r = 3;
+			floor_color.g = 3;
+			floor_color.b = 3;
+		}
+		else
+		{
+			floor_color.r = 0;
+			floor_color.g = 0;
+			floor_color.b = 0;
+		}
+	}
+	else
+	{
+		if ((int)rotated_tile_y % 2 == 0)
+		{
+			floor_color.r = 0;
+			floor_color.g = 0;
+			floor_color.b = 0;
+		}
+		else
+		{
+			floor_color.r = 3;
+			floor_color.g = 3;
+			floor_color.b = 3;
+		}
+	}
+
+	original_color.r = fabs( original_color.r - floor_color.r);
+	original_color.g = fabs( original_color.g - floor_color.g);
+	original_color.b = fabs( original_color.b - floor_color.b);
+
+	return (original_color);
+}
+
+
+unsigned int xorshift32(unsigned int *state)
+{
+	unsigned int x = *state;
+	x ^= x << 13;
+	x ^= x >> 17;
+	x ^= x << 5;
+	*state = x;
+	return x;
+}
+t_color shader_ceil(t_color original_color, int offset, t_3d_render *render)
+{
+	// Calculate the ceiling color based on the offset
+	int x = offset % render->canvas->size.x;
+	int y = offset / render->canvas->size.x;
+	t_color ceiling_color = {.r = 0, .g = 0, .b = 0};
+
+	if (y < render->canvas->size.y / 2)
+	{
+		ceiling_color.r = 5;
+		ceiling_color.g = 5;
+		ceiling_color.b = 5;
+	}
+	else
+	{
+		ceiling_color.r = 5;
+		ceiling_color.g = 5;
+		ceiling_color.b = 5;
+	}
+
+	// Apply the ceiling color to the original color
+	original_color.r = (ceiling_color.r);
+	original_color.g = (ceiling_color.g);
+	original_color.b = (ceiling_color.b);
+
+	// Add noisy effect
+	static unsigned int state = 1;			 // Initial state for Xorshift
+	unsigned int noise = xorshift32(&state); // Generate random noise value using Xorshift
+	double noise_intensity = 3;			 // Adjust the intensity of the noise effect
+
+	// Apply noise effect directly to the color components
+	original_color.r += (double)noise / UINT_MAX * noise_intensity;
+	original_color.g += (double)noise / UINT_MAX * noise_intensity;
+	original_color.b += (double)noise / UINT_MAX * noise_intensity;
+
+	return original_color;
+}
+
+	t_color
+	shader_noise(t_color original_color, int offset, t_3d_render *render)
+{
+	static unsigned int state = 1;			 // Initial state for Xorshift
+	unsigned int noise = xorshift32(&state); // Generate random noise value using Xorshift
+	double noise_intensity = 10;			 // Adjust the intensity of the noise effect
+
+	// Apply noise effect directly to the color components
+	original_color.r += (double)noise / UINT_MAX * noise_intensity;
+	original_color.g += (double)noise / UINT_MAX * noise_intensity;
+	original_color.b += (double)noise / UINT_MAX * noise_intensity;
+
+	return original_color;
+}
+
+#include <omp.h>
+#include <stdio.h>
+
+void post_process_frame(t_3d_render *render)
 {
 	const int max_offset = render->canvas->size.x * render->canvas->size.y;
-	int	i;
+	int i;
 
-	i = 0;
+#pragma omp parallel for
 
-	// printf("post_process_frame\n");
-	while (i < max_offset)
+	for (i = 0; i < max_offset; i++)
 	{
 		if (render->g_buffer[i].z > 0)
 		{
-
-		// {
-		// 	render->canvas->pixels[i].a /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].r /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].g /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].b /= render->z_buffer[i];
-		// }
-		// render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i,
-		// 	render->canvas->size.x, render->canvas->size.y, render);
-		render->canvas->pixels[i] = shader_deferred_shading(render->canvas->pixels[i], i,
-			render->canvas->size.x, render->canvas->size.y, render);
-
+			render->canvas->pixels[i] = shader_deferred_shading(render->canvas->pixels[i], i, render);
+			render->canvas->pixels[i] = shader_noise(render->canvas->pixels[i], i, render);
+			// render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i, render->canvas->size.x, render->canvas->size.y, render);
+		render->canvas->pixels[i] = shader_motif(render->canvas->pixels[i], i, render);
 		}
-		i+=1;
+		else{
+		// render->canvas->pixels[i] = shader_floor(render->canvas->pixels[i], i, render);
+		}
+
 	}
 }
 
-void	game_render(t_cub *data)
+void game_render(t_cub *data)
 {
-	t_canvas	*canvas;
+	t_canvas *canvas;
 
 	texture_manager_update(&data->texture_manager);
 	canvas = data->game_data.game_view_render.canvas;
@@ -582,14 +772,14 @@ void	game_render(t_cub *data)
 	render_3d_draw(&data->game_data.game_view_render);
 	post_process_frame(&data->game_data.game_view_render);
 	canvas_to_mlx_image(data->screen,
-		canvas);
+						canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-		data->screen.mlx_img, 0, 0);
+							data->screen.mlx_img, 0, 0);
 }
 
 //-----------
 
-void	render_3d_destroy(t_3d_render *render)
+void render_3d_destroy(t_3d_render *render)
 {
 	free(render->top_array);
 	free(render->bottom_array);
@@ -600,10 +790,10 @@ void	render_3d_destroy(t_3d_render *render)
 	render->queue = NULL;
 }
 
-int	render_3d_init(t_3d_render *render,
-	t_canvas *canvas,
-	t_camera *camera,
-	t_map_data *map)
+int render_3d_init(t_3d_render *render,
+				   t_canvas *canvas,
+				   t_camera *camera,
+				   t_map_data *map)
 {
 	render->canvas = canvas;
 	render->camera = camera;
@@ -615,13 +805,10 @@ int	render_3d_init(t_3d_render *render,
 	render->top_array = ft_calloc(canvas->size.x, sizeof(double));
 	render->bottom_array = ft_calloc(canvas->size.x, sizeof(double));
 	render->g_buffer = ft_calloc(canvas->size.x * canvas->size.y,
-		sizeof(render->g_buffer[0]));
+								 sizeof(render->g_buffer[0]));
 	render->queue = circular_queue_create(RENDER_QUEUE_SIZE,
-			sizeof(t_render_item_queue));
-	if (render->top_array == NULL
-		|| render->bottom_array == NULL
-		|| render->g_buffer == NULL
-		|| render->queue == NULL)
+										  sizeof(t_render_item_queue));
+	if (render->top_array == NULL || render->bottom_array == NULL || render->g_buffer == NULL || render->queue == NULL)
 	{
 		render_3d_destroy(render);
 		return (1);
@@ -629,16 +816,15 @@ int	render_3d_init(t_3d_render *render,
 	return (0);
 }
 
-int	game_render_init(t_cub  *data, t_canvas *canvas)
+int game_render_init(t_cub *data, t_canvas *canvas)
 {
 	if (canvas == NULL)
 		return (1);
 	return (render_3d_init(&data->game_data.game_view_render, canvas,
-		&data->game_data.state.player_camera, &data->game_data.map_data));
+						   &data->game_data.state.player_camera, &data->game_data.map_data));
 }
 
-void	game_render_destroy(t_cub *data)
+void game_render_destroy(t_cub *data)
 {
 	render_3d_destroy(&data->game_data.game_view_render);
 }
-

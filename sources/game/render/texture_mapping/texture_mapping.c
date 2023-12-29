@@ -25,10 +25,9 @@ static inline void	draw_vertical_line_tiled(
 			int			screen_bottom,
 			double		tiled_factor,
 			double		depth,
-			t_vector4d	normal,
-			t_vector4d	world_pos,
-			double 		wall_ceil,
-			double 		wall_floor
+			t_vector4d	*normal,
+			t_vector4d	*world_pos,
+			double 		*wall_ceil
 
 			)
 {
@@ -42,7 +41,7 @@ static inline void	draw_vertical_line_tiled(
 	y = (int)fmax(0, render->top_array[screen_x] - screen_top); //fmax(screen_top, render->top_array[screen_x]);
 	screen_bottom = fmin(screen_bottom, render->bottom_array[screen_x]);
 
-	double z_pos_factor = ((render->middle.y - screen_top) / (0 - wall_ceil)) * wall_ceil;
+	double z_pos_factor = ((render->middle.y - screen_top) / (0 - *wall_ceil)) * *wall_ceil;
 	while (screen_top + y < screen_bottom)
 	{
 		if (y + screen_top >= canvas->size.y)
@@ -53,11 +52,11 @@ static inline void	draw_vertical_line_tiled(
 		// 	return;
 		offset = (screen_top + y) * canvas->size.x + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
-		world_pos.z = ((z_pos_factor + y) * factor) / image->size.y;
+		world_pos->z = ((z_pos_factor + y) * factor) / image->size.y;
 		canvas->pixels[offset].d = img[offset_img];
 		render->g_buffer[offset].z = depth;
-		render->g_buffer[offset].world_pos = world_pos;
-		render->g_buffer[offset].normal = normal;
+		render->g_buffer[offset].world_pos = *world_pos;
+		render->g_buffer[offset].normal = *normal;
 		++y;
 	}
 }
@@ -256,24 +255,23 @@ void draw_wall_texture(
 	double x = left;
 	double top = projected_top.point_a.y;
 	double bot = projected_bot.point_a.y;
-	double top_world = projected_bot.point_a.y;
-	double bot_world = projected_bot.point_a.y;
+
+	t_vector4d normal;
+
+	normal.vec = data.clipped_relative_segment.point_b.vec - data.clipped_relative_segment.point_a.vec;
+	normal = (t_vector4d){{-normal.y, normal.x, 0, 0}};
+	double size = sqrt(normal.x * normal.x + normal.y * normal.y);
+	normal.x /= size;
+	normal.y /= size;
 
 
 	while (x < right)
 	{
 		double alpha = (x - projected_top.point_a.x) / (projected_top.point_b.x - projected_top.point_a.x);
 		double one_over_z = (1 - alpha) / data.clipped_relative_segment.point_a.y + alpha /  data.clipped_relative_segment.point_b.y;
-		double one_over_x = (((1 - alpha) * (data.clipped_relative_segment.point_a.x / data.clipped_relative_segment.point_a.y) + alpha * (data.clipped_relative_segment.point_b.x / data.clipped_relative_segment.point_b.y))) / one_over_z;
-		double one_over_y = (((1 - alpha) * (data.clipped_relative_segment.point_a.y / data.clipped_relative_segment.point_a.y) + alpha * (data.clipped_relative_segment.point_b.y / data.clipped_relative_segment.point_b.y))) / one_over_z;
-		t_vector4d normal;
-
-		normal.vec = data.clipped_relative_segment.point_b.vec - data.clipped_relative_segment.point_a.vec;
-		normal = (t_vector4d){{-normal.y, normal.x, 0, 0}};
-		double size = sqrt(normal.x * normal.x + normal.y * normal.y);
-		normal.x /= size;
-		normal.y /= size;
-		t_vector4d world_pos = (t_vector4d){{one_over_x, one_over_y, 0, 0}};
+		double relative_x = (((1 - alpha) * (data.clipped_relative_segment.point_a.x / data.clipped_relative_segment.point_a.y) + alpha * (data.clipped_relative_segment.point_b.x / data.clipped_relative_segment.point_b.y))) / one_over_z;
+		double relative_y = 1 / one_over_z;
+		t_vector4d world_pos = (t_vector4d){{relative_x, relative_y, 0, 0}};
 		// world_pos = reverse_transform_camera_relative_point(world_pos, render->camera);
 
 
@@ -281,8 +279,8 @@ void draw_wall_texture(
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
 		draw_vertical_line_tiled(render, render->canvas,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
-			x, top, bot, data.texture_tiling_factor_y, 1/one_over_z, normal, world_pos, wall->data.ceil, wall->data.floor);
-		put_pixel_centered(render, render->canvas, world_pos.x, world_pos.y, 0xFFFFFF00);
+			x, top, bot, data.texture_tiling_factor_y, relative_y, &normal, &world_pos, &wall->data.ceil);
+		// put_pixel_centered(render, render->canvas, world_pos.x, world_pos.y, 0xFFFFFF00);
 		top += coef_top;
 		bot += coef_bot;
 		x++;

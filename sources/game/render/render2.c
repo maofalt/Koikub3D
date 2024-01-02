@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/29 02:32:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2023/12/30 21:13:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -469,44 +469,18 @@ double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 // 	cross_product = ab.x * ap.y - ab.y * ap.x;
 // }
 
+typedef struct s_light
+{
+	t_vector4d pos;
+	t_color color;
+} t_light;
 
-	t_vector4d lights[40] = {
-		(t_vector4d){.vec = {2, 2, 0, 0}},
-		(t_vector4d){.vec = {10, 2, 0, 0}},
-		(t_vector4d){.vec = {40, 2, 0, 0}},
-		(t_vector4d){.vec = {2, 10, 0, 0}},
-		(t_vector4d){.vec = {10, 10, 0, 0}},
-		(t_vector4d){.vec = {40, 10, 0, 0}},
-		(t_vector4d){.vec = {2, 40, 0, 0}},
-		(t_vector4d){.vec = {10, 40, 0, 0}},
-		(t_vector4d){.vec = {40, 40, 0, 0}},
-		(t_vector4d){.vec = {2, 2, 10, 0}},
-		(t_vector4d){.vec = {20, 20, 20, 0}},
-		(t_vector4d){.vec = {30, 30, 30, 0}},
-		(t_vector4d){.vec = {50, 50, 50, 0}},
-		(t_vector4d){.vec = {5, 5, 5, 0}},
-		(t_vector4d){.vec = {15, 15, 15, 0}},
-		(t_vector4d){.vec = {3, 3, 3, 0}},
-		(t_vector4d){.vec = {6, 6, 6, 0}},
-		(t_vector4d){.vec = {9, 9, 9, 0}},
-		(t_vector4d){.vec = {12, 12, 12, 0}},
-		(t_vector4d){.vec = {15, 15, 15, 0}},
-		(t_vector4d){.vec = {18, 18, 18, 0}},
-		(t_vector4d){.vec = {21, 21, 21, 0}},
-		(t_vector4d){.vec = {24, 24, 24, 0}},
-		(t_vector4d){.vec = {27, 27, 27, 0}},
-		(t_vector4d){.vec = {30, 30, 30, 0}},
-		(t_vector4d){.vec = {33, 33, 33, 0}},
-		(t_vector4d){.vec = {36, 36, 36, 0}},
-		(t_vector4d){.vec = {39, 39, 39, 0}},
-		(t_vector4d){.vec = {42, 42, 42, 0}},
-		(t_vector4d){.vec = {45, 45, 45, 0}},
-		(t_vector4d){.vec = {48, 48, 48, 0}},
-		(t_vector4d){.vec = {51, 51, 51, 0}},
-		(t_vector4d){.vec = {54, 54, 54, 0}},
-		(t_vector4d){.vec = {57, 57, 57, 0}},
-		(t_vector4d){.vec = {60, 60, 60, 0}},
-	};
+t_light lights[3] = {
+	{ .pos = { .vec = { 2, 2, -1, 0 } }, .color = { .r = 1, .g = 0, .b = 0.5 } },
+	{ .pos = { .vec = { 7, 9, 2, 0 } }, .color = { .r = 1, .g = 0, .b = 2 } },
+	{ .pos = { .vec = { 20, 20, 0, 0 } }, .color = { .r = 5, .g = 1, .b = 0 } },
+
+};
 
 t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render *render)
 {
@@ -516,14 +490,14 @@ t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render 
 	t_g_buffer g_buff = render->g_buffer[offset];
 
 	t_color lighting = original_color;
-	double luminosity = 0.1;
+	double luminosity = 0.2;
 	lighting.r *= luminosity;
 	lighting.g *= luminosity;
 	lighting.b *= luminosity;
 
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < sizeof(lights) / sizeof(lights[0]); i++)
 	{
-		t_vector4d light_pos = lights[i];
+		t_vector4d light_pos = lights[i].pos;
 		light_pos = transform_camera_relative_point(light_pos, render->camera);
 
 		t_vector4d light_dir = {.vec = {0, 0, 0, 0}};
@@ -532,11 +506,11 @@ t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render 
 
 		double diffuse = fmax(dot_product_3d(&g_buff.normal, &light_dir), 0.0);
 		double dist = sqrt((light_pos.x - g_buff.world_pos.x) * (light_pos.x - g_buff.world_pos.x) + (light_pos.y - g_buff.world_pos.y) * (light_pos.y - g_buff.world_pos.y) + (light_pos.z - g_buff.world_pos.z) * (light_pos.z - g_buff.world_pos.z));
-		double attenuation = 1.0 / (dist * dist);
+		double attenuation = 1.0 / (dist);
 
-		lighting.r += original_color.r * fmin(1, diffuse * attenuation);
-		lighting.g += original_color.g * fmin(1, diffuse * attenuation);
-		lighting.b += original_color.b * fmin(1, diffuse * attenuation);
+		lighting.r += original_color.r * fmin(1, diffuse * attenuation * lights[i].color.r);
+		lighting.g += original_color.g * fmin(1, diffuse * attenuation * lights[i].color.g);
+		lighting.b += original_color.b * fmin(1, diffuse * attenuation * lights[i].color.b);
 	}
 
 	return lighting;
@@ -563,8 +537,8 @@ t_color shader_floor(t_color original_color, int offset, t_3d_render *render)
 	double sin_theta = render->camera->dir.y;
 
 	// Add a counter to make the rotation continuously slow move
-	static double rotation_counter ;
-	rotation_counter +=  0.00000001; // Adjust the speed of rotation here
+	static double rotation_counter;
+	rotation_counter += 0.00000001; // Adjust the speed of rotation here
 
 	double rotated_tile_x = world_tile_x * cos_theta - world_tile_y * sin_theta + rotation_counter;
 	double rotated_tile_y = world_tile_x * sin_theta + world_tile_y * cos_theta + rotation_counter;
@@ -574,9 +548,9 @@ t_color shader_floor(t_color original_color, int offset, t_3d_render *render)
 	{
 		if ((int)rotated_tile_y % 2 == 0)
 		{
-			floor_color.r = 3;
-			floor_color.g = 3;
-			floor_color.b = 3;
+			floor_color.r = 15;
+			floor_color.g = 15;
+			floor_color.b = 15;
 		}
 		else
 		{
@@ -595,15 +569,14 @@ t_color shader_floor(t_color original_color, int offset, t_3d_render *render)
 		}
 		else
 		{
-			floor_color.r = 3;
-			floor_color.g = 3;
-			floor_color.b = 3;
+			floor_color.r = 15;
+			floor_color.g = 15;
+			floor_color.b = 15;
 		}
 	}
 
 	return floor_color;
 }
-
 
 t_color shader_motif(t_color original_color, int offset, t_3d_render *render)
 {
@@ -626,8 +599,8 @@ t_color shader_motif(t_color original_color, int offset, t_3d_render *render)
 	double sin_theta = render->camera->dir.y;
 
 	// Add a counter to make the rotation continuously slow move
-	static double rotation_counter ;
-	rotation_counter +=  0.0000001; // Adjust the speed of rotation here
+	static double rotation_counter;
+	rotation_counter += 0.0000001; // Adjust the speed of rotation here
 
 	double rotated_tile_x = world_tile_x * cos_theta - world_tile_y * sin_theta + rotation_counter;
 	double rotated_tile_y = world_tile_x * sin_theta + world_tile_y * cos_theta + rotation_counter;
@@ -664,13 +637,12 @@ t_color shader_motif(t_color original_color, int offset, t_3d_render *render)
 		}
 	}
 
-	original_color.r = fabs( original_color.r - floor_color.r);
-	original_color.g = fabs( original_color.g - floor_color.g);
-	original_color.b = fabs( original_color.b - floor_color.b);
+	original_color.r = fabs(original_color.r - floor_color.r);
+	original_color.g = fabs(original_color.g - floor_color.g);
+	original_color.b = fabs(original_color.b - floor_color.b);
 
 	return (original_color);
 }
-
 
 unsigned int xorshift32(unsigned int *state)
 {
@@ -709,7 +681,7 @@ t_color shader_ceil(t_color original_color, int offset, t_3d_render *render)
 	// Add noisy effect
 	static unsigned int state = 1;			 // Initial state for Xorshift
 	unsigned int noise = xorshift32(&state); // Generate random noise value using Xorshift
-	double noise_intensity = 3;			 // Adjust the intensity of the noise effect
+	double noise_intensity = 3;				 // Adjust the intensity of the noise effect
 
 	// Apply noise effect directly to the color components
 	original_color.r += (double)noise / UINT_MAX * noise_intensity;
@@ -719,22 +691,53 @@ t_color shader_ceil(t_color original_color, int offset, t_3d_render *render)
 	return original_color;
 }
 
-	t_color
-	shader_noise(t_color original_color, int offset, t_3d_render *render)
+// t_color
+// shader_noise(t_color original_color, int offset, t_3d_render *render)
+// {
+// 	static unsigned int state = 1;			 // Initial state for Xorshift
+// 	unsigned int noise = xorshift32(&state); // Generate random noise value using Xorshift
+// 	double noise_intensity = 10;			 // Adjust the intensity of the noise effect
+
+// 	// Apply noise effect directly to the color components
+// 	original_color.r += (double)noise / UINT_MAX * noise_intensity;
+// 	original_color.g += (double)noise / UINT_MAX * noise_intensity;
+// 	original_color.b += (double)noise / UINT_MAX * noise_intensity;
+
+// 	return original_color;
+// }
+
+static float _temp_sin(float val)
 {
-	static unsigned int state = 1;			 // Initial state for Xorshift
-	unsigned int noise = xorshift32(&state); // Generate random noise value using Xorshift
-	double noise_intensity = 10;			 // Adjust the intensity of the noise effect
-
-	// Apply noise effect directly to the color components
-	original_color.r += (double)noise / UINT_MAX * noise_intensity;
-	original_color.g += (double)noise / UINT_MAX * noise_intensity;
-	original_color.b += (double)noise / UINT_MAX * noise_intensity;
-
-	return original_color;
+	return (sinf(val / 4.0) + 1.0) / 2.0 / 4.0 + 0.25;
 }
 
-#include <omp.h>
+t_color shader_noise(t_color original_color, int offset, t_3d_render *render)
+{
+	// int x = offset % render->canvas->size.x;
+	// int y = offset / render->canvas->size.x;
+	// static unsigned int tick = 0;
+
+	// double diff_x = x - render->canvas->size.x / 2;
+	// double diff_y = y - render->canvas->size.y / 2;
+	// double diff_z = render->g_buffer[offset].world_pos.y;
+
+	// // double dist = sqrt(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);
+
+	// double intensity = (sinf(tick / 10.0) + 1.0) / 2.0;
+
+	// int val = (original_color.r + original_color.g + original_color.b) / 3;
+
+	// Apply noise effect directly to the color components
+	original_color.r = original_color.r / 16 * 16;
+	original_color.g = original_color.g / 16 * 16;
+	original_color.b = original_color.b / 16 * 16;
+
+	// ++tick;
+
+	return (original_color);
+}
+
+// #include <omp.h>
 #include <stdio.h>
 
 void post_process_frame(t_3d_render *render)
@@ -742,21 +745,21 @@ void post_process_frame(t_3d_render *render)
 	const int max_offset = render->canvas->size.x * render->canvas->size.y;
 	int i;
 
-#pragma omp parallel for
+	// #pragma omp parallel for
 
 	for (i = 0; i < max_offset; i++)
 	{
 		if (render->g_buffer[i].z > 0)
 		{
 			render->canvas->pixels[i] = shader_deferred_shading(render->canvas->pixels[i], i, render);
-			render->canvas->pixels[i] = shader_noise(render->canvas->pixels[i], i, render);
+			// render->canvas->pixels[i] = shader_noise(render->canvas->pixels[i], i, render);
 			// render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i, render->canvas->size.x, render->canvas->size.y, render);
-		render->canvas->pixels[i] = shader_motif(render->canvas->pixels[i], i, render);
+			render->canvas->pixels[i] = shader_motif(render->canvas->pixels[i], i, render);
 		}
-		else{
-		// render->canvas->pixels[i] = shader_floor(render->canvas->pixels[i], i, render);
+		else
+		{
+			render->canvas->pixels[i] = shader_floor(render->canvas->pixels[i], i, render);
 		}
-
 	}
 }
 

@@ -6,12 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:31:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:02:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:49:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATH_UTILS_H
 # define MATH_UTILS_H
+
+#include "structures.h"
 
 t_vector4d	point2d_to_vector4d(t_point2d *point);
 t_point2d	vector4d_to_point2d(t_vector4d *vec4d);

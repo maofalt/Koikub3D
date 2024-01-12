@@ -1,19 +1,11 @@
 
 
-#include "structures.h"
 #include "draw_utils.h"
+#include "structures.h"
 #include "ressources_managers.h"
+#include "render_3D.h"
 #include <assert.h>
 
-double	calc_seg_coef(
-			t_segment_d *segment
-			);
-
-int project_wall(t_3d_render *render,
-					t_segment_d *wall,
-					t_segment_d *projected_top,
-					t_segment_d *projected_bottom
-					);
 
 static inline void	draw_vertical_line_tiled(
 			t_3d_render	*render,
@@ -52,9 +44,7 @@ static inline void	draw_vertical_line_tiled(
 	}
 }
 
-t_segment_d	transform_camera_relative_segment(
-			t_segment_d segment,
-			t_camera *camera);
+
 
 int	relative_segment_clip_front(t_segment_d *segment);
 
@@ -198,8 +188,8 @@ void draw_wall_texture(
 	if (project_wall(render, wall, &projected_top, &projected_bot))
 		return ;
 
-	coef_bot = calc_seg_coef(&projected_bot);
-	coef_top = calc_seg_coef(&projected_top);
+	coef_bot = calc_segment_coef(&projected_bot);
+	coef_top = calc_segment_coef(&projected_top);
 	left = fmax(projected_top.point_a.x, left);
 	right = fmin(projected_top.point_b.x, right);
 	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);

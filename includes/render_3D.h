@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/12 22:06:57 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:12:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@
 #define FLOOR_COLOR 0x0
 #define WALL_COLOR 0xFF949DA8
 
-int render_3d_init(t_3d_render *render,
-				   t_canvas *canvas,
-				   t_camera *camera,
-				   t_map_data *map);
+int		render_3d_init(t_3d_render *render,
+					   t_canvas *canvas,
+					   t_camera *camera,
+					   t_map_data *map);
 
-void render_3d_destroy(t_3d_render *render);
+void	render_3d_destroy(t_3d_render *render);
 
-void render_3d_draw(t_3d_render *render);
+void	render_3d_draw(t_3d_render *render);
+
+void	render_3d_flush_to_canvas(t_3d_render *render);
+
 
 typedef struct s_render_item_queue
 {
@@ -81,3 +84,4 @@ int relative_segment_clip_front(t_segment_d *segment);
 // SHADERS
 
 t_color shader_torch(t_color original_color, int offset, int width, int height, t_3d_render *render);
+

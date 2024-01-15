@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 22:59:25 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:23:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	render(t_cub *data)
 	// 	return (0);
 	//printf("\t looking for final canvas\n");
 	final_canvas = get_canvas_from_list(data->canvas_list, FINAL);
-	printf("final_canvas: %p\n", final_canvas);
+	// printf("final_canvas: %p\n", final_canvas);
 	if (!final_canvas)
 		return (1);
-	printf("we found a final canvas\n");
+	// printf("we found a final canvas\n");
 	//cycle thorugh all canvas to render
 	//printf("\t updating each canvas\n");
 	apply_to_canvas(data, render_base);

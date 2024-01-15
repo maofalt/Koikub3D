@@ -5,7 +5,7 @@
 
 void	game_post_process_frame(t_3d_render *render)
 {
-	const int max_offset = render->canvas->size.x * render->canvas->size.y;
+	const int max_offset = render->width * render->height;
 	int	i;
 
 	i = 0;
@@ -18,8 +18,8 @@ void	game_post_process_frame(t_3d_render *render)
 		// 	render->canvas->pixels[i].g /= render->z_buffer[i];
 		// 	render->canvas->pixels[i].b /= render->z_buffer[i];
 		// }
-		render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i,
-			render->canvas->size.x, render->canvas->size.y, render);
+		render->buffers.color[i] = shader_torch(render->buffers.color[i], i,
+			render->width, render->height, render);
 		++i;
 	}
 }

@@ -92,11 +92,13 @@ void	render_3d_draw(t_3d_render *render)
 	t_render_item_queue		item_queue;
 
 	ft_memset(render->z_buffer, 0,
-		render->canvas->size.x * render->canvas->size.y * sizeof(double));
-	for (int i = 0; i < render->canvas->size.x; i++)
+		render->width * render->height * sizeof(render->z_buffer[0]));
+	ft_memset(render->buffers.color, 0,
+		render->width * render->height * sizeof(render->buffers.color[0]));
+	for (int i = 0; i < render->width; i++)
 	{
-		render->top_array[i] = 0;//render->canvas->size.y;
-		render->bottom_array[i] = render->canvas->size.y;
+		render->top_array[i] = 0;//render->height;
+		render->bottom_array[i] = render->height;
 	} //TODO, maybe use a flag system instead
 
 
@@ -104,7 +106,7 @@ void	render_3d_draw(t_3d_render *render)
 			vector4d_to_point2d(&render->camera->pos));
 	item_queue.left = 0;
 	item_queue.portal = NULL;
-	item_queue.right = render->canvas->size.x;
+	item_queue.right = render->width;
 	while (node)
 	{
 		render_sector(render, &item_queue, node);
@@ -112,5 +114,70 @@ void	render_3d_draw(t_3d_render *render)
 			node = item_queue.portal->data.data.portal.tree_node_ptr;
 		else
 			node = NULL;
+	}
+}
+
+// void	render_3d_flush_to_canvas(t_3d_render *render)
+// {
+// 	int old_width = render->width;
+// 	int old_height = render->height;
+// 	int new_width = render->canvas->size.x;
+// 	// int new_height = render->canvas->size.x;
+// 	int ratio_x = render->scale_factor_x;
+// 	int ratio_y = render->scale_factor_y;
+// 	t_color *pixels = render->canvas->pixels;
+
+// 	for (int y = 0; y < old_height; y++)
+// 	{
+// 		for (int x = 0; x < old_width; x++)
+// 		{
+// 			t_color pixel = render->buffers.color[y * old_width + x];
+// 			for (int i = 0; i < ratio_y; i++)
+// 			{
+// 				for (int j = 0; j < ratio_x; j++)
+// 				{
+// 					pixels[(y * ratio_y + i) * new_width + (x * ratio_x + j)] = pixel;
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+
+static inline void	render_put_scaled_pixel_to_canvas(t_3d_render *render, int x, int y, t_color color)
+{
+	t_color *const pixels = render->canvas->pixels;
+	int i = 0;
+	int j = 0;
+
+	while (i < render->scale_factor_y)
+	{
+		j = 0;
+		while (j < render->scale_factor_x)
+		{
+			pixels[(y * render->scale_factor_y + i) * render->canvas->size.x + (x * render->scale_factor_x + j)] = color;
+			j++;
+		}
+		++i;
+	}
+}
+
+void	render_3d_flush_to_canvas(t_3d_render *render)
+{
+	int y = 0;
+	int x = 0;
+
+	while (y < render->height)
+	{
+		x = 0;
+		while (x < render->width)
+		{
+			render_put_scaled_pixel_to_canvas(render,
+				x,
+				y,
+				render->buffers.color[y * render->width + x]);
+			++x;
+		}
+		++y;
 	}
 }

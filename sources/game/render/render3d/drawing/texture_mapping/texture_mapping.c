@@ -1,5 +1,3 @@
-
-
 #include "draw_utils.h"
 #include "structures.h"
 #include "ressources_managers.h"
@@ -9,7 +7,6 @@
 
 static inline void	draw_vertical_line_tiled(
 			t_3d_render	*render,
-			t_canvas *canvas,
 			t_img_data	*image,
 			int 		img_x,
 			int 		screen_x,
@@ -30,15 +27,15 @@ static inline void	draw_vertical_line_tiled(
 	screen_bottom = fmin(screen_bottom, render->bottom_array[screen_x]);
 	while (screen_top + y < screen_bottom)
 	{
-		if (y + screen_top >= canvas->size.y)
+		if (y + screen_top >= render->height)
 			return;
-		if (img_x > canvas->size.x)
+		if (img_x > render->width)
 			return;
 		// if (y + screen_top < 0)
 		// 	return;
-		offset = (screen_top + y) * canvas->size.x + screen_x;
+		offset = (screen_top + y) * render->width+ screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
-		canvas->pixels[offset].d = img[offset_img];
+		render->buffers.color[offset].d = img[offset_img];
 		render->z_buffer[offset] = depth;
 		++y;
 	}
@@ -205,7 +202,7 @@ void draw_wall_texture(
 		double one_over_z = (1 - alpha) / data.clipped_relative_segment.point_a.y + alpha /  data.clipped_relative_segment.point_b.y;
 		double txtx = (((1 - alpha) * (data.u0 / data.clipped_relative_segment.point_a.y) + alpha * (data.u1 / data.clipped_relative_segment.point_b.y))) / one_over_z;
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
-		draw_vertical_line_tiled(render, render->canvas,
+		draw_vertical_line_tiled(render,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
 			x, top, bot, data.texture_tiling_factor_y, 1/one_over_z);
 		top += coef_top;

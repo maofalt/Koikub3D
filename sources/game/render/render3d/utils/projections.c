@@ -3,15 +3,20 @@
 #include "structures.h"
 #include "render_3D.h"
 
-t_vector4d	project_point(t_3d_render *render, t_vector4d point)
+t_vector4d project_point(t_3d_render *render, t_vector4d point)
 {
-	t_vector4d	transformed_point;
+	t_vector4d transformed_point;
 
-	transformed_point.x = -point.x * 16 / point.y;
-	transformed_point.y = point.z / point.y;
+	int xscale = 512 / render->scale_factor_x;
+	int yscale = 32 / render->scale_factor_y;
+
+
+
+	transformed_point.x = -point.x * xscale / point.y;
+	transformed_point.y = point.z * yscale / point.y;
 	transformed_point.z = point.y;
 	transformed_point.w = 0;
-	transformed_point.vec *= 16;
+	// transformed_point.vec *= 16;
 	transformed_point.vec += render->middle.vec;
 	return (transformed_point);
 }

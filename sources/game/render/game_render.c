@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/15 09:11:53 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 10:20:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@
 
 void	game_render(t_cub *data)
 {
-	t_canvas	*canvas;
 
 	texture_manager_update(&data->texture_manager);
-	canvas = data->game_data.game_view_render.canvas;
-	fill_canvas(
-		canvas,
-		(t_color){.d = 0x00000000});
 	render_3d_draw(&data->game_data.game_view_render);
-	// game_post_process_frame(&data->game_data.game_view_render);
+	game_post_process_frame(&data->game_data.game_view_render);
+	render_3d_flush_to_canvas(&data->game_data.game_view_render);
+
 	// canvas_to_mlx_image(data->screen,
 	// 	canvas);
 	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,

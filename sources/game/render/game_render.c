@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render2.c                                          :+:      :+:    :+:   */
+/*   game_render.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/12 21:59:40 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 09:11:53 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,9 @@
 #include "maths_utils.h"
 #include "render_3D.h"
 #include "ressources_managers.h"
+#include "game_loop.h"
 #include <assert.h>
 
-
-
-void	post_process_frame(t_3d_render *render)
-{
-	const int max_offset = render->canvas->size.x * render->canvas->size.y;
-	int	i;
-
-	i = 0;
-	while (i < max_offset)
-	{
-		// if (render->z_buffer[i] >= 1)
-		// {
-		// 	render->canvas->pixels[i].a /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].r /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].g /= render->z_buffer[i];
-		// 	render->canvas->pixels[i].b /= render->z_buffer[i];
-		// }
-		render->canvas->pixels[i] = shader_torch(render->canvas->pixels[i], i,
-			render->canvas->size.x, render->canvas->size.y, render);
-		++i;
-	}
-}
 
 void	game_render(t_cub *data)
 {
@@ -52,7 +31,7 @@ void	game_render(t_cub *data)
 		canvas,
 		(t_color){.d = 0x00000000});
 	render_3d_draw(&data->game_data.game_view_render);
-	// post_process_frame(&data->game_data.game_view_render);
+	// game_post_process_frame(&data->game_data.game_view_render);
 	// canvas_to_mlx_image(data->screen,
 	// 	canvas);
 	// mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
@@ -62,16 +41,16 @@ void	game_render(t_cub *data)
 //-----------
 
 
-int	game_render_init(t_cub  *data, t_canvas *canvas)
+int	game_render_init(__attribute_maybe_unused__ t_cub *data, t_game_data *game_data, t_canvas *canvas)
 {
 	if (canvas == NULL)
 		return (1);
-	return (render_3d_init(&data->game_data.game_view_render, canvas,
-		&data->game_data.state.player_camera, &data->game_data.map_data));
+	return (render_3d_init(&game_data->game_view_render, canvas,
+		&game_data->state.player_camera, &game_data->map_data));
 }
 
-void	game_render_destroy(t_cub *data)
+void	game_render_destroy(__attribute_maybe_unused__ t_cub *data, t_game_data *game_data)
 {
-	render_3d_destroy(&data->game_data.game_view_render);
+	render_3d_destroy(&game_data->game_view_render);
 }
 

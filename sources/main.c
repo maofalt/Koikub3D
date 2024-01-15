@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/12/06 05:15:45 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/14 22:19:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "bsp_builder.h"
 #include "ressources_managers.h"
 
-void	map_destroy(t_cub *data); //TODO remove this
+void	map_destroy(t_map_data *map_data); //TODO remove this
 
 
 void	free_everything(t_cub data)
@@ -37,8 +37,8 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
-	map_destroy(&data);
-	game_render_destroy(&data);
+	map_destroy(&data.game_data.map_data);
+	game_render_destroy(&data, &data.game_data);
 	free_canvas_list(data.canvas_list);
 }
 
@@ -158,7 +158,7 @@ void set_bsp_default_textures(t_cub *data)
 }
 
 //TODO: move it
-int	map_convert(t_cub *data)
+int	map_convert(t_cub *data, t_map_data *map_data)
 {
 	t_list		*segments_lst;
 	t_tree_node	*tree;
@@ -175,21 +175,18 @@ int	map_convert(t_cub *data)
 		ft_lstclear(&segments_lst, free);
 		return (1);
 	}
-	data->game_data.map_data.segments = segments_lst;
-	data->game_data.map_data.bsp = tree;
+	map_data->segments = segments_lst;
+	map_data->bsp = tree;
 	set_bsp_default_textures(data);
 	return (0);
 }
 
 //TODO: move it
-void	map_destroy(t_cub *data)
+void	map_destroy(t_map_data *map_data)
 {
-	destroy_segment_tree(&data->game_data.map_data.bsp);
-	ft_lstclear(&data->game_data.map_data.segments, free);
+	destroy_segment_tree(&map_data->bsp);
+	ft_lstclear(&map_data->segments, free);
 }
-
-
-
 
 int	main(int argc, char **argv)
 {

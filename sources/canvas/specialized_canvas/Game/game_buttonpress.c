@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:24:17 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/12 22:49:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 #include "game_loop.h"
 
 //TODO: move it
-int	map_convert(t_cub *data);
+int	map_convert(t_cub *data, t_map_data *map_data);
 
 int	game_init(t_cub *data, t_canvas *canvas)
 {
 	data->update = UPDATE;
 	printf("game_init\n");
-	if (map_convert(data))
+	if (map_convert(data, &data->game_data.map_data))
 		return (free_everything(*data), 1);
-	if (game_render_init(data, canvas))
+	if (game_render_init(data, &data->game_data, canvas))
 		return (free_everything(*data), 1);
 	return (0);
 }

@@ -91,8 +91,8 @@ void	render_3d_draw(t_3d_render *render)
 	t_tree_node				*node;
 	t_render_item_queue		item_queue;
 
-	ft_memset(render->z_buffer, 0,
-		render->width * render->height * sizeof(render->z_buffer[0]));
+	ft_memset(render->buffers.depth, 0,
+		render->width * render->height * sizeof(render->buffers.depth[0]));
 	ft_memset(render->buffers.color, 0,
 		render->width * render->height * sizeof(render->buffers.color[0]));
 	for (int i = 0; i < render->width; i++)
@@ -144,40 +144,3 @@ void	render_3d_draw(t_3d_render *render)
 // }
 
 
-static inline void	render_put_scaled_pixel_to_canvas(t_3d_render *render, int x, int y, t_color color)
-{
-	t_color *const pixels = render->canvas->pixels;
-	int i = 0;
-	int j = 0;
-
-	while (i < render->scale_factor_y)
-	{
-		j = 0;
-		while (j < render->scale_factor_x)
-		{
-			pixels[(y * render->scale_factor_y + i) * render->canvas->size.x + (x * render->scale_factor_x + j)] = color;
-			j++;
-		}
-		++i;
-	}
-}
-
-void	render_3d_flush_to_canvas(t_3d_render *render)
-{
-	int y = 0;
-	int x = 0;
-
-	while (y < render->height)
-	{
-		x = 0;
-		while (x < render->width)
-		{
-			render_put_scaled_pixel_to_canvas(render,
-				x,
-				y,
-				render->buffers.color[y * render->width + x]);
-			++x;
-		}
-		++y;
-	}
-}

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/15 09:59:45 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:35:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,18 +152,37 @@ typedef enum e_ui_assets
 ** a uint_32_t for the color of the ceiling
 */
 
+
+#ifdef	LITTLE_ENDIAN
 typedef union u_color
 {
-	t_vector_color	rgb_color;
-	u_int32_t		d;
+	t_vector_color rgb_color;
+	u_int32_t d;
 	struct
 	{
-		u_int8_t	a;
-		u_int8_t	r;
-		u_int8_t	g;
-		u_int8_t	b;
+		u_int8_t b;
+		u_int8_t g;
+		u_int8_t r;
+		u_int8_t a;
 	};
-}	t_color;
+} t_color;
+
+#else
+
+typedef union u_color
+{
+	t_vector_color rgb_color;
+	u_int32_t d;
+	struct
+	{
+		u_int8_t a;
+		u_int8_t r;
+		u_int8_t g;
+		u_int8_t b;
+	};
+} t_color;
+
+#endif
 
 /*############################################################################*/
 /*                              MATRIX STRUCTURES                             */
@@ -296,6 +315,9 @@ typedef struct s_canvas t_canvas;
 typedef struct s_3d_render_buffers
 {
 	t_color	*color;
+	double				*depth;
+	t_vector4d			*world_pos;
+	t_vector4d			*normal;
 } t_3d_render_buffers;
 
 typedef struct s_3d_render
@@ -312,7 +334,6 @@ typedef struct s_3d_render
 	t_vector4d			middle;
 	int					scale_factor_x;
 	int					scale_factor_y;
-	double				*z_buffer;
 }	t_3d_render;
 
 typedef struct s_game_state

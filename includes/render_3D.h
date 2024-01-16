@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/15 10:12:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:31:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,3 +85,4 @@ int relative_segment_clip_front(t_segment_d *segment);
 
 t_color shader_torch(t_color original_color, int offset, int width, int height, t_3d_render *render);
 
+t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render *render, double time_mouvement);

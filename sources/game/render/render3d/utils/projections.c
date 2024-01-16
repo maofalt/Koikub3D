@@ -7,8 +7,8 @@ t_vector4d project_point(t_3d_render *render, t_vector4d point)
 {
 	t_vector4d transformed_point;
 
-	int xscale = 512 / render->scale_factor_x;
-	int yscale = 32 / render->scale_factor_y;
+	int xscale = 512 / (render->scale_factor_x / 1.2);
+	int yscale = 32 / (render->scale_factor_y / 1.2);
 
 
 

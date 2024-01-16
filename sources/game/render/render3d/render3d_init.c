@@ -7,20 +7,23 @@
 
 static int	init_buffers(t_3d_render *render, int width, int height)
 {
-	render->z_buffer = ft_calloc(width * height,
-		sizeof(render->z_buffer[0]));
+	render->top_array = ft_calloc(render->width, sizeof(double));
+	render->bottom_array = ft_calloc(render->width, sizeof(double));
+	render->buffers.depth = ft_calloc(width * height,
+		sizeof(render->buffers.depth[0]));
 	render->buffers.color = ft_calloc(width * height,
 		sizeof(render->buffers.color[0]));
+	render->buffers.normal = ft_calloc(width * height,
+		sizeof(render->buffers.normal[0]));
+	render->buffers.world_pos = ft_calloc(width * height,
+		sizeof(render->buffers.world_pos[0]));
 
-	if ((render->z_buffer && render->buffers.color) == 0)
+	if (render->top_array == NULL || render->bottom_array == NULL
+		|| render->buffers.depth == NULL || render->buffers.color == NULL
+		|| render->buffers.normal == NULL || render->buffers.world_pos == NULL)
 	{
-		free(render->z_buffer);
-		free(render->buffers.color);
-		render->buffers.color = NULL;
-		render->z_buffer = NULL;
 		return (1);
 	}
-
 	return (0);
 }
 
@@ -31,8 +34,8 @@ int	render_3d_init(t_3d_render *render,
 {
 	render->canvas = canvas;
 	render->camera = camera;
-	render->scale_factor_x = 8;
-	render->scale_factor_y = 8;
+	render->scale_factor_x = 4;
+	render->scale_factor_y = 4;
 	render->width = canvas->size.x / render->scale_factor_x;
 	render->height = canvas->size.y / render->scale_factor_y;
 	render->map = map;
@@ -40,15 +43,10 @@ int	render_3d_init(t_3d_render *render,
 	render->middle.y = render->height / 2;
 	render->middle.w = 0;
 	render->middle.z = 0;
-	render->top_array = ft_calloc(render->width, sizeof(double));
-	render->bottom_array = ft_calloc(render->width, sizeof(double));
-	init_buffers(render, render->width, render->height);
 	render->queue = circular_queue_create(RENDER_QUEUE_SIZE,
 			sizeof(t_render_item_queue));
-	if (render->top_array == NULL
-		|| render->bottom_array == NULL
-		|| render->z_buffer == NULL
-		|| render->queue == NULL)
+	if (render->queue == NULL ||
+			init_buffers(render, render->width, render->height))
 	{
 		render_3d_destroy(render);
 		return (1);

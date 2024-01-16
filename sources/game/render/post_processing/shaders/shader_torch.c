@@ -7,7 +7,7 @@ t_color	shader_torch(t_color original_color, int offset, int width, int height, 
 {
 	int y = offset / width;
 	int x = offset % width;
-	double depth = render->z_buffer[offset];
+	double depth = render->buffers.depth[offset];
 
 	double center_dist = ((y - height/2) * (y - height/2)) + ((x - width/2) * (x - width/2));
 

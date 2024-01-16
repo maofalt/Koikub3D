@@ -13,7 +13,11 @@ static inline void	draw_vertical_line_tiled(
 			int 		screen_top,
 			int			screen_bottom,
 			double		tiled_factor,
-			double			depth
+			double		depth,
+			t_vector4d	*normal,
+			t_vector4d	*world_pos,
+			double 		*wall_ceil
+
 			)
 {
 	uint32_t	*img = (void *)image->addr;
@@ -25,6 +29,8 @@ static inline void	draw_vertical_line_tiled(
 	double factor  =  ((double)image->size.y * tiled_factor) / (double) (screen_bottom - screen_top);
 	y = (int)fmax(0, render->top_array[screen_x] - screen_top); //fmax(screen_top, render->top_array[screen_x]);
 	screen_bottom = fmin(screen_bottom, render->bottom_array[screen_x]);
+
+	double z_pos_factor = ((render->middle.y - screen_top) / (0 - *wall_ceil)) * *wall_ceil;
 	while (screen_top + y < screen_bottom)
 	{
 		if (y + screen_top >= render->height)
@@ -33,10 +39,13 @@ static inline void	draw_vertical_line_tiled(
 			return;
 		// if (y + screen_top < 0)
 		// 	return;
-		offset = (screen_top + y) * render->width+ screen_x;
+		offset = (screen_top + y) * render->width + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
+		world_pos->z = ((z_pos_factor + y) * factor) / image->size.y;
 		render->buffers.color[offset].d = img[offset_img];
-		render->z_buffer[offset] = depth;
+		render->buffers.depth[offset] = depth;
+		render->buffers.world_pos[offset] = *world_pos;
+		render->buffers.normal[offset] = *normal;
 		++y;
 	}
 }
@@ -154,6 +163,62 @@ static inline void	calc_u(t_texture_mapping_data *data)
 	data->u1 += calc_wall_texture_offset(data->wall) * data->texture_width;
 }
 
+// t_vector4d transform_camera_relative_point(t_vector4d point, t_camera *camera)
+// {
+// 	t_vector4d relative_point;
+
+// 	point.vec = point.vec - camera->pos.vec;
+
+// 	relative_point.x = point.x * camera->dir.y - point.y * camera->dir.x;
+// 	relative_point.y = point.x * camera->dir.x + point.y * camera->dir.y;
+
+
+// 	relative_point.z = point.z;
+// 	relative_point.w = point.w;
+// 	return (relative_point);
+// }
+
+t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_camera *camera) {
+    t_vector4d point;
+    double det = camera->dir.x * camera->dir.x + camera->dir.y * camera->dir.y;
+
+    if (det == 0) {
+        // Handle the case where the determinant is zero (i.e., no inverse exists)
+        // This might involve returning an error or a default value
+    } else {
+        double inv_det = 1.0 / det;
+        point.x = inv_det * (camera->dir.y * relative_point.x + camera->dir.x * relative_point.y);
+        point.y = inv_det * (camera->dir.y * relative_point.y - camera->dir.x * relative_point.x);
+        point.z = relative_point.z; // Assuming z and w remain unchanged
+        point.w = relative_point.w;
+    }
+
+    // Add the camera position back to the point
+    point.vec = point.vec + camera->pos.vec;
+
+    return point;
+}
+
+
+// void put_pixel_centered(t_3d_render *render, t_canvas *canvas, double x, double y, uint32_t color)
+// {
+
+// 	x *= 10;
+// 	y *= 10;
+
+// 	x += render->width/ 2;
+// 	y += render->height/ 10;
+// 	int offset = ((int)y) * canvas->size.x + x;
+
+
+// 	if (x < 0 || x >= render->width || y < 0 || y >= render->height)
+// 		return ;
+
+// 	// printf("world pos %f %f\n", x, y);
+
+// 	render->buffers.color[offset].d = color;
+
+// }
 
 void draw_wall_texture(
 	t_3d_render *render,
@@ -196,18 +261,38 @@ void draw_wall_texture(
 	double x = left;
 	double top = projected_top.point_a.y;
 	double bot = projected_bot.point_a.y;
+
+	t_vector4d normal;
+
+	  //  data.clipped_relative_segment.point_b.vec - data.clipped_relative_segment.point_a.vec;
+	normal.vec = wall->point_b.vec - wall->point_a.vec;
+	normal = (t_vector4d){{-normal.y, normal.x, 0, 0}};
+	double size = sqrt(normal.x * normal.x + normal.y * normal.y);
+	normal.x /= size;
+	normal.y /= size;
+
+
 	while (x < right)
 	{
 		double alpha = (x - projected_top.point_a.x) / (projected_top.point_b.x - projected_top.point_a.x);
 		double one_over_z = (1 - alpha) / data.clipped_relative_segment.point_a.y + alpha /  data.clipped_relative_segment.point_b.y;
+		double relative_x = (((1 - alpha) * (data.clipped_relative_segment.point_a.x / data.clipped_relative_segment.point_a.y) + alpha * (data.clipped_relative_segment.point_b.x / data.clipped_relative_segment.point_b.y))) / one_over_z;
+		double relative_y = 1 / one_over_z;
+		t_vector4d world_pos = (t_vector4d){{relative_x, relative_y, 0, 0}};
+		world_pos = reverse_transform_camera_relative_point(world_pos, render->camera);
+
+
 		double txtx = (((1 - alpha) * (data.u0 / data.clipped_relative_segment.point_a.y) + alpha * (data.u1 / data.clipped_relative_segment.point_b.y))) / one_over_z;
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
 		draw_vertical_line_tiled(render,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
-			x, top, bot, data.texture_tiling_factor_y, 1/one_over_z);
+			x, top, bot, data.texture_tiling_factor_y, relative_y, &normal, &world_pos, &wall->data.ceil);
+		// put_pixel_centered(render, render->canvas, world_pos.x, world_pos.y, 0xFFFFFFFF);
 		top += coef_top;
 		bot += coef_bot;
 		x++;
 	}
+	// put_pixel_centered(render, render->canvas, data.clipped_relative_segment.point_a.x, data.clipped_relative_segment.point_a.y, 0xFFFFFFFF);
+	// put_pixel_centered(render, render->canvas, data.clipped_relative_segment.point_b.x, data.clipped_relative_segment.point_b.y, 0xFFFFFFFF);
 }
 

@@ -86,12 +86,29 @@ void	sector_edit_handle_event(t_cub *data)
 		printf("increase \n");
 	}
 }
+int	check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
+
+void	raycast_test(t_cub *data)
+{
+	t_vector4d	origin;
+	t_vector4d	dest = {{2, 2, 1, 0}};
+
+	origin = data->game_data.game_view_render.camera->pos;
+
+	printf("***\n");
+	printf("from %f %f %f\n", origin.x, origin.y, origin.z);
+	printf("to %f %f %f\n", dest.x, dest.y, dest.z);
+	printf("reach dest: %d\n", check_ray_reach_dest(origin, dest, &data->game_data.game_view_render));
+	printf("***\n");
+
+}
 
 
 void	game_update(t_cub *data)
 {
 	player_handle_event(data);
 	sector_edit_handle_event(data);
+	raycast_test(data);
 }
 
 int	game_loop(void *self, t_cub *data)

@@ -141,7 +141,8 @@ typedef enum e_ui_assets
 	ICON_GAME,
 	BAR_WITH_DRAW,
 	SIDE_BAR,
-	ASSET_COUNT
+	ME_TOP_BAR,
+	ASSET_COUNT,
 }	t_ui_assets;
 
 /* Parsing structure for CUB3D stocking information from .cub file

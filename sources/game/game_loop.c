@@ -95,11 +95,11 @@ void	raycast_test(t_cub *data)
 
 	origin = data->game_data.game_view_render.camera->pos;
 
-	printf("***\n");
+	// printf("***\n");
 	printf("from %f %f %f\n", origin.x, origin.y, origin.z);
-	printf("to %f %f %f\n", dest.x, dest.y, dest.z);
-	printf("reach dest: %d\n", check_ray_reach_dest(origin, dest, &data->game_data.game_view_render));
-	printf("***\n");
+	// printf("to %f %f %f\n", dest.x, dest.y, dest.z);
+	// printf("reach dest: %d\n", check_ray_reach_dest(origin, dest, &data->game_data.game_view_render));
+	// printf("***\n");
 
 }
 

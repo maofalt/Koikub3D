@@ -34,8 +34,8 @@ int	render_3d_init(t_3d_render *render,
 {
 	render->canvas = canvas;
 	render->camera = camera;
-	render->scale_factor_x = 4;
-	render->scale_factor_y = 4;
+	render->scale_factor_x = 3;
+	render->scale_factor_y = 2;
 	render->width = canvas->size.x / render->scale_factor_x;
 	render->height = canvas->size.y / render->scale_factor_y;
 	render->map = map;
@@ -43,10 +43,11 @@ int	render_3d_init(t_3d_render *render,
 	render->middle.y = render->height / 2;
 	render->middle.w = 0;
 	render->middle.z = 0;
+	render_init_lights(render);
 	render->queue = circular_queue_create(RENDER_QUEUE_SIZE,
 			sizeof(t_render_item_queue));
 	if (render->queue == NULL ||
-			init_buffers(render, render->width, render->height))
+		init_buffers(render, render->width, render->height))
 	{
 		render_3d_destroy(render);
 		return (1);

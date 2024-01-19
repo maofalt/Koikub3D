@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/14 04:12:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:29:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ void player_handle_event(t_cub *data)
 	t_matrix3x3 transformation;
 	t_point2d new_translation;
 	double angle_movement;
+	double old_z;
+
 
 	// Get the movement directions (still in world coordinates)
 	translation.x = data->inputs.action_states[a_move_right] - data->inputs.action_states[a_move_left];
-	translation.y = data->inputs.action_states[a_move_up] - data->inputs.action_states[a_move_down];
+	translation.y = data->inputs.action_states[a_move_forward] - data->inputs.action_states[a_move_backward];
+
 	translation.vec *= 0.2;
 	// Get forward and right vectors from player's dir (assuming it's normalized)
 	forward = vector4d_to_point2d(&data->player.dir);
@@ -42,8 +45,9 @@ void player_handle_event(t_cub *data)
 	// Apply the translation to the player's position
 	transformation = translation_matrix(translation);
 	translation = matrix_vector_multiply(transformation, vector4d_to_point2d(&data->player.pos));
+	old_z = data->player.pos.z + 0.1 * (data->inputs.action_states[a_move_down] - data->inputs.action_states[a_move_up]);
 	data->player.pos = point2d_to_vector4d(&translation);
-
+	data->player.pos.z = old_z;
 	// Handle the turning of the player
 	angle_movement = 0.1 * (data->inputs.action_states[a_turn_right] - data->inputs.action_states[a_turn_left]);
 	transformation = rotation_matrix(angle_movement);

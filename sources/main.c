@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2024/01/14 22:19:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:54:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	set_segments_ceil_floor(t_list *seg_lst)
 	{
 		seg = seg_lst->content;
 
-		seg->data.ceil = -50;
-		seg->data.floor = 10;
+		seg->data.ceil = -2;
+		seg->data.floor = 1;
 		seg_lst = seg_lst->next;
 	}
 }

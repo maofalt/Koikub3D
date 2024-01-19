@@ -3,7 +3,9 @@
 t_vector4d	transform_camera_relative_point(t_vector4d point, t_camera *camera)
 {
 	t_vector4d	relative_point;
+	// double		old_z;
 
+	// old_z = point.z;
 	point.vec = point.vec - camera->pos.vec;
 	relative_point.x = point.x * camera->dir.y - point.y * camera->dir.x;
 	relative_point.y = point.x * camera->dir.x + point.y * camera->dir.y;

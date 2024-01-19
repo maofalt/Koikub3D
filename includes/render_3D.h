@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/15 12:31:06 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:45:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int		render_3d_init(t_3d_render *render,
 					   t_canvas *canvas,
 					   t_camera *camera,
 					   t_map_data *map);
+
+void	render_init_lights(t_3d_render *render);
 
 void	render_3d_destroy(t_3d_render *render);
 

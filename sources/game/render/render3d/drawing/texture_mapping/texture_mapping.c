@@ -5,6 +5,24 @@
 #include <assert.h>
 
 
+// t_vector4d project_point(t_3d_render *render, t_vector4d point)
+// {
+// 	t_vector4d transformed_point;
+
+// 	int xscale = 512 / (render->scale_factor_x / 1.2);
+// 	int yscale = 32 / (render->scale_factor_y / 1.2);
+
+
+
+// 	transformed_point.x = -point.x * xscale / point.y;
+// 	transformed_point.y = point.z * yscale / point.y;
+// 	transformed_point.z = point.y;
+// 	transformed_point.w = 0;
+// 	// transformed_point.vec *= 16;
+// 	transformed_point.vec += render->middle.vec;
+// 	return (transformed_point);
+// }
+
 static inline void	draw_vertical_line_tiled(
 			t_3d_render	*render,
 			t_img_data	*image,
@@ -16,7 +34,8 @@ static inline void	draw_vertical_line_tiled(
 			double		depth,
 			t_vector4d	*normal,
 			t_vector4d	*world_pos,
-			double 		*wall_ceil
+			double 		*wall_ceil,
+			double 		*wall_floor
 
 			)
 {
@@ -25,12 +44,13 @@ static inline void	draw_vertical_line_tiled(
 	int			offset_img;
 	double		y = 0;
 
+	double full_project_height = screen_bottom - screen_top;
 	img_x = img_x % image->size.x;
 	double factor  =  ((double)image->size.y * tiled_factor) / (double) (screen_bottom - screen_top);
 	y = (int)fmax(0, render->top_array[screen_x] - screen_top); //fmax(screen_top, render->top_array[screen_x]);
 	screen_bottom = fmin(screen_bottom, render->bottom_array[screen_x]);
 
-	double z_pos_factor = ((render->middle.y - screen_top) / (0 - *wall_ceil)) * *wall_ceil;
+	// double z_pos_factor = ((render->middle.y - screen_top) / (0 - *wall_ceil)) * *wall_ceil;
 	while (screen_top + y < screen_bottom)
 	{
 		if (y + screen_top >= render->height)
@@ -41,7 +61,12 @@ static inline void	draw_vertical_line_tiled(
 		// 	return;
 		offset = (screen_top + y) * render->width + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
-		world_pos->z = ((z_pos_factor + y) * factor) / image->size.y;
+
+		// int yscale = 512 / (render->scale_factor_y / 1.2);
+		double z_pos_factor = (y) / (double) (full_project_height);
+
+		world_pos->z = (*wall_ceil * (1 - z_pos_factor) + *wall_floor * (z_pos_factor));
+		// world_pos->z = ((z_pos_factor + y));// / image->size.y;
 		render->buffers.color[offset].d = img[offset_img];
 		render->buffers.depth[offset] = depth;
 		render->buffers.world_pos[offset] = *world_pos;
@@ -109,7 +134,7 @@ double	calc_wall_texture_repeat_factor_x(t_segment_d *segment)
 
 double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
 {
-	return (fabs(segment->data.floor - segment->data.ceil) / 30);
+	return (fabs(segment->data.floor - segment->data.ceil)); /// 1);
 }
 
 double	calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment)
@@ -286,7 +311,7 @@ void draw_wall_texture(
 		txtx = fmin(fmod(txtx, data.texture_width), data.texture_width);
 		draw_vertical_line_tiled(render,
 			texture_get_frame(wall->data.data.wall.texture.texture), txtx,
-			x, top, bot, data.texture_tiling_factor_y, relative_y, &normal, &world_pos, &wall->data.ceil);
+			x, top, bot, data.texture_tiling_factor_y, relative_y, &normal, &world_pos, &wall->data.ceil, &wall->data.floor);
 		// put_pixel_centered(render, render->canvas, world_pos.x, world_pos.y, 0xFFFFFFFF);
 		top += coef_top;
 		bot += coef_bot;

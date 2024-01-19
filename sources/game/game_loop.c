@@ -4,6 +4,8 @@
 
 #include "maths_utils.h"
 
+
+//TODO move this in .h
 static t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
 {
 	t_tree_node	*child;
@@ -78,37 +80,45 @@ void	sector_edit_handle_event(t_cub *data)
 	if (data->inputs.action_states[a_decrease_sector_floor])
 	{
 		printf("decrease \n");
-		update_player_sector_floor(&data->game_data.game_view_render, -1);
+
+		data->player.pos.z -= 0.1;
+		// data->game_data.state.player_camera.pos.z -= 1;
+		// update_player_sector_floor(&data->game_data.game_view_render, -1);
 	}
 	if (data->inputs.action_states[a_increase_sector_floor])
 	{
-		update_player_sector_floor(&data->game_data.game_view_render, 1);
+		data->player.pos.z += 0.1;
+		// data->game_data.state.player_camera.pos.z += 1;
+		// update_player_sector_floor(&data->game_data.game_view_render, 1);
 		printf("increase \n");
 	}
 }
-int	check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
 
-void	raycast_test(t_cub *data)
+void	update_lights(t_3d_render *render)
 {
-	t_vector4d	origin;
-	t_vector4d	dest = {{2, 2, 1, 0}};
+	t_light			*light;
+	int				i;
+	static double	frame = 0;
 
-	origin = data->game_data.game_view_render.camera->pos;
-
-	// printf("***\n");
-	printf("from %f %f %f\n", origin.x, origin.y, origin.z);
-	// printf("to %f %f %f\n", dest.x, dest.y, dest.z);
-	// printf("reach dest: %d\n", check_ray_reach_dest(origin, dest, &data->game_data.game_view_render));
-	// printf("***\n");
+	frame += 0.1;
+	i = render->lights_data.light_count;
+	while (i--)
+	{
+		light = &render->lights_data.lights[i];
+		if (light->type == DIRECTIONAL_LIGHT)
+		{
+			light->dir.x = cos(frame); //TODO remove this
+			light->dir.y = sin(frame);
+		}
+	}
 
 }
-
 
 void	game_update(t_cub *data)
 {
 	player_handle_event(data);
 	sector_edit_handle_event(data);
-	raycast_test(data);
+	update_lights(&data->game_data.game_view_render);
 }
 
 int	game_loop(void *self, t_cub *data)

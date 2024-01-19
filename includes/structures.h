@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/15 12:35:41 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:18:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 **
 */
 
-enum e_action { a_move_up,
-	a_move_down,
+enum e_action { a_move_forward,
+	a_move_backward,
 	a_move_left,
 	a_move_right,
+	a_move_up,
+	a_move_down,
 	a_turn_left,
 	a_turn_right,
 	a_increase_sector_ceil,
@@ -320,6 +322,37 @@ typedef struct s_3d_render_buffers
 	t_vector4d			*normal;
 } t_3d_render_buffers;
 
+typedef enum e_light_type
+{
+	POINT_LIGHT,
+	DIRECTIONAL_LIGHT
+}	t_light_type;
+
+typedef struct s_light
+{
+	t_light_type	type;
+	t_vector4d		pos;
+	t_vector4d		dir;
+	t_color			color;
+	double			intensity;
+	bool			show_lens_flare;
+}	t_light;
+
+typedef struct s_light_lens_flare
+{
+	bool			visible;
+	t_vector4d		screen_pos;
+	double			intensity;
+	t_color			color;
+}	t_light_lens_flare;
+
+typedef struct s_lights_data
+{
+	int					light_count;
+	t_light				lights[16];
+	t_light_lens_flare	lens_flare[16];
+}	t_light_data;
+
 typedef struct s_3d_render
 {
 	t_canvas			*canvas;
@@ -334,6 +367,7 @@ typedef struct s_3d_render
 	t_vector4d			middle;
 	int					scale_factor_x;
 	int					scale_factor_y;
+	t_light_data		lights_data;
 }	t_3d_render;
 
 typedef struct s_game_state

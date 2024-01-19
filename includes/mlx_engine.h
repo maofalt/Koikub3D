@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/12/06 04:06:58 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:18:20 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ typedef struct s_key_action_map
 }	t_key_action_map;
 
 static const t_key_action_map	g_key_to_action[] = {
-{XK_w, a_move_up},
-{XK_s, a_move_down},
+{XK_w, a_move_forward},
+{XK_s, a_move_backward},
 {XK_a, a_move_left},
 {XK_d, a_move_right},
+{XK_Shift_L, a_move_down},
+{XK_space, a_move_up},
 {XK_Left, a_turn_left},
 {XK_Right, a_turn_right},
 {XK_equal, a_increase_sector_ceil},

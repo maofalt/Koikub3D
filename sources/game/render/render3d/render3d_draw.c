@@ -16,6 +16,7 @@ void	render_portal(
 	double			coef_top;
 	double			coef_bot;
 
+
 	if (project_wall(render, wall, &projected_top, &projected_bot))
 		return ;
 	left = fmax(projected_top.point_a.x, left);
@@ -36,8 +37,10 @@ void	render_portal(
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
 	double bot_y = projected_bot.point_a.y;
 	double top_y = projected_top.point_a.y;
+	// left = floor(left);
+	// right = floor(right);
 	int x = left;
-	while (x < right)
+	while (x < floor(right))
 	{
 		update_portal_ceil_floor_buffer(render, x, top_y, bot_y);
 		top_y += coef_top;
@@ -50,7 +53,26 @@ void	render_portal(
 	// draw_portal_floor_offset(render, &projected_bot, left, right);
 	draw_portal_offset(render, wall, left, right);
 
+	t_segment_d	*other_side_portal = wall->data.data.portal.destination;
 
+	if (project_wall(render, other_side_portal, &projected_top, &projected_bot))
+		return ;
+	coef_bot = calc_segment_coef(&projected_bot);
+	coef_top = calc_segment_coef(&projected_top);
+	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
+	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
+	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
+	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
+	bot_y = projected_bot.point_a.y;
+	top_y = projected_top.point_a.y;
+	x = left;
+	while (x < (int)(right))
+	{
+		update_portal_ceil_floor_buffer(render, x, top_y, bot_y);
+		top_y += coef_top;
+		bot_y += coef_bot;
+		++x;
+	}
 }
 
 

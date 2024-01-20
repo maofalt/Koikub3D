@@ -81,15 +81,11 @@ void	sector_edit_handle_event(t_cub *data)
 	{
 		printf("decrease \n");
 
-		data->player.pos.z -= 0.1;
-		// data->game_data.state.player_camera.pos.z -= 1;
-		// update_player_sector_floor(&data->game_data.game_view_render, -1);
+		update_player_sector_floor(&data->game_data.game_view_render, -1);
 	}
 	if (data->inputs.action_states[a_increase_sector_floor])
 	{
-		data->player.pos.z += 0.1;
-		// data->game_data.state.player_camera.pos.z += 1;
-		// update_player_sector_floor(&data->game_data.game_view_render, 1);
+		update_player_sector_floor(&data->game_data.game_view_render, 1);
 		printf("increase \n");
 	}
 }

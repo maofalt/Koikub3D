@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/19 15:22:36 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/20 20:18:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,12 +191,22 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 		intersection_dir.vec = point2d_to_vector4d(&intersection_2d).vec - ray->origin.vec;
 
 		// //calculate Z
-		// t_vector4d normal = calc_segment_normal(segment);
-		// double t = (dot_product_2d(&normal, &bot_left_surface) - dot_product_2d(&normal, &ray->origin)) / dot_product_2d(&normal, &ray->direction);
-		// double z = ray->origin.z + ray->direction.z * t;
+		t_vector4d normal = calc_segment_normal(segment);
+		double t = (dot_product_2d(&normal, &bot_left_surface) - dot_product_2d(&normal, &ray->origin)) / dot_product_2d(&normal, &ray->direction);
+		double z = ray->origin.z + ray->direction.z * t;
 
-		// if (z < segment->data.ceil || z > segment->data.floor)
-		// 	return (0);
+		if (z < segment->data.ceil || z > segment->data.floor)
+			return (0);
+
+		segment = segment->data.data.portal.destination;
+
+		normal = calc_segment_normal(segment);
+		t = (dot_product_2d(&normal, &bot_left_surface) - dot_product_2d(&normal, &ray->origin)) / dot_product_2d(&normal, &ray->direction);
+		z = ray->origin.z + ray->direction.z * t;
+
+		if (z < segment->data.ceil || z > segment->data.floor)
+			return (0);
+
 
 		return (dot_product_2d(&intersection_dir, &ray->direction) > 0);
 	}

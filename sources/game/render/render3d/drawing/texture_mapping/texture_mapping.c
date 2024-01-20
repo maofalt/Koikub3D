@@ -283,7 +283,7 @@ void draw_wall_texture(
 	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
 	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
 	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	double x = left;
+	double x = left;//floor(left);
 	double top = projected_top.point_a.y;
 	double bot = projected_bot.point_a.y;
 
@@ -295,9 +295,11 @@ void draw_wall_texture(
 	double size = sqrt(normal.x * normal.x + normal.y * normal.y);
 	normal.x /= size;
 	normal.y /= size;
+	// left = floor(left);
+	// right = floor(right);
 
 
-	while (x < right)
+	while ((int)x < (int)(right))
 	{
 		double alpha = (x - projected_top.point_a.x) / (projected_top.point_b.x - projected_top.point_a.x);
 		double one_over_z = (1 - alpha) / data.clipped_relative_segment.point_a.y + alpha /  data.clipped_relative_segment.point_b.y;

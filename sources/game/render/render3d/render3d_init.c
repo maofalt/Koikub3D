@@ -13,6 +13,8 @@ static int	init_buffers(t_3d_render *render, int width, int height)
 		sizeof(render->buffers.depth[0]));
 	render->buffers.color = ft_calloc(width * height,
 		sizeof(render->buffers.color[0]));
+	render->buffers.color_bis = ft_calloc(width * height,
+		sizeof(render->buffers.color[0]));
 	render->buffers.normal = ft_calloc(width * height,
 		sizeof(render->buffers.normal[0]));
 	render->buffers.world_pos = ft_calloc(width * height,
@@ -35,7 +37,7 @@ int	render_3d_init(t_3d_render *render,
 	render->canvas = canvas;
 	render->camera = camera;
 	render->scale_factor_x = 3;
-	render->scale_factor_y = 2;
+	render->scale_factor_y = 3;
 	render->width = canvas->size.x / render->scale_factor_x;
 	render->height = canvas->size.y / render->scale_factor_y;
 	render->map = map;

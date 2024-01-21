@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/21 00:27:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:42:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef double			t_v2d			__attribute__((vector_size (2
 	* sizeof(double))));
 typedef u_int8_t		t_vector_color	__attribute__((vector_size (4
 	* sizeof(u_int8_t))));
+typedef u_int64_t		t_vector_color_16	__attribute__((vector_size (4
+	* sizeof(u_int16_t))));
 typedef double			t_v4d			__attribute__((vector_size (4
 	* sizeof(double))));
 
@@ -169,6 +171,19 @@ typedef union u_color
 	};
 } t_color;
 
+typedef union u_64_color
+{
+	t_vector_color_16 rgb_color;
+	u_int64_t d;
+	struct
+	{
+		u_int16_t b;
+		u_int16_t g;
+		u_int16_t r;
+		u_int16_t a;
+	};
+} t_color_64;
+
 #else
 
 typedef union u_color
@@ -183,6 +198,19 @@ typedef union u_color
 		u_int8_t b;
 	};
 } t_color;
+
+typedef union u_color_64
+{
+	t_vector_color_16 rgb_color;
+	u_int64_t d;
+	struct
+	{
+		u_int16_t a;
+		u_int16_t r;
+		u_int16_t g;
+		u_int16_t b;
+	};
+} t_color_64;
 
 #endif
 
@@ -294,6 +322,7 @@ typedef struct s_camera
 	t_vector4d	pos;
 	t_vector4d	dir;
 	t_vector4d	right;
+	t_vector4d	velocity;
 }				t_camera;
 
 typedef struct s_map_data
@@ -317,10 +346,11 @@ typedef struct s_canvas t_canvas;
 
 typedef struct s_3d_render_buffers
 {
-	t_color	*color;
+	t_color				*color;
 	double				*depth;
 	t_vector4d			*world_pos;
 	t_vector4d			*normal;
+	t_color				*color_bis;
 } t_3d_render_buffers;
 
 typedef enum e_light_type

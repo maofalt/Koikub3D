@@ -61,13 +61,13 @@ double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 // typedef struct t_point_light
 // {
 // 	t_vector4d pos;
-// 	t_color color;
+// 	t_color_64 color;
 // } t_point_light;
 
 // typedef struct s_directional_light
 // {
 // 	t_vector4d pos;
-// 	t_color color;
+// 	t_color_64 color;
 // 	t_vector4d dir;
 // } t_directional_light;
 
@@ -91,9 +91,9 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 
 t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_camera *camera);
 
-// t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render *render, double time_mouvement)
+// t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
 // {
-// 	t_color lighting = original_color;
+// 	t_color_64 lighting = original_color;
 // 	double luminosity = 0.05;
 // 	lighting.r *= luminosity * 0.5;
 // 	lighting.g *= luminosity;
@@ -101,7 +101,7 @@ t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_
 
 // 	t_vector4d normal = render->buffers.normal[offset];
 // 	t_vector4d world_pos = render->buffers.world_pos[offset];
-// 	// t_color color = render->buffers.color[offset];
+// 	// t_color_64 color = render->buffers.color[offset];
 // 	// double depth = render->buffers.depth[offset];
 
 // 	for (int i = 0; i < sizeof(point_lights) / sizeof(point_lights[0]); i++)
@@ -196,11 +196,11 @@ t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_
 t_vector4d transform_camera_relative_point(t_vector4d point, t_camera *camera);
 t_vector4d project_point(t_3d_render *render, t_vector4d point);
 
-// t_color shader_camera_light_bloom(t_color original_color, int offset, t_3d_render *render, double time_mouvement)
+// t_color_64 shader_camera_light_bloom(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
 // {
 // 	int x = offset % render->width;
 // 	int y = offset / render->width;
-// 	t_color color = render->buffers.color[offset];
+// 	t_color_64 color = render->buffers.color[offset];
 // 	double depth = render->buffers.depth[offset];
 
 // 	for (int i = 0; i < sizeof(point_lights) / sizeof(point_lights[0]); i++)
@@ -264,11 +264,10 @@ t_vector4d project_point(t_3d_render *render, t_vector4d point);
 
 
 
-t_color shader_camera_light_bloom(t_color original_color, int offset, t_3d_render *render, double time_mouvement)
+t_color_64 shader_camera_light_bloom(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
 {
 	int x = offset % render->width;
 	int y = offset / render->width;
-	t_color color = render->buffers.color[offset];
 	double depth = render->buffers.depth[offset];
 
 	for (int i = 0; i < render->lights_data.light_count; i++)
@@ -304,9 +303,9 @@ t_color shader_camera_light_bloom(t_color original_color, int offset, t_3d_rende
 
 
 
-t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render *render, double time_mouvement)
+t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
 {
-	t_color lighting = original_color;
+	t_color_64 lighting = original_color;
 	double luminosity = 0.05;
 	lighting.r *= luminosity * 0.5;
 	lighting.g *= luminosity;
@@ -370,7 +369,6 @@ t_color shader_deferred_shading(t_color original_color, int offset, t_3d_render 
 				lighting.b += original_color.b * fmin(1, diffuse * attenuation * cone * light->color.b);
 			}
 		}
-		// lighting.b += original_color.b * fmin(1, diffuse * attenuation);
 	}
 
 	return lighting;

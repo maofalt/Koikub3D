@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/20 20:18:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:01:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static t_tree_node	*bsp_search_point_fast(t_tree_node	*tree, t_vector4d *point)
 // }
 static void normalize_vector_3d(t_vector4d *vec)
 {
-	double reverse_lenght = q_rsqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
+	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 	vec->vec[0] *= reverse_lenght;
 	vec->vec[1] *= reverse_lenght;
 	vec->vec[2] *= reverse_lenght;
@@ -148,7 +148,7 @@ static void normalize_vector_3d(t_vector4d *vec)
 
 static void normalize_vector_2d(t_vector4d *vec)
 {
-	double reverse_lenght = q_rsqrt(vec->x * vec->x + vec->y * vec->y);
+	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y);
 	vec->vec[0] *= reverse_lenght;
 	vec->vec[1] *= reverse_lenght;
 }

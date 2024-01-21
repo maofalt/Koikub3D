@@ -106,6 +106,12 @@ void	update_lights(t_3d_render *render)
 			light->dir.x = cos(frame); //TODO remove this
 			light->dir.y = sin(frame);
 		}
+		if (i == 1)
+		{
+			light->pos.x = render->camera->pos.x;
+			light->pos.y = render->camera->pos.y;
+			light->pos.z = render->camera->pos.z;
+		}
 	}
 
 }

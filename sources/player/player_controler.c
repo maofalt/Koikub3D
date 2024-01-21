@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/21 07:40:57 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:36:31 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,4 +344,5 @@ void player_handle_event(t_cub *data)
 	data->game_data.state.player_camera.dir = data->player.dir;
 	data->game_data.state.player_camera.right = data->player.right;
 	data->game_data.state.player_camera.pos = data->player.pos;
+	data->game_data.state.player_camera.velocity = data->player.velocity;
 }

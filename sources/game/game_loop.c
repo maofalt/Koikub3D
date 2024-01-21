@@ -36,7 +36,7 @@ void	update_player_sector_ceil(t_3d_render *render, double value)
 
 	node = bsp_search_point(render->map->bsp,
 			vector4d_to_point2d(&render->camera->pos));
-
+	((t_bsp_tree_node_data *)(node->data))->sector_data.ceil -= value;
 	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
 	while (seg_lst)
 	{
@@ -54,7 +54,7 @@ void	update_player_sector_floor(t_3d_render *render, double value)
 
 	node = bsp_search_point(render->map->bsp,
 			vector4d_to_point2d(&render->camera->pos));
-
+	((t_bsp_tree_node_data *)(node->data))->sector_data.floor += value;
 	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
 	while (seg_lst)
 	{
@@ -96,7 +96,7 @@ void	update_lights(t_3d_render *render)
 	int				i;
 	static double	frame = 0;
 
-	frame += 0.1;
+	frame += 0.02;
 	i = render->lights_data.light_count;
 	while (i--)
 	{

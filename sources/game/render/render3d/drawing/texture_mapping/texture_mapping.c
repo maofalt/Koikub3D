@@ -53,9 +53,13 @@ static inline void	draw_vertical_line_tiled(
 	// double z_pos_factor = ((render->middle.y - screen_top) / (0 - *wall_ceil)) * *wall_ceil;
 	while (screen_top + y < screen_bottom)
 	{
+		if (y + screen_top < 0)
+			return;
 		if (y + screen_top >= render->height)
 			return;
 		if (img_x > render->width)
+			return;
+		if (img_x < 0)
 			return;
 		// if (y + screen_top < 0)
 		// 	return;
@@ -244,6 +248,7 @@ t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_
 // 	render->buffers.color[offset].d = color;
 
 // }
+
 
 void draw_wall_texture(
 	t_3d_render *render,

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/19 18:18:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:27:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ typedef struct s_player
 {
 	t_vector4d	pos;
 	t_vector4d	dir;
+	t_vector4d	velocity;
 	t_vector4d	right;
 	t_vector_f	plane;
 }				t_player;

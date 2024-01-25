@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_controler.c                                 :+:      :+:    :+:   */
+/*   game_player_controler.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/21 18:36:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:24:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 // 	translation.vec *= 0.2;
 // 	// Get forward and right vectors from player's dir (assuming it's normalized)
-// 	forward = vector4d_to_point2d(&data->player.dir);
+// 	forward = vector4d_to_point2d(&game_data->state.player.dir);
 
 // 	// Compute the right vector (perpendicular) from the forward vector
 // 	right.x = -forward.y;
@@ -43,22 +43,22 @@
 
 // 	// Apply the translation to the player's position
 // 	transformation = translation_matrix(translation);
-// 	translation = matrix_vector_multiply(transformation, vector4d_to_point2d(&data->player.pos));
-// 	old_z = data->player.pos.z + 0.2 * (data->inputs.action_states[a_move_down] - data->inputs.action_states[a_move_up]);
-// 	data->player.pos = point2d_to_vector4d(&translation);
-// 	data->player.pos.z = old_z;
+// 	translation = matrix_vector_multiply(transformation, vector4d_to_point2d(&game_data->state.player.pos));
+// 	old_z = game_data->state.player.pos.z + 0.2 * (data->inputs.action_states[a_move_down] - data->inputs.action_states[a_move_up]);
+// 	game_data->state.player.pos = point2d_to_vector4d(&translation);
+// 	game_data->state.player.pos.z = old_z;
 // 	// Handle the turning of the player
 // 	angle_movement = 0.1 * (data->inputs.action_states[a_turn_right] - data->inputs.action_states[a_turn_left]);
 // 	transformation = rotation_matrix(angle_movement);
-// 	t_point2d rotated_dir = matrix_vector_multiply(transformation, vector4d_to_point2d(&data->player.dir));
-// 	data->player.dir = point2d_to_vector4d(&rotated_dir);
-// 	data->player.right = data->player.dir;
-// 	data->player.right.x = -data->player.dir.y;
-// 	data->player.right.y = data->player.dir.x;
+// 	t_point2d rotated_dir = matrix_vector_multiply(transformation, vector4d_to_point2d(&game_data->state.player.dir));
+// 	game_data->state.player.dir = point2d_to_vector4d(&rotated_dir);
+// 	game_data->state.player.right = game_data->state.player.dir;
+// 	game_data->state.player.right.x = -game_data->state.player.dir.y;
+// 	game_data->state.player.right.y = game_data->state.player.dir.x;
 
-// 	data->game_data.state.player_camera.dir = data->player.dir;
-// 	data->game_data.state.player_camera.right = data->player.right;
-// 	data->game_data.state.player_camera.pos = data->player.pos;
+// 	data->game_data.state.player_camera.dir = game_data->state.player.dir;
+// 	data->game_data.state.player_camera.right = game_data->state.player.right;
+// 	data->game_data.state.player_camera.pos = game_data->state.player.pos;
 
 // }
 
@@ -248,7 +248,7 @@ t_collision_info is_collision(t_vector4d current_pos, t_vector4d new_pos, t_3d_r
 	return collision_info;
 }
 
-void player_handle_event(t_cub *data)
+void player_handle_event(t_cub *data, t_game_data *game_data)
 {
 	// Get the movement directions (still in world coordinates)
 	t_vector4d translation;
@@ -264,7 +264,7 @@ void player_handle_event(t_cub *data)
 	translation.z *= translation_scale;
 
 	// Get forward and right vectors from player's dir (assuming it's normalized)
-	t_point2d forward = vector4d_to_point2d(&data->player.dir);
+	t_point2d forward = vector4d_to_point2d(&game_data->state.player.dir);
 	t_point2d right = {{-forward.y, forward.x}};
 
 	// Convert world coordinates translation to player's local coordinates
@@ -276,73 +276,70 @@ void player_handle_event(t_cub *data)
 
 	// Apply the translation to the player's position with acceleration
 	const double acceleration = 0.1;
-	data->player.velocity.x += translation.x * acceleration;
-	data->player.velocity.y += translation.y * acceleration;
-	data->player.velocity.z += translation.z * acceleration;
+	game_data->state.player.velocity.x += translation.x * acceleration;
+	game_data->state.player.velocity.y += translation.y * acceleration;
+	game_data->state.player.velocity.z += translation.z * acceleration;
 
 	// Apply deceleration to gradually slow down the player's velocity
 	const double deceleration = 0.05;
-	data->player.velocity.x *= (1 - deceleration);
-	data->player.velocity.y *= (1 - deceleration);
-	data->player.velocity.z *= (1 - deceleration);
+	game_data->state.player.velocity.x *= (1 - deceleration);
+	game_data->state.player.velocity.y *= (1 - deceleration);
+	game_data->state.player.velocity.z *= (1 - deceleration);
 
 	// Update player's position with collision detection
-	t_vector4d new_pos = data->player.pos;
-	new_pos.x += data->player.velocity.x;
-	new_pos.y += data->player.velocity.y;
-	new_pos.z += data->player.velocity.z;
+	t_vector4d new_pos = game_data->state.player.pos;
+	new_pos.x += game_data->state.player.velocity.x;
+	new_pos.y += game_data->state.player.velocity.y;
+	new_pos.z += game_data->state.player.velocity.z;
 
 	t_collision_info collision_info;
 
 	/* code */
 
-	// new_pos.vec += 0.5 * data->player.velocity.vec;
-	collision_info = is_collision(data->player.pos, new_pos, &data->game_data.game_view_render);
+	// new_pos.vec += 0.5 * game_data->state.player.velocity.vec;
+	collision_info = is_collision(game_data->state.player.pos, new_pos, &data->game_data.game_view_render);
 	collision_info.collision &= !(data->inputs.action_states[a_decrease_sector_floor] && data->inputs.action_states[a_increase_sector_floor]);// && data->inputs.action_states[a_move_left] && data->inputs.action_states[a_move_right]);
 	if (collision_info.collision)
 	{
 		// Calculate the sliding vector based on the collision normal
 
-		// double dot_product = 1;//dot_product_3d(&data->player.velocity, &collision_info.collision_normal);
+		// double dot_product = 1;//dot_product_3d(&game_data->state.player.velocity, &collision_info.collision_normal);
 
-		double dot_product = dot_product_3d(&data->player.velocity, &collision_info.collision_normal);
+		double dot_product = dot_product_3d(&game_data->state.player.velocity, &collision_info.collision_normal);
 
 		// if (dot_product > 0)
 		// 	dot_product *= -1;
 
 		printf("dot_product: %f\n", dot_product);
 		printf("collision_info.collision_normal: %f, %f, %f\n", collision_info.collision_normal.x, collision_info.collision_normal.y, collision_info.collision_normal.z);
-		printf("data->player.velocity: %f, %f, %f\n", data->player.velocity.x, data->player.velocity.y, data->player.velocity.z);
+		printf("game_data->state.player.velocity: %f, %f, %f\n", game_data->state.player.velocity.x, game_data->state.player.velocity.y, game_data->state.player.velocity.z);
 		t_vector4d sliding_vector;
 		// if (dot_product < 0)
 		// 	collision_info.collision_normal.vec *= -1;
 
-		sliding_vector.x = data->player.velocity.x - 1.02 * dot_product * collision_info.collision_normal.x; // dot_product * collision_info.collision_normal.x; //
-		sliding_vector.y = data->player.velocity.y - 1.02 * dot_product * collision_info.collision_normal.y; // dot_product * collision_info.collision_normal.y; //
-		sliding_vector.z = data->player.velocity.z - 1.02 * dot_product * collision_info.collision_normal.z; // dot_product * collision_info.collision_normal.z; //
+		sliding_vector.x = game_data->state.player.velocity.x - 1.02 * dot_product * collision_info.collision_normal.x; // dot_product * collision_info.collision_normal.x; //
+		sliding_vector.y = game_data->state.player.velocity.y - 1.02 * dot_product * collision_info.collision_normal.y; // dot_product * collision_info.collision_normal.y; //
+		sliding_vector.z = game_data->state.player.velocity.z - 1.02 * dot_product * collision_info.collision_normal.z; // dot_product * collision_info.collision_normal.z; //
 
 		// Update the player's velocity with the sliding vector
-		data->player.velocity = sliding_vector;
-		new_pos.x = data->player.pos.x + data->player.velocity.x;
-		new_pos.y = data->player.pos.y + data->player.velocity.y;
-		new_pos.z = data->player.pos.z + data->player.velocity.z;
+		game_data->state.player.velocity = sliding_vector;
+		new_pos.x = game_data->state.player.pos.x + game_data->state.player.velocity.x;
+		new_pos.y = game_data->state.player.pos.y + game_data->state.player.velocity.y;
+		new_pos.z = game_data->state.player.pos.z + game_data->state.player.velocity.z;
 	}
 
-	data->player.pos = new_pos;
+	game_data->state.player.pos = new_pos;
 
 	// Handle the turning of the player
 	const double angle_scale = 0.1;
 	double angle_movement = angle_scale * (data->inputs.action_states[a_turn_right] - data->inputs.action_states[a_turn_left]);
 	t_matrix3x3 transformation = rotation_matrix(angle_movement);
-	t_point2d rotated_dir = matrix_vector_multiply(transformation, vector4d_to_point2d(&data->player.dir));
-	data->player.dir = point2d_to_vector4d(&rotated_dir);
-	data->player.right = data->player.dir;
-	data->player.right.x = -data->player.dir.y;
-	data->player.right.y = data->player.dir.x;
+	t_point2d rotated_dir = matrix_vector_multiply(transformation, vector4d_to_point2d(&game_data->state.player.dir));
+	game_data->state.player.dir = point2d_to_vector4d(&rotated_dir);
+	game_data->state.player.right = game_data->state.player.dir;
+	game_data->state.player.right.x = -game_data->state.player.dir.y;
+	game_data->state.player.right.y = game_data->state.player.dir.x;
 
 	// Update game state
-	data->game_data.state.player_camera.dir = data->player.dir;
-	data->game_data.state.player_camera.right = data->player.right;
-	data->game_data.state.player_camera.pos = data->player.pos;
-	data->game_data.state.player_camera.velocity = data->player.velocity;
+
 }

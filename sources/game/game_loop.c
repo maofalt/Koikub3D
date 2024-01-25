@@ -118,7 +118,8 @@ void	update_lights(t_3d_render *render)
 
 void	game_update(t_cub *data)
 {
-	player_handle_event(data);
+	player_handle_event(data, &data->game_data);
+	game_update_camera(&data->game_data);
 	sector_edit_handle_event(data);
 	update_lights(&data->game_data.game_view_render);
 }

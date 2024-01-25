@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:50:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:53:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_list	*initialize_canvas_list(t_modus_state state,
 	canvas_list = NULL;
 	i = 0;
 	nbr_canvas = get_init_table_size(canvas_init_table);
-	printf("nbr_canvas: %zu\n", nbr_canvas);
 	while (i < nbr_canvas)
 	{
 		new_node = initialize_canvas_and_add_to_list(

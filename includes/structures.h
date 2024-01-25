@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/21 18:42:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:55:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,8 @@ typedef struct s_camera
 	t_vector4d	dir;
 	t_vector4d	right;
 	t_vector4d	velocity;
+	double		tilt;
+	double		fov;
 }				t_camera;
 
 typedef struct s_map_data
@@ -404,6 +406,7 @@ typedef struct s_3d_render
 typedef struct s_game_state
 {
 	t_camera	player_camera;
+	t_player	player;
 }	t_game_state;
 
 

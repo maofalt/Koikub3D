@@ -12,16 +12,18 @@ double calculate_rotation(double offset, double amplitude, double frequency)
 //TODO move this in .h
 static double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 {
-	double result = vec1->x * vec2->x + vec1->y * vec2->y + vec1->z * vec2->z;
-	return result;
+	const t_v4d	product = vec1->vec * vec2->vec;
+
+	return (product[0] + product[1] + product[2]);
 }
 
 t_color shader_small_camera_tilt(t_color original_color, int offset, t_3d_render *render, double movement_offset)
 {
 
 
-	movement_offset = dot_product_3d(&render->camera->velocity, &render->camera->right);
-
+	// movement_offset = dot_product_3d(&render->camera->velocity, &render->camera->right);
+	movement_offset =  render->camera->tilt;//movement_offset;
+	// printf("movement_offset: %f\n", movement_offset);
 	double movement_offset_x = movement_offset;
 	double movement_offset_y = movement_offset;
 
@@ -29,8 +31,8 @@ t_color shader_small_camera_tilt(t_color original_color, int offset, t_3d_render
 	double rotation_x; // = 3;  //calculate_rotation(movement_offset_x, 1, 3);
 	double rotation_y; // = -3;  //calculate_rotation(movement_offset_y, 1, 3);
 
-	rotation_x = 30* movement_offset;//render->camera->velocity.x * 10;
-	rotation_y = 30* movement_offset;//render->camera->velocity.x * 10;
+	rotation_x = movement_offset * 30; //+1*  render->camera->tilt;//render->camera->velocity.x * 10;
+	rotation_y = movement_offset * 30  ; //+ 0.5*    render->camera->tilt;//render->camera->velocity.x * 10;
 
 	// Apply the rotation to the offset
 	int x = offset % render->width;

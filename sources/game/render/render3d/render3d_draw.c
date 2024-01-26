@@ -76,7 +76,6 @@ void	render_portal(
 }
 
 
-
 void	render_sector(
 	t_3d_render *render,
 	t_render_item_queue *item_queue,

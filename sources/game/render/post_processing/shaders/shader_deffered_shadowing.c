@@ -26,7 +26,7 @@ void normalize_vector_2d(t_vector4d *vec)
 	vec->vec[1] *= reverse_lenght;
 }
 
-void normalize_vector_3d(t_vector4d *vec)
+static void normalize_vector_3d(t_vector4d *vec)
 {
 	double reverse_lenght = q_rsqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
 	vec->vec[0] *= reverse_lenght;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 00:59:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:12:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,10 @@ int		game_render_init(t_cub *data, t_game_data *game_data, t_canvas *canvas);
 void	game_render_destroy(t_cub *data, t_game_data *game_data);
 
 void	count_fps(void);
+
+// Precomputation
+void	game_precalculate_map(t_game_data *game_data);
+void	compute_segment_normal(t_game_data *game_data, t_segment_d *segment);
+
 
 #endif

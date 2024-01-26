@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/21 18:01:12 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:41:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,17 +153,6 @@ static void normalize_vector_2d(t_vector4d *vec)
 	vec->vec[1] *= reverse_lenght;
 }
 
-t_vector4d calc_segment_normal(t_segment_d *segment)
-{
-	t_vector4d normal;
-
-	normal.vec = segment->point_b.vec - segment->point_a.vec;
-	normal = (t_vector4d){{-normal.y, normal.x, 0, 0}};
-	normalize_vector_3d(&normal);
-
-	return (normal);
-}
-
 
 static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 {
@@ -191,7 +180,7 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 		intersection_dir.vec = point2d_to_vector4d(&intersection_2d).vec - ray->origin.vec;
 
 		// //calculate Z
-		t_vector4d normal = calc_segment_normal(segment);
+		t_vector4d normal = segment->data.normal;
 		double t = (dot_product_2d(&normal, &bot_left_surface) - dot_product_2d(&normal, &ray->origin)) / dot_product_2d(&normal, &ray->direction);
 		double z = ray->origin.z + ray->direction.z * t;
 
@@ -200,7 +189,7 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 
 		segment = segment->data.data.portal.destination;
 
-		normal = calc_segment_normal(segment);
+		normal = segment->data.normal;
 		t = (dot_product_2d(&normal, &bot_left_surface) - dot_product_2d(&normal, &ray->origin)) / dot_product_2d(&normal, &ray->direction);
 		z = ray->origin.z + ray->direction.z * t;
 

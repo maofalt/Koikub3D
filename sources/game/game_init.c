@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 00:59:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:04:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	game_init(t_cub *data, t_canvas *canvas)
 	if (game_render_init(data, &data->game_data, canvas))
 		return (free_everything(*data), 1);
 	data->game_data.state.player = data->player;
+	game_precalculate_map(&data->game_data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2024/01/19 16:54:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:28:24 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ static void	lst_update_portals_textures(
 			seg->data.data.portal.padding_texture_bottom
 				= *padding_texture_bottom;
 			seg->data.data.portal.padding_texture_top = *padding_texture_top;
-			printf("coucou\n");
 		}
 		current = current->next;
 	}
@@ -146,6 +145,7 @@ void	tree_update_update_portals_textures(
 		padding_texture_top, padding_texture_bottom);
 }
 
+
 void set_bsp_default_textures(t_cub *data)
 {
 	t_texture_ptr texture_ptr;
@@ -165,7 +165,6 @@ int	map_convert(t_cub *data, t_map_data *map_data)
 
 	tree = NULL;
 	segments_lst = data->segments_list;
-	printf("caribou##%p\n", data->segments_list);
 	if (!segments_lst && extract_edge_recursively(data->map, &segments_lst))
 		return (1);
 	set_segments_ceil_floor(segments_lst);

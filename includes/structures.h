@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/22 23:55:54 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:40:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -493,6 +493,7 @@ typedef struct s_segment_data
 	t_wall_portal_data	data;
 	double				ceil;
 	double				floor;
+	t_vector4d			normal;
 }	t_segment_data;
 
 struct	s_segment_d

@@ -6,7 +6,16 @@
 t_vector4d transform_camera_relative_point(t_vector4d point, t_camera *camera);
 t_vector4d project_point(t_3d_render *render, t_vector4d point);
 int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
-void normalize_vector_3d(t_vector4d *vec);
+static void normalize_vector_3d(t_vector4d *vec)
+{
+	t_vector4d	product;
+	double 		reverse_lenght;
+
+	product.vec = vec->vec;
+	product.vec *= product.vec;
+	reverse_lenght = 1 / sqrt(product.x + product.y + product.z);
+	vec->vec *= reverse_lenght;
+}
 double dot_product_3d(t_vector4d *a, t_vector4d *b);
 
 void compute_lights_visibility(t_3d_render *render)

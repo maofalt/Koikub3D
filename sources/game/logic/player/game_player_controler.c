@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 00:24:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:38:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,13 @@ static t_tree_node *bsp_search_point_fast(t_tree_node *tree, t_vector4d *point)
 
 static void normalize_vector_3d(t_vector4d *vec)
 {
-	double reverse_lenght = 1 / sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
-	vec->vec[0] *= reverse_lenght;
-	vec->vec[1] *= reverse_lenght;
-	vec->vec[2] *= reverse_lenght;
-}
+	t_vector4d	product;
+	double 		reverse_lenght;
 
-static t_vector4d calc_segment_normal(t_segment_d *segment)
-{
-	t_vector4d normal;
-
-	printf("segment->point_a: %f, %f, %f\n", segment->point_a.x, segment->point_a.y, segment->point_a.z);
-	printf("segment->point_b: %f, %f, %f\n", segment->point_b.x, segment->point_b.y, segment->point_b.z);
-	normal.vec = segment->point_b.vec - segment->point_a.vec;
-	normal = (t_vector4d){{-normal.y, normal.x, 0, 0}};
-	printf("normal: %f, %f, %f\n", normal.x, normal.y, normal.z);
-	normalize_vector_3d(&normal);
-
-	return (normal);
+	product.vec = vec->vec;
+	product.vec *= product.vec;
+	reverse_lenght = 1 / sqrt(product.x + product.y + product.z);
+	vec->vec *= reverse_lenght;
 }
 
 int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
@@ -225,7 +214,7 @@ t_vector4d bsp_check_player_collision(t_3d_render *render, t_vector4d *player_po
 		segment = seg_list->content;
 		if (player_wall_intersection(segment, player_pos))
 		{
-			collision_normal.vec += calc_segment_normal(segment).vec;
+			collision_normal.vec += segment->data.normal.vec;
 		}
 		seg_list = seg_list->next;
 	}

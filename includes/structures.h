@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/25 16:40:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:06:49 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,14 +317,32 @@ typedef struct s_dirty_rect
 	t_point2d	size;
 }	t_dirty_rect;
 
+typedef struct s_camera_effect_wave
+{
+	bool	enabled;
+	double	amplitude_x;
+	double	frequency_x;
+	double	amplitude_y;
+	double	frequency_y;
+	double	offset_x;
+	double	offset_y;
+}	t_camera_effect_wave;
+
+
+typedef struct s_camera_effects
+{
+	t_camera_effect_wave	wave;
+}	t_camera_effects;
+
 typedef struct s_camera
 {
-	t_vector4d	pos;
-	t_vector4d	dir;
-	t_vector4d	right;
-	t_vector4d	velocity;
-	double		tilt;
-	double		fov;
+	t_vector4d			pos;
+	t_vector4d			dir;
+	t_vector4d			right;
+	t_vector4d			velocity;
+	double				tilt;
+	double				fov;
+	t_camera_effects	effects;
 }				t_camera;
 
 typedef struct s_map_data

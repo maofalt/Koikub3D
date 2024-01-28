@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/25 17:41:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/26 20:33:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,13 @@ static t_tree_node	*bsp_search_point_fast(t_tree_node	*tree, t_vector4d *point)
 // 	}
 // 	return (0);
 // }
-static void normalize_vector_3d(t_vector4d *vec)
-{
-	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
-	vec->vec[0] *= reverse_lenght;
-	vec->vec[1] *= reverse_lenght;
-	vec->vec[2] *= reverse_lenght;
-}
+// static void normalize_vector_3d(t_vector4d *vec)
+// {
+// 	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
+// 	vec->vec[0] *= reverse_lenght;
+// 	vec->vec[1] *= reverse_lenght;
+// 	vec->vec[2] *= reverse_lenght;
+// }
 
 // public static Vector lineIntersection(Vector planePoint, Vector planeNormal, Vector linePoint, Vector lineDirection) {
 //    if (planeNormal.dot(lineDirection.normalize()) == 0) {
@@ -146,25 +146,22 @@ static void normalize_vector_3d(t_vector4d *vec)
 // }
 
 
-static void normalize_vector_2d(t_vector4d *vec)
-{
-	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y);
-	vec->vec[0] *= reverse_lenght;
-	vec->vec[1] *= reverse_lenght;
-}
+// static void normalize_vector_2d(t_vector4d *vec)
+// {
+// 	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y);
+// 	vec->vec[0] *= reverse_lenght;
+// 	vec->vec[1] *= reverse_lenght;
+// }
 
 
 static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 {
-	t_vector4d origin_to_point_a;
-	t_vector4d origin_to_point_b;
-
 	t_segment_d segment_ray = {
 		.point_a = ray->origin,
 		.point_b = ray->dest};
 
 	t_vector4d bot_left_surface =  {{segment->point_a.x, segment->point_a.y, segment->data.ceil, 0}};
-	t_vector4d top_right_surface = {{segment->point_b.x, segment->point_b.y, segment->data.floor, 0}};
+	// t_vector4d top_right_surface = {{segment->point_b.x, segment->point_b.y, segment->data.floor, 0}};
 
 
 

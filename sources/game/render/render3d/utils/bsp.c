@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bsp.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 14:20:25 by olimarti          #+#    #+#             */
+/*   Updated: 2024/01/28 14:20:27 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "maths_utils.h"
 #include "structures.h"
 
-t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
+t_tree_node	*bsp_search_point(t_tree_node *tree, t_point2d point)
 {
 	t_tree_node	*child;
 	t_segment_d	separator;

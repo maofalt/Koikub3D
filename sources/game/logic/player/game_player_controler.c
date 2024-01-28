@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 04:12:47 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/25 17:38:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:20:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,6 @@ static t_tree_node *bsp_search_point_fast(t_tree_node *tree, t_vector4d *point)
 	return (child);
 }
 
-static void normalize_vector_3d(t_vector4d *vec)
-{
-	t_vector4d	product;
-	double 		reverse_lenght;
-
-	product.vec = vec->vec;
-	product.vec *= product.vec;
-	reverse_lenght = 1 / sqrt(product.x + product.y + product.z);
-	vec->vec *= reverse_lenght;
-}
-
 int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
 
 typedef struct s_collision_info
@@ -132,7 +121,7 @@ static double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 	return result;
 }
 
-static double dot_product_2d(t_point2d *vec1, t_point2d *vec2)
+static double dot_product_2d(t_vector4d *vec1, t_vector4d *vec2)
 {
 	double result = vec1->x * vec2->x + vec1->y * vec2->y;
 	return result;
@@ -221,7 +210,7 @@ t_vector4d bsp_check_player_collision(t_3d_render *render, t_vector4d *player_po
 	return (collision_normal);
 }
 
-t_collision_info is_collision(t_vector4d current_pos, t_vector4d new_pos, t_3d_render *render)
+t_collision_info check_collision(__attribute_maybe_unused__ t_vector4d current_pos, t_vector4d new_pos, t_3d_render *render)
 {
 	t_collision_info collision_info;
 
@@ -286,7 +275,7 @@ void player_handle_event(t_cub *data, t_game_data *game_data)
 	/* code */
 
 	// new_pos.vec += 0.5 * game_data->state.player.velocity.vec;
-	collision_info = is_collision(game_data->state.player.pos, new_pos, &data->game_data.game_view_render);
+	collision_info = check_collision(game_data->state.player.pos, new_pos, &data->game_data.game_view_render);
 	collision_info.collision &= !(data->inputs.action_states[a_decrease_sector_floor] && data->inputs.action_states[a_increase_sector_floor]);// && data->inputs.action_states[a_move_left] && data->inputs.action_states[a_move_right]);
 	if (collision_info.collision)
 	{

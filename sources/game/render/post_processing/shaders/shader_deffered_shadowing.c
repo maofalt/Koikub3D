@@ -264,46 +264,8 @@ t_vector4d project_point(t_3d_render *render, t_vector4d point);
 
 
 
-t_color_64 shader_camera_light_bloom(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
-{
-	int x = offset % render->width;
-	int y = offset / render->width;
-	double depth = render->buffers.depth[offset];
 
-	for (int i = 0; i < render->lights_data.light_count; i++)
-	{
-		t_light_lens_flare *lens_flare = &render->lights_data.lens_flare[i];
-
-		if (lens_flare->visible == 0)
-			continue;
-
-		double dist = sqrt((lens_flare->screen_pos.x - x) * (lens_flare->screen_pos.x - x) + (lens_flare->screen_pos.y - y) * (lens_flare->screen_pos.y - y));
-		double attenuation = lens_flare->intensity / (dist);
-
-
-		// if (dist < 10000)
-		// {
-		// printf("\n");
-		// printf("light %d pos %f %f %f\n", i, lens_flare->screen_pos.x, lens_flare->screen_pos.y, lens_flare->screen_pos.z);
-		// printf("light %d color %d %d %d\n", i, lens_flare->color.r, lens_flare->color.g, lens_flare->color.b);
-		// printf("light %d intensity %f\n", i, lens_flare->intensity);
-		// printf("light %d attenuation %f\n", i, attenuation);
-		// printf("\n");
-			// lerp
-		original_color.r = fmin(255, original_color.r * (1-attenuation) + lens_flare->color.r * 255 * (attenuation));
-		original_color.g = fmin(255, original_color.g * (1-attenuation) + lens_flare->color.g * 255 * (attenuation));
-		original_color.b = fmin(255, original_color.b * (1-attenuation) + lens_flare->color.b * 255 * (attenuation));
-			// original_color.r = 255;
-			// original_color.g = 255;
-			// original_color.b = 255;
-		// }
-	}
-	return original_color;
-}
-
-
-
-t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_render *render, double time_mouvement)
+t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_render *render)
 {
 	t_color_64 lighting = original_color;
 	double luminosity = 0.05;
@@ -314,6 +276,8 @@ t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 	t_vector4d normal = render->buffers.normal[offset];
 	t_vector4d world_pos = render->buffers.world_pos[offset];
 
+	if (render->buffers.depth[offset] == 0)
+		return original_color;
 	for (int i = 0; i < render->lights_data.light_count; i++)
 	{
 		if (render->lights_data.lights[i].type != POINT_LIGHT)
@@ -359,7 +323,7 @@ t_color_64 shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 
 			double attenuation = 1.0 / (dist / 5);
 
-			// world_pos.z = 1000;
+
 
 			if (cone && check_ray_reach_dest(world_pos, light_pos, render))
 			{

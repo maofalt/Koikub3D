@@ -6,13 +6,13 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 00:11:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/28 01:11:21 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define TILT_FACTOR 10
+# define TILT_FACTOR 0.3
 
 #endif

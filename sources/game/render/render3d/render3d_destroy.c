@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render3d_destroy.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 14:19:58 by olimarti          #+#    #+#             */
+/*   Updated: 2024/01/28 14:20:04 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "structures.h"
 #include "structures_utils.h"
 
-static void destroy_buffers(t_3d_render *render)
+static void	destroy_buffers(t_3d_render *render)
 {
 	free(render->top_array);
 	free(render->bottom_array);

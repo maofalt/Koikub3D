@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   compute_lights_visibility.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
+/*   Updated: 2024/01/28 16:04:43 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "draw_utils.h"
 #include "structures.h"
 #include "render_3D.h"
 
-// TODO move this in .h
-t_vector4d transform_camera_relative_point(t_vector4d point, t_camera *camera);
-t_vector4d project_point(t_3d_render *render, t_vector4d point);
-int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
 static void normalize_vector_3d(t_vector4d *vec)
 {
 	t_vector4d	product;

@@ -1,8 +1,20 @@
-#include "structures.h"
-#include "render_3D.h"
-#include "maths_utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clipping.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 14:20:40 by olimarti          #+#    #+#             */
+/*   Updated: 2024/01/28 14:20:45 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//TODO maybe use arg instead of define
+#include "maths_utils.h"
+#include "render_3D.h"
+#include "structures.h"
+
+// TODO maybe use arg instead of define
 int	relative_segment_clip_front(t_segment_d *segment)
 {
 	t_segment_d	horizontal;
@@ -15,8 +27,8 @@ int	relative_segment_clip_front(t_segment_d *segment)
 	if (segment->point_a.y <= CAMERA_PROXIMITY
 		|| segment->point_b.y <= CAMERA_PROXIMITY)
 	{
-		intersect = point2d_to_vector4d_cpy(
-				find_intersection(horizontal, *segment));
+		intersect = point2d_to_vector4d_cpy(find_intersection(horizontal,
+					*segment));
 		intersect.y = CAMERA_PROXIMITY;
 		if (segment->point_a.y < CAMERA_PROXIMITY)
 		{
@@ -31,4 +43,3 @@ int	relative_segment_clip_front(t_segment_d *segment)
 	}
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 01:11:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:22:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define SETTINGS_H
 
 # define TILT_FACTOR 0.3
+# define DEFAULT_FOV 512
 
 #endif

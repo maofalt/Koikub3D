@@ -6,13 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 14:18:20 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 14:19:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/28 16:22:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw_utils.h"
 #include "render_3D.h"
 #include "structures.h"
+#include "settings.h"
 
 static int	init_buffers(t_3d_render *render, int width, int height)
 {
@@ -42,6 +43,7 @@ int	render_3d_init(t_3d_render *render, t_canvas *canvas, t_camera *camera,
 {
 	render->canvas = canvas;
 	render->camera = camera;
+	render->camera->fov = DEFAULT_FOV;
 	render->scale_factor_x = 3;
 	render->scale_factor_y = 3;
 	render->width = canvas->size.x / render->scale_factor_x;

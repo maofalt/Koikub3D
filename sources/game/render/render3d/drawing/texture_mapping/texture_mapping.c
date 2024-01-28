@@ -5,23 +5,6 @@
 #include <assert.h>
 
 
-// t_vector4d project_point(t_3d_render *render, t_vector4d point)
-// {
-// 	t_vector4d transformed_point;
-
-// 	int xscale = 512 / (render->scale_factor_x / 1.2);
-// 	int yscale = 32 / (render->scale_factor_y / 1.2);
-
-
-
-// 	transformed_point.x = -point.x * xscale / point.y;
-// 	transformed_point.y = point.z * yscale / point.y;
-// 	transformed_point.z = point.y;
-// 	transformed_point.w = 0;
-// 	// transformed_point.vec *= 16;
-// 	transformed_point.vec += render->middle.vec;
-// 	return (transformed_point);
-// }
 
 static inline void	draw_vertical_line_tiled(
 			t_3d_render	*render,
@@ -66,7 +49,6 @@ static inline void	draw_vertical_line_tiled(
 		offset = (screen_top + y) * render->width + screen_x;
 		offset_img = (((int)(factor * y) % image->size.y) * image->size.x) + img_x;
 
-		// int yscale = 512 / (render->scale_factor_y / 1.2);
 		double z_pos_factor = (y) / (double) (full_project_height);
 
 		world_pos->z = (*wall_ceil * (1 - z_pos_factor) + *wall_floor * (z_pos_factor));

@@ -1,31 +1,26 @@
 
 #include "draw_utils.h"
-#include "structures.h"
 #include "render_3D.h"
+#include "structures.h"
 
-t_vector4d project_point(t_3d_render *render, t_vector4d point)
+t_vector4d	project_point(t_3d_render *render, t_vector4d point)
 {
-	t_vector4d transformed_point;
+	t_vector4d	transformed_point;
+	int			xscale;
+	int			yscale;
 
-	int xscale = 512 / (render->scale_factor_x / 1.2);
-	int yscale = 512 / (render->scale_factor_y / 1.2);
-
-
-
+	xscale = render->camera->fov / (render->scale_factor_x);
+	yscale = render->camera->fov / (render->scale_factor_y);
 	transformed_point.x = -point.x * xscale / point.y;
 	transformed_point.y = point.z * yscale / point.y;
 	transformed_point.z = point.y;
 	transformed_point.w = 0;
-	// transformed_point.vec *= 16;
 	transformed_point.vec += render->middle.vec;
 	return (transformed_point);
 }
 
-
-int	project_segment(
-	t_3d_render *render,
-	t_segment_d segment,
-	t_segment_d *projected_seg)
+int	project_segment(t_3d_render *render, t_segment_d segment,
+		t_segment_d *projected_seg)
 {
 	segment = transform_camera_relative_segment(segment, render->camera);
 	if (relative_segment_clip_front(&segment))
@@ -44,12 +39,8 @@ int	project_segment(
 	return (0);
 }
 
-
-int project_wall(t_3d_render *render,
-					t_segment_d *wall,
-					t_segment_d *projected_top,
-					t_segment_d *projected_bottom
-					)
+int	project_wall(t_3d_render *render, t_segment_d *wall,
+		t_segment_d *projected_top, t_segment_d *projected_bottom)
 {
 	wall->point_a.z = wall->data.floor;
 	wall->point_b.z = wall->data.floor;

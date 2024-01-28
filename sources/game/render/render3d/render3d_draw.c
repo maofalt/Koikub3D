@@ -157,31 +157,3 @@ void	render_3d_draw(t_3d_render *render)
 			node = NULL;
 	}
 }
-
-// void	render_3d_flush_to_canvas(t_3d_render *render)
-// {
-// 	int old_width = render->width;
-// 	int old_height = render->height;
-// 	int new_width = render->canvas->size.x;
-// 	// int new_height = render->canvas->size.x;
-// 	int ratio_x = render->scale_factor_x;
-// 	int ratio_y = render->scale_factor_y;
-// 	t_color *pixels = render->canvas->pixels;
-
-// 	for (int y = 0; y < old_height; y++)
-// 	{
-// 		for (int x = 0; x < old_width; x++)
-// 		{
-// 			t_color pixel = render->buffers.color[y * old_width + x];
-// 			for (int i = 0; i < ratio_y; i++)
-// 			{
-// 				for (int j = 0; j < ratio_x; j++)
-// 				{
-// 					pixels[(y * ratio_y + i) * new_width + (x * ratio_x + j)] = pixel;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
-
-

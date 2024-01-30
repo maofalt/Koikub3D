@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/29 21:37:48 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:19:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,12 @@ t_point2i		displacement_wave(t_point2i old_pos, t_3d_render *render);
 
 t_vector4d		transform_camera_relative_point(t_vector4d point,
 					t_camera *camera);
+t_vector4d		reverse_transform_camera_relative_point(
+					t_vector4d relative_point,
+					t_camera *camera);
 t_vector4d		project_point(t_3d_render *render, t_vector4d point);
 int				check_ray_reach_dest(t_vector4d origin, t_vector4d dest,
 					t_3d_render *render);
+
 
 #endif

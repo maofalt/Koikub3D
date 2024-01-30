@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:59:49 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 17:00:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:18:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ double	dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 }
 
 int	check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render);
-
-t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_camera *camera);
-
 
 
 

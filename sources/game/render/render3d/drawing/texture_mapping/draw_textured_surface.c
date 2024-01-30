@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 18:13:53 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/29 21:37:51 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 21:21:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,49 +17,22 @@
 #include <assert.h>
 
 
-// UTILS
-
-t_vector4d reverse_transform_camera_relative_point(t_vector4d relative_point, t_camera *camera) {
-	t_vector4d point;
-	double det = camera->dir.x * camera->dir.x + camera->dir.y * camera->dir.y;
-
-	if (det == 0) {
-		// Handle the case where the determinant is zero (i.e., no inverse exists)
-		// This might involve returning an error or a default value
-	} else {
-		double inv_det = 1.0 / det;
-		point.x = inv_det * (camera->dir.y * relative_point.x + camera->dir.x * relative_point.y);
-		point.y = inv_det * (camera->dir.y * relative_point.y - camera->dir.x * relative_point.x);
-		point.z = relative_point.z; // Assuming z and w remain unchanged
-		point.w = relative_point.w;
-	}
-
-	// Add the camera position back to the point
-	point.vec = point.vec + camera->pos.vec;
-
-	return point;
-}
-
-
 //LOCAL UTILS
 
 
 double	calc_wall_texture_repeat_factor_x(t_segment_d *segment)
 {
-	double segment_size = segment->data.size;
-
-	return (segment_size);
-
+	return (segment->data.size);
 }
 
-double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
+static double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
 {
-	return (fabs(segment->data.floor - segment->data.ceil)); /// 1);
+	return (fabs(segment->data.floor - segment->data.ceil));
 }
 
-double	calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment)
+static double	calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment)
 {
-	return 0.5;
+	return (0);
 }
 
 

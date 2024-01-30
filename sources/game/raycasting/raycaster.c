@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/26 20:33:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 02:16:56 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,19 @@
 
 typedef struct s_ray
 {
-	t_vector4d origin;
-	t_vector4d direction;
-	t_vector4d dest;
+	t_vector4d	origin;
+	t_vector4d	direction;
+	t_vector4d	dest;
+}	t_ray;
 
-} t_ray;
 
-typedef enum e_side
+static t_side	_point_segment_side(
+	t_segment_d *separator,
+	t_vector4d *segment_point)
 {
-	SIDE_LEFT,
-	SIDE_RIGHT,
-	SIDE_ON
-} t_side;
-
-static t_side
-point_segment_side(t_segment_d *separator, t_vector4d *segment_point)
-{
-	t_vector4d ab;
-	t_vector4d ap;
-	double cross_product;
+	t_vector4d	ab;
+	t_vector4d	ap;
+	double		cross_product;
 
 	ab.vec = separator->point_b.vec - separator->point_a.vec;
 	ap.vec = segment_point->vec - separator->point_a.vec;
@@ -113,8 +107,8 @@ static t_tree_node	*bsp_search_point_fast(t_tree_node	*tree, t_vector4d *point)
 // 		.point_a = ray->origin,
 // 		.point_b = ray->dest};
 
-// 	t_side point_a_side = point_segment_side(&segment_ray, &segment->point_a);
-// 	t_side point_b_side = point_segment_side(&segment_ray, &segment->point_b);
+// 	t_side point_a_side = _point_segment_side(&segment_ray, &segment->point_a);
+// 	t_side point_b_side = _point_segment_side(&segment_ray, &segment->point_b);
 
 // 	if ((point_a_side != point_b_side))
 // 	{
@@ -165,8 +159,8 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 
 
 
-	t_side point_a_side = point_segment_side(&segment_ray, &segment->point_a);
-	t_side point_b_side = point_segment_side(&segment_ray, &segment->point_b);
+	t_side point_a_side = _point_segment_side(&segment_ray, &segment->point_a);
+	t_side point_b_side = _point_segment_side(&segment_ray, &segment->point_b);
 
 	if ((point_a_side != point_b_side))
 	{

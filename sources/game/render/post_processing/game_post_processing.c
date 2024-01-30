@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 01:28:17 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 03:49:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/29 20:44:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	game_post_process_frame(t_3d_render *render)
 		color.r = render->buffers.color[i].r;
 		color.g = render->buffers.color[i].g;
 		color.b = render->buffers.color[i].b;
+		// color = shader_normal_view(color, i, render);
 		color = shader_deferred_shading(color, i, render);
 		color = shader_camera_lens_flare(color, i, render);
 		render->buffers.color_bis[i] = limit_color(&color);

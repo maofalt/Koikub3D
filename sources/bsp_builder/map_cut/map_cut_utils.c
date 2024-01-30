@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:30:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:06:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 00:44:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,6 @@
 #include "draw_utils.h"
 #include "maths_utils.h"
 #include <assert.h>
-
-t_side	point_segment_side(t_segment_d *separator, t_vector4d *segment_point)
-{
-	t_vector4d	ab;
-	t_vector4d	ap;
-	double		cross_product;
-
-	ab.vec = separator->point_b.vec - separator->point_a.vec;
-	ap.vec = segment_point->vec - separator->point_a.vec;
-	cross_product = ab.x * ap.y - ab.y * ap.x;
-	if (cross_product > 0)
-		return (SIDE_RIGHT);
-	else if (cross_product < 0)
-		return (SIDE_LEFT);
-	else
-		return (SIDE_ON);
-}
 
 void	bsp_segment_compute_intersec(
 			t_bsp_segment *segment,

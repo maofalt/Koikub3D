@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/28 01:06:49 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/29 20:55:56 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@
 ** https://users.ece.cmu.edu/~franzf/teaching/slides-18-645-simd.pdf
 **
 */
+
+typedef enum e_side
+{
+	SIDE_ON			= 0b0000,
+	SIDE_LEFT		= 0b0001,
+	SIDE_RIGHT		= 0b0010,
+	SIDE_INTERSECT	= 0b0011,
+}	t_side;
 
 enum e_action { a_move_forward,
 	a_move_backward,
@@ -329,6 +337,7 @@ typedef struct s_camera_effect_wave
 }	t_camera_effect_wave;
 
 
+
 typedef struct s_camera_effects
 {
 	t_camera_effect_wave	wave;
@@ -512,6 +521,7 @@ typedef struct s_segment_data
 	double				ceil;
 	double				floor;
 	t_vector4d			normal;
+	double				size;
 }	t_segment_data;
 
 struct	s_segment_d

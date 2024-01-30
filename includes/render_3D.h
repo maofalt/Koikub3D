@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 16:05:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:37:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void			draw_portal_ceil_offset(t_3d_render *render,
 void			draw_portal_offset(t_3d_render *render, t_segment_d *portal_bot,
 					double left, double right);
 
-void			draw_wall_texture(t_3d_render *render, t_segment_d *wall,
+void			draw_textured_surface(t_3d_render *render, t_segment_d *wall,
 					double left, double right);
 
 void			update_portal_ceil_floor_buffer(const t_3d_render *const render,
@@ -74,6 +74,9 @@ t_color_64		shader_camera_lens_flare(t_color_64 original_color, int offset,
 t_color			shader_small_camera_displacement(t_color original_color,
 					int offset, t_3d_render *render);
 t_color_64		shader_deferred_shading(t_color_64 original_color, int offset,
+					t_3d_render *render);
+
+t_color_64		shader_normal_view(t_color_64 original_color, int offset,
 					t_3d_render *render);
 
 t_point2i		displacement_tilt(t_point2i old_pos, t_3d_render *render);

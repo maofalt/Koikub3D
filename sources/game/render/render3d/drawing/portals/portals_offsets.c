@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 19:33:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/12 21:57:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/29 21:37:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	draw_portal_offset(
 		padding_top.data.floor = portal_bot->data.floor;
 		padding_top.data.ceil = other_side_portal->data.floor;
 		padding_top.data.data.wall.texture = portal_bot->data.data.portal.padding_texture_bottom;
-		draw_wall_texture(render, &padding_top, left, right);
+		draw_textured_surface(render, &padding_top, left, right);
 	}
 	if (portal_bot->data.ceil < other_side_portal->data.ceil)
 	{
@@ -66,6 +66,6 @@ void	draw_portal_offset(
 		padding_top.data.ceil = portal_bot->data.ceil;
 		padding_top.data.floor = other_side_portal->data.ceil;
 		padding_top.data.data.wall.texture = portal_bot->data.data.portal.padding_texture_bottom;
-		draw_wall_texture(render, &padding_top, left, right);
+		draw_textured_surface(render, &padding_top, left, right);
 	}
 }

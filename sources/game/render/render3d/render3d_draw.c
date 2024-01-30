@@ -97,7 +97,7 @@ void	render_sector(
 		}
 		else
 		{
-			draw_wall_texture(render, (t_segment_d *)seg_lst->content,
+			draw_textured_surface(render, (t_segment_d *)seg_lst->content,
 				item_queue->left, item_queue->right);
 			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
 			// 	item_queue->left, item_queue->right);
@@ -133,9 +133,9 @@ void	render_3d_draw(t_3d_render *render)
 
 	ft_memset(render->buffers.depth, 0,
 		render->width * render->height * sizeof(render->buffers.depth[0]));
-	// ft_memset(render->buffers.color, 0,
-	// 	render->width * render->height * sizeof(render->buffers.color[0]));
-	fill_floor_ceil_color(render);
+	ft_memset(render->buffers.color, 0,
+		render->width * render->height * sizeof(render->buffers.color[0]));
+	// fill_floor_ceil_color(render);
 	for (int i = 0; i < render->width; i++)
 	{
 		render->top_array[i] = 0;//render->height;

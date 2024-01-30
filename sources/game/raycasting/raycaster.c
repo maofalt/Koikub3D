@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 02:16:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/31 00:12:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 	t_segment_d *segment;
 	t_tree_node *dest_node;
 	t_segment_d *last_segment = NULL;
+	int i = 0;
 
 	ray.origin = origin;
 	ray.dest = dest;
@@ -214,7 +215,7 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 		return (1);
 	}
 	seg_lst = ((t_bsp_tree_node_data *)current_sector_node->data)->sector_segments;
-	while (seg_lst)
+	while (seg_lst && ++i < 100)
 	{
 		segment = seg_lst->content;
 		if (segment->data.type == PORTAL && ray_segment_intersection(&ray, segment) && segment != last_segment)
@@ -230,6 +231,17 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 		}
 		else
 			seg_lst = seg_lst->next;
+	}
+	//FIXME bug when source/dest on a portal i guess
+	if (i >= 100) //TODO remove this
+	{
+		printf("ERROR: raycaster.c: check_ray_reach_dest: reached limit\n");
+		printf("ray.origin: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
+		printf("ray.dest: %f %f %f\n", ray.dest.x, ray.dest.y, ray.dest.z);
+		printf("current_sector_node: %p\n", current_sector_node);
+		printf("dest_node: %p\n", dest_node);
+		printf("last_segment: %p\n", last_segment);
+		return (0);
 	}
 	return (0);
 }

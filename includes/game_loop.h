@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/29 21:24:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:46:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,15 @@ void	compute_segment_orientation(
 			t_segment_d *segment,
 			t_bsp_tree_node_data *sector
 			);
+
 void	compute_segment_size(
 			__attribute_maybe_unused__ t_game_data *game_data,
 			t_segment_d *segment
+			);
+
+void	compute_oriented_textures(
+			__attribute_maybe_unused__ t_game_data *game_data,
+			t_segment_d *segment,
+			t_bsp_tree_node_data *sector
 			);
 #endif

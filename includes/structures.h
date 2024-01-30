@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/29 20:55:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/30 22:10:39 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,10 +354,35 @@ typedef struct s_camera
 	t_camera_effects	effects;
 }				t_camera;
 
+typedef struct s_texture
+{
+	t_img_data	**frames;
+	bool		is_animated;
+	int			frame_count;
+	int			current_frame;
+	size_t		ms_per_frame;
+	size_t		current_time;
+}	t_texture;
+
+typedef struct s_texture_ptr
+{
+	int			offset;
+	t_texture	*texture;
+}	t_texture_ptr;
+
+
+typedef struct s_texture_manager
+{
+	t_texture	textures[32]; //TODO maybe malloc
+	int			texture_count;
+}		t_texture_manager;
+
+
 typedef struct s_map_data
 {
-	t_tree_node	*bsp;
-	t_list		*segments;
+	t_tree_node			*bsp;
+	t_list				*segments;
+	t_texture_manager	*texture_manager;
 }	t_map_data;
 
 typedef struct s_circular_queue
@@ -372,7 +397,6 @@ typedef struct s_circular_queue
 typedef struct s_canvas t_canvas;
 
 
-
 typedef struct s_3d_render_buffers
 {
 	t_color				*color;
@@ -380,7 +404,7 @@ typedef struct s_3d_render_buffers
 	t_vector4d			*world_pos;
 	t_vector4d			*normal;
 	t_color				*color_bis;
-} t_3d_render_buffers;
+}	t_3d_render_buffers;
 
 typedef enum e_light_type
 {
@@ -443,31 +467,6 @@ typedef struct s_game_data
 	t_3d_render		game_view_render;
 	t_map_data		map_data;
 }	t_game_data;
-
-
-typedef struct s_texture
-{
-	t_img_data	**frames;
-	bool		is_animated;
-	int			frame_count;
-	int			current_frame;
-	size_t		ms_per_frame;
-	size_t		current_time;
-}	t_texture;
-
-typedef struct s_texture_ptr
-{
-	int			offset;
-	t_texture	*texture;
-}	t_texture_ptr;
-
-
-typedef struct s_texture_manager
-{
-	t_texture	textures[32]; //TODO maybe malloc
-	int			texture_count;
-	}	t_texture_manager;
-
 
 typedef struct s_data
 {

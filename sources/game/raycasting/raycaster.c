@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 20:40:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/31 00:12:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/31 23:39:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_ray
 	t_vector4d	origin;
 	t_vector4d	direction;
 	t_vector4d	dest;
+	double		square_dist;
 }	t_ray;
 
 
@@ -83,10 +84,9 @@ static double	point_space_partitioning_v4d(t_segment_d *separator, t_vector4d *p
 static t_tree_node	*bsp_search_point_fast(t_tree_node	*tree, t_vector4d *point)
 {
 	t_tree_node	*child;
-	// t_segment_d	separator;
 	double		point_side;
 
-	if (!tree || !tree->left || !tree->right)
+	if (!tree)
 		return (tree);
 	// separator = ;
 	point_side = point_space_partitioning_v4d(&((t_bsp_tree_node_data *)tree->data)->separator, point);
@@ -94,58 +94,11 @@ static t_tree_node	*bsp_search_point_fast(t_tree_node	*tree, t_vector4d *point)
 		child = bsp_search_point_fast(tree->right, point);
 	else
 		child = bsp_search_point_fast(tree->left, point);
+	if (child == NULL)
+		return (tree);
 	return (child);
 }
 
-
-// static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
-// {
-// 	t_vector4d origin_to_point_a;
-// 	t_vector4d origin_to_point_b;
-
-// 	t_segment_d segment_ray = {
-// 		.point_a = ray->origin,
-// 		.point_b = ray->dest};
-
-// 	t_side point_a_side = _point_segment_side(&segment_ray, &segment->point_a);
-// 	t_side point_b_side = _point_segment_side(&segment_ray, &segment->point_b);
-
-// 	if ((point_a_side != point_b_side))
-// 	{
-// 		t_vector4d intersection_dir;
-// 		t_point2d intersection_2d;
-
-// 		intersection_2d = find_intersection(segment_ray, *segment);
-// 		intersection_dir.vec = point2d_to_vector4d(&intersection_2d).vec - ray->origin.vec;
-
-// 		return (dot_product_2d(&intersection_dir, &ray->direction) > 0);
-// 	}
-// 	return (0);
-// }
-// static void normalize_vector_3d(t_vector4d *vec)
-// {
-// 	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z);
-// 	vec->vec[0] *= reverse_lenght;
-// 	vec->vec[1] *= reverse_lenght;
-// 	vec->vec[2] *= reverse_lenght;
-// }
-
-// public static Vector lineIntersection(Vector planePoint, Vector planeNormal, Vector linePoint, Vector lineDirection) {
-//    if (planeNormal.dot(lineDirection.normalize()) == 0) {
-//        return null;
-//    }
-
-//    double t = (planeNormal.dot(planePoint) - planeNormal.dot(linePoint)) / planeNormal.dot(lineDirection.normalize());
-//    return linePoint.plus(lineDirection.normalize().scale(t));
-// }
-
-
-// static void normalize_vector_2d(t_vector4d *vec)
-// {
-// 	double reverse_lenght = 1/sqrt(vec->x * vec->x + vec->y * vec->y);
-// 	vec->vec[0] *= reverse_lenght;
-// 	vec->vec[1] *= reverse_lenght;
-// }
 
 
 static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
@@ -169,6 +122,7 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 
 		intersection_2d = find_intersection(segment_ray, *segment);
 		intersection_dir.vec = point2d_to_vector4d(&intersection_2d).vec - ray->origin.vec;
+		ray->square_dist = intersection_dir.x * intersection_dir.x + intersection_dir.y * intersection_dir.y;
 
 		// //calculate Z
 		t_vector4d normal = segment->data.normal;
@@ -187,7 +141,6 @@ static int ray_segment_intersection(t_ray *ray, t_segment_d *segment)
 		if (z < segment->data.ceil || z > segment->data.floor)
 			return (0);
 
-
 		return (dot_product_2d(&intersection_dir, &ray->direction) > 0);
 	}
 	return (0);
@@ -201,6 +154,7 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 	t_segment_d *segment;
 	t_tree_node *dest_node;
 	t_segment_d *last_segment = NULL;
+	double last_square_dist = 0;
 	int i = 0;
 
 	ray.origin = origin;
@@ -215,15 +169,15 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 		return (1);
 	}
 	seg_lst = ((t_bsp_tree_node_data *)current_sector_node->data)->sector_segments;
-	while (seg_lst && ++i < 100)
+	while (seg_lst && i++ < 100000)
 	{
 		segment = seg_lst->content;
-		if (segment->data.type == PORTAL && ray_segment_intersection(&ray, segment) && segment != last_segment)
+		if (segment->data.type == PORTAL && ray_segment_intersection(&ray, segment) && segment != last_segment && ray.square_dist > last_square_dist)
 		{
-
 			last_segment = segment->data.data.portal.destination;
 			current_sector_node = last_segment->data.data.portal.tree_node_ptr;
 			seg_lst = ((t_bsp_tree_node_data *)current_sector_node->data)->sector_segments;
+			last_square_dist = ray.square_dist;
 			if (current_sector_node == dest_node)
 			{
 				return (1);
@@ -231,17 +185,6 @@ int check_ray_reach_dest(t_vector4d origin, t_vector4d dest, t_3d_render *render
 		}
 		else
 			seg_lst = seg_lst->next;
-	}
-	//FIXME bug when source/dest on a portal i guess
-	if (i >= 100) //TODO remove this
-	{
-		printf("ERROR: raycaster.c: check_ray_reach_dest: reached limit\n");
-		printf("ray.origin: %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z);
-		printf("ray.dest: %f %f %f\n", ray.dest.x, ray.dest.y, ray.dest.z);
-		printf("current_sector_node: %p\n", current_sector_node);
-		printf("dest_node: %p\n", dest_node);
-		printf("last_segment: %p\n", last_segment);
-		return (0);
 	}
 	return (0);
 }

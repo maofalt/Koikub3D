@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shader_normal_view.c                               :+:      :+:    :+:   */
+/*   texture_mapping_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 18:11:34 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/01 23:41:03 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/01 22:04:34 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/01 23:33:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw_utils.h"
-#include "maths_utils.h"
 #include "render_3D.h"
+#include "ressources_managers.h"
 #include "structures.h"
-#include <math.h>
+#include <assert.h>
 
-t_color_64	shader_normal_view(t_color_64 original_color, int offset,
-		t_3d_render *render)
+double	calc_wall_texture_repeat_factor_x(t_segment_d *segment)
 {
-	if (render->buffers.depth[offset] != 0)
-	{
-		original_color.r = (render->buffers.normal[offset].x * 128) + 128;
-		original_color.g = (render->buffers.normal[offset].y * 128) + 128;
-		original_color.b = (render->buffers.normal[offset].z * 128) + 128;
-	}
-	else
-	{
-		original_color.d = 0;
-	}
-	return (original_color);
+	return (segment->data.size);
+}
+
+double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
+{
+	return (fabs(segment->data.floor - segment->data.ceil));
+}
+
+double	calc_wall_texture_offset(
+	__attribute_maybe_unused__ t_segment_d *segment
+	)
+{
+	return (0);
 }

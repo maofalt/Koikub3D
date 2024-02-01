@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:59:49 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 18:18:15 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/01 20:22:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_color_64	shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 
 	if (render->buffers.depth[offset] == 0)
 		return original_color;
+
 	for (int i = 0; i < render->lights_data.light_count; i++)
 	{
 		if (render->lights_data.lights[i].type != POINT_LIGHT)

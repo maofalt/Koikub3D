@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 18:13:53 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 21:21:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/01 23:42:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,8 @@
 #include "render_3D.h"
 #include "ressources_managers.h"
 #include "structures.h"
+#include "maths_utils.h"
 #include <assert.h>
-
-
-//LOCAL UTILS
-
-
-double	calc_wall_texture_repeat_factor_x(t_segment_d *segment)
-{
-	return (segment->data.size);
-}
-
-static double	calc_wall_texture_repeat_factor_y(t_segment_d *segment)
-{
-	return (fabs(segment->data.floor - segment->data.ceil));
-}
-
-static double	calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment)
-{
-	return (0);
-}
-
-
-//--------------------------------------------------------------------------------------------
-
 
 typedef struct s_texture_mapping_data
 {
@@ -65,8 +43,6 @@ typedef struct s_texture_mapping_data
 	int			img_x;
 }				t_texture_mapping_data;
 
-
-
 static inline void	calc_u(t_texture_mapping_data *data)
 {
 	double		relative_segment_width;
@@ -87,20 +63,16 @@ static inline void	calc_u(t_texture_mapping_data *data)
 			* data->texture_width
 			* data->texture_tiling_factor_x)
 		/ relative_segment_width;
-
-
 	data->u0 += calc_wall_texture_offset(data->surface) * data->texture_width;
 	data->u1 += calc_wall_texture_offset(data->surface) * data->texture_width;
 }
 
-
-static int	_set_texture_mapping_data(t_texture_mapping_data *data,
-		t_3d_render *render, t_segment_d *surface)
+static int	_set_texture_mapping_data(
+	t_texture_mapping_data *data,
+	t_3d_render *render,
+	t_segment_d *surface
+	)
 {
-	data->surface = surface;
-	data->texture = texture_get_frame(surface->data.data.wall.texture.texture);
-	data->texture_width
-		= texture_get_frame(surface->data.data.wall.texture.texture)->size.x;
 	data->texture_tiling_factor_x = calc_wall_texture_repeat_factor_x(surface);
 	data->texture_tiling_factor_y = calc_wall_texture_repeat_factor_y(surface);
 	data->relative_segment
@@ -128,34 +100,32 @@ static int	_set_texture_mapping_data(t_texture_mapping_data *data,
 	return (0);
 }
 
-
-static inline void draw_vertical_line_tiled(t_3d_render *render, t_texture_mapping_data *data, int screen_x, int top)
+static inline void	draw_vertical_line_tiled(
+	t_3d_render *render,
+	t_texture_mapping_data *data,
+	int screen_x,
+	int top
+	)
 {
-	uint32_t *img = (void *)data->texture->addr;
-	int offset;
-	int offset_img;
-	double y = 0;
+	int				offset;
+	int				offset_img;
+	double			y;
+	const double	factor = ((double)data->texture->size.y
+			* data->texture_tiling_factor_y) / (double)(data->bot - top);
+	const double	screen_bot
+		= fmin(render->bottom_array[screen_x], data->bot);
 
-	double full_project_height = data->bot - top;
 	data->img_x = data->img_x % data->texture->size.x;
-	double factor = ((double)data->texture->size.y * data->texture_tiling_factor_y) / (double)(data->bot - top);
 	y = (int)fmax(0, render->top_array[screen_x] - top);
-	double screen_bottom = fmin(render->bottom_array[screen_x], data->bot);
-
-	while ((top + y) < screen_bottom)
+	while ((top + y) < screen_bot)
 	{
-
-		if ((y + top) >= render->height || screen_x >= render->width || screen_x < 0)
-			return;
-
 		offset = (top + y) * render->width + screen_x;
-
-		offset_img = (((int)(factor * y) % data->texture->size.y) * data->texture->size.x) + data->img_x;
-
-		double z_pos_factor = (y) / (double)(full_project_height);
-		data->world_pos.z = (data->surface->data.ceil * (1 - z_pos_factor) + data->surface->data.floor * (z_pos_factor));
-
-		render->buffers.color[offset].d = img[offset_img];
+		offset_img = (((int)(factor * y) % data->texture->size.y)
+				* data->texture->size.x) + data->img_x;
+		data->world_pos.z = lerp(y / (data->bot - top),
+				data->surface->data.ceil, data->surface->data.floor);
+		render->buffers.color[offset].d
+			= ((uint32_t*)data->texture->addr)[offset_img];
 		render->buffers.depth[offset] = data->depth;
 		render->buffers.world_pos[offset] = data->world_pos;
 		render->buffers.normal[offset] = data->normal;
@@ -163,52 +133,59 @@ static inline void draw_vertical_line_tiled(t_3d_render *render, t_texture_mappi
 	}
 }
 
-
-static void _draw_column(t_texture_mapping_data *data, t_3d_render *render)
+static void	_draw_column(t_texture_mapping_data *data, t_3d_render *render)
 {
-	const double alpha = (data->x - data->projected_top.point_a.x) / (data->projected_top.point_b.x - data->projected_top.point_a.x);
-	const double one_over_z = (1 - alpha) / data->clipped_relative_segment.point_a.y + alpha / data->clipped_relative_segment.point_b.y;
-	const double relative_x = (((1 - alpha) * (data->clipped_relative_segment.point_a.x / data->clipped_relative_segment.point_a.y) + alpha * (data->clipped_relative_segment.point_b.x / data->clipped_relative_segment.point_b.y))) / one_over_z;
-	const double relative_y = 1 / one_over_z;
-	double txtx;
-	data->world_pos = (t_vector4d){{relative_x, relative_y, 0, 0}};
-	data->world_pos = reverse_transform_camera_relative_point(data->world_pos, render->camera);
+	double	alpha;
+	double	one_over_z;
+	double	relative_x;
+	double	relative_y;
+	double	txtx;
 
-	txtx = (((1 - alpha) * (data->u0 / data->clipped_relative_segment.point_a.y) + alpha * (data->u1 / data->clipped_relative_segment.point_b.y))) / one_over_z;
+	alpha = (data->x - data->projected_top.point_a.x)
+		/ (data->projected_top.point_b.x - data->projected_top.point_a.x);
+	one_over_z = lerp(alpha, 1 / data->clipped_relative_segment.point_a.y,
+			1 / data->clipped_relative_segment.point_b.y);
+	relative_y = 1 / one_over_z;
+	relative_x = lerp(alpha, (data->clipped_relative_segment.point_a.x
+				/ data->clipped_relative_segment.point_a.y),
+			(data->clipped_relative_segment.point_b.x
+				/ data->clipped_relative_segment.point_b.y)) * relative_y;
+	data->world_pos = (t_vector4d){{relative_x, relative_y, 0, 0}};
+	data->world_pos = reverse_transform_camera_relative_point(data->world_pos,
+			render->camera);
+	txtx = lerp(alpha, data->u0 / data->clipped_relative_segment.point_a.y,
+			data->u1 / data->clipped_relative_segment.point_b.y) * relative_y;
 	txtx = fmin(fmod(txtx, data->texture_width), data->texture_width);
 	data->img_x = txtx;
 	data->depth = relative_y;
-
 	draw_vertical_line_tiled(render, data, data->x, data->top);
 }
 
-
-
-
-static void	_draw_surface(t_texture_mapping_data *data, t_3d_render *render)
-{
-	data->top = data->projected_top.point_a.y;
-	data->bot = data->projected_bot.point_a.y;
-	data->x = data->left;
-
-	while ((int)data->x < (int)(data->right))
-	{
-		_draw_column(data, render);
-		data->top += data->coef_top;
-		data->bot += data->coef_bot;
-		data->x += 1;
-	}
-}
-
-
-void	draw_textured_surface(t_3d_render *render, t_segment_d *surface,
-		double left, double right)
+void	draw_textured_surface(
+		t_3d_render *render,
+		t_segment_d *surface,
+		double left,
+		double right
+		)
 {
 	t_texture_mapping_data	data;
 
 	data.left = left;
 	data.right = right;
+	data.surface = surface;
+	data.texture = texture_get_frame(surface->data.data.wall.texture.texture);
+	data.texture_width
+		= texture_get_frame(surface->data.data.wall.texture.texture)->size.x;
 	if (_set_texture_mapping_data(&data, render, surface))
 		return ;
-	_draw_surface(&data, render);
+	data.top = data.projected_top.point_a.y;
+	data.bot = data.projected_bot.point_a.y;
+	data.x = data.left;
+	while ((int)data.x < (int)(data.right))
+	{
+		_draw_column(&data, render);
+		data.top += data.coef_top;
+		data.bot += data.coef_bot;
+		data.x += 1;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 00:36:57 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 16:57:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/01 23:40:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "render_3D.h"
 #include "structures.h"
 #include <math.h>
-
-
 
 t_color	shader_small_camera_displacement(t_color original_color, int offset,
 		t_3d_render *render)

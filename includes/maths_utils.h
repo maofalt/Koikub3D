@@ -6,12 +6,12 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:31:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 00:45:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/01 23:34:59 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATH_UTILS_H
-# define MATH_UTILS_H
+#ifndef MATHS_UTILS_H
+# define MATHS_UTILS_H
 
 # include "structures.h"
 
@@ -24,5 +24,7 @@ double		point_space_partitioning(t_segment_d *separator, t_point2d *point);
 t_side		point_segment_side(t_segment_d *separator, t_vector4d *point);
 
 t_point2d	find_intersection(t_segment_d line, t_segment_d seg);
+
+double		lerp(double alpha, double start, double end);
 
 #endif

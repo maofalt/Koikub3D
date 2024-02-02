@@ -111,16 +111,16 @@ void	fill_floor_ceil_color(t_3d_render *render)
 	int		offset;
 	int		mid_offset;
 
-	offset = render->height * render->width;
+	offset = render->height * render->width - 1;
 	mid_offset = render->middle.y * render->width;
 	while (offset > mid_offset)
 	{
-		render->buffers.color[offset].d = 0;
+		render->buffers.color[offset] = render->map->floor_color;
 		--offset;
 	}
-	while (offset > 0)
+	while (offset >= 0)
 	{
-		render->buffers.color[offset].d = 0;
+		render->buffers.color[offset] = render->map->ceil_color;
 		--offset;
 	}
 }
@@ -133,9 +133,9 @@ void	render_3d_draw(t_3d_render *render)
 
 	ft_memset(render->buffers.depth, 0,
 		render->width * render->height * sizeof(render->buffers.depth[0]));
-	ft_memset(render->buffers.color, 0,
-		render->width * render->height * sizeof(render->buffers.color[0]));
-	// fill_floor_ceil_color(render);
+	// ft_memset(render->buffers.color, 0,
+	// 	render->width * render->height * sizeof(render->buffers.color[0]));
+	fill_floor_ceil_color(render);
 	for (int i = 0; i < render->width; i++)
 	{
 		render->top_array[i] = 0;//render->height;

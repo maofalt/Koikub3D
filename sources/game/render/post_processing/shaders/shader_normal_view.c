@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:11:34 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/01 23:41:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:58:16 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ t_color_64	shader_normal_view(t_color_64 original_color, int offset,
 		original_color.g = (render->buffers.normal[offset].y * 128) + 128;
 		original_color.b = (render->buffers.normal[offset].z * 128) + 128;
 	}
-	else
-	{
-		original_color.d = 0;
-	}
+	// else
+	// {
+	// 	original_color.d = 0;
+	// }
 	return (original_color);
 }

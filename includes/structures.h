@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/01/30 22:10:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:55:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,6 +383,8 @@ typedef struct s_map_data
 	t_tree_node			*bsp;
 	t_list				*segments;
 	t_texture_manager	*texture_manager;
+	t_color				floor_color;
+	t_color				ceil_color;
 }	t_map_data;
 
 typedef struct s_circular_queue

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   layers_manager.c                                   :+:      :+:    :+:   */
+/*   init_specialized_canvas_basic.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 17:43:36 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/03 21:15:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_canvas	*common_canvas_initialization(t_canvas_init_entry *entry)
 	canvas->pixels = (t_color *)aligned_malloc(total_pixels
 			* sizeof(t_color), 32);
 	if (!canvas->pixels)
-		return (free(canvas), NULL);
+		return (aligned_free(canvas), NULL);
 	ft_memset(canvas->pixels, 0, total_pixels * sizeof(t_color));
 	return (canvas);
 }

@@ -1,89 +1,26 @@
-#include "structures.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render3d_draw.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 05:07:33 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/04 05:28:49 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "draw_utils.h"
-
 #include "render_3D.h"
+#include "structures.h"
+#include "structures_utils.h"
 
-
-void	render_portal(
-	t_3d_render *render,
-	t_segment_d	*wall,
-	double left,
-	double right
-	)
+void	render_sector(t_3d_render *render,
+		t_render_item_queue *item_queue,
+		t_tree_node *node)
 {
-	t_segment_d		projected_top;
-	t_segment_d		projected_bot;
-	double			coef_top;
-	double			coef_bot;
-
-
-	if (project_wall(render, wall, &projected_top, &projected_bot))
-		return ;
-	left = fmax(projected_top.point_a.x, left);
-	right = fmin(projected_top.point_b.x, right);
-	t_render_item_queue		new_item_queue;
-	if (left < right)
-	{
-		new_item_queue.left = left;
-		new_item_queue.right = right;
-		new_item_queue.portal = wall->data.data.portal.destination;
-		circular_queue_add(render->queue, &new_item_queue);
-	}
-	coef_bot = calc_segment_coef(&projected_bot);
-	coef_top = calc_segment_coef(&projected_top);
-	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
-	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
-	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
-	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	double bot_y = projected_bot.point_a.y;
-	double top_y = projected_top.point_a.y;
-	// left = floor(left);
-	// right = floor(right);
-	int x = left;
-	while (x < floor(right))
-	{
-		update_portal_ceil_floor_buffer(render, x, top_y, bot_y);
-		top_y += coef_top;
-		bot_y += coef_bot;
-		++x;
-	}
-	projected_top.data = wall->data;
-	projected_bot.data = wall->data;
-	// draw_portal_ceil_offset(render, &projected_top, left, right);
-	// draw_portal_floor_offset(render, &projected_bot, left, right);
-	draw_portal_offset(render, wall, left, right);
-
-	t_segment_d	*other_side_portal = wall->data.data.portal.destination;
-
-	if (project_wall(render, other_side_portal, &projected_top, &projected_bot))
-		return ;
-	coef_bot = calc_segment_coef(&projected_bot);
-	coef_top = calc_segment_coef(&projected_top);
-	projected_top.point_a.y += coef_top * (left - projected_top.point_a.x);
-	projected_top.point_b.y += coef_top * (right - projected_top.point_b.x);
-	projected_bot.point_a.y += coef_bot * (left - projected_bot.point_a.x);
-	projected_bot.point_b.y += coef_bot * (right - projected_bot.point_b.x);
-	bot_y = projected_bot.point_a.y;
-	top_y = projected_top.point_a.y;
-	x = left;
-	while (x < (int)(right))
-	{
-		update_portal_ceil_floor_buffer(render, x, top_y, bot_y);
-		top_y += coef_top;
-		bot_y += coef_bot;
-		++x;
-	}
-}
-
-
-void	render_sector(
-	t_3d_render *render,
-	t_render_item_queue *item_queue,
-	t_tree_node *node
-	)
-{
-	t_list					*seg_lst;
-	t_segment_d				*segment;
+	t_list		*seg_lst;
+	t_segment_d	*segment;
 
 	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
 	while (seg_lst)
@@ -92,57 +29,66 @@ void	render_sector(
 		if (segment->data.type == PORTAL)
 		{
 			if (segment != item_queue->portal)
-				render_portal(render, segment,
-					item_queue->left, item_queue->right);
+				render_portal(render, segment, item_queue->left,
+					item_queue->right);
 		}
 		else
 		{
-			draw_textured_surface(render, (t_segment_d *)seg_lst->content,
-				item_queue->left, item_queue->right);
-			// draw_solid_wall(render, (t_segment_d *)seg_lst->content,
-			// 	item_queue->left, item_queue->right);
+			render_wall(render, segment, item_queue->left, item_queue->right);
 		}
 		seg_lst = seg_lst->next;
 	}
 }
 
-void	fill_floor_ceil_color(t_3d_render *render)
+void	draw_floor_ceil_color(t_3d_render *render)
 {
 	int		offset;
 	int		mid_offset;
+	double	dist_center;
+	t_color	color;
 
 	offset = render->height * render->width - 1;
 	mid_offset = render->middle.y * render->width;
 	while (offset > mid_offset)
 	{
-		render->buffers.color[offset] = render->map->floor_color;
+		dist_center = ((offset / render->width) - render->middle.y)
+			/ render->middle.y;
+		color = color_multiply_coeff(render->map->floor_color, dist_center);
+		render->buffers.color[offset] = color;
 		--offset;
 	}
 	while (offset >= 0)
 	{
-		render->buffers.color[offset] = render->map->ceil_color;
+		dist_center = (render->middle.y - (offset / render->width))
+			/ render->middle.y;
+		color = color_multiply_coeff(render->map->ceil_color, dist_center);
+		render->buffers.color[offset] = color;
 		--offset;
 	}
 }
 
+void	reset_frame(t_3d_render *render)
+{
+	int	i;
+
+	ft_memset(render->buffers.depth, 0, render->width * render->height
+		* sizeof(render->buffers.depth[0]));
+	draw_floor_ceil_color(render);
+	i = 0;
+	while (i < render->width)
+	{
+		render->top_array[i] = 0;
+		render->bottom_array[i] = render->height;
+		++i;
+	}
+}
 
 void	render_3d_draw(t_3d_render *render)
 {
-	t_tree_node				*node;
-	t_render_item_queue		item_queue;
+	t_tree_node			*node;
+	t_render_item_queue	item_queue;
 
-	ft_memset(render->buffers.depth, 0,
-		render->width * render->height * sizeof(render->buffers.depth[0]));
-	// ft_memset(render->buffers.color, 0,
-	// 	render->width * render->height * sizeof(render->buffers.color[0]));
-	fill_floor_ceil_color(render);
-	for (int i = 0; i < render->width; i++)
-	{
-		render->top_array[i] = 0;//render->height;
-		render->bottom_array[i] = render->height;
-	} //TODO, maybe use a flag system instead
-
-
+	reset_frame(render);
 	node = bsp_search_point(render->map->bsp,
 			vector4d_to_point2d(&render->camera->pos));
 	item_queue.left = 0;

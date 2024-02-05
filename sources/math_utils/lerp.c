@@ -6,11 +6,9 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 23:34:20 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/01 23:34:20 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:17:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 double	lerp(double alpha, double start, double end)
 {

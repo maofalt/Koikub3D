@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 16:31:28 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 23:03:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/04 23:40:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,36 +44,53 @@ int	texture_manager_init(t_cub *data)
 	// texture_set(data->texture_manager.textures, 3, data->texture + 2);
 	// data->texture_manager.texture_count = 1;
 
-	if (texture_init(data->texture_manager.textures, 4, 1000))
+	// if (texture_init(data->texture_manager.textures, 4, 1000))
+	// 	return (1);
+	// texture_set(data->texture_manager.textures, 0, data->texture + 0);
+	// texture_set(data->texture_manager.textures, 1, data->texture + 1);
+	// texture_set(data->texture_manager.textures, 2, data->texture + 2);
+	// texture_set(data->texture_manager.textures, 3, data->texture + 3);
+
+	// if (texture_init(data->texture_manager.textures +1, 4, 1000))
+	// 	return (1);
+	// texture_set(data->texture_manager.textures + 1, 0, data->texture + 1);
+	// texture_set(data->texture_manager.textures + 1, 1, data->texture + 2);
+	// texture_set(data->texture_manager.textures + 1, 2, data->texture + 3);
+	// texture_set(data->texture_manager.textures + 1, 3, data->texture + 0);
+
+	// if (texture_init(data->texture_manager.textures +2, 4, 1000))
+	// 	return (1);
+
+	// texture_set(data->texture_manager.textures + 2, 0, data->texture + 2);
+	// texture_set(data->texture_manager.textures + 2, 1, data->texture + 3);
+	// texture_set(data->texture_manager.textures + 2, 2, data->texture + 0);
+	// texture_set(data->texture_manager.textures + 2, 3, data->texture + 1);
+
+	// if (texture_init(data->texture_manager.textures + 3, 4, 1000))
+	// 	return (1);
+
+	// texture_set(data->texture_manager.textures + 3, 0, data->texture + 3);
+	// texture_set(data->texture_manager.textures + 3, 1, data->texture + 0);
+	// texture_set(data->texture_manager.textures + 3, 2, data->texture + 1);
+	// texture_set(data->texture_manager.textures + 3, 3, data->texture + 2);
+
+
+	data->texture_manager.texture_count = 0;
+	if (texture_init(data->texture_manager.textures, 1, 1000))
 		return (1);
 	texture_set(data->texture_manager.textures, 0, data->texture + 0);
-	texture_set(data->texture_manager.textures, 1, data->texture + 1);
-	texture_set(data->texture_manager.textures, 2, data->texture + 2);
-	texture_set(data->texture_manager.textures, 3, data->texture + 3);
-
-	if (texture_init(data->texture_manager.textures +1, 4, 1000))
+	data->texture_manager.texture_count ++;
+	if (texture_init(data->texture_manager.textures + 1, 1, 1000))
 		return (1);
 	texture_set(data->texture_manager.textures + 1, 0, data->texture + 1);
-	texture_set(data->texture_manager.textures + 1, 1, data->texture + 2);
-	texture_set(data->texture_manager.textures + 1, 2, data->texture + 3);
-	texture_set(data->texture_manager.textures + 1, 3, data->texture + 0);
-
-	if (texture_init(data->texture_manager.textures +2, 4, 1000))
+	data->texture_manager.texture_count ++;
+	if (texture_init(data->texture_manager.textures + 2, 1, 1000))
 		return (1);
-
 	texture_set(data->texture_manager.textures + 2, 0, data->texture + 2);
-	texture_set(data->texture_manager.textures + 2, 1, data->texture + 3);
-	texture_set(data->texture_manager.textures + 2, 2, data->texture + 0);
-	texture_set(data->texture_manager.textures + 2, 3, data->texture + 1);
-
-	if (texture_init(data->texture_manager.textures + 3, 4, 1000))
+	data->texture_manager.texture_count ++;
+	if (texture_init(data->texture_manager.textures + 3, 1, 1000))
 		return (1);
-
 	texture_set(data->texture_manager.textures + 3, 0, data->texture + 3);
-	texture_set(data->texture_manager.textures + 3, 1, data->texture + 0);
-	texture_set(data->texture_manager.textures + 3, 2, data->texture + 1);
-	texture_set(data->texture_manager.textures + 3, 3, data->texture + 2);
-
-	data->texture_manager.texture_count = 4;
+	data->texture_manager.texture_count ++;
 	return (0);
 }

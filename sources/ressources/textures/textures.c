@@ -6,16 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:53:13 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/24 16:49:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/05 00:53:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "draw_utils.h"
-#include "structures.h"
 #include "maths_utils.h"
+#include "structures.h"
 #include <assert.h>
-
 
 void	texture_update(t_texture *texture, size_t dt)
 {
@@ -30,9 +28,8 @@ void	texture_update(t_texture *texture, size_t dt)
 
 t_img_data	*texture_get_frame_offset(t_texture *texture, int offset)
 {
-
-	return (texture->frames[
-			(texture->current_frame + offset) % texture->frame_count]);
+	return (texture->frames[(texture->current_frame + offset)
+			% texture->frame_count]);
 }
 
 t_img_data	*texture_get_frame(t_texture *texture)
@@ -63,4 +60,3 @@ void	texture_set(t_texture *texture, int frame, t_img_data *img)
 	assert(frame < texture->frame_count);
 	texture->frames[frame] = img;
 }
-

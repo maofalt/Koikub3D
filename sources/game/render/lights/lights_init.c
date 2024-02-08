@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:07:02 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/29 20:32:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:43:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,58 @@
 
 static const t_light	g_lights[] = {
 {
-	.type = DIRECTIONAL_LIGHT,
+	.type = POINT_LIGHT,
 	.pos = {.vec = {2, 2, 1, 0}},
-	.color = {.r = 1, .g = 0, .b = 2},
+	.color = {.r = 1, .g = 1, .b = 1},
 	.dir = {.vec = {0, 0, 0, 0}},
 	.intensity = 1,
-	.show_lens_flare = true
+	.show_lens_flare = true,
+	.use_raycasting = false
 },
 {
-	.type = POINT_LIGHT,
+	.type = DIRECTIONAL_LIGHT,
 	.pos = {.vec = {7, 9.9, 1, 0}},
-	.color = {.r = 5, .g = 1, .b = 0},
+	.color = {.r = 2, .g = 2, .b = 1},
 	.dir = {.vec = {0, 0, 0, 0}},
-	.intensity = 1,
-	.show_lens_flare = true
+	.intensity = 0.50,
+	.show_lens_flare = false,
+	.use_raycasting = true
 },
 {
 	.type = POINT_LIGHT,
 	.pos = {.vec = {20, 20, 1, 0}},
-	.color = {.r = 5, .g = 1, .b = 0},
+	.color = {.r = 1, .g = 1, .b = 0},
 	.dir = {.vec = {0, 0, 0, 0}},
 	.intensity = 1,
-	.show_lens_flare = true
+	.show_lens_flare = true,
+	.use_raycasting = false
 },
-{
-	.type = POINT_LIGHT,
-	.pos = {.vec = {83.573784, 13.590420, 1, 0}},
-	.color = {.r = 5, .g = 1, .b = 0},
-	.dir = {.vec = {0, 0, 0, 0}},
-	.intensity = 1,
-	.show_lens_flare = true
-},
-{
-	.type = POINT_LIGHT,
-	.pos = {.vec = {15, 8, -4.088479523707859, 0}},
-	.color = {.r = 0, .g = 0, .b = 1},
-	.dir = {.vec = {0, 0, 0, 0}},
-	.intensity = 1, .show_lens_flare = true
-},
-{
-	.type = POINT_LIGHT,
-	.pos = {.vec = {8.597030255509164, 35,	3.8024089098964993, 0}},
-	.color = {.r = 1, .g = 0, .b = 0},
-	.dir = {.vec = {0, 0, 0, 0}},
-	.intensity = 1,
-	.show_lens_flare = true
-},
+// {
+// 	.type = POINT_LIGHT,
+// 	.pos = {.vec = {83.573784, 13.590420, 1, 0}},
+// 	.color = {.r = 1, .g = 1, .b = 0},
+// 	.dir = {.vec = {0, 0, 0, 0}},
+// 	.intensity = 1,
+// 	.show_lens_flare = true,
+// .use_raycasting = false
+// },
+// {
+// 	.type = POINT_LIGHT,
+// 	.pos = {.vec = {15, 8, -4.088479523707859, 0}},
+// 	.color = {.r = 0, .g = 0, .b = 1},
+// 	.dir = {.vec = {0, 0, 0, 0}},
+// 	.intensity = 1, .show_lens_flare = true,
+// .use_raycasting = false
+// },
+// {
+// 	.type = POINT_LIGHT,
+// 	.pos = {.vec = {8.597030255509164, 35,	3.8024089098964993, 0}},
+// 	.color = {.r = 1, .g = 0, .b = 0},
+// 	.dir = {.vec = {0, 0, 0, 0}},
+// 	.intensity = 1,
+// 	.show_lens_flare = true,
+// .use_raycasting = false
+// },
 };
 
 void	render_init_lights(t_3d_render *render)

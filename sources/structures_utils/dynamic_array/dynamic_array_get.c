@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   dynamic_array_get.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:24 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/07 18:03:27 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/07 18:54:11 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "dynamic_array.h"
 
-# define TILT_FACTOR 0.3
-# define DEFAULT_FOV 512
-# define DEFAULT_ENTITIES_ARRAY_SIZE 128
-# define DEFAULT_PLAYER_ACCELERATION 0.1
-# define DEFAULT_PLAYER_DECELERATION 0.3
-# define DEFAULT_PLAYER_ROTATION_SPEED 0.1
-# define DEFAULT_PLAYER_RADIUS 0.25
-# define DEFAULT_PLAYER_HEIGHT 1.5
-
-
-#endif
+void	*dynamic_array_get(t_dynamic_array *array, size_t index)
+{
+	if (index >= array->size)
+		return (NULL);
+	return (array->buffer + (index * array->elem_size));
+}

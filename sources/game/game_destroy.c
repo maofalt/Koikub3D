@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   game_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:24 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/07 18:31:15 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/07 18:53:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
-
-# define TILT_FACTOR 0.3
-# define DEFAULT_FOV 512
-# define DEFAULT_ENTITIES_ARRAY_SIZE 128
-# define DEFAULT_PLAYER_ACCELERATION 0.1
-# define DEFAULT_PLAYER_DECELERATION 0.3
-# define DEFAULT_PLAYER_ROTATION_SPEED 0.1
-# define DEFAULT_PLAYER_RADIUS 0.25
-# define DEFAULT_PLAYER_HEIGHT 1.5
+#include "mlx_engine.h"
+#include "draw_utils.h"
+#include "game_loop.h"
+#include "settings.h"
 
 
-#endif
+//TODO move this in .h
+void	map_destroy(t_map_data *map_data);
+
+
+void	game_destroy(t_game_data *game_data)
+{
+	printf("game_destroy\n");
+	dynamic_array_destroy(game_data->state.entities);
+	map_destroy(&game_data->map_data);
+	game_render_destroy(game_data);
+}

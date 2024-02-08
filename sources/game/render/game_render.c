@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 01:00:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 18:37:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	game_render_init(__attribute_maybe_unused__ t_cub *data, t_game_data *game_d
 		&game_data->state.player_camera, &game_data->map_data));
 }
 
-void	game_render_destroy(__attribute_maybe_unused__ t_cub *data, t_game_data *game_data)
+void	game_render_destroy(t_game_data *game_data)
 {
 	render_3d_destroy(&game_data->game_view_render);
 }

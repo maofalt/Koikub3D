@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/02 18:55:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/08 04:20:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "get_next_line.h"
 # include "colors.h"
 # include "mlx_int.h"
+# include "dynamic_array.h"
 
 /*############################################################################*/
 /*                              STRUCTURES                                    */
@@ -304,9 +305,23 @@ typedef struct s_tree_node
 }	t_tree_node;
 
 
+typedef struct s_circle
+{
+	t_vector4d	center;
+	double		radius;
+}				t_circle;
+
+typedef struct s_collision_info
+{
+	bool			collision;
+	t_vector4d		collision_normal;
+}					t_collision_info;
+
 /*############################################################################*/
 /*                              CANVAS STRUCTURES                             */
 /*############################################################################*/
+
+
 
 typedef enum e_canvas_type
 {
@@ -336,11 +351,16 @@ typedef struct s_camera_effect_wave
 	double	offset_y;
 }	t_camera_effect_wave;
 
-
+typedef struct s_camera_posterization
+{
+	bool		enabled;
+	u_int16_t	levels;
+}	t_camera_posterization;
 
 typedef struct s_camera_effects
 {
 	t_camera_effect_wave	wave;
+	t_camera_posterization	posterization;
 }	t_camera_effects;
 
 typedef struct s_camera
@@ -378,6 +398,12 @@ typedef struct s_texture_manager
 }		t_texture_manager;
 
 
+typedef struct s_player_spawn
+{
+	t_vector4d	pos;
+	t_vector4d	dir;
+}	t_player_spawn;
+
 typedef struct s_map_data
 {
 	t_tree_node			*bsp;
@@ -385,6 +411,7 @@ typedef struct s_map_data
 	t_texture_manager	*texture_manager;
 	t_color				floor_color;
 	t_color				ceil_color;
+	t_player_spawn		player_spawn;
 }	t_map_data;
 
 typedef struct s_circular_queue
@@ -422,6 +449,7 @@ typedef struct s_light
 	t_color			color;
 	double			intensity;
 	bool			show_lens_flare;
+	bool			use_raycasting;
 }	t_light;
 
 typedef struct s_light_lens_flare
@@ -456,10 +484,19 @@ typedef struct s_3d_render
 	t_light_data		lights_data;
 }	t_3d_render;
 
+typedef struct s_entity_player_data
+{
+	t_vector4d	pos;
+	t_vector4d	dir;
+	t_vector4d	velocity;
+	t_vector4d	right;
+}				t_entity_player_data;
+
 typedef struct s_game_state
 {
-	t_camera	player_camera;
-	t_player	player;
+	t_camera				player_camera;
+	t_dynamic_array			*entities;
+	t_entity_player_data	*player;
 }	t_game_state;
 
 
@@ -468,7 +505,26 @@ typedef struct s_game_data
 	t_game_state	state;
 	t_3d_render		game_view_render;
 	t_map_data		map_data;
+	t_inputs		*inputs;
+	double			delta_time;
 }	t_game_data;
+
+typedef enum e_entity_type
+{
+	ENTITY_DEFAULT,
+	ENTITY_PLAYER
+}					t_entity_type;
+
+typedef struct s_entity
+{
+	int				id;
+	t_entity_type	type;
+	void			*data;
+	bool			should_be_destroyed;
+	void			(*update)(struct s_entity *self, t_game_data *game_data);
+	void			(*draw)(struct s_entity *self, t_game_data *game_data);
+	void			(*destroy)(struct s_entity *self, t_game_data *game_data);
+}					t_entity;
 
 typedef struct s_data
 {

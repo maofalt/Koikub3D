@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   dynamic_array_remove.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:24 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/07 14:58:07 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/07 18:55:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "dynamic_array.h"
+#include "libft.h"
 
-# define TILT_FACTOR 0.3
-# define DEFAULT_FOV 512
-# define DEFAULT_ENTITIES_ARRAY_SIZE 128
-# define DEFAULT_PLAYER_ACCELERATION 0.1
-# define DEFAULT_PLAYER_DECELERATION 0.3
-# define DEFAULT_PLAYER_ROTATION_SPEED 0.1
-# define DEFAULT_PLAYER_RADIUS 0.25
-# define DEFAULT_PLAYER_HEIGHT 1.5
-
-
-#endif
+void	dynamic_array_remove(t_dynamic_array *array, size_t index)
+{
+	if (index >= array->size)
+		return ;
+	ft_memmove(array->buffer + (index * array->elem_size),
+		array->buffer + ((index + 1) * array->elem_size),
+		(array->size - index - 1) * array->elem_size);
+	array->size--;
+}

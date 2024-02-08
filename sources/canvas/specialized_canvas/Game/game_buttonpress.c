@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2024/01/23 00:28:35 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:00:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	menu_to_game_handle_boutonpress(
 		data->active_canvas = get_canvas_from_list(data->canvas_list, GAME);
 		printf("new active canvas: %p\n", data->active_canvas);
 		game_init(data, get_canvas_from_list(data->canvas_list, GAME));
+		//TODO protect game_init
 	}
 	return (0);
 }

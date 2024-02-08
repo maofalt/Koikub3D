@@ -1,10 +1,10 @@
-NO textures/simple_tiles.xpm
-SO textures/simple_tiles.xpm
-WE textures/simple_tiles.xpm
-EA textures/simple_tiles.xpm
+NO textures/wallpaper.xpm
+SO textures/wallpaper.xpm
+WE textures/wallpaper.xpm
+EA textures/wallpaper.xpm
 
-F 0,0,1
-C 225,30,0
+F 0,0,10
+C 0,0,10
 
 1111111111111111    11111111111111111111111111111111111111111111111111111111111111111
 1000000000000001    100000000000000000000000000000000000000000000000000000000000000001

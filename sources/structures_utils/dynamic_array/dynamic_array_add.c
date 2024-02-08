@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   dynamic_array_add.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:24 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/07 18:10:22 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/07 18:54:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "dynamic_array.h"
+#include "libft.h"
 
-# define TILT_FACTOR 0.3
-# define DEFAULT_FOV 512
-# define DEFAULT_ENTITIES_ARRAY_SIZE 128
-# define DEFAULT_PLAYER_ACCELERATION 0.1
-# define DEFAULT_PLAYER_DECELERATION 0.3
-# define DEFAULT_PLAYER_ROTATION_SPEED 0.1
-# define DEFAULT_PLAYER_RADIUS 0.25
-# define DEFAULT_PLAYER_HEIGHT 1.5
-
-
-#endif
+void	*dynamic_array_add(t_dynamic_array *array, void *element)
+{
+	if (array->size == array->capacity)
+	{
+		if (dynamic_array_growth(array) == NULL)
+			return (NULL);
+	}
+	ft_memcpy(array->buffer + (array->size * array->elem_size),
+		element, array->elem_size);
+	array->size++;
+	return (array->buffer);
+}

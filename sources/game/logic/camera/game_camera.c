@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:54:17 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/28 14:17:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/08 03:37:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,17 @@ static void	update_effects(t_game_data *data)
 	t_camera_effects	*effects;
 
 	effects = &data->state.player_camera.effects;
-	effects->wave.enabled = false;
+	effects->posterization.enabled = true;
+	effects->posterization.levels = 4;
+	effects->wave.enabled = true;
 	if (effects->wave.enabled)
 	{
-		effects->wave.amplitude_x = 2;
-		effects->wave.amplitude_y = 5;
-		effects->wave.frequency_x = 0.1;
-		effects->wave.frequency_y = 0.05;
-		effects->wave.offset_x += 0.12;
-		effects->wave.offset_y += 0.12;
+		effects->wave.amplitude_x = 0.2;
+		effects->wave.amplitude_y = 1;
+		effects->wave.frequency_x = 0.005;
+		effects->wave.frequency_y = 10;
+		effects->wave.offset_x += 0.05;
+		effects->wave.offset_y += 2;
 	}
 }
 
@@ -42,10 +44,10 @@ void	game_update_camera(t_game_data *data)
 {
 	double	tilt;
 
-	data->state.player_camera.dir = data->state.player.dir;
-	data->state.player_camera.right = data->state.player.right;
-	data->state.player_camera.pos = data->state.player.pos;
-	data->state.player_camera.velocity = data->state.player.velocity;
+	data->state.player_camera.dir = data->state.player->dir;
+	data->state.player_camera.right = data->state.player->right;
+	data->state.player_camera.pos = data->state.player->pos;
+	data->state.player_camera.velocity = data->state.player->velocity;
 	tilt = _dot_product_3d(&data->state.player_camera.velocity,
 			&data->state.player_camera.right);
 	data->state.player_camera.tilt = tilt * TILT_FACTOR;

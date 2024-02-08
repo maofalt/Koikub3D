@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:59:49 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/01 20:22:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 02:56:39 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,21 @@ t_color_64	shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 			double diffuse = fmax(dot_product_3d(&normal, &light_dir), 0.0);
 			double dist = sqrt((light->pos.x - world_pos.x) * (light->pos.x - world_pos.x) + (light->pos.y - world_pos.y) * (light->pos.y - world_pos.y) + (light->pos.z - world_pos.z) * (light_pos.z - world_pos.z));
 			double attenuation = 1.0 / (dist);
-
-
-			lighting.r += original_color.r * fmin(1, diffuse * attenuation * light->color.r);
-			lighting.g += original_color.g * fmin(1, diffuse * attenuation * light->color.g);
-			lighting.b += original_color.b * fmin(1, diffuse * attenuation * light->color.b);
+			if (light->use_raycasting)
+			{
+				world_pos.vec += normal.vec * 0.0001;
+				if (check_ray_reach_dest(world_pos, light_pos, render))
+				{
+					lighting.r += original_color.r * fmin(1, diffuse * attenuation * light->color.r * light->intensity);
+					lighting.g += original_color.g * fmin(1, diffuse * attenuation * light->color.g * light->intensity);
+					lighting.b += original_color.b * fmin(1, diffuse * attenuation * light->color.b * light->intensity);
+				}
+			} else
+{
+				lighting.r += original_color.r * fmin(1, diffuse * attenuation * light->color.r * light->intensity);
+				lighting.g += original_color.g * fmin(1, diffuse * attenuation * light->color.g * light->intensity);
+				lighting.b += original_color.b * fmin(1, diffuse * attenuation * light->color.b * light->intensity);
+}
 		}
 		// lighting.b += original_color.b * fmin(1, diffuse * attenuation);
 	}
@@ -96,25 +106,30 @@ t_color_64	shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 		t_light *light = &render->lights_data.lights[i];
 		t_vector4d light_pos = light->pos;
 
-		world_pos.vec += normal.vec * 0.0001;
+		world_pos.vec += normal.vec * 0.001;
 		{
 
 			t_vector4d light_dir = {.vec = {0, 0, 0, 0}};
 			light_dir.vec = light_pos.vec - world_pos.vec;
 			normalize_vector_3d(&light_dir);
-			double cone = fmax(dot_product_3d(&light_dir, &light->dir) > 0.8, 0.0);
-
+			double dot_prod = dot_product_3d(&light_dir, &light->dir);
+			double cone = dot_prod; //* //(dot_prod > 0.8);
+			if (cone < 0)
+				continue;
+			cone = pow(cone, 5);
+			cone *= 1 + cos(cone * 10) * 0.5;
+			cone = fmax(0, cone);
 			double diffuse = fmax(dot_product_3d(&normal, &light_dir), 0.0);
 			double dist = sqrt((light_pos.x - world_pos.x) * (light_pos.x - world_pos.x) + (light_pos.y - world_pos.y) * (light_pos.y - world_pos.y) + (light_pos.z - world_pos.z) * (light_pos.z - world_pos.z));
 
 			double attenuation = 1.0 / (dist / 5);
 
-			if (cone && check_ray_reach_dest(world_pos, light_pos, render))
+			if (cone && (light->use_raycasting == false || check_ray_reach_dest(world_pos, light_pos, render)))
 			{
 
-				lighting.r += original_color.r * fmin(1, diffuse * attenuation * cone * light->color.r);
-				lighting.g += original_color.g * fmin(1, diffuse * attenuation * cone * light->color.g);
-				lighting.b += original_color.b * fmin(1, diffuse * attenuation * cone * light->color.b);
+				lighting.r += original_color.r * fmin(1, diffuse * attenuation * cone * light->color.r * light->intensity);
+				lighting.g += original_color.g * fmin(1, diffuse * attenuation * cone * light->color.g * light->intensity);
+				lighting.b += original_color.b * fmin(1, diffuse * attenuation * cone * light->color.b * light->intensity);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2024/01/25 16:28:24 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 18:32:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
-	map_destroy(&data.game_data.map_data);
-	game_render_destroy(&data, &data.game_data);
+	game_destroy(&data.game_data);
 	free_canvas_list(data.canvas_list);
 }
 
@@ -81,7 +80,7 @@ void	set_segments_ceil_floor(t_list *seg_lst)
 	{
 		seg = seg_lst->content;
 
-		seg->data.ceil = -2;
+		seg->data.ceil = -3;
 		seg->data.floor = 1;
 		seg_lst = seg_lst->next;
 	}

@@ -90,6 +90,7 @@ void	sector_edit_handle_event(t_cub *data)
 	}
 }
 
+
 void	update_lights(t_3d_render *render)
 {
 	t_light			*light;
@@ -103,14 +104,23 @@ void	update_lights(t_3d_render *render)
 		light = &render->lights_data.lights[i];
 		if (light->type == DIRECTIONAL_LIGHT)
 		{
-			light->dir.x = cos(frame); //TODO remove this
-			light->dir.y = sin(frame);
+			// light->dir.x = cos(frame); //TODO remove this
+			// light->dir.y = sin(frame);
 		}
 		if (i == 1)
 		{
-			light->pos.x = render->camera->pos.x;
-			light->pos.y = render->camera->pos.y;
-			light->pos.z = render->camera->pos.z;
+			light->pos.x = (render->camera->pos.x - render->camera->dir.y * 0.15) * 0.9 + light->pos.x * 0.1;
+			light->pos.y = (render->camera->pos.y + render->camera->dir.x * 0.15) * 0.9 + light->pos.y * 0.1;
+			light->pos.z = (render->camera->pos.z + 0.1) * 0.5 + light->pos.z * 0.5;
+
+
+
+			// double dot_prod = _dot_product_2d(&render->camera->dir, &light->dir);
+ 			light->dir.x = -(render->camera->dir.x) * 0.2 + light->dir.x * 0.8;
+            light->dir.y = -(render->camera->dir.y) * 0.2 + light->dir.y * 0.8;
+			// printf("dot_prod %f\n", dot_prod);
+			// printf("light->dir.x %f\n", light->dir.x);
+			// printf("light->dir.y %f\n", light->dir.y);
 		}
 	}
 
@@ -118,7 +128,8 @@ void	update_lights(t_3d_render *render)
 
 void	game_update(t_cub *data)
 {
-	player_handle_event(data, &data->game_data);
+	entities_destroy_marked(&data->game_data);
+	entities_update(&data->game_data);
 	game_update_camera(&data->game_data);
 	sector_edit_handle_event(data);
 	update_lights(&data->game_data.game_view_render);

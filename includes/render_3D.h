@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/04 05:18:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/07 03:17:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ t_color_64 shader_deferred_shading(t_color_64 original_color, int offset,
 
 t_color_64 shader_normal_view(t_color_64 original_color, int offset,
 							  t_3d_render *render);
+
+t_color_64	shader_posterization(t_color_64 original_color, t_3d_render *render);
 
 t_point2i displacement_tilt(t_point2i old_pos, t_3d_render *render);
 t_point2i displacement_wave(t_point2i old_pos, t_3d_render *render);

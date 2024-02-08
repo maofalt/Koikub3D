@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings.h                                         :+:      :+:    :+:   */
+/*   dynamic_array_growth.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:24 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/07 18:09:24 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/07 18:54:31 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SETTINGS_H
-# define SETTINGS_H
+#include "dynamic_array.h"
+#include <libft.h>
 
-# define TILT_FACTOR 0.3
-# define DEFAULT_FOV 512
-# define DEFAULT_ENTITIES_ARRAY_SIZE 128
-# define DEFAULT_PLAYER_ACCELERATION 0.1
-# define DEFAULT_PLAYER_DECELERATION 0.3
-# define DEFAULT_PLAYER_ROTATION_SPEED 0.1
-# define DEFAULT_PLAYER_RADIUS 0.25
-# define DEFAULT_PLAYER_HEIGHT 1.5
+void	*dynamic_array_growth(t_dynamic_array *array)
+{
+	void	*new_buffer;
 
-
-#endif
+	new_buffer = ft_calloc(array->capacity * 2, array->elem_size);
+	if (new_buffer == NULL)
+		return (NULL);
+	ft_memcpy(new_buffer, array->buffer, array->size * array->elem_size);
+	free(array->buffer);
+	array->buffer = new_buffer;
+	array->capacity *= 2;
+	return (array->buffer);
+}

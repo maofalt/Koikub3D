@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:59:49 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/07 02:56:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:43:17 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,16 @@ t_color_64	shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 	t_vector4d normal = render->buffers.normal[offset];
 	t_vector4d world_pos = render->buffers.world_pos[offset];
 
+	t_light *lights = render->lights_data.lights->buffer;
+
 	if (render->buffers.depth[offset] == 0)
 		return original_color;
 
-	for (int i = 0; i < render->lights_data.light_count; i++)
+	for (int i = 0; i < render->lights_data.lights->size; i++)
 	{
-		if (render->lights_data.lights[i].type != POINT_LIGHT)
+		if (lights[i].type != POINT_LIGHT)
 			continue;
-		t_light *light = &render->lights_data.lights[i];
+		t_light *light = &lights[i];
 		t_vector4d light_pos = light->pos;
 		// world_pos.vec += normal.vec * 0.0001;
 		{
@@ -99,11 +101,11 @@ t_color_64	shader_deferred_shading(t_color_64 original_color, int offset, t_3d_r
 		// lighting.b += original_color.b * fmin(1, diffuse * attenuation);
 	}
 
-	for (int i = 0; i < render->lights_data.light_count; i++)
+	for (int i = 0; i < render->lights_data.lights->size; i++)
 	{
-		if (render->lights_data.lights[i].type != DIRECTIONAL_LIGHT)
+		if (lights[i].type != DIRECTIONAL_LIGHT)
 			continue;
-		t_light *light = &render->lights_data.lights[i];
+		t_light *light = &lights[i];
 		t_vector4d light_pos = light->pos;
 
 		world_pos.vec += normal.vec * 0.001;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/07 03:17:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:39:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@
 int render_3d_init(t_3d_render *render, t_canvas *canvas,
 				   t_camera *camera, t_map_data *map);
 
-void render_init_lights(t_3d_render *render);
+int render_init_lights(t_3d_render *render);
+void	render_destroy_lights(t_3d_render *render);
+int	 light_spawn_default(t_3d_render *render);
+void light_destroy(t_3d_render *render, int id);
+
 
 void render_3d_destroy(t_3d_render *render);
 

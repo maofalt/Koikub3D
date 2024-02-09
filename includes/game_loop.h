@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:40:06 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:31:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,26 @@ void				count_fps(void);
 void				game_precalculate_map(t_game_data *game_data);
 void				compute_segment_normal(t_game_data *game_data,
 						t_segment_d *segment);
-void				compute_segment_orientation(
-						__attribute_maybe_unused__ t_game_data *game_data,
-						t_segment_d *segment,
-						t_bsp_tree_node_data *sector);
+void				compute_segment_orientation(__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment, t_bsp_tree_node_data *sector);
 
-void				compute_segment_size(
-						__attribute_maybe_unused__ t_game_data *game_data,
+void				compute_segment_size(__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment);
 
-void				compute_oriented_textures(
-						__attribute_maybe_unused__ t_game_data *game_data,
-						t_segment_d *segment,
-						t_bsp_tree_node_data *sector);
+void				compute_oriented_textures(__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment, t_bsp_tree_node_data *sector);
 
 // ENTITY
 t_entity			*entity_default_spawn(t_game_data *game_data);
-t_entity			*entity_player_spawn(t_game_data *game_data);
+t_entity			*entity_player_spawn(t_game_data *game_data, t_spawn spawn);
+t_entity			*entity_torch_spawn(t_game_data *game_data, t_spawn spawn);
 
 void				entity_player_update_movements(t_entity *self,
 						t_game_data *game_data);
 void				entities_update(t_game_data *game_data);
 void				entities_draw(t_game_data *game_data);
 void				entities_destroy_marked(t_game_data *game_data);
+void				entities_destroy_all(t_game_data *game_data);
 
 // COLLISION
 bool				segment_circle_intersection(t_segment_d *segment,

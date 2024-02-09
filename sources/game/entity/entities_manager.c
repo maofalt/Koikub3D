@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entities_update.c                                  :+:      :+:    :+:   */
+/*   entities_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:09:33 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/07 19:11:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:08:17 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,65 @@
 
 void	entities_update(t_game_data *game_data)
 {
-	size_t		i;
-	t_entity	*entity;
+	t_entity *const	entities = game_data->state.entities->buffer;
+	int				i;
 
 	i = 0;
 	while (i < game_data->state.entities->size)
 	{
-		entity = dynamic_array_get(game_data->state.entities, i);
-		entity->update(entity, game_data);
+		entities[i].update(&entities[i], game_data);
 		i++;
 	}
 }
 
 void	entities_draw(t_game_data *game_data)
 {
-	size_t		i;
-	t_entity	*entity;
+	t_entity *const	entities = game_data->state.entities->buffer;
+	int				i;
 
 	i = 0;
 	while (i < game_data->state.entities->size)
 	{
-		entity = dynamic_array_get(game_data->state.entities, i);
-		entity->draw(entity, game_data);
+		entities[i].draw(&entities[i], game_data);
 		i++;
 	}
 }
 
 void	entities_destroy_marked(t_game_data *game_data)
 {
-	size_t		i;
-	t_entity	*entity;
+	t_entity *const	entities = game_data->state.entities->buffer;
+	t_entity		*entity;
+	int				i;
 
 	i = 0;
 	while (i < game_data->state.entities->size)
 	{
-		entity = dynamic_array_get(game_data->state.entities, i);
+		entity = &entities[i];
 		if (entity->should_be_destroyed)
 		{
 			entity->destroy(entity, game_data);
-			dynamic_array_remove(game_data->state.entities, i);
+			sparse_array_remove(game_data->state.entities, entity->id);
 		}
 		else
 			i++;
 	}
 }
 
+void	entities_destroy_all(t_game_data *game_data)
+{
+	t_entity		*entities;
+	t_entity		*entity;
+	int				i;
+
+	if (game_data->state.entities == NULL)
+		return ;
+	entities = game_data->state.entities->buffer;
+	i = 0;
+	while (i < game_data->state.entities->size)
+	{
+		entity = &entities[i];
+		entity->destroy(entity, game_data);
+		i++;
+	}
+	sparse_array_remove_all(game_data->state.entities);
+}

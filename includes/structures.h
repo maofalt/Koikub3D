@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/08 04:20:41 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:35:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "colors.h"
 # include "mlx_int.h"
 # include "dynamic_array.h"
+# include "sparse_array.h"
 
 /*############################################################################*/
 /*                              STRUCTURES                                    */
@@ -398,11 +399,11 @@ typedef struct s_texture_manager
 }		t_texture_manager;
 
 
-typedef struct s_player_spawn
+typedef struct s_spawn
 {
 	t_vector4d	pos;
 	t_vector4d	dir;
-}	t_player_spawn;
+}	t_spawn;
 
 typedef struct s_map_data
 {
@@ -411,7 +412,7 @@ typedef struct s_map_data
 	t_texture_manager	*texture_manager;
 	t_color				floor_color;
 	t_color				ceil_color;
-	t_player_spawn		player_spawn;
+	t_spawn				player_spawn;
 }	t_map_data;
 
 typedef struct s_circular_queue
@@ -443,13 +444,15 @@ typedef enum e_light_type
 
 typedef struct s_light
 {
+	int				id;
 	t_light_type	type;
 	t_vector4d		pos;
 	t_vector4d		dir;
 	t_color			color;
 	double			intensity;
-	bool			show_lens_flare;
 	bool			use_raycasting;
+	bool			show_lens_flare;
+	int				lens_flare_id;
 }	t_light;
 
 typedef struct s_light_lens_flare
@@ -462,9 +465,8 @@ typedef struct s_light_lens_flare
 
 typedef struct s_lights_data
 {
-	int					light_count;
-	t_light				lights[16];
-	t_light_lens_flare	lens_flare[16];
+	t_sparse_array		*lights;
+	t_sparse_array		*lens_flare;
 }	t_light_data;
 
 typedef struct s_3d_render
@@ -492,10 +494,18 @@ typedef struct s_entity_player_data
 	t_vector4d	right;
 }				t_entity_player_data;
 
+
+typedef struct s_entity_torch_data
+{
+	t_vector4d	pos;
+	t_vector4d	dir;
+	int			light_id;
+}				t_entity_torch_data;
+
 typedef struct s_game_state
 {
 	t_camera				player_camera;
-	t_dynamic_array			*entities;
+	t_sparse_array			*entities;
 	t_entity_player_data	*player;
 }	t_game_state;
 
@@ -512,7 +522,8 @@ typedef struct s_game_data
 typedef enum e_entity_type
 {
 	ENTITY_DEFAULT,
-	ENTITY_PLAYER
+	ENTITY_PLAYER,
+	ENTITY_TORCH
 }					t_entity_type;
 
 typedef struct s_entity

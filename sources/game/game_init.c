@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 03:29:17 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:14:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ void	spawn_default_entities(t_game_data *game_data)
 {
 	t_entity	*entity;
 
-	entity = entity_player_spawn(game_data);
+	entity = entity_player_spawn(game_data, game_data->map_data.player_spawn);
+	if (entity == NULL)
+		return ;
+	entity = entity_torch_spawn(game_data, game_data->map_data.player_spawn);
+	if (entity == NULL)
+		return ;
+	entity = entity_player_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
 	game_data->state.player = entity->data;
-	// entity = entity_player_spawn(game_data);
-	// if (entity == NULL)
-	// 	return ;
-	printf("spawn_default_entities\n");
+
 }
 
 
@@ -43,7 +46,7 @@ int	game_init(t_cub *data, t_canvas *canvas)
 		return (free_everything(*data), 1);
 	if (game_render_init(data, &data->game_data, canvas))
 		return (free_everything(*data), 1);
-	data->game_data.state.entities = dynamic_array_init(sizeof(t_entity),
+	data->game_data.state.entities = sparse_array_init(sizeof(t_entity),
 			DEFAULT_ENTITIES_ARRAY_SIZE);
 	if (data->game_data.state.entities == NULL)
 	{

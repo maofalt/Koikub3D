@@ -26,14 +26,15 @@ void	entity_player_destroy(t_entity *self, t_game_data *game_data)
 }
 
 static void	_init_player_data(t_entity_player_data *self_data,
-		t_player_spawn spawn)
+		t_spawn spawn)
 {
 	self_data->pos = spawn.pos;
 	self_data->dir = spawn.dir;
 	self_data->velocity = (t_vector4d){{0, 0, 0, 0}};
 	self_data->right = (t_vector4d){{0, 0, 0, 0}};
 }
-t_entity	*entity_player_spawn(t_game_data *game_data)
+
+t_entity	*entity_player_spawn(t_game_data *game_data, t_spawn	spawn)
 {
 	t_entity	*self;
 
@@ -49,6 +50,6 @@ t_entity	*entity_player_spawn(t_game_data *game_data)
 		entity_player_destroy(self, game_data);
 		return (NULL);
 	}
-	_init_player_data(self->data, game_data->map_data.player_spawn);
+	_init_player_data(self->data, spawn);
 	return (self);
 }

@@ -112,7 +112,6 @@ t_collision_info	check_collision_cylinder(
 		|| collision_info.collision_normal.y != 0
 		|| collision_info.collision_normal.z != 0)
 	{
-		printf("collision detected\n");
 		collision_info.collision = true;
 		// normalize_vector_3d(&collision_info.collision_normal);
 	}

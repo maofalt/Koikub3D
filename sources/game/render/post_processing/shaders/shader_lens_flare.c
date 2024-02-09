@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 01:20:24 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/29 21:31:13 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:38:42 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ t_color_64	calc_lens_flare_color(t_color_64 original_color,
 t_color_64	shader_camera_lens_flare(t_color_64 original_color, int offset,
 		t_3d_render *render)
 {
-	const int	x = offset % render->width;
-	const int	y = offset / render->width;
-	int			i;
+	int const			lens_flare_count = render->lights_data.lens_flare->size;
+	const int			x = offset % render->width;
+	const int			y = offset / render->width;
+	int					i;
+	t_light_lens_flare	*lens_flare;
 
+	lens_flare = render->lights_data.lens_flare->buffer;
 	i = 0;
-	while (i < render->lights_data.light_count)
+	while (i < lens_flare_count)
 	{
-		if (render->lights_data.lens_flare[i].visible)
+		if (lens_flare[i].visible)
 		{
 			original_color = calc_lens_flare_color(original_color,
-					&render->lights_data.lens_flare[i], x, y);
+					&lens_flare[i], x, y);
 		}
 		++i;
 	}

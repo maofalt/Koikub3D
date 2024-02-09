@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 23:19:23 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 05:47:48 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:36:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,11 @@ void	_update_player_direction(t_entity_player_data *self_data,
 }
 
 
-
-
-
 static double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 {
 	double result = vec1->x * vec2->x + vec1->y * vec2->y + +vec1->z * vec2->z;
 
-	return result;
+	return (result);
 }
 
 void	apply_collision_correction(t_entity_player_data *data, t_game_data *game_data)
@@ -120,7 +117,6 @@ void	apply_collision_correction(t_entity_player_data *data, t_game_data *game_da
 				DEFAULT_PLAYER_HEIGHT, &game_data->game_view_render);
 	}
 }
-
 
 void	entity_player_update_movements(t_entity *self, t_game_data *game_data)
 {

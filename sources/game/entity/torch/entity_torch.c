@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 01:50:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 03:37:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void	entity_torch_destroy(t_entity *self, t_game_data *game_data)
 {
 	const t_entity_torch_data	*data = self->data;
 
-	printf("entity_torch_destroy\n");
 	if (self->data)
 	{
-		printf("entity_torch_destroy: free data\n");
 		if (data->light_id != -1)
 			light_destroy(&game_data->game_view_render, data->light_id);
 	}

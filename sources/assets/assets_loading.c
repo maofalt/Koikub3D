@@ -6,14 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/04 00:27:25 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:32:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assets.h"
 #include "ressources_managers.h"
 
-static const	char *g_ui_asset_paths[ASSET_COUNT]
+static const	char *g_ui_asset_paths[UI_ASSET_COUNT]
 	= {
 [WINDOW_BASE] = ASSETS_BASE_PATH "Window_Base.xpm",
 [WINDOW_HEADER_INACTIVE] = ASSETS_BASE_PATH "Window_Header_Inactive.xpm",
@@ -51,21 +51,46 @@ static const	char *g_ui_asset_paths[ASSET_COUNT]
 [ICON_DRAW] = "assets/gui/icons/ModifyMap.xpm",
 [ICON_GAME] = "assets/gui/icons/PlayGame.xpm",
 [BAR_WITH_DRAW] = "assets/gui/background/desktop_bar.xpm",
-[SIDE_BAR] = "assets/gui/background/SideBar.xpm"
+[SIDE_BAR] = "assets/gui/background/SideBar.xpm",
+};
+
+static const	char *g_game_asset_paths[GAME_ASSET_COUNT]
+	= {
+[MONSTER_LINE_TEXTURE] = "assets/entity/monster_line.xpm",
+[DUCK_TEXTURE_WALK_00] = "assets/entity/duck/walk/tile000.xpm",
+[DUCK_TEXTURE_WALK_01] = "assets/entity/duck/walk/tile001.xpm",
+[DUCK_TEXTURE_WALK_02] = "assets/entity/duck/walk/tile002.xpm",
+[DUCK_TEXTURE_WALK_03] = "assets/entity/duck/walk/tile003.xpm",
+[DUCK_TEXTURE_IDLE_00] = "assets/entity/duck/idle/tile000.xpm",
+[DUCK_TEXTURE_IDLE_01] = "assets/entity/duck/idle/tile001.xpm",
 };
 
 t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images)
 {
-	if (asset_enum < 0 || asset_enum >= ASSET_COUNT)
+	if (asset_enum < 0 || asset_enum >= UI_ASSET_COUNT)
 		return (NULL);
 	return (&ui_images[asset_enum]);
+}
+
+t_img_data	*get_game_asset(t_game_assets asset_enum, t_img_data *game_images)
+{
+	if (asset_enum < 0 || asset_enum >= GAME_ASSET_COUNT)
+		return (NULL);
+	return (&game_images[asset_enum]);
 }
 
 int	initialize_and_preload_assets(t_cub *data)
 {
 	if (data->mlx_ptr == NULL)
 		return (1);
-	if (load_ui_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths))
+	if (load_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths,
+		UI_ASSET_COUNT))
+	{
+		//TODO: free
+		return (1);
+	}
+	if (load_assets(data->mlx_ptr, data->game_images, g_game_asset_paths,
+		GAME_ASSET_COUNT))
 	{
 		//TODO: free
 		return (1);
@@ -77,14 +102,14 @@ int	initialize_and_preload_assets(t_cub *data)
 }
 
 
-int	load_ui_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths)
+int	load_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths, int count)
 {
 	int		index;
 	int		width;
 	int		height;
 
 	index = 0;
-	while (index < ASSET_COUNT)
+	while (index < count)
 	{
 		ui_images[index].mlx_img = mlx_xpm_file_to_image(mlx_ptr,
 				(char *)paths[index], &width, &height);

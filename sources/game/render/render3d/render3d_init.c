@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 14:18:20 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 01:45:20 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 07:05:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	render_3d_init(t_3d_render *render, t_canvas *canvas, t_camera *camera,
 	render->canvas = canvas;
 	render->camera = camera;
 	render->camera->fov = DEFAULT_FOV;
-	render->scale_factor_x = 8;
-	render->scale_factor_y = 8;
+	render->scale_factor_x = 3;
+	render->scale_factor_y = 3;
 	render->width = canvas->size.x / render->scale_factor_x;
 	render->height = canvas->size.y / render->scale_factor_y;
 	render->map = map;

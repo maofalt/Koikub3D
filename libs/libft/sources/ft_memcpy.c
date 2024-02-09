@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:55:11 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 21:00:54 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 04:13:45 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memcpy(void *dst,
 
 	if (!src || !dst)
 		return (NULL);
-	if (size > 32 && src_alignment_offset < 1 && dst_alignment_offset < 1)
+	if (size > 64 && src_alignment_offset < 1 && dst_alignment_offset < 1)
 		return (memcpy_avx(dst, src, size));
 	return (memcpy_x86(dst, src, size));
 }

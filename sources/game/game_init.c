@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 01:14:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 07:08:11 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ void	spawn_default_entities(t_game_data *game_data)
 	entity = entity_player_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
+	game_data->state.player = entity->data;
 	entity = entity_torch_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
-	entity = entity_player_spawn(game_data, game_data->map_data.player_spawn);
+
+	entity = entity_monster_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
-	game_data->state.player = entity->data;
+
 
 }
 
@@ -58,6 +60,7 @@ int	game_init(t_cub *data, t_canvas *canvas)
 	data->game_data.inputs = &data->inputs;
 	data->game_data.map_data.player_spawn.dir = data->player.dir;
 	data->game_data.map_data.player_spawn.pos = data->player.pos;
+	data->game_data.map_data.player_spawn.pos.z = 1;
 	data->game_data.delta_time = 1;
 	game_precalculate_map(&data->game_data);
 	spawn_default_entities(&data->game_data);

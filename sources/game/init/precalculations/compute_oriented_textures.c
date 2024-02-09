@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 22:21:30 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/05 01:00:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:57:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	calc_vector_sector(t_vector4d *vec, int sector_count)
 }
 
 static t_texture	*get_oriented_texture(
-	t_game_data *game_data,
+	__attribute_maybe_unused__ t_game_data *game_data,
 	t_segment_d *segment,
 	t_texture_manager *texture_manager
 	)
@@ -49,10 +49,8 @@ static t_texture	*get_oriented_texture(
 	int				sector_id;
 	int				sector_count;
 
-	sector_count = fmin(game_data->map_data.texture_manager->texture_count,
-			sizeof(g_oriented_textures) / sizeof(t_oriented_texture));
-	sector_id = calc_vector_sector(&segment->data.normal,
-			game_data->map_data.texture_manager->texture_count);
+	sector_count = sizeof(g_oriented_textures) / sizeof(t_oriented_texture);
+	sector_id = calc_vector_sector(&segment->data.normal, sector_count);
 	i = 0;
 	while (i < sizeof(g_oriented_textures) / sizeof(t_oriented_texture))
 	{

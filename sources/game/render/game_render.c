@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 00:44:11 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/07 18:37:54 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 03:08:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	game_render(t_cub *data)
 
 	texture_manager_update(&data->texture_manager);
 	render_3d_draw(&data->game_data.game_view_render);
+	entities_draw(&data->game_data);
 	game_post_process_frame(&data->game_data.game_view_render);
 	render_3d_flush_to_canvas(&data->game_data.game_view_render);
 

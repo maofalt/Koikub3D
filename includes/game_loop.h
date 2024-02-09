@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 01:31:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/09 02:43:13 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ void				compute_oriented_textures(__attribute_maybe_unused__ t_game_data *game_d
 t_entity			*entity_default_spawn(t_game_data *game_data);
 t_entity			*entity_player_spawn(t_game_data *game_data, t_spawn spawn);
 t_entity			*entity_torch_spawn(t_game_data *game_data, t_spawn spawn);
+t_entity			*entity_monster_spawn(t_game_data *game_data, t_spawn spawn);
 
 void				entity_player_update_movements(t_entity *self,
 						t_game_data *game_data);
+
+void				entity_monster_update_movements(t_entity *self,
+						t_game_data *game_data);
+
 void				entities_update(t_game_data *game_data);
 void				entities_draw(t_game_data *game_data);
 void				entities_destroy_marked(t_game_data *game_data);

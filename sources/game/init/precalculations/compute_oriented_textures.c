@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 22:21:30 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 08:57:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 07:21:21 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef struct s_oriented_texture
 
 //TODO probably use this to store the textures in the texture manager
 static const t_oriented_texture	g_oriented_textures[] = {
-{0, "NO", 3},
-{1, "EA", 0},
-{2, "SO", 1},
-{3, "WE", 2},
+{TEXTURE_WALL_NORTH, "NO", 3},
+{TEXTURE_WALL_SOUTH, "EA", 0},
+{TEXTURE_WALL_EAST, "SO", 1},
+{TEXTURE_WALL_WEST, "WE", 2},
 };
 
 static int	calc_vector_sector(t_vector4d *vec, int sector_count)

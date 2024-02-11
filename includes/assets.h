@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/09 06:35:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:01:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ int			load_assets(
 				int count);
 int			initialize_and_preload_assets(t_cub *data);
 t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images);
+void		destroy_assets(t_cub *data);
+
 
 #endif

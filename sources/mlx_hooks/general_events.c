@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:10:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:21:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 int	ft_destroy_window(t_cub *data)
 {
-	free_everything(*data);
-	exit(1);
+	mlx_loop_end(data->mlx_ptr);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2024/02/07 18:32:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:51:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	map_destroy(t_map_data *map_data); //TODO remove this
 
 void	free_everything(t_cub data)
 {
+	destroy_assets(&data);
 	if (data.win_ptr != NULL)
 		mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 	data.win_ptr = NULL;
@@ -38,6 +39,7 @@ void	free_everything(t_cub data)
 	if (data.map != NULL)
 		free_double_char(data.map);
 	game_destroy(&data.game_data);
+	ft_lstclear(&data.segments_list, free);
 	free_canvas_list(data.canvas_list);
 }
 
@@ -159,21 +161,21 @@ void set_bsp_default_textures(t_cub *data)
 //TODO: move it
 int	map_convert(t_cub *data, t_map_data *map_data)
 {
-	t_list		*segments_lst;
+	t_list		**segments_lst;
 	t_tree_node	*tree;
 
 	tree = NULL;
-	segments_lst = data->segments_list;
-	if (!segments_lst && extract_edge_recursively(data->map, &segments_lst))
+	segments_lst = &data->segments_list;
+	if (!*segments_lst && extract_edge_recursively(data->map, segments_lst))
 		return (1);
-	set_segments_ceil_floor(segments_lst);
-	tmp_set_segments_textures(segments_lst, data);
-	if (construct_bsp(&segments_lst, &tree))
+	set_segments_ceil_floor(*segments_lst);
+	tmp_set_segments_textures(*segments_lst, data);
+	if (construct_bsp(segments_lst, &tree))
 	{
-		ft_lstclear(&segments_lst, free);
+		ft_lstclear(segments_lst, free);
 		return (1);
 	}
-	map_data->segments = segments_lst;
+	map_data->segments = *segments_lst;
 	map_data->bsp = tree;
 	set_bsp_default_textures(data);
 	return (0);
@@ -183,7 +185,6 @@ int	map_convert(t_cub *data, t_map_data *map_data)
 void	map_destroy(t_map_data *map_data)
 {
 	destroy_segment_tree(&map_data->bsp);
-	ft_lstclear(&map_data->segments, free);
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:53:13 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/05 00:53:06 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 07:50:13 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	texture_init(t_texture *texture, int frames_count, int ms_per_frame)
 void	texture_destroy(t_texture *texture)
 {
 	if (texture)
+	{
 		free(texture->frames);
+		texture->frames = NULL;
+	}
 }
 
 void	texture_set(t_texture *texture, int frame, t_img_data *img)

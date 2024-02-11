@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/10 23:41:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 07:30:35 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "mlx_int.h"
 # include "dynamic_array.h"
 # include "sparse_array.h"
+# include "settings.h"
 
 /*############################################################################*/
 /*                              STRUCTURES                                    */
@@ -57,7 +58,7 @@ enum e_action { a_move_forward,
 	a_decrease_sector_ceil,
 	a_increase_sector_floor,
 	a_decrease_sector_floor,
-	a_total_actions};
+	ACTIONS_COUNT};
 
 typedef float			t_vector_f		__attribute__((vector_size (8)));
 typedef unsigned int	t_vector_u		__attribute__((vector_size (8)));
@@ -170,6 +171,17 @@ typedef enum e_game_assets
 	GAME_ASSET_COUNT
 }	t_game_assets;
 
+
+typedef enum e_texture_id
+{
+	TEXTURE_WALL_NORTH,
+	TEXTURE_WALL_SOUTH,
+	TEXTURE_WALL_EAST,
+	TEXTURE_WALL_WEST,
+	TEXTURE_DUCK_IDLE,
+	TEXTURE_DUCK_WALK,
+	TEXTURE_COUNT
+}	t_texture_id;
 
 /* Parsing structure for CUB3D stocking information from .cub file
 ** a wolrd map in a 2D int array of MAPWIDTH * MAPHEIGHT
@@ -307,7 +319,7 @@ typedef enum e_img_fit_mode
 
 typedef struct s_inputs
 {
-	int		action_states[a_total_actions];
+	int		action_states[ACTIONS_COUNT];
 }			t_inputs;
 
 typedef struct s_tree_node
@@ -407,9 +419,8 @@ typedef struct s_texture_ptr
 
 typedef struct s_texture_manager
 {
-	t_texture	textures[64]; //TODO maybe malloc
-	int			texture_count;
-}		t_texture_manager;
+	t_texture	textures[TEXTURE_COUNT];
+}	t_texture_manager;
 
 
 typedef struct s_spawn

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2024/01/28 16:16:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:40:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	map_editor_render(void *self, t_cub *data)
 	if (map_editor_data->segments == NULL)
 	{
 		extract_edge_recursively(data->map, &map_editor_data->segments);
+		data->segments_list = map_editor_data->segments;
 		printfallsegments(map_editor_data->segments);
 		auto_center_map(map_editor_data, data);
 		data->update |= FULL_REDRAW;

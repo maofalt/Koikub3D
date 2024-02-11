@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 08:32:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:01:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,23 @@ int	load_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths, int co
 		index++;
 	}
 	return (0);
+}
+
+void	destroy_assets(t_cub *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < UI_ASSET_COUNT)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->ui_images[i].mlx_img);
+		++i;
+	}
+	i = 0;
+	while (i < GAME_ASSET_COUNT)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game_images[i].mlx_img);
+		++i;
+	}
+	texture_manager_destroy(data);
 }

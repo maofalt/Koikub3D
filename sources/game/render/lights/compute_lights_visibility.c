@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 00:43:39 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:23:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "structures.h"
 #include "render_3D.h"
 
-static void normalize_vector_3d(t_vector4d *vec)
+static void	normalize_vector_3d(t_vector4d *vec)
 {
 	t_vector4d	product;
 	double 		reverse_lenght;
@@ -26,7 +26,7 @@ static void normalize_vector_3d(t_vector4d *vec)
 }
 double dot_product_3d(t_vector4d *a, t_vector4d *b);
 
-static void _compute_light_visibility(t_3d_render *render, t_light *light)
+static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 {
 	t_vector4d					light_pos_screen;
 	t_vector4d					camera_light_dir;
@@ -59,9 +59,7 @@ static void _compute_light_visibility(t_3d_render *render, t_light *light)
 	lens_flare->visible = 0;
 }
 
-
-
-void compute_lights_visibility(t_3d_render *render)
+void	compute_lights_visibility(t_3d_render *render)
 {
 	int			i;
 	t_light		*light;

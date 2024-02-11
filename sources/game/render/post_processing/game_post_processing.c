@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 01:28:17 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 07:37:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:22:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static t_color	limit_color(t_color_64 *full_color)
 	color.r = fmin(full_color->r, 255);
 	color.g = fmin(full_color->g, 255);
 	color.b = fmin(full_color->b, 255);
-
-	// color.rgb_color = color.rgb_color / 10 * 10;
 	return (color);
 }
 

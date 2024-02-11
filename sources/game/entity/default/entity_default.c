@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 03:49:56 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:17:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_entity	*entity_default_spawn(t_game_data *game_data)
 		.destroy = entity_default_destroy,
 		.should_be_destroyed = false
 	};
-	printf("sizeof(t_entity) = %lu\n", sizeof(t_entity));
+
 	self_id = sparse_array_add(game_data->state.entities, &default_entity);
 	if (self_id == -1)
 		return (NULL);

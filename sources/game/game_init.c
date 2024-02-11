@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 07:08:11 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:19:56 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 void	spawn_default_entities(t_game_data *game_data)
 
 {
+	t_spawn		spawn;
 	t_entity	*entity;
 
+	spawn = game_data->map_data.player_spawn;
 	entity = entity_player_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
@@ -28,14 +30,10 @@ void	spawn_default_entities(t_game_data *game_data)
 	entity = entity_torch_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return ;
-
-	entity = entity_monster_spawn(game_data, game_data->map_data.player_spawn);
+	entity = entity_monster_spawn(game_data, spawn);
 	if (entity == NULL)
 		return ;
-
-
 }
-
 
 //TODO move this in .h
 int	map_convert(t_cub *data, t_map_data *map_data);

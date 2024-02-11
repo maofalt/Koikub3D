@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/09 08:59:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/10 23:41:28 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -689,6 +689,31 @@ typedef struct s_event_handlers {
 
 typedef int				(*t_canvas_func)(void *, t_cub *);
 
+typedef struct s_texture_mapping_data
+{
+	t_segment_d	*surface;
+	t_segment_d	relative_segment;
+	t_segment_d	clipped_relative_segment;
+	t_img_data	*texture;
+	double		texture_width;
+	double		texture_tiling_factor_x;
+	double		texture_tiling_factor_y;
+	double		u0;
+	double		u1;
+	t_segment_d	projected_top;
+	t_segment_d	projected_bot;
+	double		coef_top;
+	double		coef_bot;
+	double		x;
+	double		top;
+	double		bot;
+	double		left;
+	double		right;
+	t_vector4d	world_pos;
+	t_vector4d	normal;
+	double		depth;
+	int			img_x;
+}				t_texture_mapping_data;
 
 typedef struct s_billboard
 {

@@ -1,4 +1,4 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   shader_posterization.c                             :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 18:11:34 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/07 02:32:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:22:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 t_color_64	shader_posterization(t_color_64 original_color, t_3d_render *render)
 {
-	const uint16_t levels = render->camera->effects.posterization.levels;
+	const uint16_t	levels = render->camera->effects.posterization.levels;
 
 	if (render->camera->effects.posterization.enabled)
 	{

@@ -31,16 +31,14 @@ static void	normalize_vector_3d(t_vector4d *vec)
 	vec->vec[2] *= reverse_lenght;
 }
 
-t_vector4d	_get_monster_space_acceleration(
-	t_entity_monster_data *self_data,
-	t_game_data *game_data)
+t_vector4d	_get_monster_world_acceleration(t_entity_monster_data *self_data,
+		t_game_data *game_data)
 {
 	t_vector4d	acceleration;
 
-	// acceleration.vec = self_data->pos.vec - game_data->state.player->pos.vec;
 	acceleration.x = game_data->state.player->pos.x - self_data->pos.x;
 	acceleration.y = game_data->state.player->pos.y - self_data->pos.y;
-	acceleration.z = 0;//game_data->state.player->pos.z - self_data->pos.z;
+	acceleration.z = 0;
 
 	if (acceleration.x * acceleration.x + acceleration.y * acceleration.y < 10)
 	{
@@ -52,49 +50,17 @@ t_vector4d	_get_monster_space_acceleration(
 	return (acceleration);
 }
 
-t_vector4d	_get_monster_world_acceleration(t_entity_monster_data *self_data,
-		t_game_data *game_data)
-{
-	t_vector4d	acceleration;
-	// t_vector4d	world_space_acceleration;
-
-	acceleration = _get_monster_space_acceleration(self_data, game_data);
-	// world_space_acceleration.x = acceleration.x * self_data->right.x
-	// 	+ acceleration.y * self_data->dir.x;
-	// world_space_acceleration.y = acceleration.x * self_data->right.y
-	// 	+ acceleration.y * self_data->dir.y;
-	// world_space_acceleration.z = acceleration.z;
-	return (acceleration);
-	// return (world_space_acceleration);
-}
-
 void	_update_monster_direction(t_entity_monster_data *self_data,
 		t_game_data *game_data)
 {
-	// const double	angle_scale = DEFAULT_PLAYER_ROTATION_SPEED;
-	// double			angle_movement;
-	// t_matrix3x3		transformation;
-	// t_point2d		rotated_dir;
-
-	// angle_movement = angle_scale
-	// 	* (game_data->inputs->action_states[a_turn_right]
-	// 		- game_data->inputs->action_states[a_turn_left]);
-	// transformation = rotation_matrix(angle_movement);
-	// rotated_dir = matrix_vector_multiply(transformation,
-	// 		vector4d_to_point2d(&self_data->dir));
 	t_vector4d	direction;
 
 	direction.x = game_data->state.player->pos.x - self_data->pos.x;
 	direction.y = game_data->state.player->pos.y - self_data->pos.y;
-	direction.z = 0;//game_data->state.player->pos.z - self_data->pos.z;
-
+	direction.z = 0;
 	normalize_vector_3d(&direction);
-
-	self_data->dir.x = (direction.x)* 0.1 + self_data->dir.x * 0.90;
-	self_data->dir.y = (direction.y)* 0.1 + self_data->dir.y * 0.90;
-
-
-	// self_data->dir = point2d_to_vector4d(&rotated_dir);
+	self_data->dir.x = direction.x * 0.1 + self_data->dir.x * 0.90;
+	self_data->dir.y = direction.y * 0.1 + self_data->dir.y * 0.90;
 	self_data->right = self_data->dir;
 	self_data->right.x = self_data->dir.y;
 	self_data->right.y = -self_data->dir.x;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 08:59:35 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:16:42 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	_init_monster_data(t_entity_monster_data *self_data,
 }
 
 void	entity_monster_draw(t_entity *self, t_game_data *game_data);
-
 
 t_entity	*entity_monster_spawn(t_game_data *game_data, t_spawn	spawn)
 {

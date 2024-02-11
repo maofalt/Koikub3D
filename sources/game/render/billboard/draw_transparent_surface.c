@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_textured_surface.c                            :+:      :+:    :+:   */
+/*   draw_transparent_surface.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 18:13:53 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:21:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 02:18:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,26 @@
 #include "structures.h"
 #include "maths_utils.h"
 #include <assert.h>
+
+static void	set_pixel_data(
+	t_3d_render *render,
+	t_texture_mapping_data *data,
+	int offset,
+	int offset_img
+	)
+{
+	if ((data->depth < render->buffers.depth[offset]
+			|| render->buffers.depth[offset] == 0)
+		&& put_pixel_transparent(&render->buffers.color[offset],
+			&((t_color *)data->texture->addr)[offset_img]) != 255)
+	{
+		render->buffers.depth[offset] = data->depth;
+		render->buffers.world_pos[offset] = data->world_pos;
+		render->buffers.normal[offset] = data->normal;
+	}
+}
+
+//--------------------------------------------------------------------------
 
 static inline void	draw_vertical_line_tiled(
 	t_3d_render *render,
@@ -30,10 +50,10 @@ static inline void	draw_vertical_line_tiled(
 	const double	factor = ((double)data->texture->size.y
 			* data->texture_tiling_factor_y) / (double)(data->bot - top);
 	const double	screen_bot
-		= fmin(render->bottom_array[screen_x], data->bot);
+		= fmin(render->height, data->bot);
 
 	data->img_x = data->img_x % data->texture->size.x;
-	y = (int)fmax(0, render->top_array[screen_x] - top);
+	y = (int)fmax(0, 0 - top);
 	while ((top + y) < screen_bot)
 	{
 		offset = (top + y) * render->width + screen_x;
@@ -41,11 +61,7 @@ static inline void	draw_vertical_line_tiled(
 				* data->texture->size.x) + data->img_x;
 		data->world_pos.z = lerp(y / (data->bot - top),
 				data->surface->data.ceil, data->surface->data.floor);
-		render->buffers.color[offset].d
-			= ((uint32_t*)data->texture->addr)[offset_img];
-		render->buffers.depth[offset] = data->depth;
-		render->buffers.world_pos[offset] = data->world_pos;
-		render->buffers.normal[offset] = data->normal;
+		set_pixel_data(render, data, offset, offset_img);
 		++y;
 	}
 }
@@ -84,8 +100,8 @@ static int	_set_texture_mapping_data(
 	t_segment_d *surface
 	)
 {
-	data->texture_tiling_factor_x = calc_wall_texture_repeat_factor_x(surface);
-	data->texture_tiling_factor_y = calc_wall_texture_repeat_factor_y(surface);
+	data->texture_tiling_factor_x = 1;
+	data->texture_tiling_factor_y = 1;
 	data->relative_segment
 		= transform_camera_relative_segment(*surface, render->camera);
 	data->clipped_relative_segment = data->relative_segment;
@@ -111,17 +127,15 @@ static int	_set_texture_mapping_data(
 	return (0);
 }
 
-void	draw_textured_surface(
+void	draw_transparent_surface(
 		t_3d_render *render,
-		t_segment_d *surface,
-		double left,
-		double right
+		t_segment_d *surface
 		)
 {
 	t_texture_mapping_data	data;
 
-	data.left = left;
-	data.right = right;
+	data.left = 0;
+	data.right = render->width;
 	data.surface = surface;
 	data.texture = texture_get_frame(surface->data.data.wall.texture.texture);
 	data.texture_width

@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision_cylinder.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/11 02:21:16 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/11 02:21:18 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "structures.h"
 #include "game_loop.h"
 
 // UTILS
-
 // TODO move this to a separate file
 static double	point_space_partitioning_v4d(
 		t_segment_d *separator,
@@ -34,9 +45,6 @@ static t_tree_node	*bsp_search_point_fast(t_tree_node *tree, t_vector4d *point)
 }
 
 //-----------------
-
-
-
 bool	player_wall_intersection(
 		t_segment_d *segment,
 		t_vector4d *player_pos,

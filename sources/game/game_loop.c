@@ -101,7 +101,7 @@ void	game_update(t_cub *data)
 int	game_loop(void *self, t_cub *data)
 {
 	(void)self;
-	if (data->win_ptr == NULL)
+	if (data->win_ptr == NULL || !data->game_data.state.is_ready)
 		return (1);
 	game_update(data);
 	game_render(data);

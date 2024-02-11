@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 03:37:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 09:34:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,10 @@ t_entity	*entity_torch_spawn(t_game_data *game_data, t_spawn spawn)
 	self->data = ft_calloc(1, sizeof(t_entity_torch_data));
 	if (self->data == NULL)
 	{
-		entity_torch_destroy(self, game_data);
 		return (NULL);
 	}
 	if (_init_torch_data(game_data, self->data, spawn))
 	{
-		entity_torch_destroy(self, game_data);
 		return (NULL);
 	}
 	return (self);

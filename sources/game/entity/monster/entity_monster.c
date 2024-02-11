@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:16:42 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 09:34:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_entity	*entity_monster_spawn(t_game_data *game_data, t_spawn	spawn)
 	self->data = ft_calloc(1, sizeof(t_entity_monster_data));
 	if (self->data == NULL)
 	{
-		entity_monster_destroy(self, game_data);
 		return (NULL);
 	}
 	_init_monster_data(self->data, spawn);

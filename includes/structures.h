@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/11 07:30:35 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 09:19:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -539,6 +539,7 @@ typedef struct s_game_state
 	t_camera				player_camera;
 	t_sparse_array			*entities;
 	t_entity_player_data	*player;
+	bool					is_ready;
 }	t_game_state;
 
 

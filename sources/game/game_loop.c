@@ -92,6 +92,8 @@ void	sector_edit_handle_event(t_cub *data)
 
 void	game_update(t_cub *data)
 {
+	data->game_data.state.delta_time = 1;
+	data->game_data.state.time_since_start += 1;
 	entities_destroy_marked(&data->game_data);
 	entities_update(&data->game_data);
 	game_update_camera(&data->game_data);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 02:43:13 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 02:05:36 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void				count_fps(void);
 
 // Precomputation
 void				game_precalculate_map(t_game_data *game_data);
+
+void				compute_sector_center(t_bsp_tree_node_data *sector);
+void				compute_sector_floor_ceiling(t_game_data *game_data,
+						t_bsp_tree_node_data *sector);
 void				compute_segment_normal(t_game_data *game_data,
 						t_segment_d *segment);
 void				compute_segment_orientation(__attribute_maybe_unused__ t_game_data *game_data,
@@ -40,8 +44,12 @@ void				compute_segment_orientation(__attribute_maybe_unused__ t_game_data *game
 void				compute_segment_size(__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment);
 
-void				compute_oriented_textures(__attribute_maybe_unused__ t_game_data *game_data,
+void				compute_segment_oriented_textures(__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment, t_bsp_tree_node_data *sector);
+void				compute_segment_floor_ceil(
+						__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment,
+						t_bsp_tree_node_data *sector);
 
 // ENTITY
 t_entity			*entity_default_spawn(t_game_data *game_data);
@@ -54,6 +62,8 @@ void				entity_player_update_movements(t_entity *self,
 
 void				entity_monster_update_movements(t_entity *self,
 						t_game_data *game_data);
+
+void				entity_torch_update(t_entity *self, t_game_data *game_data);
 
 void				entities_update(t_game_data *game_data);
 void				entities_draw(t_game_data *game_data);

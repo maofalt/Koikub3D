@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 22:21:30 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 07:21:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:32:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_texture	*get_oriented_texture(
 }
 
 // Note: Make sure to calculate the normal before calling this function
-void	compute_oriented_textures(
+void	compute_segment_oriented_textures(
 	t_game_data *game_data,
 	t_segment_d *segment,
 	__attribute_maybe_unused__ t_bsp_tree_node_data *sector)

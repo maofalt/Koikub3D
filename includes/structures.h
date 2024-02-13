@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/11 09:19:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/12 02:06:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -529,9 +529,19 @@ typedef struct s_entity_monster_data
 
 typedef struct s_entity_torch_data
 {
-	t_vector4d	pos;
-	t_vector4d	dir;
-	int			light_id;
+	t_vector4d		pos;
+	t_vector4d		dir;
+	int				light_id;
+	double			light_intensity;
+	unsigned int	current_interval_duration;
+	unsigned int	last_flicker_time;
+	int				flicker_remaining_duration;
+	unsigned int	flicker_duration;
+	unsigned int	flicker_interval;
+	unsigned int	flicker_intensity;
+	double			flicker_interval_variance;
+	double			flicker_duration_variance;
+	double			flicker_intensity_variance;
 }				t_entity_torch_data;
 
 typedef struct s_game_state
@@ -540,6 +550,8 @@ typedef struct s_game_state
 	t_sparse_array			*entities;
 	t_entity_player_data	*player;
 	bool					is_ready;
+	double					delta_time;
+	unsigned int			time_since_start;
 }	t_game_state;
 
 
@@ -549,7 +561,6 @@ typedef struct s_game_data
 	t_3d_render		game_view_render;
 	t_map_data		map_data;
 	t_inputs		*inputs;
-	double			delta_time;
 }	t_game_data;
 
 typedef enum e_entity_type
@@ -581,9 +592,10 @@ typedef struct s_data
 
 typedef struct s_sector_data
 {
-	double	floor;
-	double	ceil;
-	int		render_flag_id;
+	double		floor;
+	double		ceil;
+	int			render_flag_id;
+	t_vector4d	center;
 }	t_sector_data;
 
 typedef enum e_segment_type

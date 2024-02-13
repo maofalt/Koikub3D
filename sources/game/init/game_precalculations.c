@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:47:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 22:48:25 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:51:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,17 @@
 static void	_compute_segment(t_game_data *game_data, t_segment_d *segment,
 		t_bsp_tree_node_data *sector)
 {
+	compute_segment_floor_ceil(game_data, segment, sector);
 	compute_segment_orientation(game_data, segment, sector);
 	compute_segment_size(game_data, segment);
 	compute_segment_normal(game_data, segment);
-	compute_oriented_textures(game_data, segment, sector);
+	compute_segment_oriented_textures(game_data, segment, sector);
+}
+
+static void _compute_sector(t_game_data *game_data, t_bsp_tree_node_data *sector)
+{
+	compute_sector_center(sector);
+	compute_sector_floor_ceiling(game_data, sector);
 }
 
 static void	_iterate_sector_segments(t_game_data *game_data, t_tree_node *node)
@@ -28,6 +35,7 @@ static void	_iterate_sector_segments(t_game_data *game_data, t_tree_node *node)
 	t_segment_d	*segment;
 
 	seg_lst = ((t_bsp_tree_node_data *)node->data)->sector_segments;
+	_compute_sector(game_data, node->data);
 	while (seg_lst)
 	{
 		segment = seg_lst->content;

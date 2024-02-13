@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:31:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/01 23:34:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/12 01:13:44 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ t_side		point_segment_side(t_segment_d *separator, t_vector4d *point);
 t_point2d	find_intersection(t_segment_d line, t_segment_d seg);
 
 double		lerp(double alpha, double start, double end);
+
+double		random_double_xorshift32(void);
 
 #endif

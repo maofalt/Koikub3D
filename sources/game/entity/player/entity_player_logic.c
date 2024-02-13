@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 23:19:23 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 03:10:16 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 23:09:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	apply_collision_correction(t_entity_player_data *data, t_game_data *
 	int					i;
 
 	i = 5;
-	new_pos.vec = data->pos.vec + data->velocity.vec * game_data->delta_time;
+	new_pos.vec = data->pos.vec + data->velocity.vec * game_data->state.delta_time;
 	collision_info
 		= check_collision_cylinder(new_pos, DEFAULT_PLAYER_RADIUS,
 			DEFAULT_PLAYER_HEIGHT, &game_data->game_view_render);
@@ -111,7 +111,7 @@ static void	apply_collision_correction(t_entity_player_data *data, t_game_data *
 			- 1.0 * dot_product * collision_info.collision_normal.vec;
 		data->velocity = sliding_vector;
 		new_pos.vec = data->pos.vec
-			+ data->velocity.vec * game_data->delta_time;
+			+ data->velocity.vec * game_data->state.delta_time;
 		collision_info
 			= check_collision_cylinder(new_pos, DEFAULT_PLAYER_RADIUS,
 				DEFAULT_PLAYER_HEIGHT, &game_data->game_view_render);
@@ -125,11 +125,11 @@ void	entity_player_update_movements(t_entity *self, t_game_data *game_data)
 
 	data = self->data;
 	world_space_acceleration = _get_player_world_acceleration(data, game_data);
-	data->velocity.vec += world_space_acceleration.vec * game_data->delta_time;
+	data->velocity.vec += world_space_acceleration.vec * game_data->state.delta_time;
 	data->velocity.vec *= 1 - DEFAULT_PLAYER_DECELERATION
-		* game_data->delta_time;
+		* game_data->state.delta_time;
 	apply_collision_correction(data, game_data);
-	data->pos.vec += data->velocity.vec * game_data->delta_time;
+	data->pos.vec += data->velocity.vec * game_data->state.delta_time;
 	_update_player_direction(data, game_data);
 
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 02:48:31 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:19:31 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 22:57:13 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ void	draw_billboard(t_3d_render *render, t_billboard *billboard)
 			render->camera);
 	if (pos_screen.y > 0)
 	{
-		printf("draw_billboard_placeholder: pos: %f %f %f\n", billboard->pos.x,
-			billboard->pos.y, billboard->pos.z);
-		if (check_ray_reach_dest(render->camera->pos, billboard->pos, render))
+		// if (check_ray_reach_dest(render->camera->pos, billboard->pos, render))
 		{
 			surface_segment = _convert_billboard_to_seg(render, *billboard);
 			draw_transparent_surface(render, &surface_segment);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 06:52:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:40:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,9 @@
 
 # define DEFAULT_ENTITIES_ARRAY_SIZE 128
 # define DEFAULT_LIGHT_ARRAY_SIZE 128
+
+# define DEFAULT_CEIL_HEIGHT -5.5
+# define DEFAULT_FLOOR_HEIGHT 2
+
 
 #endif

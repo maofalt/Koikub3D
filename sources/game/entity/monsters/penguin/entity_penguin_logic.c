@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity_monster_logic.c                              :+:      :+:    :+:   */
+/*   entity_penguin_logic.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -31,7 +31,7 @@ static void	normalize_vector_3d(t_vector4d *vec)
 	vec->vec[2] *= reverse_lenght;
 }
 
-t_vector4d	_get_monster_world_acceleration(t_entity_monster_data *self_data,
+t_vector4d	_get_penguin_world_acceleration(t_entity_penguin_data *self_data,
 		t_game_data *game_data)
 {
 	t_vector4d	acceleration;
@@ -50,7 +50,7 @@ t_vector4d	_get_monster_world_acceleration(t_entity_monster_data *self_data,
 	return (acceleration);
 }
 
-void	_update_monster_direction(t_entity_monster_data *self_data,
+void	_update_penguin_direction(t_entity_penguin_data *self_data,
 		t_game_data *game_data)
 {
 	t_vector4d	direction;
@@ -74,7 +74,7 @@ static double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
 	return (result);
 }
 
-static void	apply_collision_correction(t_entity_monster_data *data, t_game_data *game_data)
+static void	apply_collision_correction(t_entity_penguin_data *data, t_game_data *game_data)
 {
 	t_vector4d			sliding_vector;
 	t_vector4d			new_pos;
@@ -103,19 +103,19 @@ static void	apply_collision_correction(t_entity_monster_data *data, t_game_data 
 	}
 }
 
-void	entity_monster_update_movements(t_entity *self, t_game_data *game_data)
+void	entity_penguin_update_movements(t_entity *self, t_game_data *game_data)
 {
-	t_entity_monster_data	*data;
+	t_entity_penguin_data	*data;
 	t_vector4d				world_space_acceleration;
 
 	data = self->data;
-	world_space_acceleration = _get_monster_world_acceleration(data, game_data);
+	world_space_acceleration = _get_penguin_world_acceleration(data, game_data);
 	data->acceleration.vec = world_space_acceleration.vec;
 	data->velocity.vec += world_space_acceleration.vec * game_data->state.delta_time;
 	data->velocity.vec *= 1 - DEFAULT_PLAYER_DECELERATION
 		* game_data->state.delta_time;
 	apply_collision_correction(data, game_data);
 	data->pos.vec += data->velocity.vec * game_data->state.delta_time;
-	_update_monster_direction(data, game_data);
+	_update_penguin_direction(data, game_data);
 
 }

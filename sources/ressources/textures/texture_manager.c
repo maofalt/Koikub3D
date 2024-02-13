@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 16:31:28 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 07:49:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:06:20 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ t_game_assets	g_duck_walk_images[] = {
 	DUCK_TEXTURE_WALK_03
 };
 
+t_game_assets	g_penguin_walk_images[] = {
+	PENGUIN_TEXTURE_WALK_00,
+	PENGUIN_TEXTURE_WALK_01,
+	PENGUIN_TEXTURE_WALK_02,
+	PENGUIN_TEXTURE_WALK_03
+};
+
+t_game_assets	g_penguin_idle_images[] = {
+	PENGUIN_TEXTURE_WALK_00,
+};
+
 t_texture_asset_params	g_texture_asset_loader[] = {
 {
 	TEXTURE_DUCK_IDLE,
@@ -49,6 +60,18 @@ t_texture_asset_params	g_texture_asset_loader[] = {
 	100,
 	sizeof(g_duck_walk_images) / sizeof(g_duck_walk_images[0]),
 },
+{
+	TEXTURE_PENGUIN_WALK,
+	g_penguin_walk_images,
+	100,
+	sizeof(g_penguin_walk_images) / sizeof(g_penguin_walk_images[0]),
+},
+{
+	TEXTURE_PENGUIN_IDLE,
+	g_penguin_idle_images,
+	100,
+	sizeof(g_penguin_idle_images) / sizeof(g_penguin_idle_images[0]),
+}
 };
 
 

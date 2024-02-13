@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 08:01:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 20:41:16 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ static const	char *g_game_asset_paths[GAME_ASSET_COUNT]
 [DUCK_TEXTURE_WALK_03] = "assets/entity/duck/walk/tile003.xpm",
 [DUCK_TEXTURE_IDLE_00] = "assets/entity/duck/idle/tile000.xpm",
 [DUCK_TEXTURE_IDLE_01] = "assets/entity/duck/idle/tile001.xpm",
+[PENGUIN_TEXTURE_WALK_00] = "assets/entity/penguin/walk/tile000.xpm",
+[PENGUIN_TEXTURE_WALK_01] = "assets/entity/penguin/walk/tile001.xpm",
+[PENGUIN_TEXTURE_WALK_02] = "assets/entity/penguin/walk/tile002.xpm",
+[PENGUIN_TEXTURE_WALK_03] = "assets/entity/penguin/walk/tile003.xpm",
 };
 
 t_img_data	*get_ui_asset(t_ui_assets asset_enum, t_img_data *ui_images)
@@ -131,13 +135,15 @@ void	destroy_assets(t_cub *data)
 	i = 0;
 	while (i < UI_ASSET_COUNT)
 	{
-		mlx_destroy_image(data->mlx_ptr, data->ui_images[i].mlx_img);
+		if (data->ui_images[i].mlx_img)
+			mlx_destroy_image(data->mlx_ptr, data->ui_images[i].mlx_img);
 		++i;
 	}
 	i = 0;
 	while (i < GAME_ASSET_COUNT)
 	{
-		mlx_destroy_image(data->mlx_ptr, data->game_images[i].mlx_img);
+		if (data->game_images[i].mlx_img)
+			mlx_destroy_image(data->mlx_ptr, data->game_images[i].mlx_img);
 		++i;
 	}
 	texture_manager_destroy(data);

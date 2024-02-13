@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 23:08:14 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:21:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	spawn_default_entities(t_game_data *game_data)
 	entity = entity_torch_spawn(game_data, game_data->map_data.player_spawn);
 	if (entity == NULL)
 		return (1);
-	entity = entity_monster_spawn(game_data, spawn);
+	entity = entity_penguin_spawn(game_data, spawn);
 	if (entity == NULL)
 		return (1);
 	return (0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity_monster_draw.c                              :+:      :+:    :+:   */
+/*   entity_penguin_draw.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 03:05:39 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 07:22:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:21:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 #include "structures.h"
 #include "render_3D.h"
 
-void	entity_monster_draw(t_entity *self, t_game_data *game_data)
+void	entity_penguin_draw(t_entity *self, t_game_data *game_data)
 {
-	t_entity_monster_data	*data;
+	t_entity_penguin_data	*data;
 	t_billboard				billboard;
 
 	data = self->data;
@@ -32,10 +32,10 @@ void	entity_monster_draw(t_entity *self, t_game_data *game_data)
 		&& data->velocity.x >= -0.005 && data->velocity.y >= -0.005
 		&& data->acceleration.x == 0 && data->acceleration.y == 0)
 		billboard.texture.texture
-			= &game_data->map_data.texture_manager->textures[TEXTURE_DUCK_IDLE];
+			= &game_data->map_data.texture_manager->textures[TEXTURE_PENGUIN_IDLE];
 	else
 		billboard.texture.texture
-			= &game_data->map_data.texture_manager->textures[TEXTURE_DUCK_WALK];
+			= &game_data->map_data.texture_manager->textures[TEXTURE_PENGUIN_WALK];
 	billboard.texture.offset = 0;
 	draw_billboard(&game_data->game_view_render, &billboard);
 }

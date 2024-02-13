@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/12 02:06:57 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:22:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,10 @@ typedef enum e_game_assets
 	DUCK_TEXTURE_WALK_03,
 	DUCK_TEXTURE_IDLE_00,
 	DUCK_TEXTURE_IDLE_01,
+	PENGUIN_TEXTURE_WALK_00,
+	PENGUIN_TEXTURE_WALK_01,
+	PENGUIN_TEXTURE_WALK_02,
+	PENGUIN_TEXTURE_WALK_03,
 	GAME_ASSET_COUNT
 }	t_game_assets;
 
@@ -180,6 +184,8 @@ typedef enum e_texture_id
 	TEXTURE_WALL_WEST,
 	TEXTURE_DUCK_IDLE,
 	TEXTURE_DUCK_WALK,
+	TEXTURE_PENGUIN_WALK,
+	TEXTURE_PENGUIN_IDLE,
 	TEXTURE_COUNT
 }	t_texture_id;
 
@@ -518,14 +524,14 @@ typedef struct s_entity_player_data
 	t_vector4d	velocity;
 }				t_entity_player_data;
 
-typedef struct s_entity_monster_data
+typedef struct s_entity_penguin_data
 {
 	t_vector4d	pos;
 	t_vector4d	dir;
 	t_vector4d	right;
 	t_vector4d	velocity;
 	t_vector4d	acceleration;
-}				t_entity_monster_data;
+}				t_entity_penguin_data;
 
 typedef struct s_entity_torch_data
 {
@@ -568,7 +574,7 @@ typedef enum e_entity_type
 	ENTITY_DEFAULT,
 	ENTITY_PLAYER,
 	ENTITY_TORCH,
-	ENTITY_MONSTER
+	ENTITY_PENGUIN
 }					t_entity_type;
 
 typedef struct s_entity

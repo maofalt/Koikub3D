@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 20:41:16 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:21:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ int	initialize_and_preload_assets(t_cub *data)
 	if (data->mlx_ptr == NULL)
 		return (1);
 	if (load_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths,
-		UI_ASSET_COUNT))
+			UI_ASSET_COUNT))
 	{
 		//TODO: free
 		return (1);
 	}
 	if (load_assets(data->mlx_ptr, data->game_images, g_game_asset_paths,
-		GAME_ASSET_COUNT))
+			GAME_ASSET_COUNT))
 	{
 		//TODO: free
 		return (1);
@@ -106,7 +106,11 @@ int	initialize_and_preload_assets(t_cub *data)
 }
 
 
-int	load_assets(void *mlx_ptr, t_img_data *ui_images, const char **paths, int count)
+int	load_assets(
+	void *mlx_ptr,
+	t_img_data *ui_images,
+	const char **paths,
+	int count)
 {
 	int		index;
 	int		width;

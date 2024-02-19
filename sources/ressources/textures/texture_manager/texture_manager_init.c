@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture_manager.c                                  :+:      :+:    :+:   */
+/*   texture_manager_init.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/24 16:31:28 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 21:06:20 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/19 22:27:51 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/19 22:29:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ressources_managers.h"
 #include "settings.h"
 #include "structures.h"
-
 
 typedef struct s_texture_asset_params
 {
@@ -24,26 +22,26 @@ typedef struct s_texture_asset_params
 	int					frame_count;
 }	t_texture_asset_params;
 
-t_game_assets	g_duck_idle_images[] = {
+t_game_assets			g_duck_idle_images[] = {
 	DUCK_TEXTURE_IDLE_00,
 	DUCK_TEXTURE_IDLE_01
 };
 
-t_game_assets	g_duck_walk_images[] = {
+t_game_assets			g_duck_walk_images[] = {
 	DUCK_TEXTURE_WALK_00,
 	DUCK_TEXTURE_WALK_01,
 	DUCK_TEXTURE_WALK_02,
 	DUCK_TEXTURE_WALK_03
 };
 
-t_game_assets	g_penguin_walk_images[] = {
+t_game_assets			g_penguin_walk_images[] = {
 	PENGUIN_TEXTURE_WALK_00,
 	PENGUIN_TEXTURE_WALK_01,
 	PENGUIN_TEXTURE_WALK_02,
 	PENGUIN_TEXTURE_WALK_03
 };
 
-t_game_assets	g_penguin_idle_images[] = {
+t_game_assets			g_penguin_idle_images[] = {
 	PENGUIN_TEXTURE_WALK_00,
 };
 
@@ -73,33 +71,6 @@ t_texture_asset_params	g_texture_asset_loader[] = {
 	sizeof(g_penguin_idle_images) / sizeof(g_penguin_idle_images[0]),
 }
 };
-
-
-//TODO: add delta time;
-void	texture_manager_update(t_texture_manager *texture_manager)
-{
-	int	i;
-
-	i = 0;
-	while (i < TEXTURE_COUNT)
-	{
-		texture_update(texture_manager->textures + i, 16);
-		++i;
-	}
-}
-
-int	texture_manager_destroy(t_cub *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < TEXTURE_COUNT)
-	{
-		texture_destroy(data->texture_manager.textures + i);
-		++i;
-	}
-	return (0);
-}
 
 int	load_assets_textures(t_cub *data)
 {

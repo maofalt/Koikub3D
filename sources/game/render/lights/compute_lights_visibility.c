@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:23:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:11:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 #include "structures.h"
 #include "render_3D.h"
 
+static inline double	_dot_product_3d(
+	const t_vector4d *const vec1,
+	const t_vector4d *const vec2)
+{
+	return (vec1->x * vec2->x + vec1->y * vec2->y + +vec1->z * vec2->z);
+}
+
 static void	normalize_vector_3d(t_vector4d *vec)
 {
 	t_vector4d	product;
-	double 		reverse_lenght;
+	double		reverse_lenght;
 
 	product.vec = vec->vec;
 	product.vec *= product.vec;
 	reverse_lenght = 1 / sqrt(product.x + product.y + product.z);
 	vec->vec *= reverse_lenght;
 }
-double dot_product_3d(t_vector4d *a, t_vector4d *b);
 
 static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 {
@@ -44,7 +50,7 @@ static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 			{
 				camera_light_dir.vec = light->pos.vec - render->camera->pos.vec;
 				normalize_vector_3d(&camera_light_dir);
-				double cone = dot_product_3d(&camera_light_dir, &light->dir);
+				double cone = _dot_product_3d(&camera_light_dir, &light->dir);
 					cone = cone * cone * (cone > 0.8);
 				lens_flare->intensity = cone;
 			}

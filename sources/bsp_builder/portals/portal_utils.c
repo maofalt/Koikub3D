@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 00:31:41 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/04 05:26:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:42:22 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ static int	comparison_fun_x(
 	bsp_segment_b = bsp_segment_node_b->content;
 	min_a = get_segment_min_on_separator(bsp_segment_a, 1).x;
 	min_b = get_segment_min_on_separator(bsp_segment_b, 1).x;
-
 	return ((min_a > min_b) - (min_a < min_b));
 }
 

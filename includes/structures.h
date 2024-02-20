@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/13 21:22:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 03:40:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,18 @@ typedef union u_64_color
 	};
 } t_color_64;
 
+typedef union u_color_factor
+{
+	t_v4d	vec;
+	struct
+	{
+		double	b;
+		double	g;
+		double	r;
+		double	a;
+	};
+}	t_color_factor;
+
 #else
 
 typedef union u_color
@@ -252,6 +264,19 @@ typedef union u_color_64
 		u_int16_t b;
 	};
 } t_color_64;
+
+
+typedef union u_color_factor
+{
+	t_v4d	vec;
+	struct
+	{
+		double	a;
+		double	r;
+		double	g;
+		double	b;
+	};
+}	t_color_factor;
 
 #endif
 
@@ -497,6 +522,7 @@ typedef struct s_lights_data
 {
 	t_sparse_array		*lights;
 	t_sparse_array		*lens_flare;
+	t_color_factor		ambiant_light;
 }	t_light_data;
 
 typedef struct s_3d_render

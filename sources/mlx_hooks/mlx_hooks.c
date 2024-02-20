@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:44:33 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:15:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:44:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,5 @@ void	ft_mlx_engine(t_cub *data)
 		&ft_handle_mousemotion, data);
 	mlx_hook(data->win_ptr, 17, 0L, &ft_destroy_window, data);
 	mlx_key_hook(data->win_ptr, &ft_handle_keyrelease, data);
-	//mlx_hook(data->win_ptr, 6, (1L << 6), &ft_handle_mouse, data);
 	mlx_loop(data->mlx_ptr);
 }

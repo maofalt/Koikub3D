@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 02:04:26 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 02:44:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static int	_init_torch_data(t_game_data *game_data,
 {
 	t_light	*light;
 
-	self_data->light_intensity = 0.5;
+	self_data->light_intensity = 2;
 	self_data->flicker_duration = 10;
 	self_data->flicker_duration_variance = 0.1;
 	self_data->flicker_interval = 15;
 	self_data->flicker_interval_variance = 1;
-	self_data->flicker_intensity_variance = 0.5;
+	self_data->flicker_intensity_variance = 2;
 	self_data->current_interval_duration = self_data->flicker_interval;
 	self_data->pos = spawn.pos;
 	self_data->dir = spawn.dir;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:14:00 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:06:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,29 @@ t_color_64		shader_camera_lens_flare(t_color_64 original_color, int offset,
 					t_3d_render *render);
 t_color			shader_small_camera_displacement(t_color original_color,
 					int offset, t_3d_render *render);
+
+//DEFFERED SHADING
 t_color_64		shader_deferred_shading(t_color_64 original_color, int offset,
 					t_3d_render *render);
+double			calc_light_cone(
+					const t_light *const light,
+					t_vector4d *light_dir
+					);
+double			calc_light_distance_attenuation(
+					const t_vector4d *const light_pos,
+					const t_vector4d *const world_pos);
 
+double			calc_light_normal_diffuse(
+					t_vector4d *normal,
+					t_vector4d *light_dir);
+
+double			calc_light_intensity(
+					t_3d_render *render,
+					const t_light *const light,
+					t_vector4d world_pos,
+					t_vector4d normal);
+
+//--------
 t_color_64		shader_normal_view(t_color_64 original_color, int offset,
 					t_3d_render *render);
 

@@ -6,16 +6,17 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 23:48:04 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/12 01:00:57 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/19 22:33:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
 #include <stdio.h>
 
-double random_double(void)
+double	random_double(void)
 {
-	static unsigned int seed = 123456789;
+	static unsigned int	seed = 123456789;
+
 	seed = seed * 1103515245 + 12345;
 	return ((double)(seed & 0x7fffffff) / 0x7fffffff);
 }

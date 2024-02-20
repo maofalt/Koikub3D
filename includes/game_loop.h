@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 21:22:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:38:24 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int					game_init(t_cub *data, t_canvas *canvas);
 void				game_render(t_cub *data);
-void				game_update(t_cub *data);
+void				game_update(t_game_data *game_data);
 int					game_loop(void *self, t_cub *data);
 void				game_post_process_frame(t_3d_render *render);
 
@@ -75,5 +75,8 @@ bool				segment_circle_intersection(t_segment_d *segment,
 						t_circle *circle);
 t_collision_info	check_collision_cylinder(t_vector4d pos, double radius,
 						double height, t_3d_render *render);
+
+// SECTOR EDIT
+void				sector_edit_height_handle_event(t_game_data *game_data);
 
 #endif

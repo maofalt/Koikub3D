@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_to_edges.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 20:02:41 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:21:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			process_row_vertical_horizontal(t_edge_exploration_context *context,
 				int y, int width_map);
 int			process_row_diagonal(t_edge_exploration_context *context,
 				t_list **edges,
-				int y, int width_map);		
+				int y, int width_map);
 void		update_context(t_edge_exploration_context *context,
 				t_vector4d coord,
 				t_vector4d delta,
@@ -36,13 +36,13 @@ void		update_context(t_edge_exploration_context *context,
 int			process_direction(t_edge_exploration_context *context,
 				t_list **edges, t_vector4d delta, t_direction dir);
 int			add_edge(t_segment_d new_segment, t_list **edges);
-t_direction	**malloc2DArray(char **map);
+t_direction	**malloc_2d_array(char **map);
 
 /*############################################################################*/
 /*                                UTILITY FONCTIONS                           */
 /*############################################################################*/
 
-void		free2DArray(t_direction **array);
+void		free_2d_array(t_direction **array);
 
 /*############################################################################*/
 /*                       IDENTIFY DIAGONALS ITS HARD                          */

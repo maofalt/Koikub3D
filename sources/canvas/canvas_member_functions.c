@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:52:23 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 20:29:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	render_base(void *self, t_cub *data)
 		return (canvas->event_handlers.render(self, data));
 	return (-1);
 }
-
 
 void	fill_canvas_with_image(t_canvas *canvas, t_img_data *img)
 {
@@ -52,4 +51,3 @@ void	fill_canvas_with_image(t_canvas *canvas, t_img_data *img)
 		pos.y++;
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/15 10:23:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:27:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,16 @@ int	render(t_cub *data)
 {
 	t_canvas	*final_canvas;
 
-	//printf("render\n");
 	if (data->win_ptr == NULL)
 		return (1);
-	//printf("\t checking if needd to update\n");
-	// if (data->update == NO_UPDATE)
-	// 	return (0);
-	//printf("\t looking for final canvas\n");
 	final_canvas = get_canvas_from_list(data->canvas_list, FINAL);
-	// printf("final_canvas: %p\n", final_canvas);
 	if (!final_canvas)
 		return (1);
-	// printf("we found a final canvas\n");
-	//cycle thorugh all canvas to render
-	//printf("\t updating each canvas\n");
 	apply_to_canvas(data, render_base);
-	//printf("\t updating each canvas done\nmerging canvas");
 	merge_canvases(&data->canvas_list);
 	canvas_to_mlx_image(data->screen, final_canvas);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->screen.mlx_img, 0, 0);
-	usleep(10);
 	return (0);
 }
 
@@ -77,15 +66,11 @@ void	redraw_scene(t_cub *data, t_canvas *canvas)
 	current_segment = canvas->data.map_editor.segments;
 	color = (t_color){{255, 255, 255, 255}};
 	invert_matrix
-		= get_inverse_transformation_matrix(canvas->data.map_editor.transformation_matrix);
-	//printf("Segments to be redrawn\n");
-	// int i = 0;
+		= get_inverse_transformation_matrix(
+			canvas->data.map_editor.transformation_matrix);
 	while (current_segment)
 	{
 		segment = *(t_segment_d *)current_segment->content;
-		// printf("SEGMENTS  %d\n", i++);
-		// printf("\tstart: [%f, %f,%f, %f]", segment.point_a.x, segment.point_a.y, segment.point_a.z, segment.point_a.w);
-		// printf(" \tend: [[%f, %f,%f, %f]\n", segment.point_b.x, segment.point_b.y, segment.point_b.z, segment.point_b.w);
 		draw_line_on_map(canvas,
 			back_transform_point_by_matrix(segment.point_a, invert_matrix),
 			back_transform_point_by_matrix(segment.point_b, invert_matrix),

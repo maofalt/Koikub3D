@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/23 17:03:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:53:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,4 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&map_editor->segments, segment);
-	//printf("NEW SEGMENT added\n");
-	//printf("\tstart: [%f, %f]", segment.point_a.x, segment.point_a.y);
-	//printf(" \tend: [%f, %f]", segment.point_b.x, segment.point_b.y);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_edges.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 20:30:17 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:29:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	extract_edge_recursively(char **map, t_list **edges)
 
 	context.map = map;
 	*edges = NULL;
-	context.visited = malloc2DArray(map);
+	context.visited = malloc_2d_array(map);
 	if (context.visited == NULL)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))
 		return (1);
-	free2DArray(context.visited);
+	free_2d_array(context.visited);
 	return (0);
 }
 
@@ -94,10 +94,10 @@ int	process_row_vertical_horizontal(t_edge_exploration_context *context,
 		if (context->map[y][x] == '1')
 		{
 			if (process_direction(context, edges,
-				(t_vector4d){{1, 0, 0, 0}}, RIGHT))
+					(t_vector4d){{1, 0, 0, 0}}, RIGHT))
 				return (1);
 			if (process_direction(context, edges,
-				(t_vector4d){{0, 1, 0, 0}}, DOWN))
+					(t_vector4d){{0, 1, 0, 0}}, DOWN))
 				return (1);
 		}
 		x++;

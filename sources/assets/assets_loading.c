@@ -6,14 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 04:20:05 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:52:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "assets.h"
 #include "ressources_managers.h"
 
-static const	char *g_ui_asset_paths[UI_ASSET_COUNT]
+static const char	*g_ui_asset_paths[UI_ASSET_COUNT]
 	= {
 [WINDOW_BASE] = ASSETS_BASE_PATH "Window_Base.xpm",
 [WINDOW_HEADER_INACTIVE] = ASSETS_BASE_PATH "Window_Header_Inactive.xpm",
@@ -54,7 +54,7 @@ static const	char *g_ui_asset_paths[UI_ASSET_COUNT]
 [SIDE_BAR] = "assets/gui/background/SideBar.xpm",
 };
 
-static const	char *g_game_asset_paths[GAME_ASSET_COUNT]
+static const char	*g_game_asset_paths[GAME_ASSET_COUNT]
 	= {
 [MONSTER_LINE_TEXTURE] = "assets/entity/monster_line.xpm",
 [DUCK_TEXTURE_WALK_00] = "assets/entity/duck/walk/tile000.xpm",
@@ -89,22 +89,14 @@ int	initialize_and_preload_assets(t_cub *data)
 		return (1);
 	if (load_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths,
 			UI_ASSET_COUNT))
-	{
-		//TODO: free ? (maybe already done)
 		return (1);
-	}
 	if (load_assets(data->mlx_ptr, data->game_images, g_game_asset_paths,
 			GAME_ASSET_COUNT))
-	{
-		//TODO: free ?  (maybe already done)
 		return (1);
-	}
 	if (texture_manager_init(data))
-		//TODO: free ? (maybe already done)
 		return (1);
 	return (0);
 }
-
 
 int	load_assets(
 	void *mlx_ptr,

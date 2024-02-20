@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities_for_extraction.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 19:56:24 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:22:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	add_edge(t_segment_d new_segment, t_list **edges)
 //create a t_direction  table on 2d of same size of char map tha
 // is also passed as parameter
 //and fill it with 0
-t_direction	**malloc2DArray(char **map)
+t_direction	**malloc_2d_array(char **map)
 {
 	int			i;
 	t_direction	**array;
@@ -72,7 +72,7 @@ t_direction	**malloc2DArray(char **map)
 }
 
 //Free the 2d array of t_direction
-void	free2DArray(t_direction **array)
+void	free_2d_array(t_direction **array)
 {
 	int	i;
 
@@ -84,4 +84,3 @@ void	free2DArray(t_direction **array)
 	}
 	free(array);
 }
-

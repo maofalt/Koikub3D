@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 02:44:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:43:49 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	entity_torch_destroy(t_entity *self, t_game_data *game_data)
 	}
 	free(self->data);
 }
+
 /*
 	self_data->light_intensity = 0.5;
 	self_data->flicker_duration = 10;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 02:02:29 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 02:44:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:43:32 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	entity_torch_update(t_entity *self, t_game_data *game_data)
 	render = &game_data->game_view_render;
 	light = sparse_array_get(render->lights_data.lights,
 			data->light_id);
-
 	_update_position(data, light, render);
 	_update_flickering_params(data, game_data);
 	_torch_flicker_effect(data, light, game_data);

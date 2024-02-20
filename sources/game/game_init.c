@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 21:21:15 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:21:01 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "error.h"
 
 int	spawn_default_entities(t_game_data *game_data)
-
 {
 	t_spawn		spawn;
 	t_entity	*entity;
@@ -39,7 +38,6 @@ int	spawn_default_entities(t_game_data *game_data)
 //TODO move this in .h
 int	map_convert(t_cub *data, t_map_data *map_data);
 
-
 int	game_init(t_cub *data, t_canvas *canvas)
 {
 	data->update = UPDATE;
@@ -51,9 +49,7 @@ int	game_init(t_cub *data, t_canvas *canvas)
 	data->game_data.state.entities = sparse_array_init(sizeof(t_entity),
 			DEFAULT_ENTITIES_ARRAY_SIZE);
 	if (data->game_data.state.entities == NULL)
-	{
 		return (fatal_error(data, "cannot init entities array"));
-	}
 	data->game_data.map_data.texture_manager = &data->texture_manager;
 	data->game_data.map_data.ceil_color.d = data->celling;
 	data->game_data.map_data.floor_color.d = data->floor;

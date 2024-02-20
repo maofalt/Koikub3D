@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 03:05:39 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 21:21:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:18:07 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ void	entity_penguin_draw(t_entity *self, t_game_data *game_data)
 		&& data->velocity.x >= -0.005 && data->velocity.y >= -0.005
 		&& data->acceleration.x == 0 && data->acceleration.y == 0)
 		billboard.texture.texture
-			= &game_data->map_data.texture_manager->textures[TEXTURE_PENGUIN_IDLE];
+			= &game_data->map_data.texture_manager
+			->textures[TEXTURE_PENGUIN_IDLE];
 	else
 		billboard.texture.texture
-			= &game_data->map_data.texture_manager->textures[TEXTURE_PENGUIN_WALK];
+			= &game_data->map_data.texture_manager
+			->textures[TEXTURE_PENGUIN_WALK];
 	billboard.texture.offset = 0;
 	draw_billboard(&game_data->game_view_render, &billboard);
 }

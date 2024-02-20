@@ -6,12 +6,11 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 21:20:11 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/12 00:50:53 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:46:36 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "structures.h"
-
 
 void	compute_segment_floor_ceil(
 	__attribute_maybe_unused__ t_game_data *game_data,

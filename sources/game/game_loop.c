@@ -1,9 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game_loop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/20 05:47:29 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/20 05:47:39 by olimarti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "game_loop.h"
-
-
 #include "maths_utils.h"
-
 
 //TODO move this in .h
 static t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
@@ -26,7 +35,6 @@ static t_tree_node	*bsp_search_point(t_tree_node	*tree, t_point2d point)
 		return (child);
 	return (NULL);
 }
-
 
 void	update_player_sector_ceil(t_3d_render *render, double value)
 {
@@ -63,7 +71,6 @@ void	update_player_sector_floor(t_3d_render *render, double value)
 		seg_lst = seg_lst->next;
 	}
 }
-
 
 void	sector_edit_handle_event(t_cub *data)
 {

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 04:11:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:57:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,24 @@ static void	normalize_vector_3d(t_vector4d *vec)
 	vec->vec *= reverse_lenght;
 }
 
+static double	compute_cone_intensity(
+	const t_vector4d *const camera_pos,
+	const t_vector4d *const light_pos,
+	const t_vector4d *const light_dir)
+{
+	t_vector4d	camera_light_dir;
+	double		cone;
+
+	camera_light_dir.vec = light_pos->vec - camera_pos->vec;
+	normalize_vector_3d(&camera_light_dir);
+	cone = _dot_product_3d(&camera_light_dir, light_dir);
+	cone = cone * cone * (cone > 0.8);
+	return (cone);
+}
+
 static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 {
 	t_vector4d					light_pos_screen;
-	t_vector4d					camera_light_dir;
 	t_light_lens_flare *const	lens_flare = sparse_array_get(
 			render->lights_data.lens_flare, light->lens_flare_id);
 
@@ -47,13 +61,8 @@ static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 		if (check_ray_reach_dest(render->camera->pos, light->pos, render))
 		{
 			if (light->type == DIRECTIONAL_LIGHT)
-			{
-				camera_light_dir.vec = light->pos.vec - render->camera->pos.vec;
-				normalize_vector_3d(&camera_light_dir);
-				double cone = _dot_product_3d(&camera_light_dir, &light->dir);
-					cone = cone * cone * (cone > 0.8);
-				lens_flare->intensity = cone;
-			}
+				lens_flare->intensity = compute_cone_intensity(
+						&render->camera->pos, &light->pos, &light->dir);
 			else
 				lens_flare->intensity = 1;
 			lens_flare->screen_pos = light_pos_screen;

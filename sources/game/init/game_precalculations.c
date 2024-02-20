@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:47:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/12 00:51:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:43:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static void	_compute_segment(t_game_data *game_data, t_segment_d *segment,
 	compute_segment_oriented_textures(game_data, segment, sector);
 }
 
-static void _compute_sector(t_game_data *game_data, t_bsp_tree_node_data *sector)
+static void	_compute_sector(
+	t_game_data *game_data,
+	t_bsp_tree_node_data *sector)
 {
 	compute_sector_center(sector);
 	compute_sector_floor_ceiling(game_data, sector);

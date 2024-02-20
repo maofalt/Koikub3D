@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:31:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/12 01:13:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:35:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ t_vector4d	point2d_to_vector4d_cpy(t_point2d point);
 t_point2d	vector4d_to_point2d_cpy(t_vector4d vec4d);
 
 double		point_space_partitioning(t_segment_d *separator, t_point2d *point);
-t_side		point_segment_side(t_segment_d *separator, t_vector4d *point);
+t_side		point_segment_side
+			(const t_segment_d *const separator,
+				const t_vector4d *const segment_point);
+
 
 t_point2d	find_intersection(t_segment_d line, t_segment_d seg);
 

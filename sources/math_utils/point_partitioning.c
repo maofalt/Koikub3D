@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:30:28 by olimarti          #+#    #+#             */
-/*   Updated: 2024/01/30 00:45:59 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:35:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ double	point_space_partitioning(t_segment_d *separator, t_point2d *point)
 	return (ab.x * ap.y - ab.y * ap.x);
 }
 
-t_side	point_segment_side(t_segment_d *separator, t_vector4d *point)
+t_side	point_segment_side(
+	const t_segment_d *const separator,
+	const t_vector4d *const segment_point)
 {
 	t_vector4d	ab;
 	t_vector4d	ap;
 	double		cross_product;
 
 	ab.vec = separator->point_b.vec - separator->point_a.vec;
-	ap.vec = point->vec - separator->point_a.vec;
+	ap.vec = segment_point->vec - separator->point_a.vec;
 	cross_product = ab.x * ap.y - ab.y * ap.x;
 	if (cross_product > 0)
 		return (SIDE_RIGHT);

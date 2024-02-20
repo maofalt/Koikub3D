@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 02:48:31 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 22:57:13 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:50:48 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ t_segment_d	_convert_billboard_to_seg(
 	return (surface_segment);
 }
 
+//TODO consider add raycast visibility check
+// if (check_ray_reach_dest(render->camera->pos, billboard->pos, render))
 void	draw_billboard(t_3d_render *render, t_billboard *billboard)
 {
 	t_vector4d		pos_screen;
@@ -70,7 +72,6 @@ void	draw_billboard(t_3d_render *render, t_billboard *billboard)
 			render->camera);
 	if (pos_screen.y > 0)
 	{
-		// if (check_ray_reach_dest(render->camera->pos, billboard->pos, render))
 		{
 			surface_segment = _convert_billboard_to_seg(render, *billboard);
 			draw_transparent_surface(render, &surface_segment);

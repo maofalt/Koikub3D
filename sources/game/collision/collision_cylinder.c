@@ -6,10 +6,9 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 02:21:16 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 02:21:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:57:45 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "structures.h"
 #include "game_loop.h"
@@ -106,6 +105,7 @@ t_vector4d	bsp_check_player_collision(t_3d_render *render,
 	return (collision_normal);
 }
 
+//TODO add normlisations
 t_collision_info	check_collision_cylinder(
 		t_vector4d pos,
 		double radius,
@@ -121,7 +121,6 @@ t_collision_info	check_collision_cylinder(
 		|| collision_info.collision_normal.z != 0)
 	{
 		collision_info.collision = true;
-		// normalize_vector_3d(&collision_info.collision_normal);
 	}
 	else
 		collision_info.collision = false;

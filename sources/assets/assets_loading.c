@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/19 22:21:22 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 04:20:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,17 @@ int	initialize_and_preload_assets(t_cub *data)
 	if (load_assets(data->mlx_ptr, data->ui_images, g_ui_asset_paths,
 			UI_ASSET_COUNT))
 	{
-		//TODO: free
+		//TODO: free ? (maybe already done)
 		return (1);
 	}
 	if (load_assets(data->mlx_ptr, data->game_images, g_game_asset_paths,
 			GAME_ASSET_COUNT))
 	{
-		//TODO: free
+		//TODO: free ?  (maybe already done)
 		return (1);
 	}
 	if (texture_manager_init(data))
-		//TODO: free
+		//TODO: free ? (maybe already done)
 		return (1);
 	return (0);
 }

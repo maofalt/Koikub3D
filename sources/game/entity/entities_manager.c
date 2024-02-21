@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:09:33 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 03:35:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:50:57 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	entities_update(t_game_data *game_data)
 	while (i < game_data->state.entities->size)
 	{
 		entities[i].update(&entities[i], game_data);
+		apply_physics_entity(&entities[i], game_data, 1);
 		i++;
 	}
 }

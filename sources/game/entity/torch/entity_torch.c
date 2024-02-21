@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 05:43:49 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:21:16 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void	entity_torch_destroy(t_entity *self, t_game_data *game_data)
 	self_data->flicker_interval = 1000;
 	self_data->flicker_interval_variance = 0.2;
 	self_data->flicker_intensity_variance = 0.5;*/
-static int	_init_torch_data(t_game_data *game_data,
-		t_entity_torch_data *self_data, t_spawn spawn)
+static int	_init_torch_data(
+		t_game_data *game_data,
+		t_entity *self,
+		t_entity_torch_data *self_data,
+		t_spawn spawn)
 {
 	t_light	*light;
 
@@ -53,17 +56,17 @@ static int	_init_torch_data(t_game_data *game_data,
 	self_data->flicker_interval_variance = 1;
 	self_data->flicker_intensity_variance = 2;
 	self_data->current_interval_duration = self_data->flicker_interval;
-	self_data->pos = spawn.pos;
-	self_data->dir = spawn.dir;
+	self->physics.pos = spawn.pos;
+	self->physics.dir = spawn.dir;
 	self_data->light_id = light_spawn_default(&game_data->game_view_render);
 	if (self_data->light_id == -1)
 		return (1);
 	light = sparse_array_get(game_data->game_view_render.lights_data.lights,
 			self_data->light_id);
 	light->type = DIRECTIONAL_LIGHT;
-	light->pos = self_data->pos;
+	light->pos = self->physics.pos;
 	light->color = (t_color){.r = 2, .g = 2, .b = 1};
-	light->dir = self_data->dir;
+	light->dir = self->physics.dir;
 	light->intensity = self_data->light_intensity;
 	light->show_lens_flare = false;
 	light->use_raycasting = true;
@@ -85,7 +88,7 @@ t_entity	*entity_torch_spawn(t_game_data *game_data, t_spawn spawn)
 	{
 		return (NULL);
 	}
-	if (_init_torch_data(game_data, self->data, spawn))
+	if (_init_torch_data(game_data, self, self->data, spawn))
 	{
 		return (NULL);
 	}

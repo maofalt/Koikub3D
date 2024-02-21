@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/20 03:40:41 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:17:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -544,25 +544,16 @@ typedef struct s_3d_render
 
 typedef struct s_entity_player_data
 {
-	t_vector4d	pos;
-	t_vector4d	dir;
 	t_vector4d	right;
-	t_vector4d	velocity;
 }				t_entity_player_data;
 
 typedef struct s_entity_penguin_data
 {
-	t_vector4d	pos;
-	t_vector4d	dir;
 	t_vector4d	right;
-	t_vector4d	velocity;
-	t_vector4d	acceleration;
 }				t_entity_penguin_data;
 
 typedef struct s_entity_torch_data
 {
-	t_vector4d		pos;
-	t_vector4d		dir;
 	int				light_id;
 	double			light_intensity;
 	unsigned int	current_interval_duration;
@@ -576,11 +567,13 @@ typedef struct s_entity_torch_data
 	double			flicker_intensity_variance;
 }				t_entity_torch_data;
 
+typedef struct s_entity t_entity;
+
 typedef struct s_game_state
 {
 	t_camera				player_camera;
 	t_sparse_array			*entities;
-	t_entity_player_data	*player;
+	t_entity				*player;
 	bool					is_ready;
 	double					delta_time;
 	unsigned int			time_since_start;
@@ -603,15 +596,57 @@ typedef enum e_entity_type
 	ENTITY_PENGUIN
 }					t_entity_type;
 
+typedef enum e_collision_model_type
+{
+	COLLISION_MODEL_NONE,
+	COLLISION_MODEL_STATIC_SURFACE,
+	COLLISION_MODEL_DYNAMIC_CYLINDER
+}	t_collision_model_type;
+
+typedef struct s_collision_model_static_surface
+{
+	t_vector4d		normal;
+	double			distance;
+}	t_collision_model_static_surface;
+
+typedef struct s_collision_model_dynamic_cylinder
+{
+	double			radius;
+	double			height;
+}	t_collision_model_dynamic_cylinder;
+
+typedef struct s_collision_model
+{
+	t_collision_model_type	type;
+	union
+	{
+		t_collision_model_static_surface	static_surface;
+		t_collision_model_dynamic_cylinder	dynamic_cylinder;
+	};
+}	t_collision_model;
+
+typedef struct s_entity_physics
+{
+	t_vector4d			pos;
+	t_vector4d			dir;
+	t_vector4d			right;
+	t_vector4d			velocity;
+	t_vector4d			acceleration;
+	double				friction;
+	t_collision_model	collision_model;
+}				t_entity_physics;
+
+
 typedef struct s_entity
 {
-	int				id;
-	t_entity_type	type;
-	void			*data;
-	bool			should_be_destroyed;
-	void			(*update)(struct s_entity *self, t_game_data *game_data);
-	void			(*draw)(struct s_entity *self, t_game_data *game_data);
-	void			(*destroy)(struct s_entity *self, t_game_data *game_data);
+	int					id;
+	t_entity_type		type;
+	t_entity_physics	physics;
+	void				*data;
+	bool				should_be_destroyed;
+	void				(*update)(struct s_entity *self, t_game_data *game_data);
+	void				(*draw)(struct s_entity *self, t_game_data *game_data);
+	void				(*destroy)(struct s_entity *self, t_game_data *game_data);
 }					t_entity;
 
 typedef struct s_data

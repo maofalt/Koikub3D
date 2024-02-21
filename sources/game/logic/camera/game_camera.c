@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:54:17 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 03:37:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:51:14 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	game_update_camera(t_game_data *data)
 {
 	double	tilt;
 
-	data->state.player_camera.dir = data->state.player->dir;
-	data->state.player_camera.right = data->state.player->right;
-	data->state.player_camera.pos = data->state.player->pos;
-	data->state.player_camera.velocity = data->state.player->velocity;
+	data->state.player_camera.dir = data->state.player->physics.dir;
+	data->state.player_camera.right = data->state.player->physics.right;
+	data->state.player_camera.pos = data->state.player->physics.pos;
+	data->state.player_camera.velocity = data->state.player->physics.velocity;
 	tilt = _dot_product_3d(&data->state.player_camera.velocity,
 			&data->state.player_camera.right);
 	data->state.player_camera.tilt = tilt * TILT_FACTOR;

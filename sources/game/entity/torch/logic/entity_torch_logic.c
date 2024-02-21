@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 02:02:29 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 05:43:32 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:49:59 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,35 @@ void	_torch_flicker_effect(
 }
 
 void	_update_position(
-	t_entity_torch_data *data,
+	t_entity *self,
 	t_light *light,
 	t_3d_render *render)
 {
-	data->pos.x = (render->camera->pos.x - render->camera->dir.y * 0.15) * 0.9
-		+ data->pos.x * 0.1;
-	data->pos.y = (render->camera->pos.y + render->camera->dir.x * 0.15) * 0.9
-		+ data->pos.y * 0.1;
-	data->pos.z = (render->camera->pos.z + 0.1) * 0.5 + data->pos.z * 0.5;
-	data->dir.x = -(render->camera->dir.x) * 0.2 + data->dir.x * 0.8;
-	data->dir.y = -(render->camera->dir.y) * 0.2 + data->dir.y * 0.8;
-	light->pos = data->pos;
-	light->dir = data->dir;
+	self->physics.pos.x = (render->camera->pos.x - render->camera->dir.y * 0.15)
+		* 0.9 + self->physics.pos.x * 0.1;
+	self->physics.pos.y = (render->camera->pos.y + render->camera->dir.x * 0.15)
+		* 0.9 + self->physics.pos.y * 0.1;
+	self->physics.pos.z = (render->camera->pos.z + 0.1)
+		* 0.5 + self->physics.pos.z * 0.5;
+	self->physics.dir.x = -(render->camera->dir.x)
+		* 0.2 + self->physics.dir.x * 0.8;
+	self->physics.dir.y = -(render->camera->dir.y)
+		* 0.2 + self->physics.dir.y * 0.8;
+	light->pos = self->physics.pos;
+	light->dir = self->physics.dir;
 }
 
 void	_update_flickering_params(
+	t_entity *self,
 	t_entity_torch_data *data,
 	t_game_data *game_data)
 {
 	double	dist;
 
-	dist = sqrt(pow(data->pos.x - game_data->map_data.player_spawn.pos.x, 2)
-			+ pow(data->pos.y - game_data->map_data.player_spawn.pos.y, 2));
+	dist = sqrt(pow(self->physics.pos.x
+				- game_data->map_data.player_spawn.pos.x, 2)
+			+ pow(self->physics.pos.y
+				- game_data->map_data.player_spawn.pos.y, 2));
 	data->flicker_interval = 1000 / (dist + 1);
 	if (data->flicker_interval
 		* (1 + data->flicker_interval_variance)
@@ -88,7 +94,7 @@ void	entity_torch_update(t_entity *self, t_game_data *game_data)
 	render = &game_data->game_view_render;
 	light = sparse_array_get(render->lights_data.lights,
 			data->light_id);
-	_update_position(data, light, render);
-	_update_flickering_params(data, game_data);
+	_update_position(self, light, render);
+	_update_flickering_params(self, data, game_data);
 	_torch_flicker_effect(data, light, game_data);
 }

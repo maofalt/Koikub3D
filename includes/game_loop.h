@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 19:38:24 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:50:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void				entities_destroy_marked(t_game_data *game_data);
 void				entities_destroy_all(t_game_data *game_data);
 
 // COLLISION
+void				apply_physics_entity(
+						t_entity *entity,
+						t_game_data *game_data,
+						double dt);
 bool				segment_circle_intersection(t_segment_d *segment,
 						t_circle *circle);
 t_collision_info	check_collision_cylinder(t_vector4d pos, double radius,

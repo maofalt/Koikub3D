@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 03:05:39 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 04:18:07 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:48:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ void	entity_penguin_draw(t_entity *self, t_game_data *game_data)
 	t_billboard				billboard;
 
 	data = self->data;
-	billboard.pos = data->pos;
-	billboard.dir = data->dir;
-	billboard.right = data->right;
+	billboard.pos = self->physics.pos;
+	billboard.dir = self->physics.dir;
+	billboard.right = self->physics.right;
 	billboard.size = (t_vector4d){{2, 2, 0, 0}};
-	if (data->velocity.x <= 0.005 && data->velocity.y <= 0.005
-		&& data->velocity.x >= -0.005 && data->velocity.y >= -0.005
-		&& data->acceleration.x == 0 && data->acceleration.y == 0)
+	if (self->physics.velocity.x <= 0.005 && self->physics.velocity.y <= 0.005
+		&& self->physics.velocity.x >= -0.005
+		&& self->physics.velocity.y >= -0.005
+		&& self->physics.acceleration.x == 0
+		&& self->physics.acceleration.y == 0)
 		billboard.texture.texture
 			= &game_data->map_data.texture_manager
 			->textures[TEXTURE_PENGUIN_IDLE];

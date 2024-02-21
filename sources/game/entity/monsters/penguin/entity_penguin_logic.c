@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entity_penguin_logic.c                              :+:      :+:    :+:   */
+/*   entity_penguin_logic.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 23:19:23 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/08 16:36:00 by olimarti         ###   ########.fr       */
+/*   Created: 2024/02/21 02:46:54 by olimarti          #+#    #+#             */
+/*   Updated: 2024/02/21 02:46:56 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,19 @@ static void	normalize_vector_3d(t_vector4d *vec)
 	vec->vec[2] *= reverse_lenght;
 }
 
-t_vector4d	_get_penguin_world_acceleration(t_entity_penguin_data *self_data,
-		t_game_data *game_data)
+t_vector4d	_get_penguin_world_acceleration(
+	t_entity *self,
+	t_entity_penguin_data *self_data,
+	t_game_data *game_data)
 {
 	t_vector4d	acceleration;
 
-	acceleration.x = game_data->state.player->pos.x - self_data->pos.x;
-	acceleration.y = game_data->state.player->pos.y - self_data->pos.y;
+	(void)self_data;
+	acceleration.x = game_data->state.player->physics.pos.x
+		- self->physics.pos.x;
+	acceleration.y = game_data->state.player->physics.pos.y
+		- self->physics.pos.y;
 	acceleration.z = 0;
-
 	if (acceleration.x * acceleration.x + acceleration.y * acceleration.y < 10)
 	{
 		acceleration = (t_vector4d){{0, 0, 0, 0}};
@@ -50,57 +54,23 @@ t_vector4d	_get_penguin_world_acceleration(t_entity_penguin_data *self_data,
 	return (acceleration);
 }
 
-void	_update_penguin_direction(t_entity_penguin_data *self_data,
-		t_game_data *game_data)
+void	_update_penguin_direction(
+	t_entity *self,
+	t_entity_penguin_data *self_data,
+	t_game_data *game_data)
 {
 	t_vector4d	direction;
 
-	direction.x = game_data->state.player->pos.x - self_data->pos.x;
-	direction.y = game_data->state.player->pos.y - self_data->pos.y;
+	(void)self_data;
+	direction.x = game_data->state.player->physics.pos.x - self->physics.pos.x;
+	direction.y = game_data->state.player->physics.pos.y - self->physics.pos.y;
 	direction.z = 0;
 	normalize_vector_3d(&direction);
-	self_data->dir.x = direction.x * 0.1 + self_data->dir.x * 0.90;
-	self_data->dir.y = direction.y * 0.1 + self_data->dir.y * 0.90;
-	self_data->right = self_data->dir;
-	self_data->right.x = self_data->dir.y;
-	self_data->right.y = -self_data->dir.x;
-}
-
-
-static double dot_product_3d(t_vector4d *vec1, t_vector4d *vec2)
-{
-	double result = vec1->x * vec2->x + vec1->y * vec2->y + +vec1->z * vec2->z;
-
-	return (result);
-}
-
-static void	apply_collision_correction(t_entity_penguin_data *data, t_game_data *game_data)
-{
-	t_vector4d			sliding_vector;
-	t_vector4d			new_pos;
-	double				dot_product;
-	t_collision_info	collision_info;
-	int					i;
-
-	i = 5;
-	new_pos.vec = data->pos.vec + data->velocity.vec * game_data->state.delta_time;
-	collision_info
-		= check_collision_cylinder(new_pos, DEFAULT_PLAYER_RADIUS,
-			DEFAULT_PLAYER_HEIGHT, &game_data->game_view_render);
-	while (collision_info.collision && --i)
-	{
-		normalize_vector_3d(&collision_info.collision_normal);
-		dot_product = dot_product_3d(&data->velocity,
-				&collision_info.collision_normal);
-		sliding_vector.vec = data->velocity.vec
-			- 1.0 * dot_product * collision_info.collision_normal.vec;
-		data->velocity = sliding_vector;
-		new_pos.vec = data->pos.vec
-			+ data->velocity.vec * game_data->state.delta_time;
-		collision_info
-			= check_collision_cylinder(new_pos, DEFAULT_PLAYER_RADIUS,
-				DEFAULT_PLAYER_HEIGHT, &game_data->game_view_render);
-	}
+	self->physics.dir.x = direction.x * 0.1 + self->physics.dir.x * 0.90;
+	self->physics.dir.y = direction.y * 0.1 + self->physics.dir.y * 0.90;
+	self->physics.right = self->physics.dir;
+	self->physics.right.x = self->physics.dir.y;
+	self->physics.right.y = -self->physics.dir.x;
 }
 
 void	entity_penguin_update_movements(t_entity *self, t_game_data *game_data)
@@ -109,13 +79,8 @@ void	entity_penguin_update_movements(t_entity *self, t_game_data *game_data)
 	t_vector4d				world_space_acceleration;
 
 	data = self->data;
-	world_space_acceleration = _get_penguin_world_acceleration(data, game_data);
-	data->acceleration.vec = world_space_acceleration.vec;
-	data->velocity.vec += world_space_acceleration.vec * game_data->state.delta_time;
-	data->velocity.vec *= 1 - DEFAULT_PLAYER_DECELERATION
-		* game_data->state.delta_time;
-	apply_collision_correction(data, game_data);
-	data->pos.vec += data->velocity.vec * game_data->state.delta_time;
-	_update_penguin_direction(data, game_data);
-
+	world_space_acceleration
+		= _get_penguin_world_acceleration(self, data, game_data);
+	_update_penguin_direction(self, data, game_data);
+	self->physics.acceleration.vec = world_space_acceleration.vec;
 }

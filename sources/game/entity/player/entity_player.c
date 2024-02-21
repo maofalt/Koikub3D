@@ -31,13 +31,21 @@ void	entity_player_destroy(t_entity *self, t_game_data *game_data)
 	free(self->data);
 }
 
-static void	_init_player_data(t_entity_player_data *self_data,
-		t_spawn spawn)
+static void	_init_player_data(
+	t_entity *self,
+	t_spawn spawn)
 {
-	self_data->pos = spawn.pos;
-	self_data->dir = spawn.dir;
-	self_data->velocity = (t_vector4d){{0, 0, 0, 0}};
-	self_data->right = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.pos = spawn.pos;
+	self->physics.dir = spawn.dir;
+	self->physics.velocity = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.acceleration = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.right = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.friction = DEFAULT_PLAYER_DECELERATION;
+	self->physics.collision_model.type = COLLISION_MODEL_DYNAMIC_CYLINDER;
+	self->physics.collision_model.dynamic_cylinder.height
+		= DEFAULT_PLAYER_HEIGHT;
+	self->physics.collision_model.dynamic_cylinder.radius
+		= DEFAULT_PLAYER_RADIUS;
 }
 
 t_entity	*entity_player_spawn(t_game_data *game_data, t_spawn	spawn)
@@ -55,6 +63,6 @@ t_entity	*entity_player_spawn(t_game_data *game_data, t_spawn	spawn)
 	{
 		return (NULL);
 	}
-	_init_player_data(self->data, spawn);
+	_init_player_data(self, spawn);
 	return (self);
 }

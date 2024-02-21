@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/13 21:21:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:38:53 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,21 @@ void	entity_penguin_destroy(t_entity *self, t_game_data *game_data)
 	free(self->data);
 }
 
-static void	_init_penguin_data(t_entity_penguin_data *self_data,
-		t_spawn spawn)
+static void	_init_penguin_data(
+	t_entity *self,
+	t_spawn spawn)
 {
-	self_data->pos = spawn.pos;
-	self_data->dir = spawn.dir;
-	self_data->velocity = (t_vector4d){{0, 0, 0, 0}};
-	self_data->acceleration = (t_vector4d){{0, 0, 0, 0}};
-	self_data->right = (t_vector4d){{spawn.dir.y, -spawn.dir.x, 0, 0}};
+	self->physics.pos = spawn.pos;
+	self->physics.dir = spawn.dir;
+	self->physics.velocity = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.acceleration = (t_vector4d){{0, 0, 0, 0}};
+	self->physics.right = (t_vector4d){{spawn.dir.y, -spawn.dir.x, 0, 0}};
+	self->physics.friction = DEFAULT_PLAYER_DECELERATION;
+	self->physics.collision_model.type = COLLISION_MODEL_DYNAMIC_CYLINDER;
+	self->physics.collision_model.dynamic_cylinder.height
+		= DEFAULT_PLAYER_HEIGHT;
+	self->physics.collision_model.dynamic_cylinder.radius
+		= DEFAULT_PLAYER_RADIUS;
 }
 
 void	entity_penguin_draw(t_entity *self, t_game_data *game_data);
@@ -55,6 +62,6 @@ t_entity	*entity_penguin_spawn(t_game_data *game_data, t_spawn	spawn)
 	{
 		return (NULL);
 	}
-	_init_penguin_data(self->data, spawn);
+	_init_penguin_data(self, spawn);
 	return (self);
 }

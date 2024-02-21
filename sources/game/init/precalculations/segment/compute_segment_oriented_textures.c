@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compute_oriented_textures.c                        :+:      :+:    :+:   */
+/*   compute_segment_oriented_textures.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 22:21:30 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/12 00:32:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:49:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	calc_vector_sector(t_vector4d *vec, int sector_count)
 	angle = atan2(vec->y, vec->x);
 	if (angle < 0)
 		angle += M_PI * 2;
-	return (sector_count * angle / (2 * M_PI));
+	return (((int)(sector_count * angle / (2 * M_PI))) % sector_count);
 }
 
 static t_texture	*get_oriented_texture(

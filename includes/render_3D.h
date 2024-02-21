@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 04:06:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:45:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 # define RENDER_3D_H
 
 # include "structures.h"
+# include "settings.h"
 
-# define CAMERA_PROXIMITY 0.001
-# define RENDER_QUEUE_SIZE 128
 # define CEIL_COLOR 0x0
 // #define CEIL_COLOR 0xFF1D1D39
 // #define FLOOR_COLOR 0xFF1F6E91

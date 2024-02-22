@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:34:59 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:48:48 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:14:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_list	*create_segment_node(void)
 	t_segment_d	*segment;
 	t_list		*node;
 
-	segment = ft_calloc(1,sizeof(t_segment_d));
+	segment = ft_calloc(1, sizeof(t_segment_d));
 	if (segment == NULL)
 		return (NULL);
 	node = ft_lstnew(segment);
@@ -74,7 +74,7 @@ t_list	*duplicate_segment_node(t_list *original_node)
 	return (duplicated_node);
 }
 
-t_list *lst_segment_cpy(t_list *lst)
+t_list	*lst_segment_cpy(t_list *lst)
 {
 	t_list	*new_lst;
 	t_list	*new_node;

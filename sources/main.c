@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:59:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:51:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 #include "bsp_builder.h"
 #include "ressources_managers.h"
 
-void	map_destroy(t_cub *data); //TODO remove this
+void	map_destroy(t_map_data *map_data); //TODO remove this
 
 
 void	free_everything(t_cub data)
 {
+	destroy_assets(&data);
 	if (data.win_ptr != NULL)
 		mlx_destroy_window(data.mlx_ptr, data.win_ptr);
 	data.win_ptr = NULL;
@@ -37,8 +38,8 @@ void	free_everything(t_cub data)
 	free(data.mlx_ptr);
 	if (data.map != NULL)
 		free_double_char(data.map);
-	map_destroy(&data);
-	game_render_destroy(&data);
+	game_destroy(&data.game_data);
+	ft_lstclear(&data.segments_list, free);
 	free_canvas_list(data.canvas_list);
 }
 
@@ -81,8 +82,8 @@ void	set_segments_ceil_floor(t_list *seg_lst)
 	{
 		seg = seg_lst->content;
 
-		seg->data.ceil = -50;
-		seg->data.floor = 10;
+		seg->data.ceil = -3;
+		seg->data.floor = 1;
 		seg_lst = seg_lst->next;
 	}
 }
@@ -102,38 +103,89 @@ void	tmp_set_segments_textures(t_list *lst, t_cub *data)
 
 }
 
-//TODO: move it
-int	map_convert(t_cub *data)
+
+static void	lst_update_portals_textures(
+	t_list **bsp_list,
+	t_texture_ptr *padding_texture_top,
+	t_texture_ptr *padding_texture_bottom
+	)
 {
-	t_list		*segments_lst;
+	t_list			*current;
+	t_segment_d	*seg;
+
+	current = *bsp_list;
+	while (current != NULL)
+	{
+		seg = (t_segment_d *)current->content;
+		if (seg->data.type == PORTAL)
+		{
+			seg->data.data.portal.padding_texture_bottom
+				= *padding_texture_bottom;
+			seg->data.data.portal.padding_texture_top = *padding_texture_top;
+		}
+		current = current->next;
+	}
+}
+
+void	tree_update_update_portals_textures(
+	t_tree_node *tree,
+	t_texture_ptr *padding_texture_top,
+	t_texture_ptr *padding_texture_bottom
+	)
+{
+	if (tree->left == NULL && tree->right == NULL)
+	{
+		lst_update_portals_textures(
+			&((t_bsp_tree_node_data*)tree->data)->sector_segments,
+			padding_texture_top, padding_texture_bottom);
+		return ;
+	}
+	tree_update_update_portals_textures(tree->left,
+		padding_texture_top, padding_texture_bottom);
+	tree_update_update_portals_textures(tree->right,
+		padding_texture_top, padding_texture_bottom);
+}
+
+
+void set_bsp_default_textures(t_cub *data)
+{
+	t_texture_ptr texture_ptr;
+
+	texture_ptr.texture = data->texture_manager.textures;
+	printf("hello: %i\n", texture_ptr.texture->frame_count);
+	texture_ptr.offset = 0;
+	tree_update_update_portals_textures(data->game_data.map_data.bsp,
+	&texture_ptr, &texture_ptr);
+}
+
+//TODO: move it
+int	map_convert(t_cub *data, t_map_data *map_data)
+{
+	t_list		**segments_lst;
 	t_tree_node	*tree;
 
 	tree = NULL;
-	segments_lst = data->segments_list;
-	printf("caribou##%p\n", data->segments_list);
-	if (!segments_lst && extract_edge_recursively(data->map, &segments_lst))
+	segments_lst = &data->segments_list;
+	if (!*segments_lst && extract_edge_recursively(data->map, segments_lst))
 		return (1);
-	set_segments_ceil_floor(segments_lst);
-	tmp_set_segments_textures(segments_lst, data);
-	if (construct_bsp(&segments_lst, &tree))
+	set_segments_ceil_floor(*segments_lst);
+	tmp_set_segments_textures(*segments_lst, data);
+	if (construct_bsp(segments_lst, &tree))
 	{
-		ft_lstclear(&segments_lst, free);
+		ft_lstclear(segments_lst, free);
 		return (1);
 	}
-	data->game_data.map_data.segments = segments_lst;
-	data->game_data.map_data.bsp = tree;
+	map_data->segments = *segments_lst;
+	map_data->bsp = tree;
+	set_bsp_default_textures(data);
 	return (0);
 }
 
 //TODO: move it
-void	map_destroy(t_cub *data)
+void	map_destroy(t_map_data *map_data)
 {
-	destroy_segment_tree(&data->game_data.map_data.bsp);
-	ft_lstclear(&data->game_data.map_data.segments, free);
+	destroy_segment_tree(&map_data->bsp);
 }
-
-
-
 
 int	main(int argc, char **argv)
 {

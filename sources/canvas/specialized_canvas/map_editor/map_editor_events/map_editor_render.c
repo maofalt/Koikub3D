@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:59:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 08:40:26 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	map_editor_render(void *self, t_cub *data)
 	if (map_editor_data->segments == NULL)
 	{
 		extract_edge_recursively(data->map, &map_editor_data->segments);
+		data->segments_list = map_editor_data->segments;
 		printfallsegments(map_editor_data->segments);
 		auto_center_map(map_editor_data, data);
 		data->update |= FULL_REDRAW;
@@ -117,11 +118,3 @@ int	map_editor_render(void *self, t_cub *data)
 	}
 	return (0);
 }
-		// t_point2i 		pos_to_center = (t_point2i){{(WINDOW_WIDTH / 2) - map_center.x, (WINDOW_HEIGHT / 2) -map_center.y}};
-		// double scale_x = (double)WINDOW_WIDTH / data->mapwidth;
-		// double scale_y = (double)WINDOW_HEIGHT / data->mapheight;
-		// double	scale = scale_x < scale_y ? scale_x : scale_y;
-		// apply_zoom_at_position(map_editor, 1,
-		// 	pos_to_center);
-		// apply_zoom_at_position(map_editor,(1 /scale) * 1.2,
-		// 	(t_point2i){{0,0}});

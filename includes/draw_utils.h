@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:50:14 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 00:21:47 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,9 @@ void						canvas_to_mlx_image(t_img_data screen,
 
 void						img_pix_put(t_img_data *img, int x, int y,
 								int color);
+
+int							put_pixel_transparent(t_color *dest, t_color *src);
+
 void						draw_segment(
 								t_img_data *img,
 								t_segment_d const *const segment,

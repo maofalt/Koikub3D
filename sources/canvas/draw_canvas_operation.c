@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_canvas_operation.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/16 22:10:14 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:53:02 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ void	end_drawing(t_canvas *canvas, t_point2i end_point, t_color color)
 	end = apply_transformations_to_point(current_point_canvas,
 			map_editor->matrix_operations);
 	ft_memset(&segment, 0, sizeof(t_segment_d));
+	if (start.x == end.x && start.y == end.y)
+		return ;
 	segment.point_a = point2d_to_vector4d(&start);
 	segment.point_b = point2d_to_vector4d(&end);
 	add_segment_to_lst(&map_editor->segments, segment);
-	//printf("NEW SEGMENT added\n");
-	//printf("\tstart: [%f, %f]", segment.point_a.x, segment.point_a.y);
-	//printf(" \tend: [%f, %f]", segment.point_b.x, segment.point_b.y);
 }

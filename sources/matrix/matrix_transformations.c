@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 16:41:39 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/19 22:44:34 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ t_matrix3x3	translation_matrix(t_point2d translation)
 	trans.row[0].vec = (t_v4d){1, 0, translation.x, 0};
 	trans.row[1].vec = (t_v4d){0, 1, translation.y, 0};
 	trans.row[2].vec = (t_v4d){0, 0, 1, 0};
-
 	return (trans);
 }
-
 
 int	push_matrix_op(t_list **matrix_op, t_matrix3x3 matrix)
 {

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 23:14:53 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:23:19 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	ft_destroy_window_button(int keysym, t_cub *data)
 	if (keysym == XK_Escape)
 	{
 		mlx_loop_end(data->mlx_ptr);
-		// mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		// data->win_ptr = NULL;
 	}
 }
 

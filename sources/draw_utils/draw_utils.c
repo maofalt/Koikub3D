@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/11/01 17:30:16 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/11 01:49:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,24 @@ void	img_pix_put(t_img_data *img, int x, int y, int color)
 
 	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(int *)pixel = color;
+}
+
+
+int	put_pixel_transparent(t_color *dest, t_color *src)
+{
+	double	alpha;
+
+	if (src->a == 255)
+		return (255);
+	if (src->a == 0)
+	{
+		dest->d = src->d;
+		return (0);
+	}
+	alpha = (double)src->a / 255.0;
+	dest->r = (1 - alpha) * (double)src->r + alpha * (double)dest->r;
+	dest->g = (1 - alpha) * (double)src->g + alpha * (double)dest->g;
+	dest->b = (1 - alpha) * (double)src->b + alpha * (double)dest->b;
+	dest->a = 255;
+	return (src->a);
 }

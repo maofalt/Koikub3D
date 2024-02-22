@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 22:28:10 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:50:50 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,72 @@
 
 # include "structures.h"
 
-void	game_render(t_cub *data);
-void	game_update(t_cub *data);
-int		game_loop(void *self, t_cub *data);
-void	player_handle_event(t_cub *data);
+int					game_init(t_cub *data, t_canvas *canvas);
+void				game_render(t_cub *data);
+void				game_update(t_game_data *game_data);
+int					game_loop(void *self, t_cub *data);
+void				game_post_process_frame(t_3d_render *render);
 
-int		game_render_init(t_cub  *data, t_canvas *canvas);
-void	game_render_destroy(t_cub *data);
+void				game_update_camera(t_game_data *data);
 
-void	count_fps(void);
+int					game_render_init(t_cub *data, t_game_data *game_data,
+						t_canvas *canvas);
+void				game_render_destroy(t_game_data *game_data);
+void				game_destroy(t_game_data *data);
+
+void				count_fps(void);
+
+// Precomputation
+void				game_precalculate_map(t_game_data *game_data);
+
+void				compute_sector_center(t_bsp_tree_node_data *sector);
+void				compute_sector_floor_ceiling(t_game_data *game_data,
+						t_bsp_tree_node_data *sector);
+void				compute_segment_normal(t_game_data *game_data,
+						t_segment_d *segment);
+void				compute_segment_orientation(__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment, t_bsp_tree_node_data *sector);
+
+void				compute_segment_size(__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment);
+
+void				compute_segment_oriented_textures(__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment, t_bsp_tree_node_data *sector);
+void				compute_segment_floor_ceil(
+						__attribute_maybe_unused__ t_game_data *game_data,
+						t_segment_d *segment,
+						t_bsp_tree_node_data *sector);
+
+// ENTITY
+t_entity			*entity_default_spawn(t_game_data *game_data);
+t_entity			*entity_player_spawn(t_game_data *game_data, t_spawn spawn);
+t_entity			*entity_torch_spawn(t_game_data *game_data, t_spawn spawn);
+t_entity			*entity_penguin_spawn(t_game_data *game_data, t_spawn spawn);
+
+void				entity_player_update_movements(t_entity *self,
+						t_game_data *game_data);
+
+void				entity_penguin_update_movements(t_entity *self,
+						t_game_data *game_data);
+
+void				entity_torch_update(t_entity *self, t_game_data *game_data);
+
+void				entities_update(t_game_data *game_data);
+void				entities_draw(t_game_data *game_data);
+void				entities_destroy_marked(t_game_data *game_data);
+void				entities_destroy_all(t_game_data *game_data);
+
+// COLLISION
+void				apply_physics_entity(
+						t_entity *entity,
+						t_game_data *game_data,
+						double dt);
+bool				segment_circle_intersection(t_segment_d *segment,
+						t_circle *circle);
+t_collision_info	check_collision_cylinder(t_vector4d pos, double radius,
+						double height, t_3d_render *render);
+
+// SECTOR EDIT
+void				sector_edit_height_handle_event(t_game_data *game_data);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_edges.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/10/14 20:30:17 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/22 07:07:49 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 void	explore_edge(t_edge_exploration_context *context)
 {
-	t_vector4d		*coord;
-	t_vector4d		*delta;
-	t_segment_d		*segment;
+	t_vector4d *const	coord = &(context->coord);
+	t_vector4d *const	delta = &(context->delta);
+	t_segment_d *const	segment = &(context->segment);
 
-	coord = &(context->coord);
-	delta = &(context->delta);
-	segment = &(context->segment);
-	if (coord->x < 0 || coord->y < 0)
-		return ;
-	if (context->map[(int)coord->y][(int)coord->x] != '1')
-		return ;
-	if (context->visited[(int)coord->y][(int)coord->x] & context->direction)
-		return ;
-	if ((context->current_coord.x == coord->x && context->current_coord.y == coord->y) &&
-		context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)] != '1')
-		return ;
-	context->visited[(int)coord->y][(int)coord->x] |= context->direction;
-	segment->point_b = *coord;
-	if (context->direction == DIAGONAL_LEFT && check_diagonal_left(context, &(context->coord)))
-		return ;
-	else if (context->direction == DIAGONAL_RIGHT && check_diagonal_right(context, &(context->coord)))
-		return ;
-	coord->x += delta->x;
-	coord->y += delta->y;
-	explore_edge(context);
+	while (1)
+	{
+		if ((coord->x < 0 || coord->y < 0)
+			|| (context->map[(int)coord->y][(int)coord->x] != '1')
+		|| (context->visited[(int)coord->y][(int)coord->x] & context->direction)
+		|| ((context->current_coord.x == coord->x
+			&& context->current_coord.y == coord->y) &&
+			context->map[(int)(coord->y + delta->y)][(int)(coord->x + delta->x)]
+				!= '1'))
+			return ;
+		context->visited[(int)coord->y][(int)coord->x] |= context->direction;
+		segment->point_b = *coord;
+		if ((context->direction == DIAGONAL_LEFT
+				&& check_diagonal_left(context, &(context->coord)))
+			|| (context->direction == DIAGONAL_RIGHT
+				&& check_diagonal_right(context, &(context->coord))))
+			return ;
+		coord->x += delta->x;
+		coord->y += delta->y;
+	}
 }
 
 int	extract_edge_recursively(char **map, t_list **edges)
@@ -49,12 +48,12 @@ int	extract_edge_recursively(char **map, t_list **edges)
 
 	context.map = map;
 	*edges = NULL;
-	context.visited = malloc2DArray(map);
+	context.visited = malloc_2d_array(map);
 	if (context.visited == NULL)
 		return (1);
 	if (process_map(&context, edges, height_map, width_map))
 		return (1);
-	free2DArray(context.visited);
+	free_2d_array(context.visited);
 	return (0);
 }
 
@@ -94,10 +93,10 @@ int	process_row_vertical_horizontal(t_edge_exploration_context *context,
 		if (context->map[y][x] == '1')
 		{
 			if (process_direction(context, edges,
-				(t_vector4d){{1, 0, 0, 0}}, RIGHT))
+					(t_vector4d){{1, 0, 0, 0}}, RIGHT))
 				return (1);
 			if (process_direction(context, edges,
-				(t_vector4d){{0, 1, 0, 0}}, DOWN))
+					(t_vector4d){{0, 1, 0, 0}}, DOWN))
 				return (1);
 		}
 		x++;

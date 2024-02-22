@@ -71,3 +71,6 @@ node_modules/
 
 
 prof_files/
+
+# GDB
+.gdb_history

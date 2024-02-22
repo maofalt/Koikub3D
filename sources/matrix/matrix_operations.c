@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 21:35:16 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:45:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,5 @@ t_point2d	matrix_vector_multiply(t_matrix3x3 matrix, t_point2d point)
 		+ matrix.row[0].y * point.y + matrix.row[0].z;
 	result.y = matrix.row[1].x * point.x
 		+ matrix.row[1].y * point.y + matrix.row[1].z;
-
 	return (result);
 }

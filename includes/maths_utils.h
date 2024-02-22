@@ -6,12 +6,14 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:31:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:02:38 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/20 05:35:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATH_UTILS_H
-# define MATH_UTILS_H
+#ifndef MATHS_UTILS_H
+# define MATHS_UTILS_H
+
+# include "structures.h"
 
 t_vector4d	point2d_to_vector4d(t_point2d *point);
 t_point2d	vector4d_to_point2d(t_vector4d *vec4d);
@@ -19,7 +21,15 @@ t_vector4d	point2d_to_vector4d_cpy(t_point2d point);
 t_point2d	vector4d_to_point2d_cpy(t_vector4d vec4d);
 
 double		point_space_partitioning(t_segment_d *separator, t_point2d *point);
+t_side		point_segment_side
+			(const t_segment_d *const separator,
+				const t_vector4d *const segment_point);
+
+
 t_point2d	find_intersection(t_segment_d line, t_segment_d seg);
 
+double		lerp(double alpha, double start, double end);
+
+double		random_double_xorshift32(void);
 
 #endif

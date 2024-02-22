@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   general_events.c                                   :+:      :+:    :+:   */
+/*   map_editor_buttonpress.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 21:35:09 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/22 10:22:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	map_canvas_handle_boutonpress(
 		data->update |= LINE_REDRAW;
 	}
 	if (buttonsym == 4)
-		map_canvas_handle_zoom(1, self,  data, mouse_pos);
+		map_canvas_handle_zoom(1, self, data, mouse_pos);
 	if (buttonsym == 5)
-		map_canvas_handle_zoom(-1, self,  data, mouse_pos);
+		map_canvas_handle_zoom(-1, self, data, mouse_pos);
 	return (0);
 }

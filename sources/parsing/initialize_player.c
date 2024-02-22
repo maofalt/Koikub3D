@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 16:39:01 by motero            #+#    #+#             */
-/*   Updated: 2023/10/16 04:09:32 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:15:40 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	initialize_player(t_cub *data)
 	initialize_player_pos(data);
 	initialize_player_dir(data);
 	initialize_player_plane(data);
-	// data->dda.pos = data->player.pos;
 	return (1);
 }
 
@@ -37,54 +36,60 @@ void	initialize_player_pos(t_cub *data)
 	int	x;
 	int	y;
 
-	x = 0;
-	while (data->map[x])
+	y = 0;
+	while (data->map[y])
 	{
-		y = 0;
-		while (data->map[x][y])
+		x = 0;
+		while (data->map[y][x])
 		{
-			if (data->map[x][y] == 'N' || data->map[x][y] == 'S' ||
-				data->map[x][y] == 'E' || data->map[x][y] == 'W')
+			if (data->map[y][x] == 'N' || data->map[y][x] == 'S' ||
+				data->map[y][x] == 'E' || data->map[y][x] == 'W')
 			{
 				data->player.pos.x = x + 0.5;
 				data->player.pos.y = y + 0.5;
 				return ;
 			}
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
+
+typedef struct orientation
+{
+	char		orientation;
+	t_vector4d	dir;
+}	t_orientation;
+
+static const t_orientation	g_orientation[] = {
+{'N', {{0, -1, 0, 0}}},
+{'S', {{0, 1, 0, 0}}},
+{'E', {{1, 0, 0, 0}}},
+{'W', {{-1, 0, 0, 0}}},
+{0, {{0, 0, 0, 0}}}
+};
 
 /*
 ** Initialize the direction of the player as a t_vector_f dir
 ** depending on the position of the player in the map
 ** and the orientation of the player "N", "S", "E", "W"
 */
+
 void	initialize_player_dir(t_cub *data)
 {
 	char	orientation;
+	int		i;
 
-	orientation = data->map[(int)data->player.pos.x][(int)data->player.pos.y];
-	if (orientation == 'N')
+	orientation = data->map[(int)data->player.pos.y][(int)data->player.pos.x];
+	i = 0;
+	while (g_orientation[i].orientation)
 	{
-		data->player.dir.x = -1;
-		data->player.dir.y = 0;
-	}
-	else if (orientation == 'S')
-	{
-		data->player.dir.x = 1;
-		data->player.dir.y = 0;
-	}
-	else if (orientation == 'E')
-	{
-		data->player.dir.x = 0;
-		data->player.dir.y = 1;
-	}
-	else if (orientation == 'W')
-	{
-		data->player.dir.x = 0;
-		data->player.dir.y = -1;
+		if (g_orientation[i].orientation == orientation)
+		{
+			data->player.dir = g_orientation[i].dir;
+			return ;
+		}
+		++i;
 	}
 }
 
@@ -96,7 +101,7 @@ void	initialize_player_plane(t_cub *data)
 {
 	char	direction;
 
-	direction = data->map[(int)data->player.pos.x][(int)data->player.pos.y];
+	direction = data->map[(int)data->player.pos.y][(int)data->player.pos.x];
 	if (direction == 'N')
 	{
 		data->player.plane[0] = 0;

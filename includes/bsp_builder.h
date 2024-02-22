@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 01:34:36 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:57:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:15:38 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 
 # include "structures.h"
 
-typedef enum e_side
-{
-	SIDE_ON			= 0b0000,
-	SIDE_LEFT		= 0b0001,
-	SIDE_RIGHT		= 0b0010,
-	SIDE_INTERSECT	= 0b0011,
-}	t_side;
 
 typedef struct s_bsp_segment
 {

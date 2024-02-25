@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:11:18 by motero            #+#    #+#             */
-/*   Updated: 2024/02/11 08:51:15 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/25 05:14:23 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	tmp_set_segments_textures(t_list *lst, t_cub *data)
 
 }
 
-
 static void	lst_update_portals_textures(
 	t_list **bsp_list,
 	t_texture_ptr *padding_texture_top,
@@ -122,6 +121,7 @@ static void	lst_update_portals_textures(
 			seg->data.data.portal.padding_texture_bottom
 				= *padding_texture_bottom;
 			seg->data.data.portal.padding_texture_top = *padding_texture_top;
+			seg->data.data.portal.dijkstra_id = -1;
 		}
 		current = current->next;
 	}

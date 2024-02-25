@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 23:19:23 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 02:46:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/25 01:30:24 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ void	_update_player_direction(
 
 void	entity_player_update_movements(t_entity *self, t_game_data *game_data)
 {
-	t_entity_player_data	*data;
 	t_vector4d				world_space_acceleration;
 
-	data = self->data;
 	world_space_acceleration
 		= _get_player_world_acceleration(self, game_data);
 	self->physics.acceleration = world_space_acceleration;

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:03:25 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 02:38:53 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/25 05:31:39 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void	entity_penguin_destroy(t_entity *self, t_game_data *game_data)
 	free(self->data);
 }
 
-static void	_init_penguin_data(
+static int	_init_penguin_data(
+	t_game_data *game_data,
 	t_entity *self,
 	t_spawn spawn)
 {
+	t_entity_penguin_data	*const data = self->data;
+
 	self->physics.pos = spawn.pos;
 	self->physics.dir = spawn.dir;
 	self->physics.velocity = (t_vector4d){{0, 0, 0, 0}};
@@ -42,6 +45,11 @@ static void	_init_penguin_data(
 		= DEFAULT_PLAYER_HEIGHT;
 	self->physics.collision_model.dynamic_cylinder.radius
 		= DEFAULT_PLAYER_RADIUS;
+	if (dijkstra_init(&data->dijkstra, game_data->map_data.portal_count
+			+ game_data->map_data.sector_count))
+		return (1);
+	dijkstra_from_bsp(game_data, &data->dijkstra);
+	return (0);
 }
 
 void	entity_penguin_draw(t_entity *self, t_game_data *game_data);
@@ -62,6 +70,10 @@ t_entity	*entity_penguin_spawn(t_game_data *game_data, t_spawn	spawn)
 	{
 		return (NULL);
 	}
-	_init_penguin_data(self, spawn);
+	if (_init_penguin_data(game_data, self, spawn))
+	{
+		free(self->data);
+		return (NULL);
+	}
 	return (self);
 }

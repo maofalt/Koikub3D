@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 00:38:03 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 05:51:37 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/25 01:32:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ void	compute_sector_floor_ceiling(
 	double		ceil;
 	double		floor;
 	double		dist;
-	t_vector4d	*center;
 
 	ceil = DEFAULT_CEIL_HEIGHT;
 	floor = DEFAULT_FLOOR_HEIGHT;
-	center = &sector->sector_data.center;
 	dist = _random_ceil();
 	sector->sector_data.ceil = ceil * dist;
 	sector->sector_data.floor = floor;

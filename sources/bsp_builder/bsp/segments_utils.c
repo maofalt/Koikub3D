@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:21:52 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/19 22:32:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/25 05:14:23 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	lst_update_portals_links_to_segments(
 			bsp_seg->segment->data.data.portal.destination = ((t_bsp_segment *)
 					bsp_seg->segment->data.data.portal.destination)->segment;
 			bsp_seg->segment->data.data.portal.tree_node_ptr = tree_node;
-			bsp_seg->segment->data.data.portal.render_flag_id = 0;
+			bsp_seg->segment->data.data.portal.dijkstra_id = -1;
 		}
 		current = current->next;
 	}

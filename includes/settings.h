@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 00:11:56 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 18:45:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:02:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@
 
 # define CAMERA_PROXIMITY 0.001
 # define RENDER_QUEUE_SIZE 2048
+
+# define STARTING_TEXT "Starting..."
+# define STARTING_TEXT_COLOR 0xFFFFFFFF
 
 #endif

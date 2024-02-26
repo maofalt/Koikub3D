@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 18:31:15 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 04:19:02 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:44:20 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include "draw_utils.h"
 #include "game_loop.h"
 #include "settings.h"
+#include "bsp_builder.h"
 
-//TODO move this in .h
-void	map_destroy(t_map_data *map_data);
+void	map_destroy(t_map_data *map_data)
+{
+	destroy_segment_tree(&map_data->bsp);
+}
 
 void	game_destroy(t_game_data *game_data)
 {

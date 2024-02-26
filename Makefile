@@ -6,7 +6,7 @@
 #    By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2024/02/08 05:22:55 by olimarti         ###   ########.fr        #
+#    Updated: 2024/02/26 23:50:15 by olimarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -flto -O3 #-O3 -pg -g3# -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
+CFLAGS = -Wall -Wextra -flto -Ofast #-O3 -pg -g3# -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
 LIBA = ar rc
 LIBS = ranlib
 

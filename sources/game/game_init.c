@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 01:28:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:46:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,42 @@
 #include "game_loop.h"
 #include "settings.h"
 #include "error.h"
+#include "map_to_edges.h"
+#include "bsp_builder.h"
+
+void	tmp_set_segments_textures(t_list *lst, t_cub *data)
+{
+	t_segment_d	*seg;
+
+	while (lst)
+	{
+		seg = lst->content;
+		seg->data.data.wall.texture.texture = data->texture_manager.textures;
+		seg->data.data.wall.texture.offset = 0;
+		lst = lst->next;
+	}
+}
+
+//TODO: Move this to a better place
+int	map_convert(t_cub *data, t_map_data *map_data)
+{
+	t_list		**segments_lst;
+	t_tree_node	*tree;
+
+	tree = NULL;
+	segments_lst = &data->segments_list;
+	if (!*segments_lst && extract_edge_recursively(data->map, segments_lst))
+		return (1);
+	tmp_set_segments_textures(*segments_lst, data);
+	if (construct_bsp(segments_lst, &tree))
+	{
+		ft_lstclear(segments_lst, free);
+		return (1);
+	}
+	map_data->segments = *segments_lst;
+	map_data->bsp = tree;
+	return (0);
+}
 
 int	spawn_default_entities(t_game_data *game_data)
 {
@@ -34,9 +70,6 @@ int	spawn_default_entities(t_game_data *game_data)
 		return (1);
 	return (0);
 }
-
-//TODO move this in .h
-int	map_convert(t_cub *data, t_map_data *map_data);
 
 int	game_init(t_cub *data, t_canvas *canvas)
 {

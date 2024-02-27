@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:52:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:25:30 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ void	free_map_editor(t_canvas *canvas)
 		return ;
 	if (map_editor->matrix_operations)
 		ft_lstclear(&map_editor->matrix_operations, free);
-	// if (map_editor->segments)
-	// 	ft_lstclear(&map_editor->segments, free);
-	//aligned_free(map_editor);
 }
 
 void	free_ui(t_canvas *canvas)
@@ -33,7 +30,6 @@ void	free_ui(t_canvas *canvas)
 	ui = &canvas->data.ui;
 	if (!ui)
 		return ;
-	//free(ui);
 }
 
 void	free_button(t_canvas *canvas)
@@ -43,7 +39,6 @@ void	free_button(t_canvas *canvas)
 	button = &canvas->data.button;
 	if (!button)
 		return ;
-	//free(button);
 }
 
 void	free_game(t_canvas *canvas)
@@ -53,19 +48,4 @@ void	free_game(t_canvas *canvas)
 	game = &canvas->data.game;
 	if (!game)
 		return ;
-	//free(game);
 }
-
-// void	free_fin_temp(t_fin_temp_data *fin_temp)
-// {
-// 	if (!fin_temp)
-// 		return ;
-// 	free(fin_temp);
-// }
-
-// void	free_final(t_final_data *final)
-// {
-// 	if (!final)
-// 		return ;
-// 	free(final);
-// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_shapes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/10/13 23:50:38 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/27 00:36:49 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,32 +81,32 @@ void	draw_circle_points(t_img_data *img,
 		(int)color.rgb_color);
 }
 
-int	draw_circle(t_shape_params *params)
-{
-	const t_circle_params	circle = params->shape.circle;
-	const t_point2i			center
-		= (t_point2i){{circle.center.x, circle.center.y}};
-	t_point2i				coord;
-	t_point2i				current_point;
+// int	draw_circle(t_shape_params *params)
+// {
+// 	const t_circle_params	circle = params->shape.circle;
+// 	const t_point2i			center
+// 		= (t_point2i){{circle.center.x, circle.center.y}};
+// 	t_point2i				coord;
+// 	t_point2i				current_point;
 
-	coord = (t_point2i){{0, circle.radius}};
-	current_point = coord;
-	int d = 3 - 2 * circle.radius;
+// 	coord = (t_point2i){{0, circle.radius}};
+// 	current_point = coord;
+// 	int d = 3 - 2 * circle.radius;
 
-	draw_circle_points(params->img, center, current_point, params->color);
-	while (coord.y >= coord.x)
-	{
-		coord.x++;
-		if (d > 0)
-		{
-			coord.y--;
-			d = d + 4 * (coord.x - coord.y) + 10;
-		}
-		else
-			d = d + 4 * coord.x + 6;
-		current_point.x = coord.x;
-		current_point.y = coord.y;
-		draw_circle_points(params->img, center, current_point, params->color);
-	}
-	return (0);
-}
+// 	draw_circle_points(params->img, center, current_point, params->color);
+// 	while (coord.y >= coord.x)
+// 	{
+// 		coord.x++;
+// 		if (d > 0)
+// 		{
+// 			coord.y--;
+// 			d = d + 4 * (coord.x - coord.y) + 10;
+// 		}
+// 		else
+// 			d = d + 4 * coord.x + 6;
+// 		current_point.x = coord.x;
+// 		current_point.y = coord.y;
+// 		draw_circle_points(params->img, center, current_point, params->color);
+// 	}
+// 	return (0);
+// }

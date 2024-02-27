@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:49:58 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:25:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	draw_line_on_map(t_canvas *canvas,
 	int				e2;
 	t_point2i		step;
 
-	//printf(" \tnew s: [%d, %d]", start.x, start.y);
-	//printf(" \tnew e: [%d, %d]\n", end.x, end.y);
 	initialize_bresenham(&step, &delta, &start, &end);
 	err = delta.x - delta.y;
 	while (1)

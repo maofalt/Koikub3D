@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/11 00:21:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:26:55 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,7 +376,7 @@ void		draw_circle_points(t_img_data *img,
 				t_point2i center,
 				t_point2i point,
 				t_color color);
-int			draw_circle(t_shape_params *params);
+// int			draw_circle(t_shape_params *params);
 void		draw_segment_canvas(
 				t_canvas *canvas,
 				t_segment_d const *const segment,

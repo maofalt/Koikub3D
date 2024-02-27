@@ -6,14 +6,13 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 22:33:46 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:26:09 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx_engine.h"
 #include "draw_utils.h"
 #include "assets.h"
-
 
 // //Fill canvas with color either fill it with  the texture
 // int	button_render(void *self, t_cub *data)

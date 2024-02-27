@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:21:52 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/19 22:32:44 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:35:35 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	tree_update_portals_links_to_segments(t_tree_node *tree)
 			&((t_bsp_tree_node_data*)tree->data)->sector_segments, tree);
 		return ;
 	}
-	tree_update_portals_links_to_segments(tree->left);
-	tree_update_portals_links_to_segments(tree->right);
+	if (tree->left != NULL)
+		tree_update_portals_links_to_segments(tree->left);
+	if (tree->right != NULL)
+		tree_update_portals_links_to_segments(tree->right);
 }

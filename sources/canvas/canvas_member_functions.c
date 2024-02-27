@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 20:29:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:24:41 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,16 @@ void	fill_canvas_with_image(t_canvas *canvas, t_img_data *img)
 
 	scale.x = (double)img->size.x / canvas->size.x;
 	scale.y = (double)img->size.y / canvas->size.y;
-
 	pos.y = 0;
 	while (pos.y < canvas->size.y)
 	{
 		pos.x = 0;
 		while (pos.x < canvas->size.x)
 		{
-			// Adjust the scaling for each axis
 			img_pos.x = (int)(pos.x * scale.x);
 			img_pos.y = (int)(pos.y * scale.y);
-
-			// Fetch the pixel from the image and set it to the canvas
-			pixel = (t_color *)(img->addr + (img_pos.y * img->line_len + img_pos.x * (img->bpp / 8)));
+			pixel = (t_color *)(img->addr
+					+ (img_pos.y * img->line_len + img_pos.x * (img->bpp / 8)));
 			canvas->pixels[pos.y * canvas->size.x + pos.x] = *pixel;
 			pos.x++;
 		}

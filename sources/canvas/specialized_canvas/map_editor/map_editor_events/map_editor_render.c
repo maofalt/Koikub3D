@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2024/02/11 08:40:26 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:47:58 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "draw_utils.h"
 #include "map_to_edges.h"
 #include "parsing.h"
-
 
 static void	handle_line_redraw(t_cub *data)
 {
@@ -35,8 +34,7 @@ static void	handle_line_redraw(t_cub *data)
 		data->drawing = NOT_DRAWING;
 		data->update &= ~LINE_REDRAW;
 		copy_canvas_to_temp(data->canvas_list);
-		//ft_memcpy(canvas->data.map_editor.segments, data->segments_list, sizeof(t_segment_d));
-		data->segments_list = canvas->data.map_editor.segments; //TODO: do it better
+		data->segments_list = canvas->data.map_editor.segments;
 	}
 	else if (data->drawing == DRAWING)
 	{
@@ -45,30 +43,35 @@ static void	handle_line_redraw(t_cub *data)
 	}
 }
 
-static void printfallsegments(t_list *current_segment)
-{
-	//print all segments data where they start where they end, and size
-	t_segment_d *segment;
-	int i = 0;
-	while (current_segment)
-	{
-	    segment = (t_segment_d *)current_segment->content; // Cast the content to t_segment_d
-	    if (segment != NULL) // Check if segment is not NULL
-	    {
-			// printf("SEGMENTS  %d\n", i);
-			// printf("\tstart: [%f, %f]", segment->point_a.x, segment->point_a.y);
-	        // printf(" \tend: [%f, %f]", segment->point_b.x, segment->point_b.y);
-			//calcuallte length and print it
-			// printf("\tsize: %f\n", sqrt(pow(segment->point_b.x - segment->point_a.x, 2) + pow(segment->point_b.y - segment->point_a.y, 2)));
-	      //  printf("size: %d\n", ...); // Size is not a property of t_segment_d based on your example
-	    }
-	    current_segment = current_segment->next; // Move to the next element in the list
-		i++;
-	}
-}
+//print all segments data where they start where they end, and size
+// static void printfallsegments(t_list *current_segment)
+// {
+// 	t_segment_d *segment;
+// 	int i = 0;
+// 	while (current_segment)
+// 	{
+// 		segment = (t_segment_d *)current_segment->content;
+// 		// Cast the content to t_segment_d
+// 		if (segment != NULL) // Check if segment is not NULL
+// 		{
+// 			printf("SEGMENTS  %d\n", i);
+// 			printf("\tstart: [%f, %f]",
+// 			segment->point_a.x, segment->point_a.y);
+// 			printf(" \tend: [%f, %f]",
+// 				segment->point_b.x, segment->point_b.y);
+// 			// calcuallte length and print it
+// 			printf("\tsize: %f\n",
+// 				sqrt(pow(segment->point_b.x - segment->point_a.x, 2)
+// 					+ pow(segment->point_b.y - segment->point_a.y, 2)));
+// 		}
+// 		current_segment = current_segment->next;
+//	// Move to the next element in the list
+// 		i++;
+// 	}
+// }
 
 //Autotcenter map in the screen
-static int	auto_center_map(t_map_editor_data *map_editor , t_cub *data)
+static int	auto_center_map(t_map_editor_data *map_editor, t_cub *data)
 {
 	t_point2d		map_center;
 	t_point2d		scaled_map_center;
@@ -92,7 +95,6 @@ static int	auto_center_map(t_map_editor_data *map_editor , t_cub *data)
 	return (0);
 }
 
-
 int	map_editor_render(void *self, t_cub *data)
 {
 	t_canvas			*map_editor;
@@ -104,7 +106,6 @@ int	map_editor_render(void *self, t_cub *data)
 	{
 		extract_edge_recursively(data->map, &map_editor_data->segments);
 		data->segments_list = map_editor_data->segments;
-		printfallsegments(map_editor_data->segments);
 		auto_center_map(map_editor_data, data);
 		data->update |= FULL_REDRAW;
 	}
@@ -112,7 +113,6 @@ int	map_editor_render(void *self, t_cub *data)
 		handle_line_redraw(data);
 	if (data->update & FULL_REDRAW)
 	{
-		//redraw_scene(data, get_canvas_from_list(data->canvas_list, FIN_TEMP));
 		redraw_scene(data, (t_canvas *)self);
 		data->update = NO_UPDATE;
 	}

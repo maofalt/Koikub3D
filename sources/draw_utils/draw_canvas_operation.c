@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/04 05:09:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:22:18 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static inline	void	put_pixel_on_virtual_canvas(t_canvas *canvas,
 		canvas->pixels[offset] = color;
 	}
 }
-
 
 void	draw_segment_canvas(
 			t_canvas *canvas,
@@ -54,7 +53,6 @@ void	draw_segment_canvas(
 		step--;
 	}
 }
-
 
 void	fill_canvas(
 			t_canvas *canvas,

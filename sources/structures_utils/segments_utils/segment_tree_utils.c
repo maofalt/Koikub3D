@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:37:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:44:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:17:05 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ void	destroy_segment_tree_node(t_tree_node	*node)
 	if (node == NULL)
 		return ;
 	data = node->data;
-	printf("destroy seg %p\n", node->data);
 	if (data && data->sector_segments)
 	{
-		printf("destroy sector seg\n");
 		ft_lstclear(&data->sector_segments, free);
 	}
 	destroy_tree_node(node);

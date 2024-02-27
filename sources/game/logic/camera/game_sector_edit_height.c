@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:32:52 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 19:35:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:16:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,18 @@ void	sector_edit_height_handle_event(t_game_data *game_data)
 {
 	if (game_data->inputs->action_states[a_decrease_sector_ceil])
 	{
-		printf("decrease \n");
 		update_player_sector_ceil(&game_data->game_view_render, -1);
 	}
 	if (game_data->inputs->action_states[a_increase_sector_ceil])
 	{
 		update_player_sector_ceil(&game_data->game_view_render, 1);
-		printf("increase \n");
 	}
 	if (game_data->inputs->action_states[a_decrease_sector_floor])
 	{
-		printf("decrease \n");
 		update_player_sector_floor(&game_data->game_view_render, -1);
 	}
 	if (game_data->inputs->action_states[a_increase_sector_floor])
 	{
 		update_player_sector_floor(&game_data->game_view_render, 1);
-		printf("increase \n");
 	}
 }

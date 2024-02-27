@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy_slow.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:55:11 by motero            #+#    #+#             */
-/*   Updated: 2024/02/27 18:38:01 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:13:11 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,19 @@
 
 #if defined(__x86_64__) && defined(__SSE2__) && defined(__AVX__)
 
-void	*ft_memcpy(void *dst,
+void	*ft_memcpy_slow(void *dst,
 	const void *src,
 	const size_t size)
 {
-	//return (memcpy(dst, src, size));
-	const size_t	src_alignment_offset = ((uintptr_t)src & 0x1F);
-	const size_t	dst_alignment_offset = ((uintptr_t)dst & 0x1F);
-
-	if (!src || !dst)
-		return (NULL);
-	if (size > 32 && src_alignment_offset < 1 && dst_alignment_offset < 1)
-		return (memcpy_avx(dst, src, size));
 	return (memcpy_x86(dst, src, size));
 }
 
 #else
 
-void	*ft_memcpy(void *dest __attribute__((unused)),
+void	*ft_memcpy_slow(void *dest __attribute__((unused)),
 				const void *src __attribute__((unused)),
 				size_t n __attribute__((unused)))
 {
-	//return (memcpy(dest, src, n));
 	char		*d;
 	const char	*s;
 

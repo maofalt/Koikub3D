@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 23:19:47 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:23:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ size_t	get_init_table_size(t_canvas_init_entry *table)
 	i = 0;
 	while (table[i].type != END_MARKER && i < 20)
 	{
-		printf("table[%zu].type: %d\n", i, table[i].type);
 		i++;
 	}
 	return (i);

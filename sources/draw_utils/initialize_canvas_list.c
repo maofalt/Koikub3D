@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 01:05:14 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/27 01:07:06 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:29:33 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ t_canvas_init_entry	*get_canvas_init_table(t_modus_state state,
 	size_t	i;
 
 	i = 0;
-	printf("state: %d\n", state);
 	while (canvas_setups[i].game_state != END_GAME_STATE)
 	{
-		printf("canvas_setups[%zu].game_state: %d\n", i,
-			canvas_setups[i].game_state);
 		if (canvas_setups[i].game_state == state)
 			return (canvas_setups[i].canvas_configurations);
 		i++;

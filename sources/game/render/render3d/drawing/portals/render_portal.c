@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 05:14:14 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/04 05:40:08 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:50:54 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	render_portal(
 	right = fmin(projected_top.point_b.x, right);
 	draw_portal_offset(render, portal, left, right);
 	other_side_portal = portal->data.data.portal.destination;
-	if (left < right)
+	if (((int)left) < (int)(right))
 	{
 		new_item_queue.left = left;
 		new_item_queue.right = right;

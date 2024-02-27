@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 14:19:58 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 02:11:29 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:02:10 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	destroy_buffers(t_3d_render *render)
 	render->buffers.color = NULL;
 	render->buffers.normal = NULL;
 	render->buffers.world_pos = NULL;
+	render->buffers.color_bis = NULL;
 }
 
 void	render_3d_destroy(t_3d_render *render)

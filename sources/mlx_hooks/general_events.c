@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:35:41 by motero            #+#    #+#             */
-/*   Updated: 2024/02/19 22:39:33 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:21:53 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	ft_handle_game_keyrelease(
 	t_cub *data)
 {
 	(void)canvas;
-	if (keysym == XK_Escape)
-		ft_printf("Escape released\n");
 	ft_movements_keys(keysym, data, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:12:43 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/02 22:21:43 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:29:00 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	sort_lst_node_array(t_list **arr, int size,
 	int	i;
 	int	j;
 
-	printf("size :%i\n", size);
 	i = 0;
 	while (i < size - 1)
 	{

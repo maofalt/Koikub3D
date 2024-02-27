@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/27 00:22:18 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:19:51 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	draw_segment_canvas(
 	cursor.y = segment->point_a.y;
 	while (step > 0)
 	{
-		printf("cursor -> x: %f, %f\n", cursor.x, cursor.y);
 		put_pixel_on_virtual_canvas(canvas, cursor, color);
 		cursor.x = cursor.x + delta.x;
 		cursor.y = cursor.y + delta.y;

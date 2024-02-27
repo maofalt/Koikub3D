@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:44:33 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/19 22:44:04 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:22:06 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_mlx_engine(t_cub *data)
 {
-	printf("ft_mlx_engine\n");
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &ft_handle_keypress, data);
 	mlx_hook(data->win_ptr, ButtonPress, ButtonPressMask,
 		&ft_handle_boutonpress, data);

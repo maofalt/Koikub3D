@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 05:57:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:02:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,25 @@ static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 	t_light_lens_flare *const	lens_flare = sparse_array_get(
 			render->lights_data.lens_flare, light->lens_flare_id);
 
+	if (lens_flare == NULL)
+		return ;
+	lens_flare->visible = 0;
 	light_pos_screen = transform_camera_relative_point(
 			light->pos, render->camera);
-	if (lens_flare && light_pos_screen.y > 0)
+	if (light_pos_screen.y <= 0)
+		return ;
+	light_pos_screen = project_point(render, light_pos_screen);
+	if (check_ray_reach_dest(render->camera->pos, light->pos, render))
 	{
-		light_pos_screen = project_point(render, light_pos_screen);
-		if (check_ray_reach_dest(render->camera->pos, light->pos, render))
-		{
-			if (light->type == DIRECTIONAL_LIGHT)
-				lens_flare->intensity = compute_cone_intensity(
-						&render->camera->pos, &light->pos, &light->dir);
-			else
-				lens_flare->intensity = 1;
-			lens_flare->screen_pos = light_pos_screen;
-			lens_flare->color.d = light->color.d;
-			lens_flare->visible = 1;
-			return ;
-		}
+		if (light->type == DIRECTIONAL_LIGHT)
+			lens_flare->intensity = compute_cone_intensity(
+					&render->camera->pos, &light->pos, &light->dir);
+		else
+			lens_flare->intensity = 1;
+		lens_flare->screen_pos = light_pos_screen;
+		lens_flare->color.d = light->color.d;
+		lens_flare->visible = 1;
 	}
-	lens_flare->visible = 0;
 }
 
 void	compute_lights_visibility(t_3d_render *render)

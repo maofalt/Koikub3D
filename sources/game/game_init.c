@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/27 00:50:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:20:03 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	spawn_default_entities(t_game_data *game_data)
 int	game_init(t_cub *data, t_canvas *canvas)
 {
 	data->update = UPDATE;
-	printf("game_init\n");
 	if (map_convert(data, &data->game_data.map_data))
 		return (fatal_error(data, "cannot convert map"));
 	if (game_render_init(data, &data->game_data, canvas))

@@ -6,13 +6,13 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/03 21:15:30 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:08:52 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw_utils.h"
 
-t_canvas_init_func	g_canvas_init_functions[END_MARKER]
+static const t_canvas_init_func	g_canvas_init_functions[END_MARKER]
 	= {
 [MAP] = initialize_map_editor_canvas,
 [UI] = initialize_ui_canvas,

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 17:21:17 by motero            #+#    #+#             */
-/*   Updated: 2024/02/19 22:44:34 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:23:12 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int	push_matrix_op(t_list **matrix_op, t_matrix3x3 matrix)
 
 	new_matrix = (t_matrix3x3 *)malloc(sizeof(t_matrix3x3));
 	if (!new_matrix)
+	{
+		printf("Error: cannot allocate memory for matrix\n");
 		return (1);
+	}
 	*new_matrix = matrix;
 	new_matrix_op = ft_lstnew(new_matrix);
 	if (!new_matrix_op)

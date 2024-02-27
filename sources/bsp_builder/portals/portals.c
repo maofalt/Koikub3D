@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:25:47 by olimarti          #+#    #+#             */
-/*   Updated: 2023/11/08 01:44:28 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:04:44 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	create_portals(
 			&bsp_segments_nodes_array);
 	if (bsp_segments_nodes_array == NULL)
 		return (1);
-	printf("is sep horizontal:%i\n", is_sep_horizontal);
 	sort_intersect_segments_array(
 		bsp_segments_nodes_array, size, is_sep_horizontal);
 	err = find_gaps(bsp_segments_nodes_array, size, is_sep_horizontal,

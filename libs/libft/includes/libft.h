@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: motero <motero@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:07 by motero            #+#    #+#             */
-/*   Updated: 2023/10/20 01:14:16 by motero           ###   ########.fr       */
+/*   Updated: 2024/02/27 18:31:08 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ void			*memcpy_x86(void *dest __attribute__((unused)),
 void			*ft_memcpy(void *dst,
 					const void *src,
 					const size_t size);
+void			*ft_memcpy_slow(void *dst,
+					const void *src,
+					const size_t size);
+
 void			*memcpy_avx(void *dest, const void *src, size_t n);
 void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);

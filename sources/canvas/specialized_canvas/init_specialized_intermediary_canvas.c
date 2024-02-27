@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 01:19:00 by olimarti          #+#    #+#             */
-/*   Updated: 2023/12/03 21:53:10 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:22:27 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_canvas	*initialize_map_editor_canvas(t_canvas_init_entry *entry)
 {
 	t_canvas	*canvas;
 
-	printf("initialize_map_editor_canvas\n");
 	canvas = common_canvas_initialization(entry);
 	if (!canvas)
 		return (NULL);

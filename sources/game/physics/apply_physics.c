@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:29:54 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 02:48:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 22:30:04 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	apply_physics_entity(
 	entity->physics.velocity.vec = entity->physics.velocity.vec
 		+ entity->physics.acceleration.vec * dt;
 	entity->physics.velocity.vec *= 1 - entity->physics.friction * dt;
-	apply_collision_correction(entity, game_data, dt);
+	if (entity->physics.collision_model.type
+		== COLLISION_MODEL_DYNAMIC_CYLINDER)
+		apply_collision_correction(entity, game_data, dt);
 	new_pos.vec = entity->physics.pos.vec + entity->physics.velocity.vec * dt;
 	entity->physics.pos = new_pos;
 }

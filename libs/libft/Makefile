@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: motero <motero@student.42.fr>              +#+  +:+       +#+         #
+#    By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/10 18:38:23 by motero            #+#    #+#              #
-#    Updated: 2023/10/20 00:55:14 by motero           ###   ########.fr        #
+#    Updated: 2024/02/28 00:43:39 by olimarti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ ft_strlen.c \
 ft_memset.c \
 ft_bzero.c \
 ft_memcpy.c \
+ft_memcpy_slow.c \
 ft_memcpy_avx.c \
 ft_memcpy_x86.c \
 ft_memmove.c \
@@ -88,9 +89,7 @@ ft_switch_case_two.c\
 ft_printerror.c \
 ft_strcmp.c \
 ft_strconcat.c \
-ft_strcpy.c \
-memcpy_x86_bulk.s \
-memcpy_x86_remainder.s
+ft_strcpy.c
 
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
@@ -125,7 +124,7 @@ OBJS_PRINT = $(addprefix $(OBJS_PATH), $(OBJS_NAME_PRINT))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -msse2 -mavx -g3
+CFLAGS = -Wall -Wextra -Werror -msse2 -mavx
 
 LIBA = ar rc
 LIBS = ranlib

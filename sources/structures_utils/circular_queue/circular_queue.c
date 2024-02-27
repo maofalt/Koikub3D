@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:23:01 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/04 22:15:45 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:35:16 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_circular_queue	*circular_queue_create(size_t size, size_t elem_size)
 	queue->start = 0;
 	queue->end = 0;
 	queue->elem_size = elem_size;
-	queue->buffer = calloc(size, elem_size);
+	queue->buffer = ft_calloc(size, elem_size);
 	if (queue->buffer == NULL)
 	{
 		free(queue);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:03:30 by motero            #+#    #+#             */
-/*   Updated: 2024/02/22 09:52:52 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:51:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static int	read_map(char *line, char ***map, int fd)
 		}
 		line = get_next_line(fd);
 	}
-	*map = malloc(sizeof(char **) * (array->size + 1));
+	*map = malloc(sizeof(char *) * (array->size + 1));
 	if (!*map)
 		return (dynamic_array_destroy(array), 1);
-	ft_memcpy(*map, array->buffer, array->size * sizeof(char *));
+	ft_memcpy_slow(*map, array->buffer, array->size * sizeof(char *));
 	(*map)[array->size] = NULL;
 	dynamic_array_destroy(array);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 14:18:20 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 07:05:09 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:52:21 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	init_buffers(t_3d_render *render, int width, int height)
 			sizeof(render->buffers.world_pos[0]));
 	if (render->top_array == NULL || render->bottom_array == NULL
 		|| render->buffers.depth == NULL || render->buffers.color == NULL
-		|| render->buffers.normal == NULL || render->buffers.world_pos == NULL)
+		|| render->buffers.normal == NULL || render->buffers.world_pos == NULL
+		|| render->buffers.color_bis == NULL)
 	{
 		return (1);
 	}
@@ -44,8 +45,8 @@ int	render_3d_init(t_3d_render *render, t_canvas *canvas, t_camera *camera,
 	render->canvas = canvas;
 	render->camera = camera;
 	render->camera->fov = DEFAULT_FOV;
-	render->scale_factor_x = 3;
-	render->scale_factor_y = 3;
+	render->scale_factor_x = 5;
+	render->scale_factor_y = 5;
 	render->width = canvas->size.x / render->scale_factor_x;
 	render->height = canvas->size.y / render->scale_factor_y;
 	render->map = map;

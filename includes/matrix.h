@@ -6,15 +6,15 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 21:41:27 by motero            #+#    #+#             */
-/*   Updated: 2023/12/03 21:03:53 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 02:07:15 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "structures.h"
 # include "libft.h"
+# include "structures.h"
 
 /*############################################################################*/
 /*                      VECTOR MATRIX CONVERSIONS                             */
@@ -31,7 +31,6 @@ t_matrix3x3	identity_matrix(void);
 double		determinant(t_matrix3x3 matrix);
 int			invert_matrix(t_matrix3x3 matrix, t_matrix3x3 *inverse);
 t_point2d	matrix_vector_multiply(t_matrix3x3 matrix, t_point2d point);
-
 
 /*############################################################################*/
 /*                              MATRIX TRANSFORMATIONS                        */

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 19:03:06 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 02:50:50 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 02:09:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ void				compute_sector_floor_ceiling(t_game_data *game_data,
 						t_bsp_tree_node_data *sector);
 void				compute_segment_normal(t_game_data *game_data,
 						t_segment_d *segment);
-void				compute_segment_orientation(__attribute_maybe_unused__ t_game_data *game_data,
+void				compute_segment_orientation(
+						__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment, t_bsp_tree_node_data *sector);
 
-void				compute_segment_size(__attribute_maybe_unused__ t_game_data *game_data,
+void				compute_segment_size(
+						__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment);
 
-void				compute_segment_oriented_textures(__attribute_maybe_unused__ t_game_data *game_data,
+void				compute_segment_oriented_textures(
+						__attribute_maybe_unused__ t_game_data *game_data,
 						t_segment_d *segment, t_bsp_tree_node_data *sector);
 void				compute_segment_floor_ceil(
 						__attribute_maybe_unused__ t_game_data *game_data,
@@ -55,7 +58,9 @@ void				compute_segment_floor_ceil(
 t_entity			*entity_default_spawn(t_game_data *game_data);
 t_entity			*entity_player_spawn(t_game_data *game_data, t_spawn spawn);
 t_entity			*entity_torch_spawn(t_game_data *game_data, t_spawn spawn);
-t_entity			*entity_penguin_spawn(t_game_data *game_data, t_spawn spawn);
+t_entity			*entity_penguin_spawn(
+						t_game_data *game_data,
+						t_spawn spawn);
 
 void				entity_player_update_movements(t_entity *self,
 						t_game_data *game_data);

@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:53:46 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/27 00:26:55 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 02:10:43 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_shape_params {
 	t_shape			shape;
 }	t_shape_params;
 
-
 /*############################################################################*/
 /*                            CANVAS SPECIALIZATION                           */
 /*############################################################################*/
@@ -134,13 +133,12 @@ typedef union u_canvas_data
 	t_map_editor_data	map_editor;
 	t_button_data		button;
 	t_ui_data			ui;
-	t_editor_data			game;
+	t_editor_data		game;
 }	t_canvas_data;
 
 /*############################################################################*/
 /*                              CANVAS STRUCTURES                             */
 /*############################################################################*/
-
 
 typedef struct s_bounds {
 	t_point2i	top;
@@ -370,22 +368,22 @@ void						draw_one_line(
 /*############################################################################*/
 /*                              DRAW SHAPES                                */
 /*############################################################################*/
-int			draw_line(t_shape_params *params);
-int			draw_rectangle(t_shape_params *params);
-void		draw_circle_points(t_img_data *img,
-				t_point2i center,
-				t_point2i point,
-				t_color color);
-// int			draw_circle(t_shape_params *params);
-void		draw_segment_canvas(
-				t_canvas *canvas,
-				t_segment_d const *const segment,
-				t_color color
-				);
-void		fill_canvas(
-				t_canvas *canvas,
-				t_color color
-				);
+int							draw_line(t_shape_params *params);
+int							draw_rectangle(t_shape_params *params);
+void						draw_circle_points(t_img_data *img,
+								t_point2i center,
+								t_point2i point,
+								t_color color);
+// int							draw_circle(t_shape_params *params);
+void						draw_segment_canvas(
+								t_canvas *canvas,
+								t_segment_d const *const segment,
+								t_color color
+								);
+void						fill_canvas(
+								t_canvas *canvas,
+								t_color color
+								);
 
 /*############################################################################*/
 /*                              ALIGNMENT METHODS                             */

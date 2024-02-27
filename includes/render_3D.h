@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:23:36 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 18:45:03 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 02:13:46 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ t_point2i		displacement_wave(t_point2i old_pos, t_3d_render *render);
 
 t_vector4d		transform_camera_relative_point(t_vector4d point,
 					t_camera *camera);
-t_vector4d		reverse_transform_camera_relative_point(t_vector4d relative_point,
+t_vector4d		reverse_transform_camera_relative_point(
+					t_vector4d relative_point,
 					t_camera *camera);
 t_vector4d		project_point(t_3d_render *render, t_vector4d point);
 int				check_ray_reach_dest(t_vector4d origin, t_vector4d dest,
@@ -129,7 +130,8 @@ double			calc_wall_texture_repeat_factor_x(t_segment_d *segment);
 
 double			calc_wall_texture_repeat_factor_y(t_segment_d *segment);
 
-double			calc_wall_texture_offset(__attribute_maybe_unused__ t_segment_d *segment);
+double			calc_wall_texture_offset(
+					__attribute_maybe_unused__ t_segment_d *segment);
 
 void			texture_mapping_calc_u(t_texture_mapping_data *data);
 

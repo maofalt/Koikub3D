@@ -6,7 +6,7 @@
 /*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 18:24:58 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/09 01:56:24 by olimarti         ###   ########.fr       */
+/*   Updated: 2024/02/27 02:13:23 by olimarti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int				sparse_array_add_fast(t_sparse_array *array,
 					const void *const elem);
 void			sparse_array_remove(t_sparse_array *array, int index);
 void			sparse_array_remove_all(t_sparse_array *array);
-
 
 #endif

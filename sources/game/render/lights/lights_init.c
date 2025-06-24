@@ -16,26 +16,86 @@
 #include "settings.h"
 #include "assert.h"
 
+// static const t_light	g_lights[] = {
+// {
+// 	.type = POINT_LIGHT,
+// 	.pos = {.vec = {2, 2, 1, 0}},
+// 	.color = {.r = 1, .g = 1, .b = 1},
+// 	.dir = {.vec = {0, 0, 0, 0}},
+// 	.intensity = 0.5,
+// 	.show_lens_flare = true,
+// 	.use_raycasting = false
+// },
+// {
+// 	.type = POINT_LIGHT,
+// 	.pos = {.vec = {20, 20, 1, 0}},
+// 	.color = {.r = 1, .g = 1, .b = 0},
+// 	.dir = {.vec = {0, 0, 0, 0}},
+// 	.intensity = 1,
+// 	.show_lens_flare = true,
+// 	.use_raycasting = false
+// },
+// };
+
+
 static const t_light	g_lights[] = {
 {
-	.type = POINT_LIGHT,
+	.type = DIRECTIONAL_LIGHT,
 	.pos = {.vec = {2, 2, 1, 0}},
-	.color = {.r = 1, .g = 1, .b = 1},
+	.color = {.r = 1, .g = 0, .b = 2},
 	.dir = {.vec = {0, 0, 0, 0}},
-	.intensity = 0.5,
+	.intensity = 1,
+	.show_lens_flare = true,
+	.use_raycasting = false
+},
+{
+	.type = POINT_LIGHT,
+	.pos = {.vec = {7, 9.9, 1, 0}},
+	.color = {.r = 5, .g = 1, .b = 0},
+	.dir = {.vec = {0, 0, 0, 0}},
+	.intensity = 1,
 	.show_lens_flare = true,
 	.use_raycasting = false
 },
 {
 	.type = POINT_LIGHT,
 	.pos = {.vec = {20, 20, 1, 0}},
-	.color = {.r = 1, .g = 1, .b = 0},
+	.color = {.r = 5, .g = 1, .b = 0},
+	.dir = {.vec = {0, 0, 0, 0}},
+	.intensity = 1,
+	.show_lens_flare = true,
+	.use_raycasting = false
+},
+{
+	.type = POINT_LIGHT,
+	.pos = {.vec = {83.573784, 13.590420, 1, 0}},
+	.color = {.r = 5, .g = 1, .b = 0},
+	.dir = {.vec = {0, 0, 0, 0}},
+	.intensity = 1,
+	.show_lens_flare = true,
+	.use_raycasting = false
+},
+{
+	.type = POINT_LIGHT,
+	.pos = {.vec = {15, 8, -4.088479523707859, 0}},
+	.color = {.r = 0, .g = 0, .b = 1},
+	.dir = {.vec = {0, 0, 0, 0}},
+	.intensity = 1,
+	.show_lens_flare = true,
+	.use_raycasting = false
+},
+{
+	.type = POINT_LIGHT,
+	.pos = {.vec = {8.597030255509164, 35, 3.8024089098964993, 0}},
+	.color = {.r = 1, .g = 0, .b = 0},
 	.dir = {.vec = {0, 0, 0, 0}},
 	.intensity = 1,
 	.show_lens_flare = true,
 	.use_raycasting = false
 },
 };
+
+
 
 int	light_spawn(t_3d_render *render, t_light default_light)
 {

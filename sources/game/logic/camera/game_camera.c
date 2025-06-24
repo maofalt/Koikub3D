@@ -33,8 +33,8 @@ static void	update_effects(t_game_data *data)
 	{
 		effects->wave.amplitude_x = 0.2;
 		effects->wave.amplitude_y = 1;
-		effects->wave.frequency_x = 0.005;
-		effects->wave.frequency_y = 10;
+		effects->wave.frequency_x = 0.002;
+		effects->wave.frequency_y = 2;
 		effects->wave.offset_x += 0.05;
 		effects->wave.offset_y += 2;
 	}

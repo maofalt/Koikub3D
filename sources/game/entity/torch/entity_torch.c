@@ -69,7 +69,7 @@ static int	_init_torch_data(
 	light->dir = self->physics.dir;
 	light->intensity = self_data->light_intensity;
 	light->show_lens_flare = false;
-	light->use_raycasting = true;
+	light->use_raycasting = false;
 	return (0);
 }
 

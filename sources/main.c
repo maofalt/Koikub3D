@@ -209,4 +209,6 @@ int	main(int argc, char **argv)
 		printf("Error\nGame logic failed");
 	free_everything(data);
 	free_setup_canvas(setup_canvas);
+
+	return (0);
 }

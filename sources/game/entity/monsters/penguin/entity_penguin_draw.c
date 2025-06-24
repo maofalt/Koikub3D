@@ -20,10 +20,8 @@
 
 void	entity_penguin_draw(t_entity *self, t_game_data *game_data)
 {
-	t_entity_penguin_data	*data;
 	t_billboard				billboard;
 
-	data = self->data;
 	billboard.pos = self->physics.pos;
 	billboard.dir = self->physics.dir;
 	billboard.right = self->physics.right;

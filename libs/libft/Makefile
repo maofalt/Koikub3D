@@ -125,7 +125,7 @@ OBJS_PRINT = $(addprefix $(OBJS_PATH), $(OBJS_NAME_PRINT))
 #=============================================================================#
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -msse2 -mavx -g3
+CFLAGS = -Wall -Wextra -Werror -Ofast
 
 LIBA = ar rc
 LIBS = ranlib

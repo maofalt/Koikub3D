@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sushi <sushi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 03:24:57 by motero            #+#    #+#             */
-/*   Updated: 2024/02/20 23:17:27 by olimarti         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:56:20 by sushi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -567,6 +567,21 @@ typedef struct s_entity_torch_data
 	double			flicker_intensity_variance;
 }				t_entity_torch_data;
 
+typedef struct s_entity_light_source_data
+{
+	int				light_id;
+	double			light_intensity;
+	unsigned int	current_interval_duration;
+	unsigned int	last_flicker_time;
+	int				flicker_remaining_duration;
+	unsigned int	flicker_duration;
+	unsigned int	flicker_interval;
+	unsigned int	flicker_intensity;
+	double			flicker_interval_variance;
+	double			flicker_duration_variance;
+	double			flicker_intensity_variance;
+}				t_entity_light_source_data;
+
 typedef struct s_entity t_entity;
 
 typedef struct s_game_state
@@ -593,7 +608,8 @@ typedef enum e_entity_type
 	ENTITY_DEFAULT,
 	ENTITY_PLAYER,
 	ENTITY_TORCH,
-	ENTITY_PENGUIN
+	ENTITY_PENGUIN,
+	ENTITY_LIGHT_SOURCE
 }					t_entity_type;
 
 typedef enum e_collision_model_type

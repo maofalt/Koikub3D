@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compute_lights_visibility.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sushi <sushi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:04:43 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/20 05:57:19 by olimarti         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:59:41 by sushi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,14 @@ static void	_compute_light_visibility(t_3d_render *render, t_light *light)
 		light_pos_screen = project_point(render, light_pos_screen);
 		if (check_ray_reach_dest(render->camera->pos, light->pos, render))
 		{
-			if (light->type == DIRECTIONAL_LIGHT)
-				lens_flare->intensity = compute_cone_intensity(
-						&render->camera->pos, &light->pos, &light->dir);
-			else
-				lens_flare->intensity = 1;
+			lens_flare->intensity = calc_light_intensity(render, light, render->camera->pos, render->camera->dir),
+			lens_flare->intensity *= 2;
+			
+			// if (light->type == DIRECTIONAL_LIGHT)
+			// 	lens_flare->intensity = compute_cone_intensity(
+			// 			&render->camera->pos, &light->pos, &light->dir);
+			// else
+			// 	lens_flare->intensity = 1;
 			lens_flare->screen_pos = light_pos_screen;
 			lens_flare->color.d = light->color.d;
 			lens_flare->visible = 1;

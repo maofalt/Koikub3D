@@ -89,14 +89,14 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_NAME))
 #                          COMPILATOR & FLAGS                                 #
 #=============================================================================#
 
-CC = cc
-CFLAGS = -Wall -Wextra -flto -O3 #-O3 -pg -g3# -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
+CC = gcc
+CFLAGS = -std=gnu89 -Wall -Wextra -flto -Ofast -ffinite-math-only -fassociative-math #-O3 -pg -g3# -fsanitize=address -fsanitize=leak#-g #-fpie #-fsanitize=leak -fsanitize=address
 LIBA = ar rc
 LIBS = ranlib
 
-ifneq ($(no_error), true)
-	CFLAGS += -Werror
-endif
+# ifneq ($(no_error), true)
+# 	CFLAGS += -Werror
+# endif
 
 ifeq ($(little_endian), true)
 	CFLAGS += -D LITTLE_ENDIAN
@@ -186,7 +186,7 @@ check_libft:
 check_mlx:
 		@echo "\n[ $(BLUE)$(bold)CHECKING MINILIBX$(NONE)]"
 		@echo "============================================="
-		@make -sC $(MINILIBX_HDIR)
+		@make -C $(MINILIBX_HDIR)
 
 project:
 		@echo "\n == $(bold)$(YELLOW)CHECKING PROJECT$(normal)=="

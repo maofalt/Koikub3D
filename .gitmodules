@@ -1,3 +1,4 @@
 [submodule "libs/minilibx-linux"]
 	path = libs/minilibx-linux
-	url = git@github.com:42Paris/minilibx-linux.git
+	url = git@github.com:olimarmite/minilibx-linux.git
+	branch = fix-compilation

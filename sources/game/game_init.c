@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olimarti <olimarti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sushi <sushi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 01:12:45 by olimarti          #+#    #+#             */
-/*   Updated: 2024/02/21 01:28:21 by olimarti         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:49:45 by sushi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ int	spawn_default_entities(t_game_data *game_data)
 	if (entity == NULL)
 		return (1);
 	entity = entity_penguin_spawn(game_data, spawn);
+	if (entity == NULL)
+		return (1);
+
+	entity = entity_light_source_spawn(game_data, spawn);
 	if (entity == NULL)
 		return (1);
 	return (0);

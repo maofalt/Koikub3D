@@ -74,3 +74,4 @@ prof_files/
 
 # GDB
 .gdb_history
+compile_commands.json

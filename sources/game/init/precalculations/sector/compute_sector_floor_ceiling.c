@@ -28,11 +28,9 @@ void	compute_sector_floor_ceiling(
 	double		ceil;
 	double		floor;
 	double		dist;
-	t_vector4d	*center;
 
 	ceil = DEFAULT_CEIL_HEIGHT;
 	floor = DEFAULT_FLOOR_HEIGHT;
-	center = &sector->sector_data.center;
 	dist = _random_ceil();
 	sector->sector_data.ceil = ceil * dist;
 	sector->sector_data.floor = floor;
